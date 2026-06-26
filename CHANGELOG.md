@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.3.0]
+
+### Added
+- 닌텐도 DS 플랫폼 문서(`references/platforms/nds.md`) 추가 — ARM9/ARM7, NitroFS, 인코딩·렌더 경로 등. `SKILL.md` 라우팅 테이블에 NDS 항목 추가. (mirusu400, PR #1)
+- 복수 렌더 타깃의 폰트 설정 외부화 패턴 (`font-strategy` §8) — 타깃별 폰트 프로파일을 타입 검증되는 설정 파일로 분리, CLI override → 설정 값 → 기본값 해결 순서, 단일 폰트 프로젝트에는 과설계라는 경계 명시. `project-conventions`의 JSON 입출력 규약에 cross-ref 연결.
+
 ## [0.2.0]
 
 ### Changed
