@@ -15,6 +15,7 @@
 *.nes
 *.gb
 *.gba
+*.nds
 *.n64
 *.z64
 *.v64
@@ -38,6 +39,10 @@
 *.zip
 *.7z
 *.rar
+
+# 원본·출력 이미지 디렉토리 (project-conventions §6.2)
+roms/
+out/
 
 # 빌드 산출물 / 임시
 build/
