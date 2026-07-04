@@ -21,11 +21,18 @@ ROM/디스크 분석 → 텍스트 엔진 역공학 → 한글 폰트·인코딩
 
 목록에 없는 플랫폼도 strategy 축의 조사 순서·검증 원칙을 출발점으로 삼아 새 플랫폼 문서를 작성하며 확장한다.
 
-## 설치
+## 설치 — Claude Code 세션
 
 ```
 /plugin marketplace add mcpads/create-retro-game-kr-patch
 /plugin install create-kr-patch
+```
+
+## 설치 — Codex 세션
+
+```
+codex plugin marketplace add mcpads/create-retro-game-kr-patch --ref main
+codex plugin add create-kr-patch --marketplace kr-patch
 ```
 
 설치 후 한글화·한글 패치 관련 요청을 하면 Agent Skill이 자동으로 발동한다. 트리거 키워드: `한글화`, `한글 패치`, `KR patch`, `ROM 번역` 등.
