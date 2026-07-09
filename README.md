@@ -1,6 +1,6 @@
 # create-kr-patch
 
-레트로 게임의 **한글(Hangul) 팬 번역 패치**를 처음부터 끝까지 만드는 Agent Skill.
+레트로 게임의 **한글(Korean) 팬 번역 패치**를 처음부터 끝까지 만드는 Agent Skill.
 ROM/디스크 분석 → 텍스트 엔진 역공학 → 한글 폰트·인코딩 설계 → PoC → 텍스트 추출·번역·재삽입 → 포인터 재배치·ASM 훅 → 빌드·패치 생성 → 에뮬레이터 검증까지의 전 파이프라인을 다룬다.
 
 > An Agent Skill for building Korean fan-translation patches for retro games, covering the full pipeline from ROM/disc analysis to emulator verification. Methodology only — **contains no copyrighted ROM data or game assets.**
