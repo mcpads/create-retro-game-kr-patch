@@ -46,7 +46,12 @@
 
 ## 2. 포인터 재배치 알고리즘
 
-제자리 성장 정책의 핵심 알고리즘이다. 입력은 패치 목록 `(offset, orig_len, new_bytes)`, 출력은 splice된 버퍼와 보정된 포인터들이다.
+제자리 성장 정책의 핵심 알고리즘이다. 입력은 패치 목록 `(offset, orig_len, new_bytes)`와 원본 좌표계에서 작성한 포인터 카탈로그, 출력은 splice된 버퍼와 보정된 포인터들이다. 포인터 보정에서는 두 좌표를 분리한다.
+
+- **타겟 좌표**: 포인터 값이 가리키는 원본 텍스트/데이터 위치. shift를 더해 새 타겟 값을 계산한다.
+- **저장 위치 좌표**: 포인터 바이트 자체가 저장된 위치. 포인터 테이블이 splice 영역 뒤에 있으면 이 위치도 이동한다.
+
+두 좌표를 섞으면 포인터 값은 맞지만 엉뚱한 위치에 쓰거나, 반대로 옛 포인터 값을 새 버퍼의 옮겨진 위치에서 읽어 잘못 보정한다. 따라서 포인터 값은 splice 전 원본에서 읽어 카탈로그에 고정하고, 쓰기 위치만 splice 후 좌표로 환산한다.
 
 ### 2.1 역순 splice + 누적 shift
 
@@ -61,12 +66,22 @@ for p in patches:
     cum += len(p.new_bytes) - p.orig_len
     shifts.append((p.offset + p.orig_len, cum))   # 원본 좌표 기준 경계
 
-# 3. splice는 오프셋 "역순"으로 적용
+# 3. 포인터 카탈로그는 splice 전 원본 좌표와 원본 값을 보존
+pointer_catalog = [
+    {
+        "ptr_loc": ptr_loc,                  # 포인터 바이트의 원본 파일 오프셋
+        "raw_value": read_ptr(buf, ptr_loc), # 원본 포인터 값
+        "storage_moves": True,              # splice 뒤쪽 테이블이면 True
+    }
+    for ptr_loc in pointer_locations
+]
+
+# 4. splice는 오프셋 "역순"으로 적용
 #    뒤에서부터 치환하면 앞쪽 패치의 원본 오프셋이 끝까지 유효하다
 for p in reversed(patches):
     buf[p.offset : p.offset + p.orig_len] = p.new_bytes
 
-# 4. 포인터 보정
+# 5. 포인터 보정
 def lookup_shift(target):       # target은 원본 좌표
     delta = 0
     for (boundary, cum) in shifts:
@@ -74,18 +89,20 @@ def lookup_shift(target):       # target은 원본 좌표
         else: break
     return delta
 
-for ptr_loc in pointer_locations:
-    target = read_ptr(buf, ptr_loc) - ram_base    # RAM 주소형이면 베이스 차감
+for ptr in pointer_catalog:
+    target = ptr["raw_value"] - ram_base          # RAM 주소형이면 베이스 차감
     new_target = target + lookup_shift(target)
-    write_ptr(buf, ptr_loc, new_target + ram_base)
+    write_loc = ptr["ptr_loc"] + lookup_shift(ptr["ptr_loc"]) if ptr["storage_moves"] else ptr["ptr_loc"]
+    write_ptr(buf, write_loc, new_target + ram_base)
 ```
 
 요점:
 
 - **역순 패치**: 앞에서부터 치환하면 매 패치마다 뒤쪽 오프셋이 밀려 원본 좌표가 무효화된다. 역순이면 모든 패치를 원본 좌표 그대로 적용할 수 있다.
 - **shift 테이블은 원본 좌표 기준**으로 만든다. 포인터 값도 원본 좌표이므로 그대로 조회 가능하다.
+- **포인터 값은 원본에서 먼저 읽는다.** splice 후 버퍼에서 원본 위치를 다시 읽으면, 포인터 테이블 자체가 밀린 경우 다른 바이트를 읽을 수 있다.
 - 포인터가 RAM 절대 주소면 `파일 오프셋 = 포인터 값 - ram_base`로 환산 후 동일하게 처리한다. ram_base는 파일 헤더나 로더 코드에서 확정한다.
-- 포인터 자체가 패치 영역보다 앞(스크립트 코드부)에 있으면 포인터의 **위치**는 변하지 않고 **값**만 갱신하면 된다. 포인터 테이블 자체가 패치 영역 뒤에 있으면 테이블 위치 이동도 반영해야 한다.
+- 포인터 자체가 패치 영역보다 앞(스크립트 코드부)에 있으면 포인터의 **위치**는 변하지 않고 **값**만 갱신하면 된다. 포인터 테이블 자체가 패치 영역 뒤에 있으면 테이블 위치 이동도 반영해야 한다. 포인터 테이블이 패치 영역 안에 있으면 텍스트 splice 대상에서 보호하거나, 테이블을 별도 구조로 재생성해 새 위치를 명시한다.
 
 ### 2.2 정렬 패딩
 
@@ -148,7 +165,7 @@ for ptr_loc in pointer_locations:
 2. **제어코드 경계 매핑**: 중간 지점이 제어코드 직후라면, 같은 순번의 제어코드 직후로 매핑한다. 이때 글리프 조합용 프리픽스 바이트는 구조 분리자가 아니므로 카운트에서 제외한다.
 3. **Fallback**: 매핑 불가능하면 그 체인만 원문을 원위치에 보존한다.
 
-포인터 카탈로그(어떤 위치의 포인터가 어떤 형식으로 어디를 가리키는지의 전수 목록)를 데이터로 관리하고, 카탈로그에 있는데 번역 엔트리가 없는 포인터를 빌드 시 검출하는 구조가 안전하다.
+포인터 카탈로그(어떤 위치의 포인터가 어떤 형식으로 어디를 가리키는지의 전수 목록)를 데이터로 관리하고, 카탈로그에 있는데 번역 엔트리가 없는 포인터를 빌드 시 검출하는 구조가 안전하다. 최소 필드는 포인터 저장 위치, 폭·엔디언, 기준 베이스(RAM/파일/뱅크), 원본 raw 값, 원본 타겟 파일 오프셋, 포인터 저장 위치의 이동 여부, 기대 타겟 패턴이다.
 
 ## 4. ASM 훅 설계
 
