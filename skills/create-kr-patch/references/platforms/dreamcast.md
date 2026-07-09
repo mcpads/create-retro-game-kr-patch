@@ -335,7 +335,7 @@ gditools(GDI 파싱·추출), mkisofs/genisoimage(ISO9660 생성), cdirip/cdi2gd
 
 **실기 검증 리스크**: 다중 렌더링 경로가 갈리는 게임은 일부 경로(예: 스토리 모드)가 에뮬레이터에서 정상이어도 실기에서만 어긋날 수 있다. 전 경로를 실기에서 검증하고, 한 경로의 통과를 다른 경로의 통과로 일반화하지 않는다.
 
-중간 검증(에뮬레이터→FPGA→실기 티어)은 `references/strategy/build-and-verify.md` §4가 정본이다. 드림캐스트는 사이클 정확 FPGA 코어가 대중화돼 있지 않으나, 있더라도 GD-ROM 매체 기종이라 실매체 동작은 최종적으로 실기 ODE에서만 닫힌다.
+중간 검증(에뮬레이터→FPGA→실기 티어)은 `references/strategy/build-and-verify.md` §4가 정본이다. 드림캐스트는 사이클 정확 FPGA 코어가 대중화돼 있지 않으나, 있더라도 GD-ROM 매체 기종이라 실매체 동작은 최종적으로 실기 ODE에서만 검증된다.
 
 ## 9. 사례 요약
 
