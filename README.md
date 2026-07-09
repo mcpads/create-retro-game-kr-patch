@@ -63,7 +63,7 @@ skills/
 
 ## 버전
 
-현재 **0.6.0**. 버전별 변경 내용은 [CHANGELOG](CHANGELOG.md)를 본다.
+현재 **0.7.0**. 버전별 변경 내용은 [CHANGELOG](CHANGELOG.md)를 본다.
 
 설치본 업데이트는 `/plugin` 으로 마켓플레이스를 갱신한 뒤 재설치하고 `/reload-plugins`로 적용한다.
 
