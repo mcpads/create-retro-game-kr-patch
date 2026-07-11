@@ -25,6 +25,6 @@
 - **관측 범위:** PC Engine CD 마도물어 1 텍스트 핸들러의 `LDA address; LDX immediate; JSR` 호출들과 printing task 진입점 `$6885`.
 - **사고 맥락:** 여러 핸들러의 X 즉시값이 bank 번호처럼 보여 별도 sub-script를 고르는 값으로 해석했다. 그러나 HuC6280 논리 주소만 보면 실제 호출 대상과 현재 MPR mapping을 구분할 수 없었다.
 - **검증 근거:** `$6885`에서 도달하는 126개 명령에 MPR 상태를 전파하자 printing task 안에는 MPR 변경이 없었고, 호출 대상은 현재 MPR2에 매핑된 System Card BIOS 영역이었다. 값은 호출 직후 덮어써져 이후 bank 선택으로 전파되지 않았고 BIOS 호출의 입력으로만 소비됐다.
-- **확정 결과:** X 즉시값은 게임 데이터의 sub-bank ID가 아니라 BIOS task scheduler의 selector·slot 계열 인자였다. opcode 바이트열을 보존하면 해당 호출 의미도 유지되므로 잘못 연 sub-script 조사 분기를 닫을 수 있었다.
+- **확정 결과:** X 즉시값은 게임 데이터의 sub-bank ID가 아니라 BIOS task scheduler의 selector·slot 계열 인자였고, 호출 직후 덮어써져 이후 bank나 sub-script 선택으로 이어지지 않았다.
 - **전이 한계:** 이 추적은 `$6885`에서 정적으로 도달한 126개 명령과 당시 mapping에 한정된다. 다른 진입점의 sub-script와 간접 경로까지 해명한 것이 아니며, 논리 주소나 즉시값 모양만으로 BIOS·bank 의미를 이식하지 않는다.
 - **관련 판단 기준:** `references/strategy/initial-survey.md` §2.2·§3, `references/strategy/debugging.md` §2·§4, `references/platforms/pce.md` §1.
