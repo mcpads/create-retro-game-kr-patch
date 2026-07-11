@@ -24,8 +24,8 @@ ROM/디스크 분석 → 텍스트 엔진 역공학 → 한글 폰트·인코딩
 ## 설치 — Claude Code 세션
 
 ```
-/plugin marketplace add mcpads/create-retro-game-kr-patch
-/plugin install create-kr-patch
+/plugin marketplace add mcpads/create-retro-game-kr-patch@main
+/plugin install create-kr-patch@kr-patch
 ```
 
 ## 설치 — Codex 세션
@@ -34,6 +34,33 @@ ROM/디스크 분석 → 텍스트 엔진 역공학 → 한글 폰트·인코딩
 codex plugin marketplace add mcpads/create-retro-game-kr-patch --ref main
 codex plugin add create-kr-patch --marketplace kr-patch
 ```
+
+## 릴리스 채널과 `next` 소식
+
+- `main`: 최신 안정 릴리스 채널. 검증을 마치고 정식 버전으로 확정된 변경만 반영한다.
+- `next`: 다음 안정 릴리스를 준비하는 이동형 프리릴리스 채널. alpha·beta·rc를 먼저 사용해 보고 피드백하려는 사용자를 위한 채널이며, 정식 릴리스 전에는 호환성과 문서 구조가 바뀔 수 있다.
+
+현재 버전은 `main` 0.7.0, `next` 1.0.0-alpha.1이다. `next`는 특정 프리릴리스에 고정된 태그가 아니라 최신 개발 상태를 따라가는 브랜치다. 두 채널은 같은 플러그인 ID를 사용하므로 동시에 설치하지 않고, 기존 marketplace를 원하는 Git ref로 교체한다.
+
+Claude Code에서 `next`로 전환:
+
+```
+/plugin marketplace remove kr-patch
+/plugin marketplace add mcpads/create-retro-game-kr-patch@next
+/plugin install create-kr-patch@kr-patch
+/reload-plugins
+```
+
+Codex에서 `next`로 전환:
+
+```
+codex plugin remove create-kr-patch@kr-patch
+codex plugin marketplace remove kr-patch
+codex plugin marketplace add mcpads/create-retro-game-kr-patch --ref next
+codex plugin add create-kr-patch@kr-patch
+```
+
+안정판으로 돌아갈 때는 같은 순서에서 `next`를 `main`으로 바꾼다. Claude Code는 reload 뒤, Codex는 새 스레드에서 선택한 버전을 적용한다.
 
 설치 후 한글화·한글 패치 관련 요청을 하면 Agent Skill이 자동으로 발동한다. 트리거 키워드: `한글화`, `한글 패치`, `KR patch`, `ROM 번역` 등.
 
