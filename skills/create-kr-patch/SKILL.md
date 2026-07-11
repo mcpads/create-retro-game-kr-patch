@@ -67,7 +67,7 @@ description: >-
 | 프로젝트 구현 (횡단) | `references/conventions/project-conventions.md` | 빌드 경계, 기계어 검산, Expected Write, 외부 구성요소 재현·원본 자산 취급 |
 | 번역 자산 | `references/conventions/translation-artifacts.md` | 원문 보호, 제어 토큰, 검토 상태와 빌드 입력의 의미 규칙 |
 | 프로젝트 기록 | `references/conventions/project-records.md` | 조사·PoC·그래픽 카탈로그·HITL·QA 증거와 판정의 기록 규칙 |
-| 분석·빌드 데이터 | `references/conventions/data-formats.md` | 문자 매핑, 제어코드, 포인터, 재삽입 정책과 폰트 프로파일의 의미 규칙 |
+| 분석·빌드 데이터 | `references/conventions/data-formats.md` | 문자 매핑, 제어코드, 포인터, 번역 자산 연결, 재삽입 정책과 폰트 프로파일의 의미 규칙 |
 
 ### 플랫폼 → platforms 문서
 
