@@ -9,7 +9,7 @@
 - **결정 실험:** 후보마다 따로 진입 탐지 빌드를 만들고 타이틀부터 던전 진입까지 같은 경로를 실행했다. 멈춘 후보는 즉시 제외하고, 미발화 후보도 그 실행 범위 안에서만 미도달로 기록했다.
 - **확정 결론:** `callers=0 + 값 참조=0`은 빈 공간 증거가 아니다. 동적 도달성 검사는 사용 중임을 확정할 수 있지만, 제한된 플레이에서 미발화한 결과는 전 경로 미사용을 단독으로 증명하지 않는다.
 - **전이 한계:** 관측하지 않은 모드·루트·후반 경로가 남으면 code cave 판정 범위도 그만큼 제한된다.
-- **방법론 정본:** `references/strategy/reinsertion.md` §5, `references/strategy/initial-survey.md`.
+- **관련 판단 기준:** `references/strategy/reinsertion.md` §5, `references/strategy/initial-survey.md`.
 
 ## SATURN-003
 
@@ -18,7 +18,7 @@
 - **결정 실험:** JP 원본의 해제 데이터를 한 바이트도 고치지 않고 같은 압축기로 재압축해 넣은 ROM에서도 동일한 전투 결함이 재현됐다. 자체 왕복은 계속 통과했으므로 번역 내용·포인터 이동·파일 크기 대신 압축기와 게임 해제기의 의미 차이를 조사했다.
 - **확정 원인과 수정:** 압축기는 아직 출력하지 않은 0 초기화 윈도우에서도 LZ 매치를 골라 `distance > output_pos`인 참조를 만들었다. 자체 해제기는 같은 0 초기값으로 이를 복원했지만, 게임은 출력 버퍼를 직접 역참조해 버퍼 앞의 값을 읽었다. 매치 거리를 이미 출력한 범위 이내로 제한해 수정했다.
 - **전이 한계:** 이 윈도우 초기값 비대칭은 해당 구현의 결함이다. 다른 압축 형식에 그대로 이식할 규칙은 아니지만, 자체 왕복만으로 대상 런타임 호환성을 판정할 수 없다는 반례다.
-- **방법론 정본:** `references/strategy/compression.md` §4, `references/strategy/debugging.md` §2.
+- **관련 판단 기준:** `references/strategy/compression.md` §4, `references/strategy/debugging.md` §2.
 
 ## SATURN-004
 
@@ -26,8 +26,8 @@
 - **사고 맥락:** 패턴 스캐너가 `23 01 00 25 13 81`의 opcode 인자 `0x25`를 주소 prefix로 오인해 뒤의 맵 전환 코드를 `13 81`에서 `09 DD`로 바꿨고, 건물 진입이 크래시했다.
 - **결정 실험:** 후보가 가리키는 주소의 범위와 워드 정렬을 검사해 홀수 타깃을 거짓양성으로 제외했다. 특정 suffix를 금지하는 우회는 실제 포인터까지 누락해 NPC 텍스트를 잃었으므로 폐기했다.
 - **확정 결론:** 이 포맷에서는 prefix나 값 blacklist가 아니라 실제 타깃의 유효 범위·정렬·소비 형식으로 포인터를 판정해야 했다.
-- **전이 한계:** 짝수 타깃 조건은 이 워드 정렬 스크립트의 계약이며 다른 포인터 포맷에 자동 적용하지 않는다.
-- **방법론 정본:** `references/strategy/text-extraction.md` §3.5, `references/strategy/reinsertion.md` §2.
+- **전이 한계:** 짝수 타깃은 이 워드 정렬 스크립트에서 확인된 조건이며 다른 포인터 포맷에 자동 적용하지 않는다.
+- **관련 판단 기준:** `references/strategy/text-extraction.md` §3.5, `references/strategy/reinsertion.md` §2.
 
 ## SATURN-005
 
@@ -36,7 +36,7 @@
 - **결정 실험:** 해제한 `SYSTEM.SPR`에서 6개 라벨의 selected 40×20·unselected 40×14 4bpp 쌍을 직접 디코드해 화면과 대응시켰다. 두 상태를 모두 제자리 교체하고 파일을 한 번만 재압축한 빌드에서 6개 탭 교체를 확인했다.
 - **확정 결론:** 이 탭은 메뉴 진입 때 생성되는 글자가 아니라 앞서 적재된 스프라이트였으며, 실제 수정 단위는 주 폰트가 아니라 `SYSTEM.SPR`의 12개 상태 이미지였다.
 - **전이 한계:** 표시 시점 write 미발화만으로 preload 파일이나 오프셋을 확정할 수는 없다. 저장 자산의 디코드와 표시 결과를 연결해야 한다.
-- **방법론 정본:** `references/strategy/graphics-text.md` §1, `references/strategy/runtime-assets.md` §2.
+- **관련 판단 기준:** `references/strategy/graphics-text.md` §1, `references/strategy/runtime-assets.md` §2.
 
 ## SATURN-007
 
@@ -45,4 +45,4 @@
 - **결정 실험:** 각 위치, 현재 표현, 원래 의도와 필요한 글리프를 별도 원장에 적고 글리프 배정이 바뀔 때 다시 대조했다.
 - **확정 결론:** 원장은 일부 표현을 복원하고 아직 남은 절충도 식별하게 했지만, 모든 항목이 일괄 복원된 것은 아니다. 임시 손실은 완료 번역으로 숨기지 않고 해소 여부를 추적한다.
 - **전이 한계:** 이 사례는 글리프 부족 때 표현 축약을 우선하라는 뜻이 아니다.
-- **방법론 정본:** `references/strategy/translation-workflow.md`, `references/conventions/project-records.md`.
+- **관련 판단 기준:** `references/strategy/translation-workflow.md`, `references/conventions/project-records.md`.

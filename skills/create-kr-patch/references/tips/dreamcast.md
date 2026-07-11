@@ -9,7 +9,7 @@
 - **결정 실험:** 각 씬 시작점에서 실제 종료자를 찾아 다음 씬 시작보다 뒤에 놓이는지를 전수 비교했다. 이 검사로 중첩 마스터와 비중첩 마스터가 갈렸다.
 - **확정 결론과 남은 상태:** `다음 씬 포인터`는 이 데이터의 끝 경계가 아니며 18개 마스터가 실제로 공유 tail을 가진다는 점까지 확정됐다. 공유 종료자 단위의 블롭 재배치는 제안된 수정 설계지만 아직 완료·검증된 해법은 아니다.
 - **전이 한계:** 포인터가 단조 증가한다는 사실만으로 중첩도 비중첩도 증명되지 않는다.
-- **방법론 정본:** `references/strategy/text-extraction.md` §1.
+- **관련 판단 기준:** `references/strategy/text-extraction.md` §1.
 
 ## DC-002
 
@@ -18,13 +18,22 @@
 - **결정 실험:** 실제 sprite 호출의 슬롯 시퀀스와 UV를 대조해 공유 슬롯 충돌을 재현하고, 새 슬롯을 고정 예약한 뒤 그 슬롯을 소비하는 라벨 참조들을 함께 바꿨다.
 - **확정 결론:** 이 라벨은 텍스처와 코드의 고정 슬롯 참조를 함께 바꿔야 했다. 같은 화면에서 조사된 다른 배열과 완성문 훅까지 해결됐다는 뜻은 아니다.
 - **전이 한계:** 한 UI의 고정 슬롯이 다른 화면에도 공유된다고 가정하지 않는다.
-- **방법론 정본:** `references/strategy/font-strategy.md`, `references/strategy/text-extraction.md`.
+- **관련 판단 기준:** `references/strategy/font-strategy.md`, `references/strategy/text-extraction.md`.
 
 ## DC-003
 
 - **관측 범위:** Dreamcast판 뿌요뿌요~n의 옵션·일시정지 라벨.
 - **사고 맥락:** 옵션 세그먼트 메타데이터의 일본어 라벨을 믿고 번역해 `편한모드`를 만들었지만 실제 화면의 타일 인덱스가 나타내는 문구와 달랐다. system-5 sprite로 추정한 위치를 null-out해도 잘못된 표시는 남았다.
 - **결정 실험:** 세그먼트의 tile index를 바이너리에서 직접 디코드하고 조합 순서를 다시 따라가 메타데이터 라벨 여러 건을 교정했다.
-- **확정 결론:** 사람이 붙인 추출 라벨은 원문 증거가 아니며, 라벨과 바이너리가 충돌하면 원본 소비 데이터가 정본이다.
+- **확정 결론:** 사람이 붙인 추출 라벨은 원문 증거가 아니며, 라벨과 바이너리가 충돌하면 원본 소비 데이터를 우선한다.
 - **전이 한계:** 렌더 경로 제거가 입력이나 조합 순서까지 바꾸는 실험이라면 같은 결론을 낼 수 없다.
-- **방법론 정본:** `references/strategy/debugging.md` §2·§6, `references/strategy/text-extraction.md`.
+- **관련 판단 기준:** `references/strategy/debugging.md` §2·§6, `references/strategy/text-extraction.md`.
+
+## DC-004
+
+- **관측 범위:** Dreamcast판 뿌요뿌요~n의 `1ST_READ.BIN` 안에 OPTION/CONTINUE용 UV·속성·디스크립터 세 테이블을 추가한 빌드.
+- **사고 맥락:** 0으로 채워지고 다른 패치와 겹치지 않는 범위를 dead space로 보아 1,944바이트를 썼다. 빌드는 통과했지만 빈 VMU 첫 부팅의 파일 생성 메시지에서 크래시했다.
+- **결정 실험:** 해당 단계만 격리한 뒤 최초 잘못된 실행을 추적했다. 패치 데이터가 원본 문자 변환 디스패처와 literal을 덮었고 실제 실행 breakpoint가 그 범위에 적중했다. 세 테이블을 정적 참조·인접 code·원본 padding을 다시 확인한 범위로 함께 옮기고 모든 참조를 갱신한 뒤 fresh 첫 부팅과 OPTION·story 경로를 재실행했다.
+- **확정 결론과 남은 상태:** 원래 범위는 live code였고 문자열 길이는 원인이 아니었다. 재배치 뒤 첫 부팅 크래시와 OPTION·story 회귀는 통과했지만 CONTINUE·PAUSE와 GDEMU 실기는 당시 아직 미검증이었다.
+- **전이 한계:** 0/FF padding, 정적 참조 0건, patch-patch 비중첩은 각각 설치 후보의 일부 근거일 뿐 원본 code·data의 liveness를 단독으로 증명하지 않는다. 채택된 새 주소도 다른 타이틀의 자유 공간이 아니다.
+- **관련 판단 기준:** `references/strategy/reinsertion.md` §5, `references/conventions/project-conventions.md` §5.2.

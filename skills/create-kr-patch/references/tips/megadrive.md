@@ -9,7 +9,7 @@
 - **결정 실험:** 원본·번역의 제어코드를 엔트리별로 전수 비교하고, 종료 코드가 없으면 치명 실패로 분류하되 인접 엔트리의 분할 구조까지 확인해 오탐을 걸렀다.
 - **확정 결론:** 제어코드 보존 검사는 빌드 게이트가 될 수 있지만 엔트리 경계를 모르는 집합 비교만으로 자동 수정하지 않는다.
 - **전이 한계:** 제어코드 집합 일치는 순서·인자·런타임 의미까지 증명하지 않는다.
-- **방법론 정본:** `references/strategy/build-and-verify.md` §5, `references/strategy/text-extraction.md` §2.
+- **관련 판단 기준:** `references/strategy/build-and-verify.md` §5, `references/strategy/text-extraction.md` §2.
 
 ## MD-002
 
@@ -18,4 +18,4 @@
 - **결정 실험:** JP·EN·KR 정렬과 이벤트의 화자 제어 순서를 함께 대조해 구조 손실이 EN이 아니라 초기 KR에서 생겼음을 확인하고, 네 턴을 화자별로 복원했다.
 - **확정 결론:** 자연스러운 문장만 대조해서는 화자 구조 손실을 잡지 못한다. 화자 제어가 의미를 소유하는 범위는 승인 번역도 원본 제어 순서와 함께 검증한다.
 - **전이 한계:** 이 한 항목의 초기 KR 오류가 다른 번역이나 선행 EN 전체의 신뢰도를 결정하지 않는다.
-- **방법론 정본:** `references/strategy/translation-workflow.md` §2.4.
+- **관련 판단 기준:** `references/strategy/translation-workflow.md` §2.4.
