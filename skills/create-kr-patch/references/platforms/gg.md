@@ -33,15 +33,3 @@ VDP port 전송은 최종 하드웨어 upload/write 경계이며 그 값을 만�
 ## 6. 코드 개입과 공간
 
 훅의 층수·형태는 플랫폼 규칙이 아니다. 실제 branch range, bank budget, live state와 원본 효과의 검증 기준은 `references/strategy/reinsertion.md` §4를 따른다. 공유 VWF·tile allocator 상태를 쓰면 모든 writer와 초기화·전이·해제 owner를 확인한다.
-
-## 7. 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- 논리 주소·slot·bank·파일 위치 왕복
-- bank·interrupt·공유 상태의 복귀 불변식
-- 저장 글리프→RAM 변환→VDP port→화면 소비
-- viewport 좌표와 화면 전환·재진입 뒤 자산 수명
-- 확장 bank와 save path를 사용하는 실제 배포 대상
-
-다른 build의 상태 저장을 재사용하면 ROM·RAM layout 호환성을 먼저 확인한다.

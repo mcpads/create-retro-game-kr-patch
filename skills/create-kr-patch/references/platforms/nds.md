@@ -27,15 +27,3 @@ VRAM mapping·전송 시점·cache slot을 바꾸면 동시에 쓰는 다른 소
 secure area 전체, 그 안의 암호화된 prefix, 표식과 CRC 범위는 같은 개념이 아니다. 이 영역을 수정할 때만 입력이 암호화·복호화 중 어느 표현인지와 배포 경로가 요구하는 변환을 판정한다. 건드리지 않은 secure area를 재암호화·정상화하지 않는다.
 
 banner는 없을 수 있고, 한국어 title slot과 CRC 범위는 banner version에 따라 달라진다. version을 올려야 한다면 version word만 바꾸지 않고 전체 길이, version별 필드·CRC 범위, 뒤따르는 ROM 영역과 target loader를 함께 검증한다. banner를 수정하지 않는 빌드에는 upgrade 절차를 강제하지 않는다.
-
-## 5. 재빌드와 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- ARM9·ARM7 image 또는 overlay의 실제 identity와 ROM↔runtime 변환
-- FNT 이름·FAT file ID·게임 자체 table 가운데 실제 loader가 소유한 좌표
-- 저장 자산→해제·변환→VRAM mapping·cache→실제 renderer 소비
-- overlay·화면 전환과 sleep·resume 뒤 reload·상주 수명
-- 수정한 경우에만 secure area·banner의 표현과 무결성 범위
-
-특정 flashcart·실기·loader 호환을 주장하면 그 경로에서 최종 후보를 검증한다. 한 에뮬레이터의 부팅 성공을 다른 실행 경로의 증거로 확대하지 않는다.

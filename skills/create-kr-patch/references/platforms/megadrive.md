@@ -27,15 +27,3 @@ VRAM은 글리프 외의 화면 자산도 공유한다. 전체 레퍼토리와 �
 인코딩, token 폭, pointer의 폭·기준·정렬은 플랫폼 이름으로 정하지 않는다. 실제 fetch·dispatcher·glyph lookup과 각 pointer 소비자가 사양을 소유한다.
 
 토큰 정책은 `references/strategy/translation-workflow.md` §4, 추출과 재배치 판정은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`가 소유한다.
-
-## 5. 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- 실행 code의 원본 효과·분기·live state
-- mapper를 포함한 CPU 주소↔파일 위치 왕복과 확장 범위 도달
-- 저장 글리프→변환→VRAM→실제 renderer 연결
-- 화면 전환·재진입 뒤 자산·상태 수명
-- header·checksum과 배포 대상의 최종 크기 지원 조건
-
-부팅이나 한 화면의 정상 표시를 다른 mapper·renderer·상태 수명의 증거로 쓰지 않는다.

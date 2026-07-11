@@ -31,14 +31,3 @@ PT0402에서 자기 round-trip과 게임 소비가 갈린 구체 사례는 현�
 track·sector 표현, filesystem extent와 game LBA·size table은 서로 다른 계층이다. ISO directory가 유효하다는 사실만으로 game loader가 이동한 파일을 읽는다고 판정하지 않는다. multi-extent 파일이면 최종 record까지 같은 파일로 처리하되, 기존 loader 지원 없이 새 배치를 도입하지 않는다.
 
 새 위치는 data track·filesystem의 유효 범위, 다른 extent·track·pregap과의 비중복, game read alignment·buffer·streaming을 통과해야 한다. raw user data를 바꾸면 변경 sector의 실제 mode에 맞는 보호 필드만 갱신하고 원본의 비대상 비정상 field는 보존한다.
-
-## 6. 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- code의 module/CPU identity, branch delay·literal·live state
-- VDP1 command·texture 또는 VDP2 pattern·name-table의 실제 소비
-- script·module의 참조·buffer와 재적재
-- 압축 자산의 game-consumer 호환성
-- track·sector↔ISO extent↔game LBA·size↔loader buffer 연결
-- 배포에서 주장하는 실기·광학 drive·image loader 경로

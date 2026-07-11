@@ -27,15 +27,3 @@ magic·확장자나 decoded image만으로 texture encoder를 승인하지 않�
 ## 4. 텍스트와 참조
 
 인코딩, script VM과 pointer 표현은 실제 reader가 소유한다. CPU endian은 container·VM field의 저장 순서를 대신 정하지 않는다. 엔트리 경계와 pointer ownership은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`가 판정한다.
-
-## 5. 재빌드와 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- disk representation↔runtime module 변환과 실제 code identity
-- GDI descriptor↔track↔filesystem↔game LBA 좌표
-- texture 저장 표현↔descriptor↔upload↔renderer 소비
-- module·scene 전환 뒤 reload·cache 수명
-- 변환 배포본의 boot·audio·streaming과 비대상 track 보존
-
-한 container의 부팅이나 한 상태의 texture 표시를 다른 loader·상태 수명의 증거로 쓰지 않는다.

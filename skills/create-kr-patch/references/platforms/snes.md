@@ -27,13 +27,3 @@ VRAM write·DMA는 게임의 blanking·NMI queue·DMA ownership 안에서 성립
 ## 5. 텍스트와 참조
 
 문자·token 폭은 CPU 이름이 아니라 실제 fetch 시점의 mode와 pointer 증가가 소유한다. pointer는 현재 bank·base와 mapping 없이 파일 타깃을 정하지 못한다.
-
-## 6. 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- 훅 진입·복귀의 mode·bank·stack·live-state 불변식
-- mapping별 CPU 주소↔파일 위치 왕복과 확장 bank 도달
-- 저장 글리프→변환→VRAM→실제 BG·OBJ 소비
-- NMI·DMA queue와 화면 재진입 뒤 마지막 writer
-- 확장 ROM을 사용하는 실제 배포 대상

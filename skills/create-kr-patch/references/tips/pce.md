@@ -18,7 +18,7 @@
 - **결정 실험:** JP 원본 바이트열을 deinterleave된 user-data 스트림에서 유일 검색하고 CUE의 INDEX 차이에서 pregap을 계산했다. 두 좌표가 정확히 225 user-data 섹터만큼 차이남을 확인한 뒤 변경 섹터만 다시 썼다.
 - **확정 결론:** 외부 오프셋은 어느 섹터 표현과 트랙 기준의 좌표인지 먼저 증명하고, 원본 바이트 앵커로 최종 위치를 교차 검증한다.
 - **전이 한계:** 225섹터 보정값은 이 이미지의 트랙 배치에만 속하며 다른 디스크에 이식하지 않는다.
-- **관련 판단 기준:** `references/platforms/pce.md` §4·§6, `references/strategy/build-and-verify.md` §2.
+- **관련 판단 기준:** `references/platforms/pce.md` §4, `references/strategy/build-and-verify.md` §2.
 
 ## PCE-003
 

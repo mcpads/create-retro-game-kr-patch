@@ -33,15 +33,3 @@ filesystem LBA, raw track sector와 image byte offset은 서로 다른 좌표다
 새 자산 읽기는 기존 CD state machine, IRQ·DMA와 XA·CDDA·movie streaming의 장치 소유권과 경쟁할 수 있다. 기존 loader 재사용이나 별도 장치 제어를 기본 해법으로 지정하지 않는다.
 
 읽기 경로를 바꾸면 호출 시점의 초기화·재진입 가능성, read mode·sector form·buffer, 동시 streaming, 완료 뒤 command·IRQ·DMA 상태 복원과 scene 전환 뒤 자산 수명을 증명한다. 한 번 성공한 read를 장시간 소비 동작의 증거로 확대하지 않는다.
-
-## 6. 빌드와 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- 실제 executable·module identity와 file↔RAM↔instruction-stream 관계
-- 저장 font·texture→변환·VRAM→화면 소비와 cache 수명
-- reader가 보는 text·archive field·pointer 경계
-- 수정 sector별 form·EDC/ECC와 ISO·game LBA 좌표
-- runtime CD ownership, streaming 경합과 상태 복원
-
-특정 실기·광학 장치·image loader 지원을 주장하면 그 경로에서 최종 후보를 검증한다. 부팅 성공은 전체 sector·text·streaming 경로의 증거가 아니다.

@@ -20,6 +20,8 @@ HuCard 파일 확장만으로 새 physical segment가 실기·loader에 노출�
 
 CD 게임의 runtime 주소를 disk 위치로 연결하려면 track·sector 표현, file/sector start와 read length, destination RAM·MPR, overlay reload identity를 함께 확인한다. BIOS call 이름이나 한 타이틀의 loader sequence를 전체 CD 경로로 일반화하지 않는다.
 
+CD 빌드가 특정 System Card를 지원한다고 주장하면 대상 System Card를 고정하고 최종 후보를 그 실행 경로에서 검증한다.
+
 ## 4. CD 이미지와 sector
 
 cooked user-data offset과 raw sector file offset을 섞지 않는다. raw 출력을 바꾸면 실제 sector mode의 보호 필드는 serialization 경계가 책임지고, 변경하지 않은 audio·비정상 sector·track padding은 근거 없이 정상화하지 않는다.
@@ -31,14 +33,3 @@ cooked user-data offset과 raw sector file offset을 섞지 않는다. raw 출�
 인코딩·token·pointer 경계는 실제 소비자에서 확정한다. 음성·컷신에 자막을 새로 추가하면 해당되는 CD-DA·ADPCM 상태와 VDC의 BAT·sprite layer, scene·overlay 전환에서 자막 데이터의 수명과 소비자를 연결한다. 일반적인 표시·진행·입력·동기 완료 기준은 `references/strategy/build-and-verify.md` §5가 소유한다.
 
 BIOS font 경로의 한글 가시성은 그 경로만 증명하며 새 code space, 전체 글리프 공급이나 다른 renderer를 증명하지 않는다. 조건부 PoC는 `references/strategy/poc.md`가 소유한다.
-
-## 6. 검증
-
-다음 중 이번 변경이 닿은 경로만 검증한다.
-
-- 논리 주소·MPR·physical 위치와 file/sector 좌표 연결
-- bank·interrupt 전후의 mapping 복귀
-- 저장 글리프→변환→VRAM→BAT·sprite 소비
-- CD track·sector·게임 read table과 overlay reload
-- 자막 경로가 닿는 CD-DA·ADPCM 상태, VDC layer와 scene·overlay 전환
-- 배포에서 주장하는 System Card·optical loader·hardware 경로
