@@ -20,10 +20,10 @@ ROM의 폰트 바이트가 VDP의 최종 tile 표현이라는 보장은 없다. 
 
 VRAM은 글리프 외의 화면 자산도 공유한다. 전체 레퍼토리와 상태별 작업 집합을 분리하고, 선택한 상주 방식의 reload·eviction·last-writer 수명을 `references/strategy/font-strategy.md` §3과 `references/strategy/runtime-assets.md`로 판정한다.
 
-전송은 게임의 DMA·interrupt ownership과 표시 상태 안에서 성립해야 한다. 본문 plane의 성공을 Window·sprite·menu·HUD 경로로 확대하지 않는다.
+전송은 게임의 DMA·interrupt 관리 상태와 표시 상태에 맞아야 한다. 본문 plane의 성공을 Window·sprite·menu·HUD 경로로 확대하지 않는다.
 
 ## 4. 텍스트와 참조
 
-인코딩, token 폭, pointer의 폭·기준·정렬은 플랫폼 이름으로 정하지 않는다. 실제 fetch·dispatcher·glyph lookup과 각 pointer 소비자가 사양을 소유한다.
+인코딩, token 폭, pointer의 폭·기준·정렬은 플랫폼 이름으로 정하지 않는다. 실제 fetch·dispatcher·glyph lookup과 각 pointer 소비자에서 사양을 확인한다.
 
-토큰 정책은 `references/strategy/translation-workflow.md` §4, 추출과 재배치 판정은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`가 소유한다.
+토큰 정책은 `references/strategy/translation-workflow.md` §4, 추출과 재배치 판정은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`를 따른다.

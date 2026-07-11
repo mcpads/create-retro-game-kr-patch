@@ -2,7 +2,7 @@
 
 SH-2·VDP·CD-ROM의 기본 사양은 필요할 때 1차 자료에서 확인한다. 이동 code의 literal·delay 의미, VDP1/VDP2 소비, module·압축·disc 계층은 서로 구분한다.
 
-## 1. 이동 code와 module identity
+## 1. 이동 code와 적재 module
 
 어느 SH-2와 task가 대상 code를 실행하는지는 게임별로 확인한다. instruction을 이동하거나 block을 늘리면 branch delay, PC-relative literal pool, alignment, live register·PR·flags와 code/inline-data 경계를 함께 검산한다.
 
@@ -16,13 +16,13 @@ VDP2 name data의 character·palette·flip 의미와 활성 VRAM 예산은 현�
 
 ## 3. 텍스트·pointer·loadable module
 
-CPU endian은 script VM·container field의 저장 규약을 대신 정하지 않는다. loadable module과 event script가 absolute address, relative offset, index와 inline code/data를 섞으면 각 소비자와 module identity를 따로 확인한다.
+CPU endian은 script VM·container field의 저장 규약을 대신 정하지 않는다. loadable module과 event script가 absolute address, relative offset, index와 inline code/data를 섞으면 각 소비자와 실제 적재 module을 따로 확인한다.
 
 파일 성장 시 text pointer뿐 아니라 load buffer, 뒤따르는 code·literal·metadata, 중간 진입·shared tail과 다른 파일의 중복 address·size table을 확인한다. 한 타이틀의 pointer pattern을 플랫폼 규칙으로 쓰지 않는다.
 
 ## 4. 압축 자산
 
-압축 이름이나 magic은 Saturn hardware 사양이 아니다. target loader와 game decompressor가 실제 변형을 소유한다. 대상 소비자 호환성과 결함 시 대조군 판정은 `references/strategy/compression.md`를 따른다.
+압축 이름이나 magic은 Saturn hardware 사양이 아니다. 실제 변형은 target loader와 game decompressor로 확정한다. 대상 소비자 호환성과 결함 시 대조군 판정은 `references/strategy/compression.md`를 따른다.
 
 PT0402에서 자기 round-trip과 게임 소비가 갈린 구체 사례는 현재 조건이 맞을 때만 `references/tips/general.md#saturn-003`에서 읽는다.
 

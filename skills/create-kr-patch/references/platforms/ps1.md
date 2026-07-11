@@ -2,11 +2,11 @@
 
 MIPS·GPU·CD-ROM·ISO 9660의 기본 사양은 필요할 때 1차 자료에서 확인한다. runtime code, 저장 자산, raw sector와 filesystem 좌표는 서로 구분한다.
 
-## 1. 실행 code와 module 정체성
+## 1. 실행 code와 module 식별
 
 runtime 주소를 파일 위치로 바꾸려면 현재 executable·overlay·module의 load 범위와 relocation·decompression을 함께 확인한다. 통상 load address나 한 executable의 환산식을 다른 module에 이식하지 않는다.
 
-RAM에서 읽은 code bytes와 CPU가 cache를 통해 실행하는 instruction stream은 다를 수 있다. 코드가 동적 적재·덮어쓰기되면 module identity, alias·cache 상태와 갱신 시점을 확인한다. 훅이나 옮긴 명령은 현재 ISA 자료로 delay·load hazard와 live state를 검산하고, 공통 생성·재해석 규칙은 `references/conventions/project-conventions.md` §2.4를 따른다.
+RAM에서 읽은 code bytes와 CPU가 cache를 통해 실행하는 instruction stream은 다를 수 있다. 코드가 동적 적재·덮어쓰기되면 실제 적재 module, alias·cache 상태와 갱신 시점을 확인한다. 훅이나 옮긴 명령은 현재 ISA 자료로 delay·load hazard와 live state를 검산하고, 공통 생성·재해석 규칙은 `references/conventions/project-conventions.md` §2.3을 따른다.
 
 ## 2. 폰트와 GPU 소비
 
@@ -24,12 +24,12 @@ script module은 absolute RAM pointer, module-relative offset, index와 inline c
 
 Mode 2 data track은 sector마다 form이 다를 수 있다. 수정 sector의 복제 subheader와 form을 판정해 해당 EDC/ECC 규칙만 적용하고, 변경하지 않은 sector의 비정상·보호 표현을 정상화하지 않는다.
 
-ISO 파일도 항상 하나의 연속 extent는 아니다. multi-extent record를 종결 record까지 묶고, extent·length의 중복 endian 표현과 실제로 이동한 directory·path·game LBA/size 소유자를 함께 갱신한다. 기존 loader 지원을 증명하지 않은 채 새 multi-extent 구조를 도입하지 않는다.
+ISO 파일도 항상 하나의 연속 extent는 아니다. multi-extent record를 종결 record까지 묶고, extent·length의 중복 endian 표현과 실제로 이동한 directory·path·game LBA/size 필드를 함께 갱신한다. 기존 loader 지원을 증명하지 않은 채 새 multi-extent 구조를 도입하지 않는다.
 
 filesystem LBA, raw track sector와 image byte offset은 서로 다른 좌표다. raw-sector 표현을 출력한다면 같은 크기의 제자리 교체도 수정 sector의 보호 필드를 다시 검증한다. 빈 구간처럼 보이는 영역도 data track·filesystem·loader가 모두 새 소비를 허용할 때만 사용한다.
 
-## 5. runtime CD ownership
+## 5. runtime CD 상태
 
-새 자산 읽기는 기존 CD state machine, IRQ·DMA와 XA·CDDA·movie streaming의 장치 소유권과 경쟁할 수 있다. 기존 loader 재사용이나 별도 장치 제어를 기본 해법으로 지정하지 않는다.
+새 자산 읽기는 기존 CD state machine, IRQ·DMA와 XA·CDDA·movie streaming의 장치 상태와 경쟁할 수 있다. 기존 loader 재사용이나 별도 장치 제어를 기본 해법으로 지정하지 않는다.
 
 읽기 경로를 바꾸면 호출 시점의 초기화·재진입 가능성, read mode·sector form·buffer, 동시 streaming, 완료 뒤 command·IRQ·DMA 상태 복원과 scene 전환 뒤 자산 수명을 증명한다. 한 번 성공한 read를 장시간 소비 동작의 증거로 확대하지 않는다.

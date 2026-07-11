@@ -83,7 +83,7 @@
 
 모든 CPU 상태를 무조건 저장·복원하는 것도, 특정 enable/disable 쌍을 일률적으로 넣는 것도 보존 규칙이 아니다. 복귀 뒤 실제로 읽히는 상태와 원본이 선언한 효과를 보존한다.
 
-고정된 짧은 명령열을 넘어 code를 생성·이동하거나 참조 완전성을 주장하면 `references/conventions/project-conventions.md` §2.4의 assemble→disassemble 검산 규칙을 적용한다. 지원하지 않는 instruction을 임의 바이트나 데이터로 통과시키지 않는다.
+고정된 짧은 명령열을 넘어 code를 생성·이동하거나 참조 완전성을 주장하면 `references/conventions/project-conventions.md` §2.3의 assemble→disassemble 검산 규칙을 적용한다. 지원하지 않는 instruction을 임의 바이트나 데이터로 통과시키지 않는다.
 
 훅 설치는 대상 리비전 식별과 설치 위치의 기대 바이트·명령 경계를 확인한 뒤에만 쓴다. 고정 리비전에서 확인된 짧은 원본 명령열과 설치 좌표는 기대 바이트를 동반한 명시 사양으로 둘 수 있다. 반면 상대 분기 거리, 리터럴 주소, 코드·데이터 끝처럼 최종 배치에 따라 바뀌는 값은 배치 결과에서 파생한다.
 

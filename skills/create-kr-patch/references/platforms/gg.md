@@ -2,7 +2,7 @@
 
 Z80·VDP·mapper의 기본 사양은 필요할 때 1차 자료에서 확인한다. 패치 판단에서는 bank가 바뀌는 실행 좌표, VDP port와 값 생성자, 저장 자산과 화면 소비를 서로 구분한다.
 
-## 1. 논리 주소와 bank identity
+## 1. 논리 주소와 bank 식별
 
 16-bit 논리 주소만으로 ROM 파일 위치를 정할 수 없다. 해당 접근 시점의 slot, bank register, fixed window·RAM mapping과 mapper 변형이 함께 있어야 한다. 확인된 mapping에서만 논리 주소↔bank↔파일 위치 변환을 사양으로 둔다.
 
@@ -16,7 +16,7 @@ Z80·VDP·mapper의 기본 사양은 필요할 때 1차 자료에서 확인한�
 
 VRAM·CRAM은 일반 memory write가 아니라 VDP port I/O로 소비된다. 일반 메모리 쓰기 기록에 나타나지 않았다는 사실만으로 화면 쓰기 부재를 판정하지 않는다.
 
-내부 name table과 실제 LCD viewport의 관계는 현재 VDP register·scroll·display 상태가 소유한다. 고정 행·열 offset이나 이론적 tile 수를 모든 화면의 좌표·폰트 예산으로 쓰지 않는다.
+내부 name table과 실제 LCD viewport의 관계는 현재 VDP register·scroll·display 상태가 결정한다. 고정 행·열 offset이나 이론적 tile 수를 모든 화면의 좌표·폰트 예산으로 쓰지 않는다.
 
 저장 글리프가 최종 VDP tile 표현인지, 중간 RAM 변환을 거치는지도 실제 전송 전후로 판정한다.
 
@@ -32,4 +32,4 @@ VDP port 전송은 최종 하드웨어 upload/write 경계이며 그 값을 만�
 
 ## 6. 코드 개입과 공간
 
-훅의 층수·형태는 플랫폼 규칙이 아니다. 실제 branch range, bank budget, live state와 원본 효과의 검증 기준은 `references/strategy/reinsertion.md` §4를 따른다. 공유 VWF·tile allocator 상태를 쓰면 모든 writer와 초기화·전이·해제 owner를 확인한다.
+훅의 층수·형태는 플랫폼 규칙이 아니다. 실제 branch range, bank budget, live state와 원본 효과의 검증 기준은 `references/strategy/reinsertion.md` §4를 따른다. 공유 VWF·tile allocator 상태를 쓰면 모든 writer와 초기화·전이·해제 경로를 확인한다.

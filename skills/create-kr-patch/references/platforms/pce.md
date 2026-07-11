@@ -2,11 +2,11 @@
 
 HuC6280·VDC·CD-ROM²의 기본 사양은 필요할 때 1차 자료에서 확인한다. MPR 상태가 만드는 좌표, CD 적재와 runtime overlay, 저장 폰트와 화면 소비의 경계를 서로 구분한다.
 
-## 1. MPR과 주소 identity
+## 1. MPR과 주소 식별
 
 논리 주소만으로 ROM·RAM·파일 위치를 정할 수 없다. 접근 시점의 MPR state와 매체의 physical layout이 함께 있어야 하며, CD-loaded code·buffer에는 loader의 sector/file→RAM 관계가 추가된다.
 
-pointer가 논리 주소만 저장하면 현재 MPR·base도 사양의 일부다. bank를 바꾸는 훅은 interrupt·callback의 공유 page, code·data 수명과 복귀 mapping을 검증한다. runtime overlay identity가 미확정이면 현재 mapping을 고정값으로 가장하지 않는다.
+pointer가 논리 주소만 저장하면 현재 MPR·base도 사양의 일부다. bank를 바꾸는 훅은 interrupt·callback의 공유 page, code·data 수명과 복귀 mapping을 검증한다. 실행 중인 overlay가 확인되지 않으면 현재 mapping을 고정값으로 가장하지 않는다.
 
 ## 2. 저장 글리프와 VDC 소비
 

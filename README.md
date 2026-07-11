@@ -7,7 +7,7 @@ ROM·디스크 분석, 텍스트 엔진 역공학, 한글 폰트·인코딩 설�
 
 ## 지원 플랫폼
 
-SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS의 조건부 플랫폼 제약을 제공한다. 목록에 없는 플랫폼도 strategy의 판정 기준을 적용하고, 현재 분기를 바꾸는 하드웨어·매체 사실만 새로 확인해 확장할 수 있다.
+SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS의 조건부 플랫폼 제약을 제공한다. 목록에 없는 플랫폼도 strategy의 판정 기준을 적용하고, 현재 분기를 바꾸는 플랫폼 제약을 새로 확인해 확장할 수 있다.
 
 ## 설치 — Claude Code 세션
 

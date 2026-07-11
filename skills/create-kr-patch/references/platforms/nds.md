@@ -14,7 +14,7 @@ runtime 주소를 ROM 위치로 환산하려면 현재 image의 ROM 범위, load
 
 FNT 이름, FAT file ID, raw ROM offset과 게임 자체 archive는 한 ROM 안에 함께 존재할 수 있다. 이름 있는 SDK형 파일을 발견했다는 사실을 모든 자산의 저장 규칙으로 확대하지 않는다.
 
-파일을 성장·이동할 때는 실제 로더가 사용하는 identity를 따라 FAT extent, overlay entry와 게임 자체 offset·size table 가운데 해당되는 소유자를 모두 확인한다. 이름이나 magic이 맞아도 reader가 field·section·compression을 다르게 소비하면 표준 serializer로 교체하지 않는다.
+파일을 성장·이동할 때는 실제 로더가 선택하는 식별자를 따라 FAT extent, overlay entry와 게임 자체 offset·size table 가운데 참조되는 필드를 모두 확인한다. 이름이나 magic이 맞아도 reader가 field·section·compression을 다르게 소비하면 표준 serializer로 교체하지 않는다.
 
 ## 3. 저장 자산과 화면 소비
 

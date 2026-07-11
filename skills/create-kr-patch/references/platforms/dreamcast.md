@@ -6,9 +6,9 @@ SH-4·GD-ROM·texture의 기본 사양은 필요할 때 1차 자료에서 확인
 
 runtime 주소를 파일 offset으로 바꾸려면 대상 executable·module의 실제 load address, file layout, relocation·decompression을 함께 확인한다. 관습적인 load address나 상위 주소 bit 처리법을 모든 타이틀에 적용하지 않는다.
 
-boot 경로가 실행 binary를 scrambling·packing하면 disk bytes와 runtime instruction bytes는 다른 표현이다. 수정 경계를 고르기 전에 실제 boot transform의 무변경 왕복과 module identity를 검증한다.
+boot 경로가 실행 binary를 scrambling·packing하면 disk bytes와 runtime instruction bytes는 다른 표현이다. 수정 경계를 고르기 전에 실제 boot transform의 무변경 왕복과 대상 적재 module을 검증한다.
 
-코드를 이동하면 현재 SH-4 사양에서 branch delay와 PC-relative literal 의미를 확인하고, 최종 배치 뒤 원본 효과·target·literal을 재검산한다. 공통 기계어 검산 규칙은 `references/conventions/project-conventions.md` §2.4가 소유한다.
+코드를 이동하면 현재 SH-4 사양에서 branch delay와 PC-relative literal 의미를 확인하고, 최종 배치 뒤 원본 효과·target·literal을 재검산한다. 공통 기계어 검산 규칙은 `references/conventions/project-conventions.md` §2.3을 따른다.
 
 ## 2. GDI track 좌표
 
@@ -26,4 +26,4 @@ magic·확장자나 decoded image만으로 texture encoder를 승인하지 않�
 
 ## 4. 텍스트와 참조
 
-인코딩, script VM과 pointer 표현은 실제 reader가 소유한다. CPU endian은 container·VM field의 저장 순서를 대신 정하지 않는다. 엔트리 경계와 pointer ownership은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`가 판정한다.
+인코딩, script VM과 pointer 표현은 실제 reader로 확정한다. CPU endian은 container·VM field의 저장 순서를 대신 정하지 않는다. 엔트리 경계와 pointer 참조 완전성은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`에서 판정한다.
