@@ -67,7 +67,7 @@
 
 검증 실패를 다른 포인터 후보나 패딩 정책으로 자동 보정하지 않는다. 구조 모델을 수정하거나 지원 범위를 미완료로 남긴다.
 
-한 논리 변경이 여러 payload·pointer·hook site를 함께 쓴다면 전체 쓰기 계획을 먼저 만들고 용량·표현 폭·기대 원본·겹침·보호 범위를 모두 preflight한 뒤 반영한다. 뒤쪽 검사 실패가 앞쪽 일부 쓰기만 남기지 않도록 불변 계획, journal·rollback 또는 동등한 원자성을 제공하며, 특정 in-memory 복사 방식을 강제하지 않는다.
+한 논리 변경이 여러 페이로드·포인터·훅 설치 위치를 함께 바꾸면 `references/conventions/project-conventions.md` §5.2의 Expected Write로 전체 변경과 원자성을 검증한다.
 
 ## 4. 코드 훅
 
