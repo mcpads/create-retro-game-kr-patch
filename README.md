@@ -7,19 +7,7 @@ ROM/디스크 분석 → 텍스트 엔진 역공학 → 한글 폰트·인코딩
 
 ## 지원 플랫폼
 
-| 플랫폼 | CPU / 매체 |
-|--------|-----------|
-| SNES (슈퍼패미컴) | 65816 / ROM 카트리지 |
-| 메가드라이브 | 68000 / ROM 카트리지 |
-| 세가 새턴 | SH-2 ×2 / CD-ROM |
-| PS1 | MIPS R3000A / CD-ROM |
-| 드림캐스트 | SH-4 / GD-ROM |
-| PC엔진 / CD-ROM² | HuC6280 / HuCard·CD-ROM |
-| PC-98 | 8086/V30 / 플로피 |
-| 게임기어 | Z80A / ROM 카트리지 |
-| 닌텐도 DS | ARM9+ARM7 / ROM 카트리지 (NitroFS) |
-
-목록에 없는 플랫폼도 strategy 축의 조사 순서·검증 원칙을 출발점으로 삼아 새 플랫폼 문서를 작성하며 확장한다.
+SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS의 조건부 플랫폼 제약을 제공한다. 목록에 없는 플랫폼도 strategy의 판정 기준을 적용하고, 현재 분기를 바꾸는 하드웨어·매체 사실만 새로 확인해 확장할 수 있다.
 
 ## 설치 — Claude Code 세션
 
@@ -32,7 +20,7 @@ ROM/디스크 분석 → 텍스트 엔진 역공학 → 한글 폰트·인코딩
 
 ```
 codex plugin marketplace add mcpads/create-retro-game-kr-patch --ref main
-codex plugin add create-kr-patch --marketplace kr-patch
+codex plugin add create-kr-patch@kr-patch
 ```
 
 ## 릴리스 채널과 `next` 소식
@@ -73,17 +61,18 @@ skills/
     SKILL.md             # 라우팅 + 핵심 불변식 (본문은 얇게)
     references/
       strategy/          # 단계별 판단 기준과 검증 게이트
-      conventions/       # 저장소·CLI·스키마 시행 규약
-      platforms/         # 플랫폼별 하드웨어·사례 노트 9종
+      conventions/       # 저장소 역할·데이터·기록 시행 규약
+      platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 9종
+      tips/              # 플랫폼·조건으로 선택하는 국소 실패 단서
 ```
 
-`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. 에이전트는 단계·플랫폼에 따라 필요한 참조문서만 그때그때 읽는다.
+`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. `references/tips/`는 증상과 플랫폼이 맞을 때만 고르는 비규범적 사례다. 에이전트는 단계·플랫폼에 따라 필요한 참조문서만 그때그때 읽는다.
 
 ## 핵심 원칙
 
-- **원본 ROM·디스크 이미지·저작 자산은 절대 커밋하지 않는다.** 저장소에는 패치 파일·스크립트·번역 데이터만 둔다. (`.gitignore`로 강제)
-- **라운드트립 검증 우선** — 추출→재조립이 바이트 단위로 원본과 동일함을 증명한 뒤에야 수정에 들어간다.
-- **필요한 PoC 게이트 통과 전 본 구현 금지** — 최소 가시성 PoC와 위험 신호가 있는 조건부 PoC를 통과하기 전까지 되돌리기 비싼 작업은 시작하지 않는다. 한글 1자 출력만으로 글리프 예산·인코딩 공간·재배치 가능성까지 증명됐다고 보지 않는다.
+- **원본 ROM·디스크 이미지와 허가되지 않은 제3자 자산은 커밋하지 않는다.** 자체 작성물과 사용 허가가 확인된 자산만 해당 프로젝트의 출처·라이선스 조건에 따라 추적한다.
+- **변환 경계 검증 우선** — 추출·직렬화·압축·컨테이너 재빌드를 쓰는 범위는 무변경 왕복을 먼저 검증한다. 표현이 여러 개인 포맷은 소비 의미와 보호 메타데이터의 동등 기준을 선언한다.
+- **필요한 PoC 게이트 통과 전 본 구현 금지** — 목표 경로의 가시성이나 위험 신호가 동등한 증거로 해소되지 않았다면 해당 PoC를 통과하기 전까지 되돌리기 비싼 작업은 시작하지 않는다. 한글 1자 출력만으로 글리프 예산·인코딩 공간·재배치 가능성까지 증명됐다고 보지 않는다.
 
 ## 기여
 
@@ -91,9 +80,9 @@ skills/
 
 ## 버전
 
-현재 **0.7.0**. 버전별 변경 내용은 [CHANGELOG](CHANGELOG.md)를 본다.
+`main` 안정판은 **0.7.0**, `next` 프리릴리스는 **1.0.0-alpha.1**이다. 버전별 변경 내용은 [CHANGELOG](CHANGELOG.md)를 본다.
 
-설치본 업데이트는 `/plugin` 으로 마켓플레이스를 갱신한 뒤 재설치하고 `/reload-plugins`로 적용한다.
+같은 채널을 업데이트할 때도 해당 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 재설치한다. Claude Code는 reload 뒤, Codex는 새 스레드에서 새 설치본을 적용한다.
 
 ## 라이선스
 

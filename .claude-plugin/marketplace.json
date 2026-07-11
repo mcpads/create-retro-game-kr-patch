@@ -1,5 +1,6 @@
 {
   "name": "kr-patch",
+  "description": "레트로 게임 한글 패치 제작 방법론 Agent Skill",
   "owner": {
     "name": "mcpads",
     "email": "psinwoo@gmail.com"
