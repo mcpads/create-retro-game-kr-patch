@@ -1,6 +1,6 @@
 # PlayStation
 
-MIPS·GPU·CD-ROM·ISO 9660의 기본 사양은 필요할 때 1차 자료에서 확인한다. 여기에는 runtime code, 저장 자산, raw sector와 filesystem 좌표를 섞으면 생기는 패치 분기만 남긴다.
+MIPS·GPU·CD-ROM·ISO 9660의 기본 사양은 필요할 때 1차 자료에서 확인한다. runtime code, 저장 자산, raw sector와 filesystem 좌표는 서로 구분한다.
 
 ## 1. 실행 code와 module 정체성
 
@@ -36,7 +36,7 @@ filesystem LBA, raw track sector와 image byte offset은 서로 다른 좌표다
 
 ## 6. 빌드와 검증
 
-변경된 경로에 해당하는 항목만 추가한다.
+다음 중 이번 변경이 닿은 경로만 검증한다.
 
 - 실제 executable·module identity와 file↔RAM↔instruction-stream 관계
 - 저장 font·texture→변환·VRAM→화면 소비와 cache 수명
@@ -45,5 +45,3 @@ filesystem LBA, raw track sector와 image byte offset은 서로 다른 좌표다
 - runtime CD ownership, streaming 경합과 상태 복원
 
 특정 실기·광학 장치·image loader 지원을 주장하면 그 경로에서 최종 후보를 검증한다. 부팅 성공은 전체 sector·text·streaming 경로의 증거가 아니다.
-
-특정 타이틀의 archive layout, BIOS hook, 한글 code range와 CD command sequence는 플랫폼 일반 규칙으로 올리지 않는다.

@@ -1,6 +1,6 @@
 # Sega Saturn
 
-SH-2·VDP·CD-ROM의 기본 사양은 필요할 때 1차 자료에서 확인한다. 여기에는 이동 code의 literal·delay 의미, VDP1/VDP2 소비 분리, module·압축·disc 계층을 교차해야 드러나는 제약만 남긴다.
+SH-2·VDP·CD-ROM의 기본 사양은 필요할 때 1차 자료에서 확인한다. 이동 code의 literal·delay 의미, VDP1/VDP2 소비, module·압축·disc 계층은 서로 구분한다.
 
 ## 1. 이동 code와 module identity
 
@@ -34,7 +34,7 @@ track·sector 표현, filesystem extent와 game LBA·size table은 서로 다른
 
 ## 6. 검증
 
-변경된 경로에 해당하는 항목만 추가한다.
+다음 중 이번 변경이 닿은 경로만 검증한다.
 
 - code의 module/CPU identity, branch delay·literal·live state
 - VDP1 command·texture 또는 VDP2 pattern·name-table의 실제 소비

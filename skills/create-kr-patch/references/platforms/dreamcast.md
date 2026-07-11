@@ -1,6 +1,6 @@
 # Sega Dreamcast
 
-SH-4·GD-ROM·texture의 기본 사양은 필요할 때 1차 자료에서 확인한다. 여기에는 디스크 표현과 실행 표현, track 좌표, 저장 texture와 renderer 소비 사이를 교차해야 드러나는 제약만 남긴다.
+SH-4·GD-ROM·texture의 기본 사양은 필요할 때 1차 자료에서 확인한다. 패치 판단에서는 디스크 표현과 실행 표현, track 좌표, 저장 texture와 renderer 소비를 서로 구분한다.
 
 ## 1. 저장 실행 파일과 런타임 코드
 
@@ -30,7 +30,7 @@ magic·확장자나 decoded image만으로 texture encoder를 승인하지 않�
 
 ## 5. 재빌드와 검증
 
-변경된 경로에 해당하는 항목만 추가한다.
+다음 중 이번 변경이 닿은 경로만 검증한다.
 
 - disk representation↔runtime module 변환과 실제 code identity
 - GDI descriptor↔track↔filesystem↔game LBA 좌표

@@ -1,6 +1,6 @@
 # 디버깅과 이슈 처리
 
-이 문서는 QA 결함을 재현에서 원인 판정과 회귀 게이트까지 종료하는 조건을 다룬다. 특정 디버거·에뮬레이터·관측 순서는 지정하지 않는다. 이슈 기록에서 구분할 증거·판정·다음 행동의 의미는 `references/conventions/project-records.md`가, 릴리스 종료 판정은 `references/strategy/build-and-verify.md`가 소유한다.
+QA 결함은 재현, 원인 판정과 회귀 게이트까지 통과해야 종료한다. 디버거·에뮬레이터·관측 순서는 현재 가설과 환경에 맞춰 선택한다. 이슈의 증거·판정·다음 행동은 `references/conventions/project-records.md`에 따라 구분하고, 릴리스 종료 여부는 `references/strategy/build-and-verify.md`로 판정한다.
 
 ## 1. 완료 조건
 

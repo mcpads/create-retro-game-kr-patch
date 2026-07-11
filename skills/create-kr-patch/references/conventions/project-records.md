@@ -1,8 +1,8 @@
 # 프로젝트 기록 시행 규약
 
-초기 조사, PoC, 그래픽 카탈로그, HITL 관측, QA 이슈를 프로젝트 기록으로 표현하는 규약이다. 전략 문서는 무엇을 언제 증명해야 하는지를 소유하고, 이 문서는 증거·판정·다음 행동을 기록에서 구분하는 방식을 소유한다. 기존 프로젝트에 동등한 기록 체계가 있으면 그대로 유지한다. 아래 필드명과 상태명은 선택 프로필이며, 경로·직렬화 형식·도구는 규정하지 않는다.
+초기 조사, PoC, 그래픽 카탈로그, HITL 관측과 QA 이슈는 증거·판정·다음 행동을 구분해 기록한다. 기존 프로젝트에 동등한 기록 체계가 있으면 그대로 유지한다. 아래 필드명과 상태명은 선택 프로필이며, 경로·직렬화 형식·도구는 고정하지 않는다.
 
-번역 원문·역문·제어코드·검토 상태가 데이터에서 보존해야 할 의미는 `references/conventions/translation-artifacts.md`가 소유한다. 저장소 전체 레이아웃과 원본·파생 자산 취급은 `references/conventions/project-conventions.md`를 따른다.
+번역 원문·역문·제어코드·검토 상태는 `references/conventions/translation-artifacts.md`에 따라 보존하고, 저장소 전체 레이아웃과 원본·파생 자산 취급은 `references/conventions/project-conventions.md`를 따른다.
 
 ## 목차
 

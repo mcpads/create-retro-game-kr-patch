@@ -1,6 +1,6 @@
 # Nintendo DS
 
-NDS의 header·NitroFS·VRAM 기본 사양은 필요할 때 1차 자료에서 확인한다. 여기에는 실행 image·overlay·파일·VRAM 소비자를 같은 좌표나 정체성으로 오인하면 생기는 패치 분기만 남긴다.
+NDS의 header·NitroFS·VRAM 기본 사양은 필요할 때 1차 자료에서 확인한다. 실행 image·overlay·파일·VRAM 소비자는 같은 좌표나 정체성으로 취급하지 않는다.
 
 ## 1. 실행 image와 overlay 정체성
 
@@ -30,7 +30,7 @@ banner는 없을 수 있고, 한국어 title slot과 CRC 범위는 banner versio
 
 ## 5. 재빌드와 검증
 
-변경된 경로에 해당하는 항목만 추가한다.
+다음 중 이번 변경이 닿은 경로만 검증한다.
 
 - ARM9·ARM7 image 또는 overlay의 실제 identity와 ROM↔runtime 변환
 - FNT 이름·FAT file ID·게임 자체 table 가운데 실제 loader가 소유한 좌표
@@ -39,5 +39,3 @@ banner는 없을 수 있고, 한국어 title slot과 CRC 범위는 banner versio
 - 수정한 경우에만 secure area·banner의 표현과 무결성 범위
 
 특정 flashcart·실기·loader 호환을 주장하면 그 경로에서 최종 후보를 검증한다. 한 에뮬레이터의 부팅 성공을 다른 실행 경로의 증거로 확대하지 않는다.
-
-특정 게임의 포맷·주소·도구 선택은 프로젝트 문서에 두고, 범위가 확인된 실패만 `references/tips/`에 둔다.

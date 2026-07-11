@@ -1,6 +1,6 @@
 # SNES / Super Famicom
 
-65816·PPU·ROM mapping의 기본 사양은 필요할 때 1차 자료에서 확인한다. 여기에는 실행 mode와 명령 경계, ROM 좌표, 저장 폰트와 PPU 소비 사이를 혼동하면 생기는 패치 분기만 남긴다.
+65816·PPU·ROM mapping의 기본 사양은 필요할 때 1차 자료에서 확인한다. 실행 mode와 명령 경계, ROM 좌표, 저장 폰트와 PPU 소비는 서로 구분한다.
 
 ## 1. 실행 mode와 훅 불변식
 
@@ -30,7 +30,7 @@ VRAM write·DMA는 게임의 blanking·NMI queue·DMA ownership 안에서 성립
 
 ## 6. 검증
 
-변경된 경로에 해당하는 항목만 추가한다.
+다음 중 이번 변경이 닿은 경로만 검증한다.
 
 - 훅 진입·복귀의 mode·bank·stack·live-state 불변식
 - mapping별 CPU 주소↔파일 위치 왕복과 확장 bank 도달

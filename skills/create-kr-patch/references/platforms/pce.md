@@ -1,6 +1,6 @@
 # PC Engine / CD-ROM²
 
-HuC6280·VDC·CD-ROM²의 기본 사양은 필요할 때 1차 자료에서 확인한다. 여기에는 MPR 상태가 만드는 좌표, CD 적재와 runtime overlay, 저장 폰트와 화면 소비 사이의 경계만 남긴다.
+HuC6280·VDC·CD-ROM²의 기본 사양은 필요할 때 1차 자료에서 확인한다. MPR 상태가 만드는 좌표, CD 적재와 runtime overlay, 저장 폰트와 화면 소비의 경계를 서로 구분한다.
 
 ## 1. MPR과 주소 identity
 
@@ -34,7 +34,7 @@ BIOS font 경로의 한글 가시성은 그 경로만 증명하며 새 code spac
 
 ## 6. 검증
 
-변경된 경로에 해당하는 항목만 추가한다.
+다음 중 이번 변경이 닿은 경로만 검증한다.
 
 - 논리 주소·MPR·physical 위치와 file/sector 좌표 연결
 - bank·interrupt 전후의 mapping 복귀
