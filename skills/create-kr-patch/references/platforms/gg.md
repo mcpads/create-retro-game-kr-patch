@@ -171,7 +171,7 @@ VRAM 접근은 포트 두 개로만 이루어진다. 0xBF에 주소 하위/상�
 
 ## 8. 빌드
 
-배포 포맷(IPS/BPS) 생성 이전에, 빌드 자체는 **ROM 바이너리를 직접 재조립**하는 단일 파이프라인으로 만든다. 원본 ROM 비커밋과 차분 패치 배포 정책은 `references/strategy/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
+배포 포맷(IPS/BPS) 생성 이전에, 빌드 자체는 **ROM 바이너리를 직접 재조립**하는 단일 파이프라인으로 만든다. 원본 ROM 비커밋과 차분 패치 배포 규약은 `references/conventions/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
 
 ```
 1. 베이스 ROM 로드 (원본 또는 분석·권리 검토를 통과한 선행 패치판)

@@ -72,11 +72,12 @@ skills/
   create-kr-patch/
     SKILL.md             # 라우팅 + 핵심 불변식 (본문은 얇게)
     references/
-      strategy/          # 단계별 공통 전략 12종
+      strategy/          # 단계별 판단 기준과 검증 게이트
+      conventions/       # 저장소·CLI·스키마 시행 규약
       platforms/         # 플랫폼별 하드웨어·사례 노트 9종
 ```
 
-`SKILL.md`는 라우터·불변식만 담고, 실제 판단 기준·절차는 `references/` 문서에 있다. 에이전트는 단계·플랫폼에 따라 필요한 참조문서만 그때그때 읽는다.
+`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. 에이전트는 단계·플랫폼에 따라 필요한 참조문서만 그때그때 읽는다.
 
 ## 핵심 원칙
 

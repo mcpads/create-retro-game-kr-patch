@@ -391,7 +391,7 @@ NDS 배너(아이콘+타이틀)는 버전에 따라 지원 언어가 다르다.
 ### 배포
 
 - xdelta3가 NDS 씬의 주류 패치 포맷이다. BPS도 사용 가능하다.
-- 원본(NDS ROM) 비커밋과 차분 패치 배포(패치 파일·빌드 스크립트·번역 데이터) 정책은 `references/strategy/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
+- 원본(NDS ROM) 비커밋과 차분 패치 배포(패치 파일·빌드 스크립트·번역 데이터) 규약은 `references/conventions/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
 - 대상 ROM의 식별은 No-Intro DAT의 CRC32/SHA-1로 한다. 헤더에 게임 코드(4자, 예: `ADAJ`)와 리비전이 있으므로 함께 기록한다.
 
 ### 압축 대응

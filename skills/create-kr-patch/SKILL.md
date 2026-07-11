@@ -16,9 +16,9 @@ description: >-
 
 ## Overview
 
-레트로 게임의 한글 패치를 처음부터 끝까지 만드는 Agent Skill이다. 대상은 ROM 카트리지·CD/GD-ROM·플로피 디스크 매체의 콘솔·PC 게임 전반이며, 범위는 초기 조사(매체·텍스트·폰트·훅·수용량 파악)부터 폰트·인코딩 설계, PoC, 텍스트 추출, 번역, 재삽입, 빌드·패치 생성, 에뮬레이터 검증까지의 전 파이프라인이다. 크게 단계별 공통 전략(`references/strategy/`)과 플랫폼별 하드웨어 사실·사례 노트(`references/platforms/`)로 나뉜다.
+레트로 게임의 한글 패치를 처음부터 끝까지 만드는 Agent Skill이다. 대상은 ROM 카트리지·CD/GD-ROM·플로피 디스크 매체의 콘솔·PC 게임 전반이며, 범위는 초기 조사(매체·텍스트·폰트·훅·수용량 파악)부터 폰트·인코딩 설계, PoC, 텍스트 추출, 번역, 재삽입, 빌드·패치 생성, 에뮬레이터 검증까지의 전 파이프라인이다. 단계별 판단 기준은 `references/strategy/`, 구현 규약은 `references/conventions/`, 플랫폼별 하드웨어 사실·사례 노트는 `references/platforms/`가 소유한다.
 
-이 SKILL.md는 헌법 티어 문서다. 여기에는 프로젝트가 바뀌어도 유지되어야 하는 원칙, 단계 간 의존, 참조문서 라우팅, 불변식만 둔다. 플랫폼별 수치, 파일 경로, 도구 이름, 특정 게임의 주소·오프셋은 하위 문서나 프로젝트 문서의 책임이다. 이 Agent Skill을 처음 읽는 사람은 선행 작업의 맥락을 모른다고 가정하므로, 각 전략 문서는 과거 사례를 전제로 삼지 말고 질문, 판단 기준, 통과 조건을 독립적으로 설명해야 한다.
+이 SKILL.md는 헌법 티어 문서다. 여기에는 프로젝트가 바뀌어도 유지되어야 하는 원칙, 단계 간 의존, 참조문서 라우팅, 불변식만 둔다. 파일 경로·CLI·데이터 스키마·도구 선택은 `references/conventions/`, 플랫폼별 수치는 `references/platforms/`, 특정 게임의 주소·오프셋은 프로젝트 문서의 책임이다. 이 Agent Skill을 처음 읽는 사람은 선행 작업의 맥락을 모른다고 가정하므로, 각 전략 문서는 과거 사례를 전제로 삼지 말고 질문, 판단 기준, 통과 조건을 독립적으로 설명해야 한다.
 
 **모집단 고지**: 여기 담긴 전략과 사례는 선행 한글화 프로젝트에서 추려낸 것이다. 그 선행 사례는 일본어 원문·텍스트 중심 게임에 치우쳐 있으므로, 본문에서 "자주", "보통", "전형"으로 서술된 패턴도 새 게임에서는 가설이다. 플랫폼 문서의 사례 절은 재사용 가능한 규칙이 아니라 검증된 선례와 위험 신호의 목록이다. 실제 판단 기준과 절차는 반드시 해당 참조문서를 읽고, 대상 게임에서 실측해 확정한다.
 
@@ -55,7 +55,7 @@ digraph kr_patch {
 }
 ```
 
-`references/strategy/project-conventions.md`(저장소 규약)는 특정 단계가 아니라 전 단계를 관통하는 횡단 문서다. 프로젝트 착수 시점에 먼저 적용한다. 그래프의 "빌드·검증 → QA 이슈" 루프에서 버그의 격리·원인 확정은 `references/strategy/debugging.md`를 따른다.
+`references/conventions/project-conventions.md`는 전략을 실제 저장소와 도구 구조로 옮길 때 보는 시행 규약이다. 프로젝트 착수 시 기존 도구체인과 충돌하지 않는 범위에서 적용한다. 그래프의 "빌드·검증 → QA 이슈" 루프에서 버그의 격리·원인 확정은 `references/strategy/debugging.md`를 따른다.
 
 `references/strategy/graphics-text.md`와 `references/strategy/compression.md`는 조건부로 발동하는 횡단 처리다. 초기 조사에서 게임이 텍스트 일부를 폰트 렌더 경로가 아니라 그래픽에 박아 둔 것을 발견하면, 그 부분은 `references/strategy/graphics-text.md`의 교체 파이프라인으로 넘긴다. 폰트나 텍스트 데이터를 압축했다면 식별·해제·재압축은 `references/strategy/compression.md`로 분기한다. 둘 중 무엇이든 발견하는 즉시 별도 트랙으로 처리하되 본 추출·번역 트랙과 병행한다.
 
@@ -79,8 +79,13 @@ digraph kr_patch {
 | 디버깅·이슈 처리 | `references/strategy/debugging.md` | 디버깅 루프, 격리 기법, 증상 사전, 회귀 운영 |
 | 그래픽 텍스트 (횡단) | `references/strategy/graphics-text.md` | 베이크드 텍스트 인벤토리, 클린 배경 복원, 한글 조판, 재인코딩 검증 |
 | 압축 대응 (횡단) | `references/strategy/compression.md` | 압축 식별, 디컴프레서 역공학, 라운드트립 기준, 재압축·공간 전략 |
-| 저장소 규약 (횡단) | `references/strategy/project-conventions.md` | 저장소 레이아웃, 도구 언어, CLI 설계, 의존성, 테스트, 원본 자산 취급 |
 | 실전 팁 (횡단) | `references/strategy/tips.md` | 단계 불문 "이 증상에 이렇게 했더니 풀린" 사례 모음 — debugging.md 방법론의 보조 단서집 |
+
+### 시행 컨벤션
+
+| 범위 | 문서 | 내용 |
+|------|------|------|
+| 프로젝트 구현 (횡단) | `references/conventions/project-conventions.md` | 저장소 레이아웃, 도구 언어, CLI 설계, 의존성, 테스트, 원본 자산 취급 |
 
 ### 플랫폼 → platforms 문서
 
@@ -104,7 +109,7 @@ digraph kr_patch {
 
 1. **플랫폼 식별** — 게임의 플랫폼과 매체(카트리지/CD/디스크)를 확정한다.
 2. **플랫폼 문서 정독** — 해당 `references/platforms/` 문서를 전부 읽는다. 없으면 위 안내대로 새로 작성한다(공개 하드웨어 자료 기반 절부터).
-3. **저장소 초기화** — `references/strategy/project-conventions.md`의 레이아웃으로 저장소를 초기화하고, 조사 산출물을 남길 docs 자리를 먼저 마련한다.
+3. **저장소 초기화** — 기존 프로젝트 구조를 우선 확인하고, 새 프로젝트라면 `references/conventions/project-conventions.md`에서 적합한 구현 규약을 선택해 조사 산출물을 남길 자리를 마련한다.
 4. **초기 조사** — `references/strategy/initial-survey.md`의 순서(매체 → 파일시스템 → 코드 → 폰트 → 텍스트 엔진)대로 조사하고 단계마다 산출물을 docs에 남긴다.
 
 ## 핵심 불변식

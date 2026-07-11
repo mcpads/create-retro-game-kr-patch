@@ -231,11 +231,11 @@ SNES 텍스트 엔진에서 자주 보이는 구조는 다음과 같다.
 
 ## 7. 패치 포맷과 빌드
 
-- 배포 포맷은 **BPS를 1순위**로 하고, SNES 씬에서 역사적으로 널리 쓰인 IPS는 호환성 목적의 차선으로만 병행한다. 포맷·배포 정책의 정본은 `references/strategy/project-conventions.md` §6이며, BPS-over-IPS 선택 근거(원본·결과 CRC 검증 유무, IPS의 무검증 위험)의 상세는 `references/strategy/build-and-verify.md` §2를 본다.
+- 배포 포맷은 **BPS를 1순위**로 하고, SNES 씬에서 역사적으로 널리 쓰인 IPS는 호환성 목적의 차선으로만 병행한다. 포맷·배포 시행 규약은 `references/conventions/project-conventions.md` §6, BPS-over-IPS 선택 근거(원본·결과 CRC 검증 유무, IPS의 무검증 위험)의 정본은 `references/strategy/build-and-verify.md` §2를 본다.
 - IPS 구조: `PATCH`(5B) 헤더 + 레코드([오프셋 3B big-endian][크기 2B][데이터], 크기 0이면 RLE 레코드) + `EOF`(3B). 오프셋이 24비트라 16MB까지 표현 가능하며 SNES ROM(보통 1-4MB)에는 충분하다. 단 원본 검증이 없어 잘못된 ROM에 적용해도 에러 없이 망가진다.
 - **헤더 없는 ROM**(.sfc, 512B 카피어 헤더 제거본) 기준으로 생성·적용한다. 헤더 유무가 섞이면 전 오프셋이 512B 밀린다.
 - 빌드 파이프라인은 "JP ROM + 폰트 + 번역 + 훅 + 재배치 → 패치 ROM → verify → 패치 파일 생성" 순서로 단방향 구성한다. 패치 파일은 부산물이고 진실 원천은 빌드 스크립트다.
-- 원본 ROM 비커밋과 차분 패치 배포 정책은 `references/strategy/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
+- 원본 ROM 비커밋과 차분 패치 배포 규약은 `references/conventions/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
 
 ---
 

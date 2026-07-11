@@ -237,7 +237,7 @@ def rebuild_pointers(rom, table_off, texts, text_off, term=b'\x00'):
 
 ## 7. 패치 포맷과 빌드
 
-배포는 **BPS 포맷**으로 한다(4MB 확장처럼 파일 크기가 변하는 패치에도 안전하다). 포맷·배포 정책의 정본은 `references/strategy/project-conventions.md` §6이며, BPS-over-IPS 선택 근거(3중 CRC32 검증 대 IPS의 무검증·16MB 한계)의 상세는 `references/strategy/build-and-verify.md` §2를 본다.
+배포는 **BPS 포맷**으로 한다(4MB 확장처럼 파일 크기가 변하는 패치에도 안전하다). 포맷·배포 시행 규약은 `references/conventions/project-conventions.md` §6, BPS-over-IPS 선택 근거(3중 CRC32 검증 대 IPS의 무검증·16MB 한계)의 정본은 `references/strategy/build-and-verify.md` §2를 본다.
 
 ```bash
 # Floating IPS(flips)로 BPS 생성/적용
@@ -255,7 +255,7 @@ flips --apply output.bps original.md result.md
 6. 체크섬($18E) 재계산
 7. 패치 ROM 저장, BPS 생성
 
-원본 ROM 비커밋과 적용 대상 해시(CRC32/MD5/크기) 명시·차분 패치 배포 정책은 `references/strategy/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
+원본 ROM 비커밋과 적용 대상 해시(CRC32/MD5/크기) 명시·차분 패치 배포 규약은 `references/conventions/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
 
 ## 8. 검증
 
