@@ -1,10 +1,10 @@
-# 핵심 불변식: 원본 ROM·디스크 이미지·저작 자산은 절대 커밋하지 않는다.
-# 저장소에는 패치 파일·추출 스크립트·번역 데이터만 둔다.
+# 이 저장소는 Agent Skill 문서와 플러그인 매니페스트를 배포한다.
+# 원본 ROM·디스크 이미지·추출한 저작 자산은 커밋하지 않는다.
 
 # ROM 카트리지 이미지
 # 주의: 메가드라이브 ROM 확장자 .md 는 Markdown 과 충돌하므로 무시하지 않는다.
-#       이 repo 는 전량 .md 문서이므로 *.md 를 ignore 하면 안 된다.
-#       메가드라이브 덤프는 확장자가 아니라 디렉토리(예: roms/)로 격리한다.
+#       저장소가 Markdown 문서를 포함하므로 *.md는 무시하지 않는다.
+#       메가드라이브 덤프는 확장자가 아니라 별도 디렉터리(예: roms/)로 격리한다.
 *.sfc
 *.smc
 *.gen
@@ -40,7 +40,7 @@
 *.7z
 *.rar
 
-# 원본·출력 이미지 디렉토리 (project-conventions §6.2)
+# 원본·출력 이미지 디렉토리 (skills/create-kr-patch/references/conventions/project-conventions.md §6.2)
 roms/
 out/
 

@@ -1,7 +1,7 @@
 # create-kr-patch
 
 레트로 게임의 **한글(Korean) 팬 번역 패치**를 처음부터 끝까지 만드는 Agent Skill.
-ROM/디스크 분석 → 텍스트 엔진 역공학 → 한글 폰트·인코딩 설계 → PoC → 텍스트 추출·번역·재삽입 → 포인터 재배치·ASM 훅 → 빌드·패치 생성 → 에뮬레이터 검증까지의 전 파이프라인을 다룬다.
+ROM·디스크 분석, 텍스트 엔진 역공학, 한글 폰트·인코딩 설계, PoC, 번역·재삽입, 포인터·ASM 훅, 빌드·에뮬레이터 검증 등 한글 패치 전 과정의 판단 영역을 다룬다.
 
 > An Agent Skill for building Korean fan-translation patches for retro games, covering the full pipeline from ROM/disc analysis to emulator verification. Methodology only — **contains no copyrighted ROM data or game assets.**
 
@@ -60,13 +60,13 @@ skills/
   create-kr-patch/
     SKILL.md             # 라우팅 + 핵심 불변식 (본문은 얇게)
     references/
-      strategy/          # 단계별 판단 기준과 검증 게이트
+      strategy/          # 판단 영역별 기준과 검증 게이트
       conventions/       # 저장소 역할·데이터·기록 시행 규약
       platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 9종
       tips/              # 판단 영역·조건으로 선택하는 검증된 국소 사례
 ```
 
-`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. `references/tips/`는 판단 영역·발동 조건으로 고르고 관측 범위를 전이 한계로 확인하는 비규범적 검증 사례다. 에이전트는 단계·플랫폼에 따라 필요한 참조문서만 그때그때 읽는다.
+`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. `references/tips/`는 판단 영역·발동 조건으로 고르고 관측 범위를 전이 한계로 확인하는 비규범적 검증 사례다. 에이전트는 현재 판단 영역과 확인된 플랫폼 제약에 필요한 참조문서만 그때그때 읽는다.
 
 ## 기여
 
@@ -74,7 +74,7 @@ skills/
 
 ## 버전
 
-`main` 안정판은 **0.7.0**, `next` 프리릴리스는 **1.0.0-alpha.1**이다. 버전별 변경 내용은 [CHANGELOG](CHANGELOG.md)를 본다.
+현재 버전과 버전별 변경 내용은 [CHANGELOG](CHANGELOG.md)를 본다.
 
 같은 채널을 업데이트할 때도 해당 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 재설치한다. Claude Code는 reload 뒤, Codex는 새 스레드에서 새 설치본을 적용한다.
 
