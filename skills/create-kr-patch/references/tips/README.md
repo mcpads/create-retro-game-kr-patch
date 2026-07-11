@@ -51,5 +51,6 @@
 | GG-004 | 그래픽·공유 자산 | Game Gear | 서로 다른 라벨이 일부 물리 타일을 공유 | `references/tips/gg.md#gg-004` |
 | GG-005 | 재삽입·공간 | Game Gear | 한 bank의 여러 포인터 테이블이 suffix 공유 후보를 가짐 | `references/tips/gg.md#gg-005` |
 | GG-006 | 번역·제어 | Game Gear | 번역에서 포트레이트 제어가 페이지별로 누락 | `references/tips/gg.md#gg-006` |
+| GG-007 | 번역·제어 | Game Gear | 원본 토큰을 보존했지만 대상 엔진에서 다른 문자열로 치환 | `references/tips/gg.md#gg-007` |
 | MD-001 | 재삽입·빌드 | Mega Drive | 번역 뒤 특정 대사에서 진행 정지 | `references/tips/megadrive.md#md-001` |
 | MD-002 | 번역 맥락 | Mega Drive | 초기 KR 번역이 화자 제어 순서를 무시 | `references/tips/general.md#md-002` |
