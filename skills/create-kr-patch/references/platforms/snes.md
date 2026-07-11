@@ -37,5 +37,3 @@ VRAM write·DMA는 게임의 blanking·NMI queue·DMA ownership 안에서 성립
 - 저장 글리프→변환→VRAM→실제 BG·OBJ 소비
 - NMI·DMA queue와 화면 재진입 뒤 마지막 writer
 - 확장 ROM을 사용하는 실제 배포 대상
-
-구체 실패는 증상과 타이틀이 맞을 때만 `references/tips/snes.md`에서 선택해 읽는다.

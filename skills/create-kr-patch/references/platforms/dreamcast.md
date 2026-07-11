@@ -28,8 +28,6 @@ magic·확장자나 decoded image만으로 texture encoder를 승인하지 않�
 
 인코딩, script VM과 pointer 표현은 실제 reader가 소유한다. CPU endian은 container·VM field의 저장 순서를 대신 정하지 않는다. 엔트리 경계와 pointer ownership은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`가 판정한다.
 
-겹친 story blob, 고정 label slot과 사람이 붙인 메타데이터가 실제 소비 데이터와 충돌한 사례는 현재 조건이 맞을 때만 `references/tips/dreamcast.md`에서 읽는다.
-
 ## 5. 재빌드와 검증
 
 변경된 경로에 해당하는 항목만 추가한다.
@@ -41,5 +39,3 @@ magic·확장자나 decoded image만으로 texture encoder를 승인하지 않�
 - 변환 배포본의 boot·audio·streaming과 비대상 track 보존
 
 한 container의 부팅이나 한 상태의 texture 표시를 다른 loader·상태 수명의 증거로 쓰지 않는다.
-
-구체 실패는 현재 증상과 타이틀이 맞을 때만 `references/tips/dreamcast.md`에서 선택해 읽는다.

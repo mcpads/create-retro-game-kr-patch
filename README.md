@@ -63,10 +63,10 @@ skills/
       strategy/          # 단계별 판단 기준과 검증 게이트
       conventions/       # 저장소 역할·데이터·기록 시행 규약
       platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 9종
-      tips/              # 플랫폼·조건으로 선택하는 국소 실패 단서
+      tips/              # 판단 영역·조건으로 선택하는 국소 실패 단서
 ```
 
-`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. `references/tips/`는 증상과 플랫폼이 맞을 때만 고르는 비규범적 사례다. 에이전트는 단계·플랫폼에 따라 필요한 참조문서만 그때그때 읽는다.
+`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. `references/tips/`는 판단 영역·발동 조건으로 고르고 관측 범위를 전이 한계로 확인하는 비규범적 사례다. 에이전트는 단계·플랫폼에 따라 필요한 참조문서만 그때그때 읽는다.
 
 ## 핵심 원칙
 

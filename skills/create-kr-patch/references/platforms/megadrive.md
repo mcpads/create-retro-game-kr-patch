@@ -39,5 +39,3 @@ VRAM은 글리프 외의 화면 자산도 공유한다. 전체 레퍼토리와 �
 - header·checksum과 배포 대상의 최종 크기 지원 조건
 
 부팅이나 한 화면의 정상 표시를 다른 mapper·renderer·상태 수명의 증거로 쓰지 않는다.
-
-구체 실패는 현재 증상과 타이틀이 맞을 때만 `references/tips/megadrive.md`에서 선택해 읽는다.

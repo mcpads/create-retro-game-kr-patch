@@ -24,7 +24,7 @@ VRAM·CRAM은 일반 memory write가 아니라 VDP port I/O로 소비된다. 일
 
 VDP port 전송은 최종 하드웨어 upload/write 경계이며 그 값을 만든 writer나 적재 시점과 같지 않을 수 있다. 그 write가 실제 name table·sprite·viewport에서 소비되는지는 별도로 확인한다. 새 bank의 폰트나 VRAM slot을 쓰면 저장→적재·변환→상주→소비 연결과 상태별 작업 집합을 `references/strategy/runtime-assets.md` 및 `references/strategy/font-strategy.md` §3으로 판정한다.
 
-상점 렌더 세션에서 최종 VDP writer가 아니라 앞선 창별 base 선택이 원인이었던 사례는 현재 증상이 맞을 때만 `references/tips/gg.md`에서 읽는다.
+상점 렌더 세션에서 최종 VDP writer가 아니라 앞선 창별 base 선택이 원인이었던 사례는 현재 조건이 맞을 때만 `references/tips/gg.md#gg-001`에서 읽는다.
 
 ## 5. 텍스트와 코드 공간
 
@@ -45,5 +45,3 @@ VDP port 전송은 최종 하드웨어 upload/write 경계이며 그 값을 만�
 - 확장 bank와 save path를 사용하는 실제 배포 대상
 
 다른 build의 상태 저장을 재사용하면 ROM·RAM layout 호환성을 먼저 확인한다.
-
-구체 실패는 현재 증상과 타이틀이 맞을 때만 `references/tips/gg.md`에서 선택해 읽는다.

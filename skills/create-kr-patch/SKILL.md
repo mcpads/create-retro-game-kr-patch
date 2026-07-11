@@ -87,7 +87,7 @@ description: >-
 
 ### 선택적 사례 단서
 
-프로젝트 착수 때 tips를 전부 읽지 않는다. strategy가 구체적인 위험 신호나 증상을 식별한 뒤에만 `references/tips/README.md`의 짧은 색인을 보고, 현재 플랫폼 또는 발동 조건이 맞는 사례 파일만 읽는다. tips는 조사 후보를 제안할 뿐 게이트·완료 조건·플랫폼 사실을 새로 만들 수 없으며, strategy와 충돌하면 strategy의 판단 기준을 따른다.
+프로젝트 착수 때 tips를 전부 읽지 않는다. strategy가 현재 판단 영역과 발동 조건을 식별한 뒤에만 `references/tips/README.md`의 짧은 색인을 보고, 해당 사례의 앵커 하나만 읽는다. 관측 플랫폼과 범위는 증거의 출처와 전이 한계이며 선택 필수조건이 아니다. `references/tips/general.md`도 통독하지 않는다. tips는 조사 후보를 제안할 뿐 게이트·완료 조건·플랫폼 사실을 새로 만들 수 없으며, strategy와 충돌하면 strategy의 판단 기준을 따른다.
 
 ## 시작 체크리스트
 

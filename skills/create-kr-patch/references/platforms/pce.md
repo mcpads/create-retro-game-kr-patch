@@ -42,5 +42,3 @@ BIOS font 경로의 한글 가시성은 그 경로만 증명하며 새 code spac
 - CD track·sector·게임 read table과 overlay reload
 - 자막·음성 변경의 timing·skip·scene transition
 - 배포에서 주장하는 System Card·optical loader·hardware 경로
-
-구체 실패는 현재 증상과 타이틀이 맞을 때만 `references/tips/pce.md`에서 선택해 읽는다.
