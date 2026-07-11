@@ -65,7 +65,7 @@
 | GG-007 | 번역·제어 | Game Gear | 원본 토큰을 보존했지만 대상 엔진에서 다른 문자열로 치환 | `references/tips/gg.md#gg-007` |
 | GG-008 | 재삽입·런타임 | Game Gear | 길이 0 엔트리가 런타임 문자열 포인터였음 | `references/tips/gg.md#gg-008` |
 | GG-009 | 훅·상태 | Game Gear | 공유 글리프 훅이 한 호출자의 문자 카운터를 덮음 | `references/tips/gg.md#gg-009` |
-| GG-010 | 레이아웃·창 | Game Gear | 같은 스크립트 리전에서 좁은 박스 태그가 긴 페이지를 소비 | `references/tips/gg.md#gg-010` |
+| GG-010 | 레이아웃·진행 | Game Gear | 박스 태그별 제약에서 재줄바꿈·페이지 분할을 구분해야 함 | `references/tips/gg.md#gg-010` |
 | GG-011 | 렌더·클리어 | Game Gear | 정렬 변경 뒤 한 호출자에서만 이전 타일이 남음 | `references/tips/gg.md#gg-011` |
 | MD-001 | 재삽입·빌드 | Mega Drive | 번역 뒤 특정 대사에서 진행 정지 | `references/tips/megadrive.md#md-001` |
 | MD-002 | 번역 맥락 | Mega Drive | 초기 KR 번역이 화자 제어 순서를 무시 | `references/tips/general.md#md-002` |
