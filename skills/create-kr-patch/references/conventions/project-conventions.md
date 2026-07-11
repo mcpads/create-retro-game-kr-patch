@@ -30,7 +30,7 @@
 각 디렉토리의 역할과 규칙:
 
 - **`docs/`** — 역공학 결과의 단일 진실 원천. ROM/디스크 구조, 텍스트 인코딩 테이블, 포인터 패턴, 렌더링 엔진 분석을 파일 단위로 분리해 쌓는다. 완료된 계획 문서는 `docs/archive/`로 옮겨 현행 문서와 섞이지 않게 한다. 에이전트 진입점 문서에는 현행 핵심 문서의 목록과 한 줄 요약만 둔다.
-- **`assets/translations/`** — 번역 JSON의 본거지. 한 파일 = 한 텍스트 영역(뱅크, 테이블, 스크립트 파일)이 원칙이다. 번역 진척은 디렉토리 위치로 표현한다 — 5단계 구조와 단계 이동 조건은 `references/strategy/translation-workflow.md` §1 참조. 빌드는 `complete/`만 읽는다(미리보기 옵션 허용).
+- **`assets/translations/`** — 기본 번역 자산 위치. 프로젝트가 다른 구조를 이미 쓰면 유지할 수 있다. 스키마·검토 상태·빌드 입력 자격의 기본 프로필은 `references/conventions/translation-artifacts.md`를 따른다.
 - **`scripts/` (레거시 격리)** — 초기 탐색 단계에서 작성한 Python 원라이너·프로브 스크립트는 여기에 격리한다. 패칭 기능을 전부 주 언어 파이프라인으로 마이그레이션한 뒤에도 분석 스크립트는 삭제하지 않고 이 디렉토리에 남겨 역공학 기록으로 보존한다. 단, **패치 빌드 경로에는 절대 끼워 넣지 않는다** — 빌드는 주 도구의 명령 하나로 끝나야 한다(Rust 사례: `cargo run`).
 - **에이전트 진입점 문서** — 프로젝트 상태 표(단계별 완료/진행/미완료), 디렉토리 구조, 빌드·테스트 명령, 알려진 함정을 담는다. 파일명은 사용하는 도구의 관례를 따른다(예: `AGENTS.md`, `CLAUDE.md`). 분석 본문은 docs/로 보내고 여기서는 링크만 건다.
 
@@ -90,30 +90,14 @@ patch build \
 
 원본 경로는 항상 인자로 받는다 — 코드에 하드코딩하지 않는다(§6).
 
-### 3.2 JSON 입출력 원칙
+### 3.2 기계 판독 가능한 입출력
 
-도구 간 데이터 교환은 전부 JSON으로 한다.
+분석 명령과 빌드 명령 사이의 데이터는 스키마가 검증되는 기계 판독 형식으로 교환한다. JSON은 기본 선택지지만, 프로젝트의 기존 형식이나 대용량 처리에 더 적합한 형식이 있으면 같은 의미 계약을 만족하는 대안을 쓸 수 있다.
 
-- 추출 명령의 출력 = 번역 JSON의 입력. 스키마 정본은 `references/strategy/text-extraction.md` §4.3이다 — 추출기가 채우는 필드(`table_id`/`entry_id`/`ptr_value`/`file_offset`/`raw_hex`/`text`/`flags`)에 번역 단계 필드(`ko`/`status`/`notes` — `references/strategy/translation-workflow.md` 참조)를 더한 구조로 떨군다. 스키마의 Rust 표현 사례:
-
-```rust
-#[derive(Serialize, Deserialize)]
-struct TranslationEntry {
-    entry_id: u32,
-    ptr_value: Option<String>,
-    file_offset: Option<String>,
-    raw_hex: Option<String>,
-    text: Option<String>,      // 원문 + 제어코드 표기 (추출기가 채움, 번역 단계 수정 금지)
-    ko: String,                // 번역 (추출 시점에는 빈 문자열)
-    status: String,
-    notes: Option<String>,
-    flags: Vec<String>,
-}
-```
-
-- `diff`, `scan-pointers` 같은 분석 명령도 `--output <파일>.json` 옵션으로 기계가 읽을 수 있는 출력을 지원한다. 사람이 읽는 표 출력과 JSON 출력을 모두 제공하면 후속 자동화(LLM 번역 파이프라인, 검증 스크립트)가 쉬워진다.
-- 제어코드는 JSON 안에서 `{br}`, `{end}`, `{delay:1E}` 같은 중괄호 토큰으로 표기해 번역자가 깨뜨리지 않게 한다(표기 규약 정본: `references/strategy/text-extraction.md` §4.4). 빌드 시 원문과 번역문의 제어코드 집합이 일치하는지 검증한다.
-- 빌드 파라미터를 JSON으로 외부화할 때도 같은 타입 안전 원칙을 적용한다. 폰트·크기·윤곽선처럼 자주 바꾸는 표현 파라미터를 렌더 타깃이 여럿일 때 설정 파일로 빼는 패턴은 `references/strategy/font-strategy.md` §8을 따른다 — 스키마에 타입·기본값을 박아 로드하고(미지정 필드 무시 금지), 해결 순서는 CLI override → 설정 값 → 기본값으로 둔다. 메모리 주소·뱅크·인코딩 경계 같은 역공학 확정값은 외부화하지 않고 코드에 둔다.
+- 추출 결과와 번역 입력은 하나의 정본 스키마를 공유한다. 번역 자산의 기본 JSON·제어코드 토큰·상태 스키마는 `references/conventions/translation-artifacts.md`를 따른다.
+- 분석 명령은 사람이 읽는 출력과 별도로 후속 도구가 안정적으로 읽을 수 있는 출력을 제공한다.
+- 알 수 없는 필드·상태·토큰을 조용히 무시하지 않고 스키마 오류로 처리한다.
+- 빌드 파라미터를 외부화할 때도 같은 타입 안전 원칙을 적용한다. 폰트·크기·윤곽선처럼 자주 바꾸는 표현 파라미터를 렌더 타깃이 여럿일 때 설정 파일로 빼는 판정은 `references/strategy/font-strategy.md` §8을 따른다. 메모리 주소·뱅크·인코딩 경계 같은 역공학 확정값의 저장 위치는 프로젝트 구현이 한 곳에서 소유한다.
 
 ## 4. 의존성 표준
 

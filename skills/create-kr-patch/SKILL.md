@@ -74,7 +74,7 @@ digraph kr_patch {
 | 텍스트 추출 | `references/strategy/text-extraction.md` | 포인터 테이블 발견, 무손실 추출, 라운드트립 검증, 인라인 리터럴 수색 |
 | PoC | `references/strategy/poc.md` | 최소 가시성 PoC와 조건부 PoC 게이트의 수행 여부·통과 기준 판정 |
 | 재삽입·훅 | `references/strategy/reinsertion.md` | 길이 보존/완전 재배치/제자리 성장 정책, 포인터 재배치, ASM 훅 설계, 공간 확보 |
-| 번역 | `references/strategy/translation-workflow.md` | 스토리 재구성(서사 문서·화자 매트릭스), 디렉토리 기반 진척 관리, 용어집 단일 진실 원천, LLM 초벌·교차 리뷰·사람 검수 분업 |
+| 번역 | `references/strategy/translation-workflow.md` | 스토리 재구성, 검토·빌드 적격 게이트, 용어집 단일 진실 원천, LLM 초벌·교차 리뷰·사람 검수 분업 |
 | 빌드·검증 | `references/strategy/build-and-verify.md` | 빌드 파이프라인, 패치 포맷, 체크섬 처리, 에뮬레이터 검증, 텍스트 QA, 이슈 관리 |
 | 디버깅·이슈 처리 | `references/strategy/debugging.md` | 디버깅 루프, 격리 기법, 증상 사전, 회귀 운영 |
 | 그래픽 텍스트 (횡단) | `references/strategy/graphics-text.md` | 베이크드 텍스트 인벤토리, 클린 배경 복원, 한글 조판, 재인코딩 검증 |
@@ -86,6 +86,7 @@ digraph kr_patch {
 | 범위 | 문서 | 내용 |
 |------|------|------|
 | 프로젝트 구현 (횡단) | `references/conventions/project-conventions.md` | 저장소 레이아웃, 도구 언어, CLI 설계, 의존성, 테스트, 원본 자산 취급 |
+| 번역 자산 | `references/conventions/translation-artifacts.md` | 기본 데이터 스키마, 제어코드 토큰, 검토 상태와 빌드 입력 표현 |
 
 ### 플랫폼 → platforms 문서
 
