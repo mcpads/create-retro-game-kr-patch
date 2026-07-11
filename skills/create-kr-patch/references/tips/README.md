@@ -23,26 +23,31 @@
 | SNES-010 | 추출 | SNES | 제어코드 첫 바이트를 종료자로 오인 | `references/tips/snes.md#snes-010` |
 | SNES-011 | 압축·런타임 | SNES | 안정된 해제 경계와 기존 소비 경로를 재사용할 수 있음 | `references/tips/snes.md#snes-011` |
 | SNES-012 | 그래픽·런타임 | SNES | WRAM 수정이 1회 적재된 OBJ VRAM에 도달하지 않음 | `references/tips/snes.md#snes-012` |
-| SNES-013 | 그래픽 | SNES | 한 라벨이 여러 sprite tile 경계를 가로지름 | `references/tips/snes.md#snes-013` |
+| SNES-013 | 그래픽·시각 표현 | SNES | 한 라벨의 글자·배경·표현 층이 여러 타일 경계를 가로지름 | `references/tips/snes.md#snes-013` |
 | SNES-014 | 재삽입·공간 | SNES | 같은-bank 참조와 cross-bank 참조가 공간을 경쟁 | `references/tips/snes.md#snes-014` |
 | SNES-015 | 폰트·도구 | SNES | 파싱된 bitmap-embedded TTF가 0×0 글리프를 반환 | `references/tips/general.md#snes-015` |
 | SNES-016 | 압축·초기 조사 | SNES | 런타임 글리프는 알지만 저장 압축 원천을 찾지 못함 | `references/tips/snes.md#snes-016` |
 | SNES-017 | 렌더·클리어 | SNES | 문자열 패딩을 없애자 이전 행의 VRAM 타일이 남음 | `references/tips/snes.md#snes-017` |
 | SNES-018 | 그래픽·공유 상태 | SNES | 정적 번역 타일맵이 게임의 동적 셀을 마지막에 덮음 | `references/tips/snes.md#snes-018` |
 | SNES-019 | PoC·런타임 자산 | SNES | 저장·VRAM 바이트는 맞지만 목표 글자가 아닌 타일을 교체 | `references/tips/snes.md#snes-019` |
+| SNES-021 | 레이아웃·창 | SNES | 한국어 대사의 가시 폭·행 수에 따라 창 크기가 달라짐 | `references/tips/snes.md#snes-021` |
+| SNES-022 | UI·상태 | SNES | 길어진 선택지 뒤쪽에 포커스 강조가 적용되지 않음 | `references/tips/snes.md#snes-022` |
 | SATURN-002 | 재삽입·공간 | Saturn | 정적 참조 0건을 미사용 code로 오인 | `references/tips/general.md#saturn-002` |
 | SATURN-003 | 압축 | Saturn | 무변경 원본 재압축도 게임에서 손상 | `references/tips/general.md#saturn-003` |
 | SATURN-004 | 추출·재삽입 | Saturn | opcode 인자를 포인터 prefix로 오인 | `references/tips/saturn.md#saturn-004` |
 | SATURN-005 | 그래픽·런타임 | Saturn | 메뉴 표시보다 앞서 적재된 스프라이트 | `references/tips/general.md#saturn-005` |
 | SATURN-007 | 폰트·번역 | Saturn | 글리프 부족으로 번역 표현을 임시 축약 | `references/tips/general.md#saturn-007` |
-| SATURN-008 | 그래픽·포맷 | Saturn | 한 raw 자산 안에서 폭과 구간 배치가 섞임 | `references/tips/saturn.md#saturn-008` |
+| SATURN-008 | 그래픽·포맷 | Saturn | bpp를 확정해도 구간별 시작 오프셋·폭·행 간격이 달라짐 | `references/tips/saturn.md#saturn-008` |
 | SATURN-009 | 그래픽·복원 | Saturn | 같은 배경의 여러 라벨에서 원문 없는 배경이 필요함 | `references/tips/saturn.md#saturn-009` |
 | SATURN-010 | 재삽입·정렬 | Saturn | 최종 파일은 정렬됐지만 중간 구조에서 멈춤 | `references/tips/saturn.md#saturn-010` |
 | SATURN-011 | 재삽입·제어 | Saturn | 길이 패딩 뒤 이벤트가 하드락 | `references/tips/saturn.md#saturn-011` |
 | SATURN-012 | 재삽입·포인터 | Saturn | 한 번역 엔트리 안의 하위 문자열을 포인터가 직접 참조 | `references/tips/saturn.md#saturn-012` |
 | SATURN-013 | 재삽입·경계 | Saturn | 같은 고정 슬롯 파일에서 패딩이 일부 문자열 연결을 깨뜨림 | `references/tips/saturn.md#saturn-013` |
+| SATURN-014 | 그래픽·포맷 | Saturn | 헤더 없는 시트의 파일 중간에서 합성 영역을 분리해야 함 | `references/tips/saturn.md#saturn-014` |
 | PS1-001 | 훅·런타임 | PlayStation | RAM 재적재 뒤 캐시 두 줄의 원본·패치 명령이 섞임 | `references/tips/ps1.md#ps1-001` |
 | PS1-002 | 재삽입·포인터 | PlayStation | 중복 문자열 통합 뒤 내부 포인터가 원문 tail을 가리킴 | `references/tips/ps1.md#ps1-002` |
+| PS1-003 | 그래픽·UI | PlayStation | 소형 라벨이 실제 선택 배경에서 대비를 유지해야 함 | `references/tips/ps1.md#ps1-003` |
+| PS1-004 | 그래픽·포맷 | PlayStation | 같은 파일 크기에 맞는 bpp·폭·높이 후보가 여러 개임 | `references/tips/ps1.md#ps1-004` |
 | PCE-001 | 그래픽 | PC Engine | 타일맵이 한 타일셋만큼 밀림 | `references/tips/pce.md#pce-001` |
 | PCE-002 | 매체 재빌드 | PC Engine CD | 사용자 데이터 오프셋으로 raw 이미지를 패치 | `references/tips/pce.md#pce-002` |
 | PCE-003 | 초기 조사·코드 | PC Engine | 핸들러의 즉시값을 sub-bank ID로 해석 | `references/tips/pce.md#pce-003` |
@@ -60,5 +65,7 @@
 | GG-007 | 번역·제어 | Game Gear | 원본 토큰을 보존했지만 대상 엔진에서 다른 문자열로 치환 | `references/tips/gg.md#gg-007` |
 | GG-008 | 재삽입·런타임 | Game Gear | 길이 0 엔트리가 런타임 문자열 포인터였음 | `references/tips/gg.md#gg-008` |
 | GG-009 | 훅·상태 | Game Gear | 공유 글리프 훅이 한 호출자의 문자 카운터를 덮음 | `references/tips/gg.md#gg-009` |
+| GG-010 | 레이아웃·창 | Game Gear | 같은 스크립트 리전에서 좁은 박스 태그가 긴 페이지를 소비 | `references/tips/gg.md#gg-010` |
+| GG-011 | 렌더·클리어 | Game Gear | 정렬 변경 뒤 한 호출자에서만 이전 타일이 남음 | `references/tips/gg.md#gg-011` |
 | MD-001 | 재삽입·빌드 | Mega Drive | 번역 뒤 특정 대사에서 진행 정지 | `references/tips/megadrive.md#md-001` |
 | MD-002 | 번역 맥락 | Mega Drive | 초기 KR 번역이 화자 제어 순서를 무시 | `references/tips/general.md#md-002` |
