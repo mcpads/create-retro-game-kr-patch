@@ -13,6 +13,7 @@
 | DC-005 | 번역·타이밍 | Dreamcast | 번역문이 짧아지자 다음 음성이 일찍 시작 | `references/tips/dreamcast.md#dc-005` |
 | DC-006 | 빌드·쓰기 | Dreamcast | 생성된 리터럴 풀을 과거 고정 주소 쓰기가 덮음 | `references/tips/dreamcast.md#dc-006` |
 | DC-007 | 매체 재빌드 | Dreamcast | 큰 파일 간격을 빈 경계로 오인해 뒤 파일을 덮음 | `references/tips/dreamcast.md#dc-007` |
+| DC-008 | 폰트·런타임 | Dreamcast | 파일명과 선행 PoC만으로 활성 대사 폰트를 잘못 선택 | `references/tips/dreamcast.md#dc-008` |
 | SNES-001 | 추출 | SNES | 2바이트 접두사 절단으로 종료자 소실 | `references/tips/snes.md#snes-001` |
 | SNES-002 | 추출 | SNES | 고정 워드 폭 소비자에 1바이트 토큰 삽입 | `references/tips/snes.md#snes-002` |
 | SNES-003 | 폰트·렌더 | SNES | 가로 인덱싱 ×2와 2×2 글리프 혼동 | `references/tips/snes.md#snes-003` |
@@ -44,13 +45,18 @@
 | SATURN-012 | 재삽입·포인터 | Saturn | 한 번역 엔트리 안의 하위 문자열을 포인터가 직접 참조 | `references/tips/saturn.md#saturn-012` |
 | SATURN-013 | 재삽입·경계 | Saturn | 같은 고정 슬롯 파일에서 패딩이 일부 문자열 연결을 깨뜨림 | `references/tips/saturn.md#saturn-013` |
 | SATURN-014 | 그래픽·포맷 | Saturn | 헤더 없는 시트의 파일 중간에서 합성 영역을 분리해야 함 | `references/tips/saturn.md#saturn-014` |
+| SATURN-015 | 폰트·공유 자산 | Saturn | 반복·빈 타일처럼 보이는 폰트 영역을 회수하려면 비텍스트 참조도 바꿔야 함 | `references/tips/saturn.md#saturn-015` |
+| SATURN-016 | 추출·폰트 | Saturn | 메시지 내장 글리프 풀을 전역 첫 등장 순서로 해석 | `references/tips/saturn.md#saturn-016` |
 | PS1-001 | 훅·런타임 | PlayStation | RAM 재적재 뒤 캐시 두 줄의 원본·패치 명령이 섞임 | `references/tips/ps1.md#ps1-001` |
 | PS1-002 | 재삽입·포인터 | PlayStation | 중복 문자열 통합 뒤 내부 포인터가 원문 tail을 가리킴 | `references/tips/ps1.md#ps1-002` |
 | PS1-003 | 그래픽·UI | PlayStation | 소형 라벨이 실제 선택 배경에서 대비를 유지해야 함 | `references/tips/ps1.md#ps1-003` |
 | PS1-004 | 그래픽·포맷 | PlayStation | 같은 파일 크기에 맞는 bpp·폭·높이 후보가 여러 개임 | `references/tips/ps1.md#ps1-004` |
+| PS1-005 | 폰트·런타임 | PlayStation | 기존 글리프 소비 경로 재사용은 성공했지만 첫 자산 적재가 음악을 중단 | `references/tips/ps1.md#ps1-005` |
+| PS1-006 | 재삽입·제어 | PlayStation | 고정 2바이트 소비자에서 0x0000 패딩이 오류 글리프로 표시 | `references/tips/ps1.md#ps1-006` |
 | PCE-001 | 그래픽 | PC Engine | 타일맵이 한 타일셋만큼 밀림 | `references/tips/pce.md#pce-001` |
 | PCE-002 | 매체 재빌드 | PC Engine CD | 사용자 데이터 오프셋으로 raw 이미지를 패치 | `references/tips/pce.md#pce-002` |
 | PCE-003 | 초기 조사·코드 | PC Engine | 핸들러의 즉시값을 sub-bank ID로 해석 | `references/tips/pce.md#pce-003` |
+| PCE-004 | 폰트·런타임 | PC Engine CD | 글리프 공급 경계만 바꿔 기존 변환·업로드를 재사용할 수 있음 | `references/tips/pce.md#pce-004` |
 | PC98-001 | 폰트·인코딩 | PC-98 | 표준 디코더 통계로 미사용 lead 선정 | `references/tips/pc98.md#pc98-001` |
 | PC98-002 | 인코딩·검증 | PC-98 | 생성기와 검증기가 같은 경계식을 공유 | `references/tips/pc98.md#pc98-002` |
 | PC98-003 | 재삽입·포인터 | PC-98 | 개별 NUL 간격으로는 긴 크레딧 문자열을 수용할 수 없음 | `references/tips/pc98.md#pc98-003` |
@@ -69,3 +75,4 @@
 | GG-011 | 렌더·클리어 | Game Gear | 정렬 변경 뒤 한 호출자에서만 이전 타일이 남음 | `references/tips/gg.md#gg-011` |
 | MD-001 | 재삽입·빌드 | Mega Drive | 번역 뒤 특정 대사에서 진행 정지 | `references/tips/megadrive.md#md-001` |
 | MD-002 | 번역 맥락 | Mega Drive | 초기 KR 번역이 화자 제어 순서를 무시 | `references/tips/general.md#md-002` |
+| MD-003 | 폰트·렌더 | Mega Drive | 반복 데이터처럼 보이는 사전 시프트 글리프 복사본 | `references/tips/megadrive.md#md-003` |

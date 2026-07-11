@@ -28,3 +28,12 @@
 - **확정 결과:** X 즉시값은 게임 데이터의 sub-bank ID가 아니라 BIOS task scheduler의 selector·slot 계열 인자였고, 호출 직후 덮어써져 이후 bank나 sub-script 선택으로 이어지지 않았다.
 - **전이 한계:** 이 추적은 `$6885`에서 정적으로 도달한 126개 명령과 당시 mapping에 한정된다. 다른 진입점의 sub-script와 간접 경로까지 해명한 것이 아니며, 논리 주소나 즉시값 모양만으로 BIOS·bank 의미를 이식하지 않는다.
 - **관련 판단 기준:** `references/strategy/initial-survey.md` §2.2·§3, `references/strategy/debugging.md` §2·§4, `references/platforms/pce.md` §1.
+
+## PCE-004
+
+- **관측 범위:** PC Engine CD 마도물어 1의 System Card BIOS `ex_getfnt` 호출 뒤 16×16 글리프 변환·업로드 경로.
+- **사고 맥락:** 한글 표시를 위해 텍스트 파서부터 VRAM 전송까지 별도 렌더러로 바꿔야 한다고 보기 쉬웠다. 그러나 원본 경로는 BIOS가 돌려준 32바이트 1bpp 글리프를 게임 코드가 4bpp로 확장해 VRAM으로 보내고 있었다.
+- **검증 근거:** BIOS 글리프 공급 호출 한 곳을 호환 공급 함수로 바꾸고, 한글용 코드 두 개에 서로 다른 32바이트 글리프를 반환했다. 기존 1bpp→4bpp 변환과 VRAM 전송은 수정하지 않은 채 두 글리프가 서로 다르게 화면에 표시됐다.
+- **확정 결과:** 이 소비 경로에서는 글리프 공급 ABI만 대체해 원본의 후단 변환·업로드를 재사용할 수 있었다.
+- **전이 한계:** BIOS 호출 위치, 코드 범위, 32바이트 배열과 버퍼 주소는 이 타이틀의 사실이다. 다른 호출자가 같은 공급 ABI·비트 배열·버퍼 수명과 후단 변환을 공유하는지 확인하지 않고 이 경계를 이식하지 않는다. 공급 성공만으로 새 자산의 저장·적재·상주 수명까지 증명되지도 않는다.
+- **관련 판단 기준:** `references/strategy/font-strategy.md`, `references/strategy/reinsertion.md`, `references/strategy/runtime-assets.md`, `references/strategy/poc.md`.
