@@ -40,7 +40,7 @@
 | 영역 | 주소 범위 | 크기 | 비고 |
 |------|-----------|------|------|
 | ARM9 ITCM | 0x00000000 (고정) | 32KB | 명령 캐시 대용, 인터럽트 벡터. CP15로 크기만 설정 가능, base 재배치 불가 |
-| ARM9 DTCM | 0x027C0000 (SDK 기본, CP15로 재배치 가능) | 16KB | 스택, 빠른 변수. devkitPro는 0x02FF0000 사용 |
+| ARM9 DTCM | 0x027C0000 (SDK의 흔한 초기값, CP15로 재배치 가능) | 16KB | 스택, 빠른 변수. 툴체인에 따라 0x02FF0000 등 다른 base 사용 |
 | 메인 RAM | 0x02000000-0x023FFFFF | 4MB | ARM9/ARM7 공유 |
 | 공유 WRAM | 0x03000000 | 32KB | ARM9/ARM7 분할 |
 | ARM9 I/O | 0x04000000 | — | 2D 엔진·DMA·타이머 레지스터 |
@@ -51,7 +51,7 @@
 | ARM9 BIOS | 0xFFFF0000 | 32KB (약 3KB 사용) | SWI 함수 |
 | ARM7 BIOS | 0x00000000 | 16KB | ARM7 전용 |
 
-위 TCM·BIOS 행은 ASM을 그 영역에 직접 배치할 때만 관련이다. 텍스트·폰트·그래픽 교체 패치는 메인 RAM 코드 영역과 NitroFS 파일만 다루므로 TCM/BIOS 주소를 검증할 일이 없다. DTCM 기본 base는 툴체인마다 달라(GBATEK 0x027C0000, devkitPro 0x02FF0000) TCM에 코드를 넣을 때만 실측으로 확정한다.
+위 TCM·BIOS 행은 ASM을 그 영역에 직접 배치할 때만 관련이다. 텍스트·폰트·그래픽 교체 패치는 메인 RAM 코드 영역과 NitroFS 파일만 다루므로 TCM/BIOS 주소를 검증할 일이 없다. DTCM base는 툴체인과 CP15 설정에 따라 달라질 수 있으므로 TCM에 코드를 넣을 때 런타임 설정으로 확정한다.
 
 ### ROM 로딩과 오버레이
 
@@ -203,7 +203,7 @@ NARC 헤더 (16B, 매직 "NARC", BOM 0xFFFE, 섹션 3개)
 └─ GMIF (FIMG): 실제 파일 데이터 연결 (4바이트 정렬)
 ```
 
-NARC 내 파일을 수정하면 BTAF의 오프셋을 재계산해야 한다. Python 라이브러리(ndspy 등)로 프로그래밍 처리할 수 있다.
+NARC 내 파일을 수정하면 BTAF의 오프셋을 재계산해야 한다. 파서·직렬화기는 섹션 경계와 4바이트 정렬을 보존하고, 무수정 라운드트립과 수정 후 전 엔트리 범위 검사를 제공해야 한다. 구현 후보는 `references/conventions/tooling.md`의 NDS 부록을 본다.
 
 ### NFTR 폰트 포맷
 
@@ -220,7 +220,7 @@ RTFN 헤더 (16B)
     └─ 타입 2: 이진 탐색 (코드, 인덱스) 쌍
 ```
 
-온디스크에서 이 블록 태그들은 리틀엔디언 역순으로 저장된다(FINF→`FNIF`, CGLP→`PLGC`, CWDH→`HDWC`, CMAP→`PAMC`; 헤더 매직도 `NFTR`→`RTFN`). 바이너리에서 grep할 때는 역순 태그로 찾는다.
+온디스크에서 이 블록 태그들은 리틀엔디언 역순으로 저장된다(FINF→`FNIF`, CGLP→`PLGC`, CWDH→`HDWC`, CMAP→`PAMC`; 헤더 매직도 `NFTR`→`RTFN`). 바이너리 검색에는 역순 태그를 쓴다.
 
 한글 폰트 추가 전략:
 1. **CMAP에 한글 범위 추가**: 타입 0으로 U+AC00~U+D7A3(완성형 11,172자) 또는 사용 음절 서브셋을 매핑한다. CMAP은 여러 블록을 순서대로 훑는 first-match 체인이므로, 넓은 catch-all 범위(예: U+0000~U+FFFF 타입 2)가 이미 존재하면 단순 append한 한글 블록은 catch-all에 먼저 걸려 무효가 된다. 그때는 한글 블록을 그 앞에 두어(prepend) 먼저 매칭되게 한다.
@@ -339,7 +339,7 @@ BL  print_message       ; 출력 함수 호출
 
 ## 7. 빌드
 
-### ROM 구조와 도구
+### ROM 구조
 
 NDS ROM(.nds)은 다음 구조다:
 
@@ -369,11 +369,11 @@ NDS ROM(.nds)은 다음 구조다:
 
 NDS ROM의 파일시스템 구조 덕분에 재조립 시 FAT·FNT·헤더가 자동 재계산되므로, 파일 크기 변경에 따른 수동 오프셋 조정이 불필요하다. 이것이 NDS 패치의 큰 이점이다.
 
-NDS 리소스 포맷(NARC·BMG·NFTR 등)의 프로그래밍 조작에는 Python 라이브러리(ndspy 등)가 적합하다. ARM 크로스 컴파일러/어셈블러(arm-none-eabi-gcc/as)는 훅 코드 작성에, BLZ 압축 해제 도구는 ARM9 바이너리 패치 전처리에 사용한다. 디스어셈블리·디컴파일은 ARM 바이너리 분석 도구(Ghidra 등)로 수행한다. 구체적 도구 선택은 대상 게임의 리소스 구조와 실행 환경에 맞춰 그 시점에 결정한다.
+빌드 환경은 NARC·BMG·NFTR 등 대상 리소스의 가역 파싱·직렬화, ARM/Thumb 코드의 어셈블·링크와 명령 경계 검증, BLZ 해제·재압축 또는 압축 메타데이터 갱신, ARM 바이너리의 디스어셈블·교차 참조를 제공해야 한다. 구현 후보는 `references/conventions/tooling.md` §7.4, 채택·고정 규약은 같은 문서 §1을 본다.
 
 ### ARM9 secure area
 
-ARM9 바이너리의 첫 2KB(ROM 오프셋 0x4000~0x47FF)는 **secure area**로 암호화되어 있다. arm9.bin을 패치하려면 먼저 복호화해야 한다. 표준 ROM 분해 도구는 추출 시 자동 복호화하고 재조립 시 자동 재암호화한다. 수동으로 ROM을 직접 편집하는 경우 secure area 처리를 별도로 해야 한다.
+ARM9 바이너리의 첫 2KB(ROM 오프셋 0x4000~0x47FF)는 **secure area**로 암호화되어 있다. arm9.bin을 패치하려면 먼저 복호화해야 한다. 사용하는 분해·재조립 경로가 추출 시 복호화하고 재조립 시 다시 암호화하는지 확인하며, 그렇지 않으면 이 처리를 빌드 단계에 명시적으로 넣는다.
 
 ### 배너 한글 타이틀
 
@@ -390,9 +390,9 @@ NDS 배너(아이콘+타이틀)는 버전에 따라 지원 언어가 다르다.
 
 ### 배포
 
-- xdelta3가 NDS 씬의 주류 패치 포맷이다. BPS도 사용 가능하다.
+- 배포 차분 포맷은 VCDIFF 계열이나 BPS를 사용할 수 있다. 선택 근거와 원본 검증 계약은 `references/strategy/build-and-verify.md` §2를 따른다.
 - 원본(NDS ROM) 비커밋과 차분 패치 배포(패치 파일·빌드 스크립트·번역 데이터) 규약은 `references/conventions/project-conventions.md` §6과 SKILL.md 불변식을 따른다.
-- 대상 ROM의 식별은 No-Intro DAT의 CRC32/SHA-1로 한다. 헤더에 게임 코드(4자, 예: `ADAJ`)와 리비전이 있으므로 함께 기록한다.
+- 대상 ROM은 검증된 보존 덤프의 CRC32/SHA-1과 대조하고, 헤더의 게임 코드(4자, 예: `ADAJ`)와 리비전도 함께 기록한다.
 
 ### 압축 대응
 
@@ -414,7 +414,7 @@ ARM9 바이너리나 오버레이가 BLZ 압축되어 있으면 패치 전에 �
 
 ### 에뮬레이터 선택
 
-제품명이나 평판이 아니라 대상 빌드에서 확인한 **능력 요건**으로 고른다. 분석 환경에는 ARM/Thumb 브레이크포인트·스텝·트레이스, ARM9/ARM7 주소 공간과 오버레이 적재 관찰, VRAM 뱅크·DMA·2D 엔진 상태 확인이 필요하다. 반복 검증에는 메모리 감시·입력 재생·스크린샷 수집을 자동화할 인터페이스가 필요하다. 독립 구현이 이번 위험을 다른 경로로 재현할 수 있으면 교차 확인에 사용하고, 특정 하드웨어·로더 지원을 주장하면 그 대상에서 최종 후보를 확인한다. 채택한 도구·버전이 어떤 요건을 충족했는지는 프로젝트 문서에 기록한다. 검증 환경 선택은 `references/strategy/build-and-verify.md` §4를 따른다.
+대상 빌드에서 확인한 **능력 요건**으로 고른다. 분석 환경에는 ARM/Thumb 브레이크포인트·스텝·트레이스, ARM9/ARM7 주소 공간과 오버레이 적재 관찰, VRAM 뱅크·DMA·2D 엔진 상태 확인이 필요하다. 반복 검증에는 메모리 감시·입력 재생·스크린샷 수집을 자동화할 인터페이스가 필요하다. 독립 구현이 이번 위험을 다른 경로로 재현할 수 있으면 교차 확인에 사용하고, 특정 하드웨어·로더 지원을 주장하면 그 대상에서 최종 후보를 확인한다. 채택한 도구·버전이 어떤 요건을 충족했는지는 프로젝트 문서에 기록한다. 검증 환경 선택은 `references/strategy/build-and-verify.md` §4, 구현 후보는 `references/conventions/tooling.md`의 NDS 부록을 따른다.
 
 ### 에뮬레이터 디버깅 기능
 
@@ -426,7 +426,7 @@ NDS 에뮬레이터가 제공하는 디버깅 기능 중 한글 패치에 특히
 - **메모리 뷰어**: ARM9/ARM7 주소 공간, VRAM 각 뱅크를 직접 열람한다.
 - **디스어셈블러**: ARM/Thumb 모드 자동 인식. 실행 중 스텝 실행 가능.
 - **타일/맵/OAM 뷰어**: 폰트 타일이 올바르게 로드되었는지 시각 확인.
-- **스크립팅(Lua 등)**: 메모리 읽기/쓰기, 프레임 콜백, 스크린샷 자동화.
+- **프로그래밍 가능한 제어**: 메모리 읽기/쓰기, 프레임 콜백, 스크린샷 자동화.
 
 ### 자동 검증
 
@@ -484,30 +484,6 @@ NitroFS와 공통 리소스 포맷은 파일·컨테이너 처리를 줄일 수 
 | GBATEK — DS Video | GBATEK 내 "DS Video" 섹션 | 2D 엔진, BG 모드, 타일/비트맵, VRAM 뱅크 설정 |
 | GBATEK — DS Compression | GBATEK 내 "DS Compression" 섹션 | LZ77/LZ11/Huffman/RLE 포맷, BIOS SWI 함수 |
 
-### 도구
+### 구현 도구 안내
 
-CLI/라이브러리(에이전트 자동화 가능):
-
-| 도구 | URL | 용도 |
-|------|-----|------|
-| ndstool | https://github.com/devkitPro/ndstool | ROM 분해/재조립 (CLI) |
-| ndspy | https://github.com/RoadrunnerWMC/ndspy | NDS 리소스 조작 (Python) |
-| devkitPro (devkitARM) | https://devkitpro.org/ | ARM 크로스 컴파일러/어셈블러, blz |
-| xdelta3 | https://github.com/jmacd/xdelta | 패치 생성/적용 (CLI) |
-| Flips (IPS/BPS) | https://github.com/Alcaro/Flips | 패치 생성/적용 (CLI) |
-
-에뮬레이터 프로젝트 링크(채택 근거가 아니라 후보 탐색용):
-
-| 도구 | URL | 특성 |
-|------|-----|------|
-| melonDS | https://melonds.kuribo64.net/ | 공식 프로젝트 페이지. 필요한 실행·검증 기능은 채택할 버전에서 확인 |
-| DeSmuME | https://desmume.org/ | 공식 프로젝트 페이지. 필요한 디버깅·자동화 기능은 채택할 버전에서 확인 |
-| no$gba | https://problemkaputt.de/gba.htm | 공식 프로젝트 페이지. 필요한 CPU·I/O 관찰 기능은 채택할 버전에서 확인 |
-
-GUI 참고 도구(수동 분석·시각화 용도):
-
-| 도구 | URL | 용도 |
-|------|-----|------|
-| Tinke | https://github.com/pleonex/tinke | NDS 리소스 뷰어/에디터 |
-| Kuriimu2 | https://github.com/FanTranslatorsInternational/Kuriimu2 | 닌텐도 포맷 편집 |
-| Ghidra | https://ghidra-sre.org/ | ARM 디스어셈블리/디컴파일 |
+ROM 분해·재조립, 리소스 조작, ARM 빌드·분석, 차분 패치, 실행 검증의 후보는 `references/conventions/tooling.md` §7.4가 소유한다. 이 문서의 포맷 구조와 능력 요건을 만족하는지는 §1의 채택 계약에 따라 선택한 버전에서 다시 확인한다.

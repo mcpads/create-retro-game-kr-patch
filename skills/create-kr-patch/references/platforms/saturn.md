@@ -18,7 +18,7 @@ SH-2 분석 시 핵심 특성:
 - 즉시값 로드가 8비트로 제한되어 32비트 상수는 `MOV.L @(disp,PC), Rn`으로 코드 근처의 리터럴 풀에서 읽는다. 주소/상수를 패치할 때 리터럴 풀 위치를 반드시 확인한다. 참조 주소 계산: `(PC & 0xFFFFFFFC) + 4 + disp * 4`.
 - `BRA`·`BSR`·`JMP`·`JSR`·`RTS`·`RTE`·`BT/S`·`BF/S`는 delay slot을 가진다(단순 `BT`/`BF`는 갖지 않는다. 레지스터 상대 `BRAF`/`BSRF`도 갖는다). 분기 직후 1개 명령어가 분기 전에 실행되므로 함수 호출 무효화 시 delay slot까지 함께 NOP(`0x0009`) 처리한다. delay slot에는 다른 분기·PC 상대 리터럴 풀 로드(`MOV.L @(disp,PC)`, `MOVA`)·`TRAPA`를 둘 수 없다(illegal slot 예외). delay slot을 재배치할 때 리터럴 풀 로드를 그 자리로 옮기지 않는다.
 - 조건 분기 반전: `BT(0x89xx) ↔ BF(0x8Bxx)`, `BT/S(0x8Dxx) ↔ BF/S(0x8Fxx)`.
-- Ghidra/IDA 설정: 프로세서 SH-2, Big-endian, 베이스 주소는 IP.BIN의 1st Read Address나 실제 로더가 지정한 주소에서 가져온다.
+- 바이너리 분석기는 SH-2, Big-endian으로 설정하고, 베이스 주소는 IP.BIN의 1st Read Address나 실제 로더가 지정한 주소에서 가져온다. 구현 후보와 설정 예시는 `references/conventions/tooling.md`의 새턴 부록을 본다.
 
 부팅 흐름: BIOS가 디스크 선두 16섹터의 IP.BIN을 `0x06002000`에 로드해 실행하고, IP.BIN이 헤더에 기록된 1st Read Address/Size에 따라 메인 실행 파일(1ST_READ.BIN 등)을 Work RAM High에 로드한다. 게임 코드 디스어셈블은 이 로드 주소를 기준으로 시작한다.
 
@@ -334,6 +334,8 @@ CUE의 `INDEX MM:SS:FF`는 `(MM*60+SS)*75+FF` 섹터다. 디스크 레이아웃:
 - 빌드 파이프라인 예시: 번역 JSON 로드 → 사용 한글 수집·글리프 테이블 생성 → 폰트 파일 패치(압축 해제 → 글리프 교체 → 재압축) → 각 스크립트 패치(추출 → splice → 포인터 수정 → 재압축) → 디스크 기록(재배치 포함) → ISO 디렉토리 갱신 → EDC/ECC 재계산 → BPS 생성.
 
 ## 9. 검증 — 새턴 디버깅
+
+검증 환경은 SH-2 실행 추적과 VDP1/VDP2 상태·VRAM readback을 제공해야 한다. 환경 채택·교정 규약은 `references/conventions/tooling.md` §1을 따른다.
 
 - **레이어 토글**: 대화 텍스트의 렌더링 하드웨어(VDP1 스프라이트 vs VDP2 NBG 레이어)를 확정하는 가장 빠른 방법. 레이어를 하나씩 꺼서 텍스트가 사라지는 레이어를 찾는다. VDP2 PND character number 한계가 적용되는지 여부가 여기서 갈리므로 패치 설계 전에 반드시 확인한다.
 - **비디오 상태 관측**: 가능하면 VDP2 plane base, cell size, PND character number 유효 비트 수, VDP1 command table, sprite texture address를 런타임에서 읽어 §3의 예산 입력으로 쓴다. 화면 좌표 하나를 타일/스프라이트 소스 주소로 역해결한 뒤, 해당 주소의 raw 값을 직접 읽어 계산 결과와 대조한다.

@@ -45,16 +45,7 @@ ROM 내부 구조:
 
 표준 카트리지 매핑에서는 4MB($000000-$3FFFFF)까지 68000이 평탄하게 접근할 수 있다. 원본이 4MB보다 작고 실기/에뮬레이터 호환성을 넓게 유지하고 싶다면, 4MB 이하로 확장해 빈 상위 영역을 한글 폰트·텍스트·훅 코드에 쓰는 안을 우선 검토한다. 확장 시 헤더의 ROM 끝 주소($1A4)를 갱신한다. 4MB를 넘기면 SSF 계열 매퍼 같은 뱅크 전환이 필요하므로, 공간 이득과 호환성 비용을 별도로 판단한다.
 
-체크섬은 $000200부터 ROM 끝까지를 Word 단위로 합산(mod $10000)한 값이며 $18E에 저장된다. ROM을 수정하면 빌드 단계에서 재계산해 써넣는다. 검증하지 않는 에뮬레이터도 있으나 일부 환경에서 부팅이 거부될 수 있다.
-
-```python
-def fix_checksum(rom):
-    cs = 0
-    for i in range(0x200, len(rom), 2):
-        cs = (cs + ((rom[i] << 8) | rom[i + 1])) & 0xFFFF
-    rom[0x18E] = cs >> 8
-    rom[0x18F] = cs & 0xFF
-```
+체크섬은 $000200부터 ROM 끝까지의 빅엔디언 Word를 합산한 값의 하위 16비트이며 $18E에 빅엔디언으로 저장된다. ROM을 수정하면 빌드 단계에서 재계산해 써넣는다. 검증하지 않는 실행 환경도 있으나 일부 환경에서 부팅이 거부될 수 있다.
 
 ## 3. 비디오 시스템
 
@@ -81,21 +72,9 @@ VDP는 스크롤 가능한 Plane A / Plane B, 스크롤되지 않는 Window Plan
 - 타일 인덱스 N의 VRAM 주소 = N × 32
 - VRAM 64KB에 이론상 최대 2048타일. 실제로는 네임테이블·스프라이트 테이블이 공간을 나눠 쓰므로 폰트에 할당 가능한 타일 수는 훨씬 적다
 
-```python
-def to_md_tile(pixels_8x8):
-    """8x8 픽셀 배열(값 0~15) → 메가드라이브 4bpp 타일 32바이트"""
-    tile = bytearray(32)
-    for row in range(8):
-        for col in range(8):
-            off = row * 4 + col // 2
-            if col % 2 == 0:
-                tile[off] |= (pixels_8x8[row][col] & 0xF) << 4
-            else:
-                tile[off] |= pixels_8x8[row][col] & 0xF
-    return tile
-```
+8×8 픽셀을 타일로 직렬화할 때 행마다 네 바이트를 쓰고, 짝수 x의 4비트 인덱스는 해당 바이트의 상위 니블에, 홀수 x는 하위 니블에 둔다. 출력 바이트 위치는 `row × 4 + floor(col / 2)`다.
 
-ROM 내 폰트가 비압축이면 이 포맷 그대로 연속 저장되어 있고, Kosinski·Nemesis 등 세가 계열 압축이나 게임 고유 압축이 걸려 있을 수도 있다. 타일 뷰어(YY-CHR의 4bpp Sega MD 포맷 등)로 ROM을 훑어 폰트 위치를 시각적으로 찾을 수 있다.
+ROM 내 폰트가 비압축이면 이 포맷 그대로 연속 저장되어 있고, Kosinski·Nemesis 등 세가 계열 압축이나 게임 고유 압축이 걸려 있을 수도 있다. 4bpp 메가드라이브 타일을 시각화할 수 있는 뷰어로 ROM을 훑으면 폰트 위치를 찾는 데 유효하다. 구현 후보는 `references/conventions/tooling.md`의 메가드라이브 부록을 본다.
 
 ### 3.3 DMA와 타일 동적 로딩
 
@@ -142,7 +121,7 @@ DMA 요점:
 
 원본 루틴을 통째로 재작성하기보다, **문자 코드가 타일 인덱스로 확정되는 지점에 `JMP`/`JSR` 훅을 심어 확장 영역의 새 코드로 우회**시키는 방식을 먼저 검토한다.
 
-1. 디스어셈블러(Ghidra 68000 모듈 등)로 텍스트 파서를 찾는다. VDP Data Port($C00000) 기록, 문자열 순차 읽기 `(A0)+`, 종료 마커 비교가 단서다
+1. 68000 디스어셈블러로 텍스트 파서를 찾는다. VDP Data Port($C00000) 기록, 문자열 순차 읽기 `(A0)+`, 종료 마커 비교가 단서다. 구현 후보는 `references/conventions/tooling.md`의 메가드라이브 부록을 본다
 2. absolute long `JMP`는 opcode와 32비트 타겟을 합쳐 6바이트이므로, 문자→타일 변환 직전에서 그 길이를 수용할 수 있는 완전한 명령 경계를 확보해 확장 영역으로 우회한다. 설치 주소와 덮어쓸 원본 바이트는 대상 ROM 해시별 프로젝트 기록으로 관리한다
 3. 확장 영역의 훅 코드에서: 한글 코드면 KR 폰트 처리(DMA 로딩 + 네임테이블 기록) 후 원본 루프로 복귀, 아니면 덮어쓴 원본 명령을 재현하고 원래 경로로 복귀
 4. 훅 코드는 짝수 주소에 배치하고, 사용한 레지스터는 `MOVEM`으로 보존한다
@@ -188,21 +167,7 @@ DMA 요점:
 - 2단 구조도 흔하다: 32비트 절대 포인터가 텍스트 블록을 가리키고, 블록 머리에 16비트 상대 오프셋(블록 시작 기준) 테이블이 따라오는 형태. 이 경우 상대 테이블도 함께 재계산해야 한다
 - 뱅크 포인터는 표준 매핑에서는 등장하지 않는다(매퍼 사용 게임 제외)
 
-재배치 시 파이프라인: 새 텍스트를 확장 영역에 순차 기록하면서 각 엔트리의 시작 오프셋을 32비트 빅엔디언으로 포인터 테이블에 다시 써넣는다.
-
-```python
-import struct
-
-def rebuild_pointers(rom, table_off, texts, text_off, term=b'\x00'):
-    cur = text_off
-    for i, data in enumerate(texts):
-        struct.pack_into('>I', rom, table_off + i * 4, cur)  # 32-bit BE
-        rom[cur:cur + len(data)] = data
-        cur += len(data)
-        rom[cur:cur + len(term)] = term
-        cur += len(term)
-    return cur
-```
+재배치 시 새 텍스트를 확장 영역에 순차 기록하고, 각 엔트리의 시작 오프셋을 32비트 빅엔디언으로 포인터 테이블에 다시 쓴다. 각 엔트리 뒤에는 엔진에서 확인한 종료 시퀀스를 기록한 뒤 그 길이만큼 다음 배치 위치를 전진시킨다.
 
 주의: 포인터 테이블을 거치지 않고 코드에 직접 박힌 주소(`LEA addr.L, A0`, `JMP addr.L` 등)도 있다. 텍스트를 옮긴 뒤 옛 주소를 참조하는 코드가 남아 있지 않은지 ROM 전체에서 해당 주소 바이트열을 검색해 확인한다.
 
@@ -210,11 +175,7 @@ def rebuild_pointers(rom, table_off, texts, text_off, term=b'\x00'):
 
 배포는 **BPS 포맷**으로 한다(4MB 확장처럼 파일 크기가 변하는 패치에도 안전하다). 포맷·배포 시행 규약은 `references/conventions/project-conventions.md` §6, BPS-over-IPS 선택 근거(3중 CRC32 검증 대 IPS의 무검증·16MB 한계)의 정본은 `references/strategy/build-and-verify.md` §2를 본다.
 
-```bash
-# Floating IPS(flips)로 BPS 생성/적용
-flips --create --bps original.md patched.md output.bps
-flips --apply output.bps original.md result.md
-```
+패치 생성·적용 후보는 `references/conventions/tooling.md` §7.3, 채택·고정 규약은 같은 문서 §1을 본다. 어느 구현을 쓰든 원본·결과 체크섬을 검증하고 적용 결과가 빌드 산출물과 바이트 단위로 일치해야 한다.
 
 빌드는 스크립트로 전 과정을 자동화한다. 표준 파이프라인:
 
@@ -230,7 +191,7 @@ flips --apply output.bps original.md result.md
 
 ## 8. 검증
 
-에뮬레이터는 제품명이나 현재 정확도 순위가 아니라 검증에 필요한 관측 표면으로 고른다. 68K 디스어셈블·스텝 실행, 브레이크포인트·메모리 감시, 원격 제어 또는 스크립팅, VRAM·네임테이블·타일 조회, VDP 포트 쓰기 추적 중 이번 위험을 판별하는 기능을 갖춰야 한다. 자동화 표면의 주소 단위와 이벤트 시점은 작은 프로브로 수동 디버거와 먼저 대조한다.
+실행 환경은 검증에 필요한 관측 표면으로 고른다. 68K 디스어셈블·스텝 실행, 브레이크포인트·메모리 감시, 프로그래밍 가능한 제어, VRAM·네임테이블·타일 조회, VDP 포트 쓰기 추적 중 이번 위험을 판별하는 기능을 갖춰야 한다. 자동화 표면의 주소 단위와 이벤트 시점은 작은 프로브로 수동 관측과 먼저 대조한다. 환경 채택·교정 규약은 `references/conventions/tooling.md` §1을 따른다.
 
 검증 절차:
 
