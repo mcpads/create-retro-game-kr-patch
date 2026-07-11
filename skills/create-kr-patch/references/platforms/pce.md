@@ -28,7 +28,7 @@ cooked user-data offset과 raw sector file offset을 섞지 않는다. raw 출�
 
 ## 5. 텍스트와 새 런타임 경로
 
-인코딩·token·pointer 경계는 실제 소비자에서 확정한다. 음성·컷신에 자막을 새로 추가하면 번역 데이터뿐 아니라 timing, skip input, audio state와 화면 layer가 새 런타임 요건이 된다.
+인코딩·token·pointer 경계는 실제 소비자에서 확정한다. 음성·컷신에 자막을 새로 추가하면 해당되는 CD-DA·ADPCM 상태와 VDC의 BAT·sprite layer, scene·overlay 전환에서 자막 데이터의 수명과 소비자를 연결한다. 일반적인 표시·진행·입력·동기 완료 기준은 `references/strategy/build-and-verify.md` §5가 소유한다.
 
 BIOS font 경로의 한글 가시성은 그 경로만 증명하며 새 code space, 전체 글리프 공급이나 다른 renderer를 증명하지 않는다. 조건부 PoC는 `references/strategy/poc.md`가 소유한다.
 
@@ -40,5 +40,5 @@ BIOS font 경로의 한글 가시성은 그 경로만 증명하며 새 code spac
 - bank·interrupt 전후의 mapping 복귀
 - 저장 글리프→변환→VRAM→BAT·sprite 소비
 - CD track·sector·게임 read table과 overlay reload
-- 자막·음성 변경의 timing·skip·scene transition
+- 자막 경로가 닿는 CD-DA·ADPCM 상태, VDC layer와 scene·overlay 전환
 - 배포에서 주장하는 System Card·optical loader·hardware 경로
