@@ -40,7 +40,7 @@
 - 일반 대사는 splice + 포인터 자동 보정, 기술명 테이블·메뉴 엔트리처럼 짧은 고정폭 항목은 엔트리별 고정길이 플래그로 처리한 하이브리드 사례가 있다.
 - 텍스트 뱅크 인플레이스 수용과 확장 뱅크 재배치를 혼합해, "들어가면 제자리, 넘치면 재배치"를 엔트리별로 빌드 파이프라인이 자동 판정하게 할 수 있다.
 
-정책은 빌드 도구의 엔트리 속성(JSON 플래그 등)으로 표현해, 같은 파이프라인이 엔트리마다 다른 정책을 적용할 수 있게 만든다.
+정책은 안정적인 엔트리 키에 연결된 빌드 데이터로 표현해, 같은 파이프라인이 엔트리마다 다른 정책을 적용할 수 있게 만든다. 기본 필드와 허용 값은 `references/conventions/data-formats.md` §5가 소유한다.
 
 재배치 정책을 본격 채택하기 전에는 `references/strategy/poc.md`의 재배치·길이 게이트 통과 기준을 대표 텍스트 1단위로 확인한다. 표본에서 고정 슬롯 초과가 드물고, 포인터 규약이 단순하며, 빌드 게이트가 초과 항목을 확실히 잡으면 별도 PoC 없이 전수 검사로 넘어갈 수 있다. 반대로 표본에서 over-read, 다음 엔트리 침범, 내부 점프, tail code, 파일 크기 증가가 보이면 전량 번역 전에 재배치 가능성을 먼저 증명한다.
 
@@ -66,15 +66,8 @@ for p in patches:
     cum += len(p.new_bytes) - p.orig_len
     shifts.append((p.offset + p.orig_len, cum))   # 원본 좌표 기준 경계
 
-# 3. 포인터 카탈로그는 splice 전 원본 좌표와 원본 값을 보존
-pointer_catalog = [
-    {
-        "ptr_loc": ptr_loc,                  # 포인터 바이트의 원본 파일 오프셋
-        "raw_value": read_ptr(buf, ptr_loc), # 원본 포인터 값
-        "storage_moves": True,              # splice 뒤쪽 테이블이면 True
-    }
-    for ptr_loc in pointer_locations
-]
+# 3. 포인터 카탈로그는 splice 전 원본 좌표와 원본 값을 스냅샷한다
+pointer_catalog = snapshot_original_pointers(buf, pointer_locations)
 
 # 4. splice는 오프셋 "역순"으로 적용
 #    뒤에서부터 치환하면 앞쪽 패치의 원본 오프셋이 끝까지 유효하다
@@ -90,10 +83,10 @@ def lookup_shift(target):       # target은 원본 좌표
     return delta
 
 for ptr in pointer_catalog:
-    target = ptr["raw_value"] - ram_base          # RAM 주소형이면 베이스 차감
+    target = decode_original_target(ptr)            # 원본 raw 값과 기준 주소로 복원
     new_target = target + lookup_shift(target)
-    write_loc = ptr["ptr_loc"] + lookup_shift(ptr["ptr_loc"]) if ptr["storage_moves"] else ptr["ptr_loc"]
-    write_ptr(buf, write_loc, new_target + ram_base)
+    write_loc = relocated_storage_location(ptr, lookup_shift)
+    write_relocated_pointer(buf, write_loc, ptr, new_target)
 ```
 
 요점:
@@ -165,7 +158,7 @@ for ptr in pointer_catalog:
 2. **제어코드 경계 매핑**: 중간 지점이 제어코드 직후라면, 같은 순번의 제어코드 직후로 매핑한다. 이때 글리프 조합용 프리픽스 바이트는 구조 분리자가 아니므로 카운트에서 제외한다.
 3. **Fallback**: 매핑 불가능하면 그 체인만 원문을 원위치에 보존한다.
 
-포인터 카탈로그(어떤 위치의 포인터가 어떤 형식으로 어디를 가리키는지의 전수 목록)를 데이터로 관리하고, 카탈로그에 있는데 번역 엔트리가 없는 포인터를 빌드 시 검출하는 구조가 안전하다. 최소 필드는 포인터 저장 위치, 폭·엔디언, 기준 베이스(RAM/파일/뱅크), 원본 raw 값, 원본 타겟 파일 오프셋, 포인터 저장 위치의 이동 여부, 기대 타겟 패턴이다.
+포인터 카탈로그(어떤 위치의 포인터가 어떤 형식으로 어디를 가리키는지의 전수 목록)를 데이터로 관리하고, 카탈로그에 있는데 번역 엔트리가 없는 포인터를 빌드 시 검출하는 구조가 안전하다. 카탈로그는 각 포인터를 원본에서 다시 읽고, 해석하고, 보정하고, 새 위치에 쓰고, 타겟을 검증하는 데 필요한 정보를 보존해야 한다. 기본 직렬화 레이아웃은 `references/conventions/data-formats.md` §4가 소유한다.
 
 ## 4. ASM 훅 설계
 
@@ -265,7 +258,7 @@ ROM 파일 끝에 영역을 덧붙이고 헤더의 크기 필드를 갱신한다
 3. 종료자 뒤 바이트를 전혀 읽지 않는 고정 레코드라면, 종료자 뒤 남은 영역을 패딩으로 쓸 수 있다. 단 포인터·주소 등 비텍스트 데이터가 이어지면 덮어쓰지 않는다.
 4. 종료자가 없는 엔진에서는 짧아진 번역문 뒤의 남은 원본 바이트가 여전히 소비될 수 있다. 패딩은 엔진이 글자로 보지 않는 값이어야 하고, 길이 필드·고정 폭·페이지 구분자 중 실제 경계 신호를 보존하거나 갱신해야 한다. 안전한 padding 위치가 없으면 그 엔트리는 길이 보존이나 명시 구분자 삽입 정책으로 분리한다.
 
-판정 결과는 엔트리 스키마나 빌드 설정에 `pad_byte`, `pad_position`, `terminator_policy` 같은 데이터로 고정해, 문자열마다 임의 판단하지 않게 한다.
+판정 결과는 엔트리별 빌드 정책 데이터로 고정해, 문자열마다 임의 판단하지 않게 한다. 패딩 바이트·삽입 위치·종료자 처리의 기본 필드는 `references/conventions/data-formats.md` §5를 따른다.
 
 ### 6.4 상태 변수 경합
 

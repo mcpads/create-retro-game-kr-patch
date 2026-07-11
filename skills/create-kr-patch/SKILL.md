@@ -90,6 +90,8 @@ digraph kr_patch {
 |------|------|------|
 | 프로젝트 구현 (횡단) | `references/conventions/project-conventions.md` | 저장소 레이아웃, 도구 언어, CLI 설계, 의존성, 테스트, 원본 자산 취급 |
 | 번역 자산 | `references/conventions/translation-artifacts.md` | 기본 데이터 스키마, 제어코드 토큰, 검토 상태와 빌드 입력 표현 |
+| 프로젝트 기록 | `references/conventions/project-records.md` | 조사·PoC·그래픽 카탈로그·HITL·QA 기록의 기본 배치와 필드·상태 표현 |
+| 분석·빌드 데이터 | `references/conventions/data-formats.md` | 문자 매핑, 제어코드 사양, 포인터 카탈로그, 재삽입 정책과 폰트 프로파일의 기본 형식 |
 
 ### 플랫폼 → platforms 문서
 
