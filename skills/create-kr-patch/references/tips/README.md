@@ -1,8 +1,8 @@
-# 국소 사례 단서 색인
+# 검증된 국소 사례 색인
 
-이 사례들은 특정 타이틀에서 실제로 겪은 실패를 보존한 비규범적 단서다. 현재 게임의 판단 기준과 완료 조건은 `references/strategy/`에서 확인한다.
+이 사례들은 범위가 확인된 실패·반례, 입증된 성공 기법, 운영 함정과 어려운 교차 조사 결과를 보존한다. 모두 비규범적이며, 현재 게임의 판단 기준과 완료 조건은 `references/strategy/`에서 확인한다.
 
-프로젝트 착수 때 전부 읽지 않는다. strategy와 필요한 경우 해당 플랫폼 문서로 현재 판단 영역과 위험 신호를 식별한 뒤, 아래 색인에서 **판단 영역·발동 조건이 맞는 행의 앵커 하나만** 읽는다. 관측 플랫폼과 범위는 증거의 출처와 전이 한계다. 같은 플랫폼이라고 자동 선택하지 않고, 다른 플랫폼이라고 자동 제외하지 않는다. 사례는 조사 후보를 제안할 뿐, 대상 게임의 구조나 원인을 증명하지 않는다.
+프로젝트 착수 때 전부 읽지 않는다. strategy와 필요한 경우 해당 플랫폼 문서로 현재 판단 영역과 위험 신호를 식별한 뒤, 아래 색인에서 **판단 영역·발동 조건이 맞는 행의 앵커 하나만** 읽는다. 관측 플랫폼과 범위는 증거의 출처와 전이 한계다. 같은 플랫폼이라고 자동 선택하지 않고, 다른 플랫폼이라고 자동 제외하지 않는다. 사례는 조사 후보나 개입 가설을 제안할 뿐 대상 게임의 구조·원인·해법을 증명하지 않는다.
 
 | ID | 판단 영역 | 관측 플랫폼 | 발동 조건 | 사례 파일 |
 |---|---|---|---|---|
@@ -10,6 +10,7 @@
 | DC-002 | 폰트·그래픽 | Dreamcast | 공유 폰트 슬롯 때문에 라벨끼리 충돌 | `references/tips/dreamcast.md#dc-002` |
 | DC-003 | 추출·디버깅 | Dreamcast | 사람이 붙인 라벨과 소비 바이트 불일치 | `references/tips/general.md#dc-003` |
 | DC-004 | 재삽입·공간 | Dreamcast | 0 padding을 live code가 아닌 것으로 오인 | `references/tips/general.md#dc-004` |
+| DC-005 | 번역·타이밍 | Dreamcast | 번역문이 짧아지자 다음 음성이 일찍 시작 | `references/tips/dreamcast.md#dc-005` |
 | SNES-001 | 추출 | SNES | 2바이트 접두사 절단으로 종료자 소실 | `references/tips/snes.md#snes-001` |
 | SNES-002 | 추출 | SNES | 고정 워드 폭 소비자에 1바이트 토큰 삽입 | `references/tips/snes.md#snes-002` |
 | SNES-003 | 폰트·렌더 | SNES | 가로 인덱싱 ×2와 2×2 글리프 혼동 | `references/tips/snes.md#snes-003` |
@@ -18,16 +19,37 @@
 | SNES-008 | 디버깅 | SNES | 원인 후보 훅을 빼도 증상 유지 | `references/tips/general.md#snes-008` |
 | SNES-009 | 빌드·회귀 | SNES | 특정 분기에서만 시작 즉시 깨짐 | `references/tips/snes.md#snes-009` |
 | SNES-010 | 추출 | SNES | 제어코드 첫 바이트를 종료자로 오인 | `references/tips/snes.md#snes-010` |
+| SNES-011 | 압축·런타임 | SNES | 안정된 해제 경계와 기존 소비 경로를 재사용할 수 있음 | `references/tips/snes.md#snes-011` |
+| SNES-012 | 그래픽·런타임 | SNES | WRAM 수정이 1회 적재된 OBJ VRAM에 도달하지 않음 | `references/tips/snes.md#snes-012` |
+| SNES-013 | 그래픽 | SNES | 한 라벨이 여러 sprite tile 경계를 가로지름 | `references/tips/snes.md#snes-013` |
+| SNES-014 | 재삽입·공간 | SNES | 같은-bank 참조와 cross-bank 참조가 공간을 경쟁 | `references/tips/snes.md#snes-014` |
+| SNES-015 | 폰트·도구 | SNES | 파싱된 bitmap-embedded TTF가 0×0 글리프를 반환 | `references/tips/general.md#snes-015` |
+| SNES-016 | 압축·초기 조사 | SNES | 런타임 글리프는 알지만 저장 압축 원천을 찾지 못함 | `references/tips/snes.md#snes-016` |
+| SNES-017 | 렌더·클리어 | SNES | 문자열 패딩을 없애자 이전 행의 VRAM 타일이 남음 | `references/tips/snes.md#snes-017` |
+| SNES-018 | 그래픽·공유 상태 | SNES | 정적 번역 타일맵이 게임의 동적 셀을 마지막에 덮음 | `references/tips/snes.md#snes-018` |
 | SATURN-002 | 재삽입·공간 | Saturn | 정적 참조 0건을 미사용 code로 오인 | `references/tips/general.md#saturn-002` |
 | SATURN-003 | 압축 | Saturn | 무변경 원본 재압축도 게임에서 손상 | `references/tips/general.md#saturn-003` |
 | SATURN-004 | 추출·재삽입 | Saturn | opcode 인자를 포인터 prefix로 오인 | `references/tips/saturn.md#saturn-004` |
 | SATURN-005 | 그래픽·런타임 | Saturn | 메뉴 표시보다 앞서 적재된 스프라이트 | `references/tips/general.md#saturn-005` |
 | SATURN-007 | 폰트·번역 | Saturn | 글리프 부족으로 번역 표현을 임시 축약 | `references/tips/general.md#saturn-007` |
+| SATURN-008 | 그래픽·포맷 | Saturn | 한 raw 자산 안에서 폭과 구간 배치가 섞임 | `references/tips/saturn.md#saturn-008` |
+| SATURN-009 | 그래픽·복원 | Saturn | 같은 배경의 여러 라벨에서 원문 없는 배경이 필요함 | `references/tips/saturn.md#saturn-009` |
+| SATURN-010 | 재삽입·정렬 | Saturn | 최종 파일은 정렬됐지만 중간 구조에서 멈춤 | `references/tips/saturn.md#saturn-010` |
+| SATURN-011 | 재삽입·제어 | Saturn | 길이 패딩 뒤 이벤트가 하드락 | `references/tips/saturn.md#saturn-011` |
+| SATURN-012 | 재삽입·포인터 | Saturn | 한 번역 엔트리 안의 하위 문자열을 포인터가 직접 참조 | `references/tips/saturn.md#saturn-012` |
+| SATURN-013 | 재삽입·경계 | Saturn | 같은 고정 슬롯 파일에서 패딩이 일부 문자열 연결을 깨뜨림 | `references/tips/saturn.md#saturn-013` |
+| PS1-001 | 훅·런타임 | PlayStation | RAM 재적재 뒤 캐시 두 줄의 원본·패치 명령이 섞임 | `references/tips/ps1.md#ps1-001` |
 | PCE-001 | 그래픽 | PC Engine | 타일맵이 한 타일셋만큼 밀림 | `references/tips/pce.md#pce-001` |
 | PCE-002 | 매체 재빌드 | PC Engine CD | 사용자 데이터 오프셋으로 raw 이미지를 패치 | `references/tips/pce.md#pce-002` |
+| PCE-003 | 초기 조사·코드 | PC Engine | 핸들러의 즉시값을 sub-bank ID로 해석 | `references/tips/pce.md#pce-003` |
 | PC98-001 | 폰트·인코딩 | PC-98 | 표준 디코더 통계로 미사용 lead 선정 | `references/tips/pc98.md#pc98-001` |
+| PC98-002 | 인코딩·검증 | PC-98 | 생성기와 검증기가 같은 경계식을 공유 | `references/tips/pc98.md#pc98-002` |
+| PC98-003 | 재삽입·포인터 | PC-98 | 개별 NUL 간격으로는 긴 크레딧 문자열을 수용할 수 없음 | `references/tips/pc98.md#pc98-003` |
 | GG-001 | 디버깅·렌더 | Game Gear | 상점 가격과 후속 대사가 함께 어긋남 | `references/tips/gg.md#gg-001` |
 | GG-002 | 런타임 자산 | Game Gear | stale VRAM save state로 font source를 기각 | `references/tips/general.md#gg-002` |
 | GG-003 | 번역 기준선 | Game Gear | decoder 수정 뒤에도 구 원문 기반 번역이 잔존 | `references/tips/general.md#gg-003` |
+| GG-004 | 그래픽·공유 자산 | Game Gear | 서로 다른 라벨이 일부 물리 타일을 공유 | `references/tips/gg.md#gg-004` |
+| GG-005 | 재삽입·공간 | Game Gear | 한 bank의 여러 포인터 테이블이 suffix 공유 후보를 가짐 | `references/tips/gg.md#gg-005` |
+| GG-006 | 번역·제어 | Game Gear | 번역에서 포트레이트 제어가 페이지별로 누락 | `references/tips/gg.md#gg-006` |
 | MD-001 | 재삽입·빌드 | Mega Drive | 번역 뒤 특정 대사에서 진행 정지 | `references/tips/megadrive.md#md-001` |
 | MD-002 | 번역 맥락 | Mega Drive | 초기 KR 번역이 화자 제어 순서를 무시 | `references/tips/general.md#md-002` |

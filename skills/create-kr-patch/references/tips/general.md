@@ -100,3 +100,13 @@
 - **확정 결론:** 정황의 수보다 변수를 하나만 바꾼 제거 실험이 인과 판정에 우선한다.
 - **전이 한계:** 제거가 다른 경로까지 바꾸면 기각 실험으로 사용할 수 없다.
 - **관련 판단 기준:** `references/strategy/debugging.md` §2.
+
+## SNES-015
+
+- **관측 범위:** SNES 나조뿌요 1 한글 폰트 빌드의 `fontdue 0.9.3`과 EBDT/EBLC 비트맵을 포함한 `Galmuri14Bitmap.ttf` 조합.
+- **사고 맥락:** 폰트 파일 파싱은 성공했지만 한글 글리프 래스터가 0×0으로 반환돼, 빌드가 빈 폰트 페이지를 만들 수 있었다.
+- **검증 근거:** 입력 폰트의 bitmap table과 사실상 빈 outline을 확인하고 첫 한글의 raster metrics와 전체 빈 글리프 수를 검사했다. 같은 계열의 outline TTF는 실제 픽셀을 반환했다.
+- **확정 결과:** 빌드 초기에 대표 글리프가 0×0이거나 전체 빈 글리프가 허용치를 넘으면 실패시키고, 이 조합에서는 검증된 outline 입력으로 전환해 빈 자산 생성을 막았다.
+- **전이 한계:** 모든 `fontdue` 버전이나 모든 bitmap font의 동작으로 일반화하지 않는다. 도구 이름은 선택 권고가 아니라 관측 범위다.
+- **재검증 조건:** 라이브러리 버전, font table 구성, 대상 codepoint 또는 raster 경로가 바뀌면 같은 대표 글리프 프로브로 현재 동작을 다시 확인한다.
+- **관련 판단 기준:** `references/strategy/font-strategy.md` §4·§6, `references/conventions/project-conventions.md` §4·§5.3.
