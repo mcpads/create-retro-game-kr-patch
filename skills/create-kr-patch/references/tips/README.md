@@ -53,6 +53,8 @@
 | PS1-004 | 그래픽·포맷 | PlayStation | 같은 파일 크기에 맞는 bpp·폭·높이 후보가 여러 개임 | `references/tips/ps1.md#ps1-004` |
 | PS1-005 | 폰트·런타임 | PlayStation | 기존 글리프 소비 경로 재사용은 성공했지만 첫 자산 적재가 음악을 중단 | `references/tips/ps1.md#ps1-005` |
 | PS1-006 | 재삽입·제어 | PlayStation | 고정 2바이트 소비자에서 0x0000 패딩이 오류 글리프로 표시 | `references/tips/ps1.md#ps1-006` |
+| NDS-001 | 폰트·그래픽·런타임 | Nintendo DS | 이름 입력 후보만 바뀌고 선택 후 재표시는 그대로임 | `references/tips/nds.md#nds-001` |
+| NDS-002 | 폰트·디버깅 | Nintendo DS | 폰트 확장 뒤 내부 파일 크기와 엔트리 경계가 함께 변하며 부팅 실패 | `references/tips/nds.md#nds-002` |
 | PCE-001 | 그래픽 | PC Engine | 타일맵이 한 타일셋만큼 밀림 | `references/tips/pce.md#pce-001` |
 | PCE-002 | 매체 재빌드 | PC Engine CD | 사용자 데이터 오프셋으로 raw 이미지를 패치 | `references/tips/pce.md#pce-002` |
 | PCE-003 | 초기 조사·코드 | PC Engine | 핸들러의 즉시값을 sub-bank ID로 해석 | `references/tips/pce.md#pce-003` |
