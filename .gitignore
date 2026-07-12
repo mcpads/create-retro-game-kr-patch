@@ -49,6 +49,8 @@ build/
 dist/
 tmp/
 *.log
+__pycache__/
+*.py[cod]
 
 # OS / 에디터
 .DS_Store

@@ -1,0 +1,22 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - next
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test documentation validator
+        run: python3 -m unittest scripts/test_validate_docs.py
+      - name: Validate documentation pointers
+        run: python3 scripts/validate_docs.py
