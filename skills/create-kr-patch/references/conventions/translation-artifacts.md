@@ -75,10 +75,11 @@ Agent 번역·리뷰 배치의 입력 요건은 `references/strategy/translation
 }
 ```
 
+이 선택 프로필에도 `references/conventions/project-conventions.md` §3.2의 기계 판독 입출력 요건을 적용한다.
+
 - `table_id`와 `entry_id`는 안정적으로 유지한다. 빈 슬롯도 엔트리 순서와 개수에 포함한다.
 - `raw_hex`와 `text`는 추출기가 채우는 보호 필드다. `ko`, `status`, `notes`는 번역 단계의 수정 가능 필드다.
 - 중복 포인터와 미해독 바이트는 `flags`로 나타내되, 프로젝트가 다른 표현을 쓰면 동일한 의미와 라운드트립을 보존한다.
-- 단계 사이에 교환하는 형식은 같은 스키마 정의를 공유하고, 알 수 없는 필드·상태·토큰을 조용히 무시하지 않는다.
 
 ## 3. 제어코드 토큰
 
