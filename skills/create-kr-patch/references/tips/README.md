@@ -47,7 +47,9 @@
 | SATURN-014 | 그래픽·포맷 | Saturn | 헤더 없는 시트의 파일 중간에서 합성 영역을 분리해야 함 | `references/tips/saturn.md#saturn-014` |
 | SATURN-015 | 폰트·공유 자산 | Saturn | 반복·빈 타일처럼 보이는 폰트 영역을 회수하려면 비텍스트 참조도 바꿔야 함 | `references/tips/saturn.md#saturn-015` |
 | SATURN-016 | 추출·폰트 | Saturn | 메시지 내장 글리프 풀을 전역 첫 등장 순서로 해석 | `references/tips/saturn.md#saturn-016` |
-| SATURN-017 | 폰트·런타임 | Saturn | 상태별 폰트 분할로 활성 글리프 공급을 늘리려 함 | `references/tips/saturn.md#saturn-017` |
+| SATURN-017 | 폰트·런타임 | Saturn | 상태별 폰트 자산이 게임의 원래 적재 경로를 거쳐 실제 화면이 참조하는 위치에 도달하는지 확인 | `references/tips/saturn.md#saturn-017` |
+| SATURN-018 | 압축·런타임 자산 | Saturn | 파일은 성장했지만 고정 해제 크기 때문에 끝부분이 적재되지 않음 | `references/tips/saturn.md#saturn-018` |
+| SATURN-019 | 재삽입·UI | Saturn | 주소처럼 보이는 값을 모두 포인터로 옮긴 뒤 게임 진행이 멈춤 | `references/tips/saturn.md#saturn-019` |
 | PS1-001 | 훅·런타임 | PlayStation | RAM 재적재 뒤 캐시 두 줄의 원본·패치 명령이 섞임 | `references/tips/ps1.md#ps1-001` |
 | PS1-002 | 재삽입·포인터 | PlayStation | 중복 문자열 통합 뒤 내부 포인터가 원문 tail을 가리킴 | `references/tips/ps1.md#ps1-002` |
 | PS1-003 | 그래픽·UI | PlayStation | 소형 라벨이 실제 선택 배경에서 대비를 유지해야 함 | `references/tips/ps1.md#ps1-003` |
