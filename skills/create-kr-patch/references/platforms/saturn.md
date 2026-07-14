@@ -24,7 +24,7 @@ CPU endian은 script VM·container field의 저장 규약을 대신 정하지 �
 
 압축 이름이나 magic은 Saturn hardware 사양이 아니다. 실제 변형은 target loader와 game decompressor로 확정한다. 대상 소비자 호환성과 결함 시 대조군 판정은 `references/strategy/compression.md`를 따른다.
 
-PT0402에서 자기 round-trip과 게임 소비가 갈린 구체 사례는 현재 조건이 맞을 때만 `references/tips/general.md#saturn-003`에서 읽는다.
+원본 데이터를 바꾸지 않고 다시 압축한 결과가 자기 라운드트립은 통과했지만 대상 게임에서 깨진 사례는 현재 조건이 맞을 때만 `references/tips/general.md#saturn-003`에서 읽는다.
 
 ## 5. Disc와 ISO 계층
 

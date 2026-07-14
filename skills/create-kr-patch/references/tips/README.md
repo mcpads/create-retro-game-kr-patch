@@ -26,7 +26,7 @@
 | SNES-012 | 그래픽·런타임 | SNES | WRAM 수정이 1회 적재된 OBJ VRAM에 도달하지 않음 | `references/tips/snes.md#snes-012` |
 | SNES-013 | 그래픽·시각 표현 | SNES | 한 라벨의 글자·배경·표현 층이 여러 타일 경계를 가로지름 | `references/tips/snes.md#snes-013` |
 | SNES-014 | 재삽입·공간 | SNES | 같은 뱅크 전용 참조와 뱅크 간 참조가 같은 공간을 두고 경쟁 | `references/tips/snes.md#snes-014` |
-| SNES-015 | 폰트·도구 | SNES | 파싱된 비트맵 내장 TTF가 0×0 글리프를 반환 | `references/tips/general.md#snes-015` |
+| SNES-015 | 폰트·검증 | SNES | 폰트 파싱은 성공했지만 실제 글리프 출력이 비어 있음 | `references/tips/general.md#snes-015` |
 | SNES-016 | 압축·초기 조사 | SNES | 실행 중 글리프는 알지만 저장된 압축 원본 위치를 찾지 못함 | `references/tips/snes.md#snes-016` |
 | SNES-017 | 표시·지우기 | SNES·NES | 보이는 공간을 썼지만 게임이 지우지 않아 다음 화면에 타일이 남음 | `references/tips/snes.md#snes-017` |
 | SNES-018 | 그래픽·공유 상태 | SNES | 정적 번역 타일맵이 게임의 동적 셀을 마지막에 덮음 | `references/tips/snes.md#snes-018` |
