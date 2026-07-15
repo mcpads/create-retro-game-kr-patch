@@ -60,6 +60,9 @@ codex plugin add create-kr-patch@kr-patch
 
 ```
 plugin metadata           # 플러그인 매니페스트와 셀프호스팅 마켓플레이스 설정
+.mcp.json                 # Claude Code 플러그인이 자동 등록하는 patch-guard MCP 서버 선언
+mcp/
+  patch_guard_mcp.py      # 핵심 불변식을 실행 판정하는 stdio MCP 서버 (Python 표준 라이브러리만)
 skills/
   create-kr-patch/
     SKILL.md             # 라우팅 + 핵심 불변식 (본문은 얇게)
@@ -71,6 +74,34 @@ skills/
 ```
 
 `SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. `references/tips/`는 판단 영역·발동 조건으로 고르고 관측 범위를 전이 한계로 확인하는 비규범적 검증 사례다. 에이전트는 현재 판단 영역과 확인된 플랫폼 제약에 필요한 참조문서만 그때그때 읽는다.
+
+## patch-guard MCP 서버
+
+이 플러그인은 방법론 스킬과 그 핵심 불변식을 실행 판정하는 MCP 도구를 하나로 함께 배포한다. 스킬이 "무엇을 지켜야 하는지"를 라우팅한다면, `patch-guard` MCP 서버는 확정된 값에 대해 그 경계를 기계적으로 강제한다. 서버는 Python 표준 라이브러리만 쓰므로 빌드 단계 없이 `python3 mcp/patch_guard_mcp.py`로 바로 뜬다.
+
+노출 도구: `verify_source`, `verify_exact_roundtrip`, `evaluate_readiness`, `validate_product_graph`, `require_runtime_pass`, `apply_write_plan`. 각 도구는 `{"decision":"accept"|"reject"}`로 답하고, `reject`는 정상 판정 결과이지 전송 오류가 아니다. 판정 로직과 반례의 원천은 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)의 `conformance/` 매니페스트와 Rust 참고 구현이며, 이 서버는 동일한 반례를 같은 결과로 판정한다(요청·응답 바이트 단위 일치 검증됨).
+
+**Claude Code**: 플러그인을 설치하면 루트 `.mcp.json`이 자동 등록되어 세션에서 `patch-guard` 도구를 바로 쓸 수 있다. 별도 설정이 필요 없다.
+
+**Codex**: MCP 서버는 `~/.codex/config.toml`에 등록한다.
+
+```toml
+[mcp_servers.patch-guard]
+command = "python3"
+args = ["<플러그인 경로>/mcp/patch_guard_mcp.py"]
+```
+
+**직접 실행 / 다른 호스트**: newline-delimited JSON-RPC 2.0으로 stdio에 붙는다.
+
+```bash
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{}}}' \
+  '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+  | python3 mcp/patch_guard_mcp.py
+```
+
+로컬 검증: `python3 -m unittest scripts/test_patch_guard_mcp.py` (반례 판정 + 프로토콜).
 
 ## 기여
 

@@ -20,3 +20,13 @@ jobs:
         run: python3 -m unittest scripts/test_validate_docs.py
       - name: Validate documentation pointers
         run: python3 scripts/validate_docs.py
+
+  patch-guard-mcp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Byte-compile the MCP server
+        run: python3 -m py_compile mcp/patch_guard_mcp.py
+      - name: Test patch-guard MCP conformance and protocol
+        run: python3 -m unittest scripts/test_patch_guard_mcp.py

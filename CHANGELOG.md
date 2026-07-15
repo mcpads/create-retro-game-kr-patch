@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [1.1.0]
+
+### Added
+- 핵심 불변식을 실행 판정하는 `patch-guard` MCP 서버(`mcp/patch_guard_mcp.py`)를 플러그인에 포함. Python 표준 라이브러리만 쓰는 stdio JSON-RPC 서버로 `verify_source`·`verify_exact_roundtrip`·`evaluate_readiness`·`validate_product_graph`·`require_runtime_pass`·`apply_write_plan` 도구를 노출한다.
+- Claude Code 플러그인이 자동 등록하는 루트 `.mcp.json` 선언과 Codex `config.toml` 등록 안내를 추가.
+- 반례 판정과 프로토콜을 검사하는 `scripts/test_patch_guard_mcp.py`와 이를 실행하는 CI 작업을 추가. `mcpads/create-kr-patch-template`의 Rust 참고 구현과 요청·응답 바이트 단위 일치를 확인.
+
+### Changed
+- 방법론 스킬과 실행 검증 도구를 하나의 설치 단위로 통합. `SKILL.md`에 핵심 불변식과 MCP 도구를 잇는 실행 가능한 검증 절을 추가하고 플러그인 버전을 1.1.0으로 올림.
+
 ## [1.0.0]
 
 ### Added
