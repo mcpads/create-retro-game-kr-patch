@@ -9,6 +9,10 @@ ROM·디스크 분석, 텍스트 엔진 역공학, 한글 폰트·인코딩 설�
 
 SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS의 조건부 플랫폼 제약을 제공한다. 목록에 없는 플랫폼도 strategy의 판정 기준을 적용하고, 현재 분기를 바꾸는 플랫폼 제약을 새로 확인해 확장할 수 있다.
 
+## 프로젝트 템플릿
+
+새 한글 패치 저장소를 시작할 때는 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)을 사용할 수 있다. 이 스킬이 조사·판정 방법을 제공한다면, 템플릿은 플랫폼과 구현 언어를 고정하지 않은 반복 빌드와 안전한 쓰기 검증의 시작점을 제공한다.
+
 ## 설치 — Claude Code 세션
 
 ```
