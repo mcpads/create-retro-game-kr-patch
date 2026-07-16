@@ -67,7 +67,7 @@
 
 검증 실패를 다른 포인터 후보나 패딩 정책으로 자동 보정하지 않는다. 구조 모델을 수정하거나 지원 범위를 미완료로 남긴다.
 
-한 논리 변경이 여러 페이로드·포인터·훅 설치 위치를 함께 바꾸면 `references/conventions/project-conventions.md` §5.2의 Expected Write로 전체 변경과 원자성을 검증한다.
+한 논리 변경이 여러 페이로드·포인터·훅 설치 위치를 함께 바꾸면 `references/conventions/project-conventions.md` §5.2에 따라 전체 변경 범위를 함께 검증하고, 하나라도 실패하면 아무 변경도 적용하지 않는다.
 
 ## 4. 코드 훅
 

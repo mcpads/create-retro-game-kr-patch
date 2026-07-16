@@ -16,7 +16,7 @@
 
 이번 변경에서 확정한 검증 기준은 빌드 게이트로 둔다. 인코딩, 글리프·공간 예산, 레이아웃, 길이, 포인터, 압축, 컨테이너 가운데 해당 기준이 하나라도 어긋나면 검증 산출물을 만들지 않는다. `references/strategy/runtime-assets.md`가 발동한 변경은 정적 저장·참조·용량과 실행 중 적재·상주·소비를 모두 통과해야 한다.
 
-원본에서 목표 이미지를 만드는 패치 쓰기는 `references/conventions/project-conventions.md` §5.2의 Expected Write 규칙을 통과해야 하며, 통과하지 못하면 산출물을 만들지 않는다.
+원본에서 목표 이미지를 만드는 패치 쓰기는 `references/conventions/project-conventions.md` §5.2의 최종 변경 검증 규칙을 통과해야 하며, 통과하지 못하면 산출물을 만들지 않는다.
 
 ## 2. 배포 형식과 이미지 변경
 
