@@ -30,7 +30,7 @@ codex plugin add create-kr-patch@kr-patch
 ## 릴리스 채널과 `next` 소식
 
 - `main`: 최신 안정 릴리스 채널. 검증을 마치고 정식 버전으로 확정된 변경만 반영한다.
-- `next`: 다음 안정 릴리스를 준비하는 이동형 프리릴리스 채널. alpha·beta·rc를 먼저 사용해 보고 피드백하려는 사용자를 위한 채널이며, 정식 릴리스 전에는 호환성과 문서 구조가 바뀔 수 있다.
+- `next`: 다음 안정 릴리스를 준비하며 계속 갱신되는 프리릴리스 채널. alpha·beta·rc를 먼저 사용해 보고 피드백하려는 사용자를 위한 채널이며, 정식 릴리스 전에는 호환성과 문서 구조가 바뀔 수 있다.
 
 `next`는 최신 개발 상태를 계속 따라가며, 특정 프리릴리스 상태가 필요하면 버전 태그를 사용한다. 두 채널은 같은 플러그인 ID를 사용하므로 동시에 설치하지 않고, 기존 marketplace를 원하는 Git ref로 교체한다.
 
@@ -52,7 +52,7 @@ codex plugin marketplace add mcpads/create-retro-game-kr-patch --ref next
 codex plugin add create-kr-patch@kr-patch
 ```
 
-안정판으로 돌아갈 때는 같은 순서에서 `next`를 `main`으로 바꾼다. Claude Code는 reload 뒤, Codex는 새 스레드에서 선택한 버전을 적용한다.
+안정판으로 돌아갈 때는 같은 순서에서 `next`를 `main`으로 바꾼다. 같은 채널을 업데이트할 때도 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 재설치한다. Claude Code는 reload 뒤, Codex는 새 스레드에서 선택한 버전을 적용한다.
 
 설치 후 한글화·한글 패치 관련 요청을 하면 Agent Skill이 자동으로 발동한다. 트리거 키워드: `한글화`, `한글 패치`, `KR patch`, `ROM 번역` 등.
 
@@ -79,8 +79,6 @@ skills/
 ## 버전
 
 현재 버전과 버전별 변경 내용은 [CHANGELOG](CHANGELOG.md)를 본다.
-
-같은 채널을 업데이트할 때도 해당 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 재설치한다. Claude Code는 reload 뒤, Codex는 새 스레드에서 새 설치본을 적용한다.
 
 ## 라이선스
 

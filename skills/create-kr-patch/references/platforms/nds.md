@@ -2,7 +2,7 @@
 
 NDS의 header·NitroFS·VRAM 기본 사양은 필요할 때 1차 자료에서 확인한다. 실행 image·overlay·파일·VRAM 소비자는 각각의 좌표와 식별 정보로 연결한다.
 
-## 1. 실행 image와 overlay 정체성
+## 1. 실행 image와 overlay 식별
 
 ARM9·ARM7 image는 독립된 load 범위를 가지며 어느 CPU가 텍스트·폰트·파일 적재를 담당하는지는 게임별 사실이다. CPU 역할을 관습으로 정하지 않고 실제 호출·적재 경로로 확인한다.
 

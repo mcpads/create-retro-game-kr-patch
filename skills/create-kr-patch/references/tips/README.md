@@ -51,9 +51,10 @@
 | PS1-001 | 훅·런타임 | PlayStation | RAM 재적재 뒤 캐시 두 줄의 원본·패치 명령이 섞임 | `references/tips/ps1.md#ps1-001` |
 | PS1-002 | 재삽입·포인터 | PlayStation | 중복 문자열 통합 뒤 다른 포인터 슬롯이 번역되거나 내부 진입 화면에 원문 뒷부분이 남음 | `references/tips/ps1.md#ps1-002` |
 | PS1-003 | 그래픽·UI | PlayStation | 실제 선택 배경에서 소형 라벨의 본문·외곽선 구분이 필요 | `references/tips/ps1.md#ps1-003` |
-| PS1-005 | 폰트·런타임 | PlayStation | 기존 글리프 소비 경로 재사용은 성공했지만 첫 자산 적재가 음악을 중단 | `references/tips/ps1.md#ps1-005` |
+| PS1-005 | 폰트·런타임 | PlayStation | 한글은 표시되지만 첫 폰트 CD 적재 때 배경 음악이 중단됨 | `references/tips/ps1.md#ps1-005` |
 | NDS-001 | 폰트·그래픽·런타임 | Nintendo DS | 이름 입력 후보만 바뀌고 선택 후 재표시는 그대로임 | `references/tips/nds.md#nds-001` |
 | NDS-002 | 폰트·디버깅 | Nintendo DS | 폰트 항목을 하나 늘리자 타이틀 전 흰 화면에서 멈춤 | `references/tips/nds.md#nds-002` |
+| NDS-003 | 폰트·포맷 | Nintendo DS | 문서의 NFTR 청크명으로 raw byte를 검색하면 실패하고 기존 CMAP은 새 매핑 범위를 이미 덮음 | `references/tips/nds.md#nds-003` |
 | NES-001 | 선행 패치 분석·런타임 | NES | 선행 패치의 PRG-RAM 사용과 이미지 헤더 선언이 불일치 | `references/tips/general.md#nes-001` |
 | PCE-001 | 그래픽 | PC Engine CD·SNES | 논리 타일 번호를 물리 타일 좌표로 사용해 화면이 밀리거나 배경이 손상 | `references/tips/pce.md#pce-001` |
 | PCE-002 | 매체 재빌드 | PC Engine CD | 사용자 데이터 오프셋으로 원시 섹터 이미지를 패치 | `references/tips/pce.md#pce-002` |
