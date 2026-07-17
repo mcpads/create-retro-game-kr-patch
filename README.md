@@ -70,7 +70,7 @@ skills/
       tips/              # 판단 영역·조건으로 선택하는 검증된 국소 사례
 ```
 
-`SKILL.md`는 라우터·불변식만 담고, 판단 기준은 `references/strategy/`, 시행 규약은 `references/conventions/`, 플랫폼 사실은 `references/platforms/`가 소유한다. `references/tips/`는 판단 영역·발동 조건으로 고르고 관측 범위를 전이 한계로 확인하는 비규범적 검증 사례다. 에이전트는 현재 판단 영역과 확인된 플랫폼 제약에 필요한 참조문서만 그때그때 읽는다.
+`SKILL.md`는 현재 판단을 관련 문서로 연결하고 전체 작업의 불변식을 제시한다. 에이전트는 현재 판단에 맞는 `references/strategy/`와 필요한 시행 규약·플랫폼 제약을 적용하고, 관측 증상과 맞는 `references/tips/` 사례만 전이 한계를 확인해 참고한다.
 
 ## 기여
 
