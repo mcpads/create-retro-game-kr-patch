@@ -2,7 +2,7 @@
   "references/conventions/data-formats.md": {
     "4": "포인터 카탈로그",
     "5": "재삽입 정책 데이터",
-    "6": "폰트 렌더 프로파일"
+    "6": "폰트 렌더 프로필"
   },
   "references/conventions/project-conventions.md": {
     "1": "저장소 역할과 단일 소유권",
@@ -40,14 +40,14 @@
   "references/strategy/build-and-verify.md": {
     "1": "재현 가능한 빌드",
     "2": "배포 형식과 이미지 변경",
-    "3": "무결성 게이트",
+    "3": "무결성 검증",
     "4": "실행 검증",
     "5": "텍스트·표현·상호작용 QA"
   },
   "references/strategy/compression.md": {
     "2": "소비자의 포맷 해석",
-    "3": "해제 게이트",
-    "4": "재압축 게이트",
+    "3": "해제 검증",
+    "4": "재압축 검증",
     "5": "크기·재패킹·우회"
   },
   "references/strategy/debugging.md": {
@@ -60,7 +60,7 @@
   "references/strategy/font-strategy.md": {
     "2": "문자 코드와 글리프 매핑",
     "3": "전체 레퍼토리와 활성 작업 집합",
-    "3.2": "예산 판정 게이트",
+    "3.2": "예산 판정",
     "4": "글리프 원천과 표현 형식",
     "5": "복수 렌더 경로",
     "6": "완료 조건"
@@ -72,13 +72,13 @@
     "4": "완료 판정"
   },
   "references/strategy/initial-survey.md": {
-    "2": "고정 순서 대신 의존 경계를 연다",
+    "2": "고정 순서 대신 의존 경계를 따른다",
     "2.2": "저장 구조와 소비 의미",
     "3": "가설을 사실로 승격하는 기준",
-    "3.1": "고정 리비전과 열린 모집단"
+    "3.1": "고정 리비전과 미확정 모집단"
   },
   "references/strategy/poc.md": {
-    "3": "가시성 게이트"
+    "3": "가시성 검증"
   },
   "references/strategy/reinsertion.md": {
     "1.1": "고정 슬롯",
@@ -111,7 +111,7 @@
   },
   "references/strategy/translation-workflow.md": {
     "2.4": "화자와 문체 맥락",
-    "3": "승인 용어·문체 SSOT",
+    "3": "승인 용어·문체 기준",
     "3.1": "Agent 배치 요건",
     "4": "보호 정보와 소비 제약"
   }

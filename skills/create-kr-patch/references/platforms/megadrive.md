@@ -4,7 +4,7 @@ CPU·VDP의 기본 사양은 필요할 때 1차 자료에서 확인한다. 패�
 
 ## 1. 실행 좌표와 데이터 의미
 
-68000 실행 코드의 endian·정렬은 훅과 직접 읽는 테이블에 적용되지만, archive·VM·byte stream 필드의 저장 순서를 대신 확정하지 않는다. 실제 reader의 load·swap·주소 계산으로 각 필드를 판정한다.
+68000 실행 코드의 endian·정렬은 훅과 직접 읽는 테이블에 적용되지만, archive·VM·byte stream 필드의 저장 순서를 대신 확정하지 않는다. 실제 읽기 코드의 load·swap·주소 계산으로 각 필드를 판정한다.
 
 코드를 이동하면 원본 instruction 경계, PC-relative operand, branch target, live register·condition code의 의미를 새 위치에서 검증한다.
 
@@ -18,7 +18,7 @@ CPU 주소와 파일 offset의 직접 대응은 mapper가 개입하지 않는 �
 
 ROM의 폰트 바이트가 VDP의 최종 tile 표현이라는 보장은 없다. 압축·RAM staging·runtime conversion이 있으면 저장 자산, 변환 결과, VRAM 전송과 name-table·sprite 소비를 연결한다.
 
-VRAM은 글리프 외의 화면 자산도 공유한다. 전체 레퍼토리와 상태별 작업 집합을 분리하고, 선택한 상주 방식의 reload·eviction·last-writer 수명을 `references/strategy/font-strategy.md` §3과 `references/strategy/runtime-assets.md`로 판정한다.
+VRAM은 글리프 외의 화면 자산도 공유한다. 전체 레퍼토리와 상태별 작업 집합을 분리하고, 선택한 상주 방식의 reload·eviction·마지막 쓰기 수명을 `references/strategy/font-strategy.md` §3과 `references/strategy/runtime-assets.md`로 판정한다.
 
 전송은 게임의 DMA·interrupt 관리 상태와 표시 상태에 맞아야 한다. 본문 plane의 성공을 Window·sprite·menu·HUD 경로로 확대하지 않는다.
 

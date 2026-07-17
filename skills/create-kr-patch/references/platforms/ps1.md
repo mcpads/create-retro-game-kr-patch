@@ -16,9 +16,9 @@ BIOS에 글리프 서비스가 존재한다는 사실은 대상 게임이나 모
 
 ## 3. 텍스트·archive·참조
 
-CPU endian은 문자 bytes, archive field나 script VM의 저장 순서를 대신 정하지 않는다. 실제 reader의 load·swap·pointer 증가와 소비자로 판정한다.
+CPU endian은 문자 bytes, archive field나 script VM의 저장 순서를 대신 정하지 않는다. 실제 읽기 코드의 load·swap·pointer 증가와 소비자로 판정한다.
 
-script module은 absolute RAM pointer, module-relative offset, index와 inline code를 섞을 수 있다. 텍스트가 성장할 때는 문자열 참조뿐 아니라 뒤따르는 code·metadata와 내부 위치 의존 값을 확인한다. 같은 확장자나 개발사 선례는 후보일 뿐 무수정 왕복과 대상 reader로 다시 확정한다.
+script module은 absolute RAM pointer, module-relative offset, index와 inline code를 섞을 수 있다. 텍스트가 성장할 때는 문자열 참조뿐 아니라 뒤따르는 code·metadata와 내부 위치 의존 값을 확인한다. 같은 확장자나 개발사 선례는 후보일 뿐 무수정 왕복과 대상 읽기 코드로 다시 확정한다.
 
 ## 4. raw sector와 ISO 좌표
 

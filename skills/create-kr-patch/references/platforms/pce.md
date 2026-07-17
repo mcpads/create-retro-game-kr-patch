@@ -18,7 +18,7 @@ VRAM은 다른 화면 자산과 공유되므로 이론적 총량을 폰트 예�
 
 HuCard 파일 확장만으로 새 physical segment가 실기·loader에 노출되지 않는다. mapper와 배포 대상이 새 범위를 실제로 선택해야 한다.
 
-CD 게임의 runtime 주소를 disk 위치로 연결하려면 track·sector 표현, file/sector start와 read length, destination RAM·MPR, overlay reload identity를 함께 확인한다. BIOS call 이름이나 한 타이틀의 loader sequence를 전체 CD 경로로 일반화하지 않는다.
+CD 게임의 runtime 주소를 disk 위치로 연결하려면 track·sector 표현, file/sector start와 read length, destination RAM·MPR, overlay reload 식별 정보를 함께 확인한다. BIOS call 이름이나 한 타이틀의 loader sequence를 전체 CD 경로로 일반화하지 않는다.
 
 CD 빌드가 특정 System Card를 지원한다고 주장하면 대상 System Card를 고정하고 최종 후보를 그 실행 경로에서 검증한다.
 

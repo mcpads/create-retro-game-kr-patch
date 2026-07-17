@@ -20,9 +20,9 @@ VRAM register 좌표와 파일 byte offset은 단위가 다를 수 있다. 변�
 
 ## 4. 전송과 자산 수명
 
-VRAM write·DMA는 게임의 blanking·NMI queue와 DMA 전송 순서 안에서 성립해야 한다. 패치가 잠깐 보였다가 사라지면 대상 범위의 모든 writer, 마지막 writer, 화면 전환·재진입 뒤 reload와 staging 영역의 다른 소비자를 확인한다.
+VRAM write·DMA는 게임의 blanking·NMI queue와 DMA 전송 순서 안에서 성립해야 한다. 패치가 잠깐 보였다가 사라지면 대상 범위의 모든 쓰기 주체, 마지막 쓰기 주체, 화면 전환·재진입 뒤 reload와 staging 영역의 다른 소비자를 확인한다.
 
-새 font bank·overlay tile·추가 slot을 쓰면 `references/strategy/runtime-assets.md`의 적재·상주·소비 게이트를 적용한다.
+새 font bank·overlay tile·추가 slot을 쓰면 `references/strategy/runtime-assets.md`에 따라 적재·상주·소비를 검증한다.
 
 ## 5. 텍스트와 참조
 

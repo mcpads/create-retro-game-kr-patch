@@ -14,13 +14,13 @@ runtime 주소를 ROM 위치로 환산하려면 현재 image의 ROM 범위, load
 
 FNT 이름, FAT file ID, raw ROM offset과 게임 자체 archive는 한 ROM 안에 함께 존재할 수 있다. 이름 있는 SDK형 파일을 발견했다는 사실을 모든 자산의 저장 규칙으로 확대하지 않는다.
 
-파일을 성장·이동할 때는 실제 로더가 선택하는 식별자를 따라 FAT extent, overlay entry와 게임 자체 offset·size table 가운데 참조되는 필드를 모두 확인한다. 이름이나 magic이 맞아도 reader가 field·section·compression을 다르게 소비하면 표준 serializer로 교체하지 않는다.
+파일을 성장·이동할 때는 실제 로더가 선택하는 식별자를 따라 FAT extent, overlay entry와 게임 자체 offset·size table 가운데 참조되는 필드를 모두 확인한다. 이름이나 magic이 맞아도 읽기 코드가 field·section·compression을 다르게 소비하면 표준 serializer로 교체하지 않는다.
 
 ## 3. 저장 자산과 화면 소비
 
 저장 font·bitmap과 최종 BG·OBJ·bitmap·3D texture 표현 사이에는 해제, RAM 변환, VRAM bank mapping과 cache가 있을 수 있다. 한 engine·화면에서 보인 글리프를 다른 engine이나 상태의 증거로 쓰지 않는다.
 
-VRAM mapping·전송 시점·cache slot을 바꾸면 동시에 쓰는 다른 소비자와 화면 전환·sleep·resume 뒤 수명을 검증한다. 파일에 자산을 넣는 것과 renderer가 그 자산을 찾아 상주시켜 소비하는 것은 별도 게이트이며, 변경 시 `references/strategy/runtime-assets.md`를 적용한다.
+VRAM mapping·전송 시점·cache slot을 바꾸면 동시에 쓰는 다른 소비자와 화면 전환·sleep·resume 뒤 수명을 검증한다. 파일에 자산을 넣는 것과 renderer가 그 자산을 찾아 상주시켜 소비하는 것은 별도로 확인하며, 변경 시 `references/strategy/runtime-assets.md`를 적용한다.
 
 ## 4. secure area와 banner 경계
 

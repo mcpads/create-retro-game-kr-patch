@@ -32,7 +32,7 @@ codex plugin add create-kr-patch@kr-patch
 - `main`: 최신 안정 릴리스 채널. 검증을 마치고 정식 버전으로 확정된 변경만 반영한다.
 - `next`: 다음 안정 릴리스를 준비하는 이동형 프리릴리스 채널. alpha·beta·rc를 먼저 사용해 보고 피드백하려는 사용자를 위한 채널이며, 정식 릴리스 전에는 호환성과 문서 구조가 바뀔 수 있다.
 
-`next`는 최신 개발 상태를 계속 따라가며, 특정 프리릴리스 스냅샷이 필요하면 버전 태그를 사용한다. 두 채널은 같은 플러그인 ID를 사용하므로 동시에 설치하지 않고, 기존 marketplace를 원하는 Git ref로 교체한다.
+`next`는 최신 개발 상태를 계속 따라가며, 특정 프리릴리스 상태가 필요하면 버전 태그를 사용한다. 두 채널은 같은 플러그인 ID를 사용하므로 동시에 설치하지 않고, 기존 marketplace를 원하는 Git ref로 교체한다.
 
 Claude Code에서 `next`로 전환:
 
@@ -64,7 +64,7 @@ skills/
   create-kr-patch/
     SKILL.md             # 라우팅 + 핵심 불변식 (본문은 얇게)
     references/
-      strategy/          # 판단 영역별 기준과 검증 게이트
+      strategy/          # 판단 영역별 기준과 검증 방법
       conventions/       # 저장소 역할·데이터·기록 시행 규약
       platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 9종
       tips/              # 판단 영역·조건으로 선택하는 검증된 국소 사례

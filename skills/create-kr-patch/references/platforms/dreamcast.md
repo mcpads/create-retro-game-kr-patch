@@ -26,4 +26,4 @@ magic·확장자나 decoded image만으로 texture encoder를 승인하지 않�
 
 ## 4. 텍스트와 참조
 
-인코딩, script VM과 pointer 표현은 실제 reader로 확정한다. CPU endian은 container·VM field의 저장 순서를 대신 정하지 않는다. 엔트리 경계와 pointer 참조 완전성은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`에서 판정한다.
+인코딩, script VM과 pointer 표현은 실제 읽기 코드로 확정한다. CPU endian은 container·VM field의 저장 순서를 대신 정하지 않는다. 엔트리 경계와 pointer 참조 완전성은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`에서 판정한다.
