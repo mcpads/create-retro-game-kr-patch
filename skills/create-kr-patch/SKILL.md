@@ -38,7 +38,7 @@ description: >-
 - 텍스트가 이미지 픽셀에 포함돼 있으면 `references/strategy/graphics-text.md`.
 - 실제 소비 경로에 압축·해제 경계가 있으면 `references/strategy/compression.md`.
 - 자산의 저장→탐색→적재·변환→상주→소비 연결 중 하나를 바꾸면 `references/strategy/runtime-assets.md`.
-- 재현된 결함의 경쟁 가설을 구분해야 하면 `references/strategy/debugging.md`.
+- 실행 검증의 목표 상태·플레이 경로가 미확정이거나 재현된 결함의 경쟁 가설을 구분해야 하면 `references/strategy/debugging.md`.
 
 판단 영역을 새로 열거나 관측한 증상이 바뀌면 아래의 발동 조건별 검증 사례 라우팅을 다시 적용한다.
 
@@ -57,7 +57,7 @@ description: >-
 | 재삽입·훅 | `references/strategy/reinsertion.md` | 경계별 정책, 참조 완전성, 훅·공간·소비자 불변식 |
 | 번역 | `references/strategy/translation-workflow.md` | 에이전트 배치, 맥락 확정, 승인 용어·문체, 보호 제약과 고위험 의미의 적격 게이트 |
 | 빌드·검증 | `references/strategy/build-and-verify.md` | 재현 가능한 산출물, 배포 경계, 계층별 검증과 종료 판정 |
-| 디버깅·이슈 처리 | `references/strategy/debugging.md` | 경쟁 가설을 가르는 증거와 원인·수정·회귀 판정 |
+| 디버깅·이슈 처리 | `references/strategy/debugging.md` | 플레이 경로·목표 상태 도달, 상태 개입의 증명 범위와 원인·수정·회귀 판정 |
 | 그래픽 텍스트 (횡단) | `references/strategy/graphics-text.md` | 픽셀 텍스트 모집단, 보호 시각 자산과 소비 경로 검증 |
 | 압축 대응 (횡단) | `references/strategy/compression.md` | 실제 변환 경계, 대상 소비자 호환성과 재패킹 검증 |
 | 런타임 자산 도달성 (횡단) | `references/strategy/runtime-assets.md` | 변경된 저장→탐색→적재·변환→상주→소비 연결 판정 |
