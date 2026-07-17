@@ -1,6 +1,6 @@
 # Nintendo DS
 
-NDS의 header·NitroFS·VRAM 기본 사양은 필요할 때 1차 자료에서 확인한다. 실행 image·overlay·파일·VRAM 소비자는 같은 좌표나 정체성으로 취급하지 않는다.
+NDS의 header·NitroFS·VRAM 기본 사양은 필요할 때 1차 자료에서 확인한다. 실행 image·overlay·파일·VRAM 소비자는 각각의 좌표와 식별 정보로 연결한다.
 
 ## 1. 실행 image와 overlay 정체성
 

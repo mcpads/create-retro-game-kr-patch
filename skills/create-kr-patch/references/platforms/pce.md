@@ -30,6 +30,6 @@ cooked user-data offset과 raw sector file offset을 섞지 않는다. raw 출�
 
 ## 5. 텍스트와 새 런타임 경로
 
-인코딩·token·pointer 경계는 실제 소비자에서 확정한다. 음성·컷신에 자막을 새로 추가하면 해당되는 CD-DA·ADPCM 상태와 VDC의 BAT·sprite layer, scene·overlay 전환에서 자막 데이터의 수명과 소비자를 연결한다. 일반적인 표시·진행·입력·동기 완료 기준은 `references/strategy/build-and-verify.md` §5가 소유한다.
+인코딩·token·pointer 경계는 실제 소비자에서 확정한다. 음성·컷신에 자막을 새로 추가하면 해당되는 CD-DA·ADPCM 상태와 VDC의 BAT·sprite layer, scene·overlay 전환에서 자막 데이터의 수명과 소비자를 연결한다. 표시·진행·입력·동기는 `references/strategy/build-and-verify.md` §5로 판정한다.
 
-BIOS font 경로의 한글 가시성은 그 경로만 증명하며 새 code space, 전체 글리프 공급이나 다른 renderer를 증명하지 않는다. 조건부 PoC는 `references/strategy/poc.md`가 소유한다.
+BIOS font 경로의 한글 가시성은 그 경로만 증명하며 새 code space, 전체 글리프 공급이나 다른 renderer를 증명하지 않는다. 추가 조건은 `references/strategy/poc.md`의 PoC로 판정한다.

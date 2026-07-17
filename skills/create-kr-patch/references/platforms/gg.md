@@ -24,12 +24,10 @@ VRAM·CRAM은 일반 memory write가 아니라 VDP port I/O로 소비된다. 일
 
 VDP port 전송은 최종 하드웨어 upload/write 경계이며 그 값을 만든 쓰기 주체나 적재 시점과 같지 않을 수 있다. 그 write가 실제 name table·sprite·viewport에서 소비되는지는 별도로 확인한다. 새 bank의 폰트나 VRAM slot을 쓰면 저장→적재·변환→상주→소비 연결과 상태별 작업 집합을 `references/strategy/runtime-assets.md` 및 `references/strategy/font-strategy.md` §3으로 판정한다.
 
-상점 렌더 세션에서 최종 VDP 쓰기 주체가 아니라 앞선 창별 base 선택이 원인이었던 사례는 현재 조건이 맞을 때만 `references/tips/gg.md#gg-001`에서 읽는다.
-
 ## 5. 텍스트와 코드 공간
 
 인코딩, token 폭과 pointer 규약은 게임별 소비자에서 확정한다. 새 prefix·pair를 쓰면 실제 허용 집합에서 원본 문자·제어·종료·별도 renderer 의미를 뺀 범위만 코드 공간으로 인정한다.
 
 ## 6. 코드 개입과 공간
 
-훅의 층수·형태는 플랫폼 규칙이 아니다. 실제 branch range, bank budget, live state와 원본 효과의 검증 기준은 `references/strategy/reinsertion.md` §4를 따른다. 공유 VWF·tile allocator 상태를 쓰면 모든 쓰기 주체와 초기화·전이·해제 경로를 확인한다.
+훅의 층수·형태는 실제 branch range, bank budget, live state와 원본 효과에서 결정하고 `references/strategy/reinsertion.md` §4로 검증한다. 공유 VWF·tile allocator 상태를 쓰면 모든 쓰기 주체와 초기화·전이·해제 경로를 확인한다.
