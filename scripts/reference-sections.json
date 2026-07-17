@@ -91,7 +91,8 @@
   },
   "references/strategy/runtime-assets.md": {
     "1": "발동 조건",
-    "2": "연결 판정"
+    "2": "연결 판정",
+    "4": "변경 항목별 기준"
   },
   "references/strategy/text-extraction.md": {
     "1": "모집단과 참조 모델",
