@@ -29,6 +29,7 @@ description: >-
 서로 독립된 경계는 병렬로 열 수 있다. 새 증거가 기존 판단을 뒤집으면 영향받는 판정만 취소해 원인 경계로 돌아가고, 나머지 증거는 유지한다.
 
 - 모집단·경계·소비 규칙이 확정되지 않은 텍스트는 번역·재삽입 완료로 승격하지 않는다.
+- 대표 PoC는 열린 모집단으로 수행할 수 있지만, 번역 작업을 전체 배포 범위로 확대하거나 전체 코퍼스 수요를 확정하기 전에 `references/strategy/text-extraction.md` §1.5의 분량 조사를 통과한다.
 - 되돌리기 비싼 작업의 전제가 동등한 증거로 확인되지 않았다면 해당 PoC 게이트를 먼저 통과한다.
 - 번역 수요가 글리프·길이·레이아웃 예산을 넘으면 공급 확대 가능성을 판정하고, 의미 손실이 있는 축소는 사람이 승인한다.
 - 변경된 산출물은 실제 빌드와 소비 경로의 검증을 통과해야 하며, 결함은 원인 계층의 전략으로 되돌린다.
@@ -50,9 +51,9 @@ description: >-
 
 | 판단 영역 | 문서 | 내용 |
 |------|------|------|
-| 초기 조사 | `references/strategy/initial-survey.md` | 실제 의존 경계, 확정 리비전 사양과 열린 모집단, 가장 싼 판정 증거 선택 |
+| 초기 조사 | `references/strategy/initial-survey.md` | 실제 의존 경계, 초기 분량·열린 모집단, 확정 리비전 사양과 가장 싼 판정 증거 선택 |
 | 폰트·인코딩 | `references/strategy/font-strategy.md` | 코드→글리프 대응, 전체 레퍼토리와 활성 작업 집합, 표현·도달 검증 |
-| 텍스트 추출 | `references/strategy/text-extraction.md` | 모집단 확정, 소비자 기반 경계·토큰, 가역 산출물과 라운드트립 |
+| 텍스트 추출 | `references/strategy/text-extraction.md` | 모집단·초기 분량 확정, 소비자 기반 경계·토큰, 가역 산출물과 라운드트립 |
 | PoC | `references/strategy/poc.md` | 가시성 PoC와 조건부 PoC 게이트의 수행 여부·통과 기준 판정 |
 | 재삽입·훅 | `references/strategy/reinsertion.md` | 경계별 정책, 참조 완전성, 훅·공간·소비자 불변식 |
 | 번역 | `references/strategy/translation-workflow.md` | 에이전트 배치, 맥락 확정, 승인 용어·문체, 보호 제약과 고위험 의미의 적격 게이트 |
