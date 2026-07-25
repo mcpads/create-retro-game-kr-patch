@@ -26,4 +26,4 @@ VRAM은 글리프 외의 화면 자산도 공유한다. 전체 레퍼토리와 �
 
 인코딩, token 폭, pointer의 폭·기준·정렬은 플랫폼 이름으로 정하지 않는다. 실제 fetch·dispatcher·glyph lookup과 각 pointer 소비자에서 사양을 확인한다.
 
-토큰 정책은 `references/strategy/translation-workflow.md` §4, 추출과 재배치 판정은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`를 따른다.
+토큰 정책은 `references/strategy/text-extraction.md` §4.4, 추출과 재배치 판정은 `references/strategy/text-extraction.md` 및 `references/strategy/reinsertion.md`를 따른다.

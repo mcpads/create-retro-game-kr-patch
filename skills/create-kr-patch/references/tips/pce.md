@@ -7,7 +7,7 @@
 - **결정 실험:** 원본 화면 데이터를 무수정 재인코딩해 비교하고 실제 업로드 목적지와 물리 CHR을 대조했다. 각 논리 번호를 원본의 물리 타일 좌표로 바꾸자 원본 왕복과 보호 영역이 함께 일치했다.
 - **확정 결론:** 두 인코더가 타일맵 번호의 실제 기준과 물리 저장 좌표를 확인하지 않고 자체 기본값을 적용한 것이 화면 손상의 원인이었다.
 - **전이 한계:** 화면·배경 계층마다 논리 번호에서 실제 업로드 좌표로 이어지는 변환을 다시 구한다.
-- **관련 판단 기준:** `references/platforms/pce.md` §2, `references/strategy/graphics-text.md` §4.
+- **관련 판단 기준:** `references/platforms/pce.md` §2, `references/strategy/graphics-text.md` §2·§4.
 
 ## PCE-002
 
