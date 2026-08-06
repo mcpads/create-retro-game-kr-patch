@@ -69,6 +69,7 @@ description: >-
 - 실패하면 완성이 불가능하거나 설계를 크게 바꾸는 미확정 조건을 먼저 판정하고, 같은 조건을 가르는 증거 중 비용이 낮은 것을 고른다.
 - 서로 독립된 경계는 병렬로 조사하고, 새 증거가 뒤집은 판정만 원인 경계로 되돌린다.
 - 대표 PoC는 모집단 조사와 병행할 수 있다. 전체 배포 범위로 번역을 확대하기 전 모집단·분량은 `references/strategy/text-extraction.md` §1.5로, 초벌 코퍼스에서 드러난 글리프 수요와 공급 가능성은 `references/strategy/translation-workflow.md` §5와 `references/strategy/font-strategy.md` §3으로 판정한다.
+- 유한한 파일·자산 모집단은 개별 실행만으로 늘려 가지 않는다. 전수 열거와 소비 경로별 분리는 `references/strategy/initial-survey.md` §2.5로, 실행 증거의 범위는 `references/strategy/runtime-assets.md` §2로 판정한다.
 - 유한한 표시 영역은 원본 사용 범위, 확인된 소비 한도와 채택한 표시 범위를 구분해 `references/strategy/translation-workflow.md` §4로 판정한다. 글리프·길이·레이아웃 예산이 부족하면 공급 확대 가능성을 먼저 판정하고, 의미 손실이 있는 축소는 사람이 승인한다.
 - 변경 산출물은 실제 빌드와 소비 경로에서 검증하고, 결함은 처음 값이 달라진 원인 경계에서 수정한다.
 
