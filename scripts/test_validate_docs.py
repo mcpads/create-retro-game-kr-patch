@@ -32,17 +32,19 @@ class DocumentationValidatorTest(unittest.TestCase):
         with TemporaryDirectory() as directory:
             skill_root = Path(directory)
             tips = skill_root / "references" / "tips"
-            tips.mkdir(parents=True)
+            general = tips / "general"
+            general.mkdir(parents=True)
             (tips / "README.md").write_text(
-                "| 색인 라벨 | 라우팅 판단 영역 | 문서 |\n"
-                "| PoC | PoC | `references/strategy/poc.md` |\n\n"
-                "| ID | 판단 영역 | 관측 플랫폼 | 발동 조건 | 사례 파일 |\n"
-                f"| GG-999 | {judgment_area} | Game Gear | test | "
-                "`references/tips/gg.md#gg-999` |\n",
+                "| Index label | Strategy document |\n"
+                "| PoC | `references/strategy/poc.md` |\n\n"
+                "| Case | Judgment areas | Read when | First observed on | Reference |\n"
+                f"| Proven rendering path | {judgment_area} | test | Game Gear | "
+                "`references/tips/general/cases.md#proven-rendering-path` |\n",
                 encoding="utf-8",
             )
-            (tips / "gg.md").write_text(
-                f"# Game Gear\n\n## GG-999\n\n{body}\n", encoding="utf-8"
+            (general / "cases.md").write_text(
+                f"# General cases\n\n## Proven rendering path\n\n{body}\n",
+                encoding="utf-8",
             )
             errors: list[str] = []
             with (
@@ -61,7 +63,7 @@ class DocumentationValidatorTest(unittest.TestCase):
         samples = (
             "`references/strategy/poc.md` §1",
             "`references/strategy/poc.md`,",
-            "`references/tips/nds.md#nds-001`",
+            "`references/tips/platforms/nds.md#nftr-tags-and-cmap-order-follow-on-disk-consumer-semantics`",
             "`references/strategy/poc.md`. 다음 문장",
         )
         for sample in samples:
@@ -75,9 +77,9 @@ class DocumentationValidatorTest(unittest.TestCase):
             "`references/strategy/poc.md-old`",
             "`references/strategy/poc.mdx`",
             "`references/strategy/poc.md.extra`",
-            "`references/tips/nds.md#nds-001?broken`",
-            "`references/tips/nds.md#nds-001/extra`",
-            "`references/tips/nds.md#nds-001.`",
+            "`references/tips/platforms/nds.md#nftr-tags?broken`",
+            "`references/tips/platforms/nds.md#nftr-tags/extra`",
+            "`references/tips/platforms/nds.md#nftr-tags.`",
         )
         for sample in samples:
             with self.subTest(sample=sample):
@@ -111,7 +113,7 @@ class DocumentationValidatorTest(unittest.TestCase):
             tips = Path(directory)
             (tips / "README.md").write_text("# index\n", encoding="utf-8")
             (tips / "gg.md").write_text(
-                "# Game Gear\n\n## GG-999 설명\n", encoding="utf-8"
+                "# Game Gear\n\n## GG-999\n", encoding="utf-8"
             )
             errors: list[str] = []
             with (
@@ -119,37 +121,74 @@ class DocumentationValidatorTest(unittest.TestCase):
                 patch.object(validate_docs, "repo_name", return_value="tips/gg.md"),
             ):
                 validate_docs.validate_tips(errors)
-        self.assertTrue(any("invalid tip heading" in error for error in errors))
+        self.assertTrue(
+            any("tip heading must describe the case" in error for error in errors)
+        )
+
+    def test_reports_tip_file_outside_case_roots(self) -> None:
+        with TemporaryDirectory() as directory:
+            tips = Path(directory)
+            (tips / "README.md").write_text("# index\n", encoding="utf-8")
+            (tips / "legacy.md").write_text(
+                "# Legacy\n\n## Descriptive case heading\n", encoding="utf-8"
+            )
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "SKILL_ROOT", tips.parent),
+                patch.object(validate_docs, "TIPS_DIR", tips),
+                patch.object(validate_docs, "repo_name", return_value="tips/legacy.md"),
+            ):
+                validate_docs.validate_tips(errors)
+        self.assertTrue(any("tip case files must be under" in error for error in errors))
 
     def test_reports_missing_required_tip_field(self) -> None:
         errors = self.validate_tip_fixture(
             "\n".join(
                 (
-                    "- **관측 범위:** test",
-                    "- **사고 맥락:** test",
-                    "- **결정 실험:** test",
-                    "- **확정 결론:** test",
-                    "- **관련 판단 기준:** `references/strategy/poc.md`.",
+                    "- **Search terms:** test",
+                    "- **Observed scope:** test",
+                    "- **Failure context:** test",
+                    "- **Decisive test:** test",
+                    "- **Established result:** test",
+                    "- **Related criteria:** `references/strategy/poc.md`.",
                 )
             )
         )
         self.assertTrue(
-            any("missing required field: 전이 한계" in error for error in errors)
+            any("missing required field: Transfer limit" in error for error in errors)
+        )
+
+    def test_reports_missing_search_terms(self) -> None:
+        errors = self.validate_tip_fixture(
+            "\n".join(
+                (
+                    "- **Observed scope:** test",
+                    "- **Decision context:** test",
+                    "- **Evidence:** test",
+                    "- **Established result:** test",
+                    "- **Transfer limit:** test",
+                    "- **Related criteria:** `references/strategy/poc.md`.",
+                )
+            )
+        )
+        self.assertTrue(
+            any("missing required field: Search terms" in error for error in errors)
         )
 
     def test_reports_tip_route_mismatch(self) -> None:
         errors = self.validate_tip_fixture(
             "\n".join(
                 (
-                    "- **관측 범위:** test",
-                    "- **선택 맥락:** test",
-                    "- **검증 근거:** test",
-                    "- **확정 결과:** test",
-                    "- **전이 한계:** test",
-                    "- **관련 판단 기준:** `references/strategy/poc.md`.",
+                    "- **Search terms:** test",
+                    "- **Observed scope:** test",
+                    "- **Decision context:** test",
+                    "- **Evidence:** test",
+                    "- **Established result:** test",
+                    "- **Transfer limit:** test",
+                    "- **Related criteria:** `references/strategy/poc.md`.",
                 )
             ),
-            judgment_area="초기 조사",
+            judgment_area="Initial survey",
         )
         self.assertTrue(any("tip route mismatch" in error for error in errors))
 
