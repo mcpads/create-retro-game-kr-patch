@@ -1,31 +1,31 @@
 # Sega Saturn
 
-SH-2·VDP·CD-ROM의 기본 사양은 필요할 때 1차 자료에서 확인한다. 이동 code의 literal·delay 의미, VDP1/VDP2 소비, module·압축·disc 계층은 서로 구분한다.
+Consult primary references for general SH-2, VDP, and CD-ROM specifications as needed. Keep moved-code literal and delay semantics, VDP1 and VDP2 consumption, modules, compression, and disc layers distinct.
 
-## 1. 이동 code와 적재 module
+## 1. Moved code and loaded modules
 
-어느 SH-2와 task가 대상 code를 실행하는지는 게임별로 확인한다. instruction을 이동하거나 block을 늘리면 branch delay, PC-relative literal pool, alignment, live register·PR·flags와 code/inline-data 경계를 함께 검산한다.
+Which SH-2 and task execute target code is game-specific. When moving an instruction or growing a block, verify branch delay, PC-relative literal pools, alignment, live registers, PR, flags, and code versus inline-data boundaries.
 
-## 2. VDP1·VDP2 소비 분리
+## 2. Separate VDP1 and VDP2 consumers
 
-VDP1 command/texture 경로와 VDP2 pattern/name-table 경로는 자산·주소·palette·clipping·수명 요건이 다르다. 한 renderer의 한글 PoC를 다른 renderer·menu·battle·그래픽 텍스트에 확대하지 않는다.
+VDP1 command and texture paths and VDP2 pattern and name-table paths have different asset, address, palette, clipping, and lifetime conditions. Do not generalize one renderer's Hangul PoC to another renderer, menu, battle, or graphics text.
 
-VDP2 name data의 character·palette·flip 의미와 활성 VRAM 예산은 현재 pattern-name data size, PNCN supplementary mode, color depth·character size와 plane 설정에서 판정한다. 이론적 총량이나 고정 bit 폭을 모든 화면의 글리프 상한으로 쓰지 않는다.
+Determine VDP2 character, palette, and flip meaning and active VRAM budget from current pattern-name data size, PNCN supplementary mode, color depth, character size, and plane configuration. Do not use theoretical total capacity or one fixed bit width as every screen's glyph limit.
 
-새 glyph를 넣으면 loader, work RAM, VRAM upload와 최종 command·name-table 소비를 `references/strategy/runtime-assets.md`로 연결한다.
+For new glyphs, connect loader, work RAM, VRAM upload, and final command or name-table consumption through `references/strategy/runtime-assets.md`.
 
-## 3. 텍스트·pointer·loadable module
+## 3. Text, pointers, and loadable modules
 
-CPU endian은 script VM·container field의 저장 규약을 대신 정하지 않는다. loadable module과 event script가 absolute address, relative offset, index와 inline code/data를 섞으면 각 소비자와 실제 적재 module을 따로 확인한다.
+CPU endianness does not determine script-VM or container-field storage. When a loadable module or event script mixes absolute addresses, relative offsets, indexes, and inline code or data, establish each consumer and actual loaded module separately.
 
-파일 성장 시 text pointer뿐 아니라 load buffer, 뒤따르는 code·literal·metadata, 중간 진입·shared tail과 다른 파일의 중복 address·size table을 확인한다. 한 타이틀의 pointer pattern을 플랫폼 규칙으로 쓰지 않는다.
+When a file grows, inspect load buffers, following code, literals and metadata, interior entries, shared tails, and duplicate address or size tables in other files as well as text pointers. One title's pointer pattern is not a platform rule.
 
-## 4. 압축 자산
+## 4. Compressed assets
 
-실제 압축 변형은 target loader와 game decompressor로 확정한다. 압축 이름과 magic은 후보를 좁히는 데 사용하고, 대상 소비자 호환성과 결함 시 대조군은 `references/strategy/compression.md`로 판정한다.
+Establish the compression variant from the target loader and game decompressor. Names and magic only narrow candidates. Judge target-consumer compatibility and defect controls through `references/strategy/compression.md`.
 
-## 5. Disc와 ISO 계층
+## 5. Disc and ISO layers
 
-track·sector 표현, filesystem extent와 game LBA·size table은 서로 다른 계층이다. ISO directory가 유효하다는 사실만으로 game loader가 이동한 파일을 읽는다고 판정하지 않는다. multi-extent 파일이면 최종 record까지 같은 파일로 처리하되, 기존 loader 지원 없이 새 배치를 도입하지 않는다.
+Track and sector representation, filesystem extents, and game LBA or size tables are different layers. A valid ISO directory does not prove that the game loader reads a moved file. Treat a multi-extent file as one file through its final record, but do not introduce new placement without established loader support.
 
-새 위치는 data track·filesystem의 유효 범위, 다른 extent·track·pregap과의 비중복, game read alignment·buffer·streaming을 통과해야 한다. raw user data를 바꾸면 변경 sector의 실제 mode에 맞는 보호 필드만 갱신하고 원본의 비대상 비정상 field는 보존한다.
+A new location must fit the data track and filesystem, avoid overlap with other extents, tracks, and pregaps, and satisfy game read alignment, buffers, and streaming. When changing raw user data, update only protection fields for the modified sector's actual mode and preserve untouched irregular fields.

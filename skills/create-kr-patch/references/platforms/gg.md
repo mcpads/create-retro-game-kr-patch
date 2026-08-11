@@ -1,33 +1,33 @@
 # Sega Game Gear
 
-Z80·VDP·mapper의 기본 사양은 필요할 때 1차 자료에서 확인한다. 패치 판단에서는 bank가 바뀌는 실행 좌표, VDP port와 값 생성자, 저장 자산과 화면 소비를 서로 구분한다.
+Consult primary references for general Z80, VDP, and mapper specifications as needed. For patch decisions, keep bank-dependent execution coordinates, VDP ports, value producers, stored assets, and screen consumption distinct.
 
-## 1. 논리 주소와 bank 식별
+## 1. Logical addresses and bank identity
 
-16-bit 논리 주소만으로 ROM 파일 위치를 정할 수 없다. 해당 접근 시점의 slot, bank register, fixed window·RAM mapping과 mapper 변형이 함께 있어야 한다. 확인된 mapping에서만 논리 주소↔bank↔파일 위치 변환을 사양으로 둔다.
+A 16-bit logical address does not determine a ROM file location. The slot, bank register, fixed window or RAM mapping, and mapper variant at access time are also required. Make logical-address, bank, and file-offset conversion specification only within an established mapping.
 
-훅이 bank를 바꾸면 실행·데이터 수명과 interrupt·callback의 공유 상태를 검증하고 진입 전 bank·interrupt 상태를 복원한다. 특정 enable/disable 쌍을 전역 해법으로 두지 않는다.
+When a hook changes banks, verify code and data lifetime plus shared interrupt and callback state, then restore the entry bank and interrupt state. No one enable/disable sequence is a global solution.
 
-## 2. ROM 확장
+## 2. ROM expansion
 
-파일 크기와 header size code의 변경만으로 추가 bank가 노출되지 않는다. mapper의 선택 경로, header·checksum 소비, save RAM window와 실제 cartridge·loader 지원이 모두 새 범위를 표현할 때만 확장 자산을 둔다.
+Changing file size and header size code does not expose an additional bank. Place assets there only when mapper selection, header and checksum consumers, save-RAM windows, and actual cartridge or loader support can represent the range.
 
-## 3. VDP 좌표와 쓰기 관찰 범위
+## 3. VDP coordinates and write observation
 
-VRAM·CRAM은 일반 memory write가 아니라 VDP port I/O로 소비된다. 일반 메모리 쓰기 기록에 나타나지 않았다는 사실만으로 화면 쓰기 부재를 판정하지 않는다.
+VRAM and CRAM are consumed through VDP port I/O rather than ordinary memory writes. Absence from a normal memory-write log does not prove absence of a screen write.
 
-내부 name table과 실제 LCD viewport의 관계는 현재 VDP register·scroll·display 상태가 결정한다. 고정 행·열 offset이나 이론적 tile 수를 모든 화면의 좌표·폰트 예산으로 쓰지 않는다.
+Current VDP registers, scroll, and display state determine the relationship between internal name tables and the LCD viewport. Do not use one fixed row or column offset or theoretical tile count as every screen's coordinate or font budget.
 
-저장 글리프가 최종 VDP tile 표현인지, 중간 RAM 변환을 거치는지도 실제 전송 전후로 판정한다.
+Determine from the path before and after transfer whether a stored glyph is the final VDP tile representation or an intermediate RAM form.
 
-## 4. 저장에서 화면 소비까지
+## 4. From storage to screen consumption
 
-VDP port 전송은 최종 하드웨어 upload/write 경계이며 그 값을 만든 쓰기 주체나 적재 시점과 같지 않을 수 있다. 그 write가 실제 name table·sprite·viewport에서 소비되는지는 별도로 확인한다. 새 bank의 폰트나 VRAM slot을 쓰면 저장→적재·변환→상주→소비 연결과 상태별 작업 집합을 `references/strategy/runtime-assets.md` 및 `references/strategy/font-strategy.md` §3으로 판정한다.
+A VDP port transfer is the final hardware upload or write boundary. It may differ from the writer that produced the value and from asset load time. Verify separately whether the write is consumed by the actual name table, sprite, and viewport. When using font data in a new bank or new VRAM slots, judge storage -> load/transform -> residency -> consumption and state-specific working sets through `references/strategy/runtime-assets.md` and `references/strategy/font-strategy.md` §3.
 
-## 5. 텍스트와 코드 공간
+## 5. Text and code space
 
-인코딩, token 폭과 pointer 규약은 게임별 소비자에서 확정한다. 새 prefix·pair를 쓰면 실제 허용 집합에서 원본 문자·제어·종료·별도 renderer 의미를 뺀 범위만 코드 공간으로 인정한다.
+Establish encoding, token width, and pointer rules from each game's consumers. For a new prefix or pair, count as available code space only the actually accepted set after excluding source characters, controls, terminators, and meanings in separate renderers.
 
-## 6. 코드 개입과 공간
+## 6. Code intervention and space
 
-훅의 층수·형태는 실제 branch range, bank budget, live state와 원본 효과에서 결정하고 `references/strategy/reinsertion.md` §4로 검증한다. 공유 VWF·tile allocator 상태를 쓰면 모든 쓰기 주체와 초기화·전이·해제 경로를 확인한다.
+Derive hook shape and depth from real branch range, bank budget, live state, and source effects, then verify under `references/strategy/reinsertion.md` §4. For shared variable-width-font or tile-allocation state, identify every writer and initialization, transition, and release path.

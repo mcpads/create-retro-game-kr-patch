@@ -27,15 +27,15 @@
     "5": "Build-input eligibility"
   },
   "references/platforms/gg.md": {
-    "4": "저장에서 화면 소비까지"
+    "4": "From storage to screen consumption"
   },
   "references/platforms/pc98.md": {
-    "5": "텍스트와 한글 code space"
+    "5": "Text and Hangul code space"
   },
   "references/platforms/pce.md": {
-    "1": "MPR과 주소 식별",
-    "2": "저장 글리프와 VDC 소비",
-    "4": "CD 이미지와 sector"
+    "1": "MPR and address identity",
+    "2": "Stored glyphs and VDC consumption",
+    "4": "CD images and sectors"
   },
   "references/strategy/build-and-verify.md": {
     "1": "Reproducible build",

@@ -1,35 +1,35 @@
 # PlayStation
 
-MIPS·GPU·CD-ROM·ISO 9660의 기본 사양은 필요할 때 1차 자료에서 확인한다. runtime code, 저장 자산, raw sector와 filesystem 좌표는 서로 구분한다.
+Consult primary references for general MIPS, GPU, CD-ROM, and ISO 9660 specifications as needed. Keep runtime code, stored assets, raw sectors, and filesystem coordinates distinct.
 
-## 1. 실행 code와 module 식별
+## 1. Execution code and module identity
 
-runtime 주소를 파일 위치로 바꾸려면 현재 executable·overlay·module의 load 범위와 relocation·decompression을 함께 확인한다. 통상 load address나 한 executable의 환산식을 다른 module에 이식하지 않는다.
+Converting a runtime address to file location requires the current executable, overlay, or module's load extent, relocation, and decompression. Do not transfer a conventional load address or one executable's conversion to another module.
 
-RAM에서 읽은 code bytes와 CPU가 cache를 통해 실행하는 instruction stream은 다를 수 있다. 코드가 동적 적재·덮어쓰기되면 실제 적재 module, alias·cache 상태와 갱신 시점을 확인한다. 훅이나 옮긴 명령은 현재 ISA 자료로 delay·load hazard와 live state를 검산하고, 공통 생성·재해석 규칙은 `references/conventions/project-conventions.md` §2.3을 따른다.
+Code bytes read from RAM may differ from the instruction stream executed through CPU cache. For dynamically loaded or overwritten code, establish the loaded module, aliases and cache state, and update time. Verify hooks and moved instructions against current ISA references for delay, load hazards, and live state. Apply `references/conventions/project-conventions.md` §2.3 to generation and reinterpretation.
 
-## 2. 폰트와 GPU 소비
+## 2. Fonts and GPU consumption
 
-BIOS에 글리프 서비스가 존재한다는 사실은 대상 게임이나 모든 화면이 그 경로를 쓴다는 증거가 아니다. 확인된 호출 경로의 반환 표현, 게임 변환·cache, VRAM upload와 실제 primitive 소비까지 연결한다.
+The presence of a BIOS glyph service does not prove that a target game or every screen uses it. Connect an established call path's return representation, game transforms and cache, VRAM upload, and actual primitive consumption.
 
-자체 font·texture도 파일을 decode한 결과만으로 승인하지 않는다. 저장 자산, RAM 표현, VRAM 좌표·CLUT와 화면 소비를 연결해 검증하고, 추가·성장·이동하면 `references/strategy/runtime-assets.md`를 적용한다.
+Do not approve a custom font or texture from decoded file output alone. Connect stored asset, RAM representation, VRAM coordinates and CLUT, and screen consumption. Apply `references/strategy/runtime-assets.md` when adding, growing, or moving it.
 
-## 3. 텍스트·archive·참조
+## 3. Text, archives, and references
 
-CPU endian은 문자 bytes, archive field나 script VM의 저장 순서를 대신 정하지 않는다. 실제 읽기 코드의 load·swap·pointer 증가와 소비자로 판정한다.
+CPU endianness does not determine character bytes, archive fields, or script-VM storage order. Establish them from the reader's loads, swaps, pointer increments, and consumers.
 
-script module은 absolute RAM pointer, module-relative offset, index와 inline code를 섞을 수 있다. 텍스트가 성장할 때는 문자열 참조뿐 아니라 뒤따르는 code·metadata와 내부 위치 의존 값을 확인한다. 같은 확장자나 개발사 선례는 후보일 뿐 무수정 왕복과 대상 읽기 코드로 다시 확정한다.
+A script module may mix absolute RAM pointers, module-relative offsets, indexes, and inline code. When text grows, inspect following code and metadata plus internal position-dependent values, not only string references. A shared extension or developer precedent is a candidate; re-establish it through unchanged round trip and the target reader.
 
-## 4. raw sector와 ISO 좌표
+## 4. Raw-sector and ISO coordinates
 
-Mode 2 data track은 sector마다 form이 다를 수 있다. 수정 sector의 복제 subheader와 form을 판정해 해당 EDC/ECC 규칙만 적용하고, 변경하지 않은 sector의 비정상·보호 표현을 정상화하지 않는다.
+Mode 2 sectors may use different forms within one data track. Determine duplicated subheader and form for each modified sector and apply only its EDC/ECC rules. Do not normalize untouched irregular or protected sectors.
 
-ISO 파일도 항상 하나의 연속 extent는 아니다. multi-extent record를 종결 record까지 묶고, extent·length의 중복 endian 표현과 실제로 이동한 directory·path·game LBA/size 필드를 함께 갱신한다. 기존 loader 지원을 증명하지 않은 채 새 multi-extent 구조를 도입하지 않는다.
+An ISO file need not have one continuous extent. Collect multi-extent records through the terminating record, then update duplicate-endian extent and length plus every moved directory, path, and game-specific LBA or size field. Do not introduce new multi-extent layout without proving loader support.
 
-filesystem LBA, raw track sector와 image byte offset은 서로 다른 좌표다. raw-sector 표현을 출력한다면 같은 크기의 제자리 교체도 수정 sector의 보호 필드를 다시 검증한다. 빈 구간처럼 보이는 영역도 data track·filesystem·loader가 모두 새 소비를 허용할 때만 사용한다.
+Filesystem LBA, raw-track sector, and image byte offset are different coordinates. Raw-sector output requires revalidation of protection fields even for same-size in-place replacement. Use an apparently empty region only when data track, filesystem, and loader all permit new consumption.
 
-## 5. runtime CD 상태
+## 5. Runtime CD state
 
-새 자산 읽기는 기존 CD state machine, IRQ·DMA와 XA·CDDA·movie streaming의 장치 상태와 경쟁할 수 있다. 기존 loader 재사용이나 별도 장치 제어를 기본 해법으로 지정하지 않는다.
+A new asset read may compete with the existing CD state machine, IRQ and DMA, and XA, CDDA, or movie streaming. Neither reuse of an existing loader nor separate device control is a default solution.
 
-읽기 경로를 바꾸면 호출 시점의 초기화·재진입 가능성, read mode·sector form·buffer, 동시 streaming, 완료 뒤 command·IRQ·DMA 상태 복원과 scene 전환 뒤 자산 수명을 증명한다. 한 번 성공한 read를 장시간 소비 동작의 증거로 확대하지 않는다.
+When changing a read path, prove initialization and re-entry at call time, read mode, sector form, buffer, concurrent streaming, restoration of command, IRQ, and DMA state, and asset lifetime across scene transitions. One successful read does not prove long-lived consumption.
