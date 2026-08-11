@@ -1,121 +1,124 @@
-# 초기 조사 전략
+# Initial survey
 
-초기 조사는 게임 전체를 모두 분석하기보다 **선언한 완성 범위의 실현 가능성과 다음 구현을 판정할 만큼 불확실성을 줄인다**. 실패하면 완성이 불가능하거나 설계를 크게 바꾸는 조건을 먼저 찾고, 그 조건과 필요한 선행 상태를 보존하는 증거 가운데 비용이 낮은 것을 선택한다. 플랫폼 고유 사실은 `references/platforms/`에서 확인하고, 조사 결론의 증거·판정·다음 행동은 `references/conventions/project-records.md` §3에 따라 구분한다.
+Reduce uncertainty enough to decide feasibility and the next implementation boundary. Prioritize conditions whose failure would block completion or force redesign. Compare experiment cost only among methods that preserve the same condition, prerequisites, and proof scope.
 
-## 1. 종료 전에 답할 질문
+## 1. Questions to answer before completion
 
-초기 조사는 현재 프로젝트 범위에서 다음 질문에 답할 수 있을 때 끝난다.
+1. **Input boundary**: Which revision, representation, and modification unit does the project support?
+2. **Text kind**: Which target text is runtime text, baked graphics, or another representation?
+3. **Storage and consumer**: Where is it stored, how is it selected, and which consumer gives it meaning?
+4. **Glyph path**: How does a code reach glyph data and pixels?
+5. **Intervention boundary**: Is the change data replacement, relocation or new assets, code modification, or a combination?
+6. **Evidence**: Which uncertainty needs a PoC, and what equivalent evidence already exists?
+7. **Initial volume**: Is the target population exact, a lower bound, an estimate, or unresolved?
+8. **Display budget**: Which values describe observed source usage, and which are confirmed consumer capacity?
 
-1. **입력 경계**: 지원할 원본 리비전과 수정 단위는 무엇인가?
-2. **현지화 대상**: 번역 대상은 런타임 텍스트, 그래픽에 구운 텍스트, 또는 둘의 혼합인가?
-3. **저장과 소비**: 대상 데이터는 어디에 있고 어떤 소비자가 경계·인코딩·포인터를 해석하는가?
-4. **글리프 경로**: 글리프는 어디서 공급되고 어떤 경로를 거쳐 화면에 도달하는가?
-5. **필요한 개입**: 기존 경로의 데이터 교체만으로 충분한가, 아니면 재배치·새 자산·코드 개입이 필요한가?
-6. **판정 증거**: 아직 필요한 PoC가 있다면 무엇을 증명하며, 성공과 실패를 어떤 관측으로 가를 것인가?
-7. **초기 분량**: 현지화 대상별 모집단을 어디까지 전수 열거할 수 있으며, 확정값·하한·추정치와 미확정 범위는 무엇인가?
-8. **표시 예산**: 유한한 표시 영역마다 원본 사용 범위와 확인된 소비 한도는 무엇인가?
+Keep independent risks separate: encoding, glyph capacity, name entry, relocation, compression, and other consumer paths may require different evidence. Do not add unrelated battle, sound, or general graphics investigation unless it is a direct prerequisite for localization.
 
-새 인코딩 공간, 글리프 수용량, 이름 입력, 재배치, 압축 재구현처럼 기본 가시성 PoC와 독립된 위험은 조건부 검증으로 분리한다. PoC의 증명 범위와 분기에는 `references/strategy/poc.md`를 적용하고, 그래픽에 구운 텍스트에는 `references/strategy/graphics-text.md`를 적용한다.
+## 2. Follow dependency boundaries instead of a fixed sequence
 
-이 질문에 답하지 않는 전투 로직·사운드·그래픽 전반의 역공학은 초기 조사 범위가 아니다. 다만 그 경로가 현재 질문의 직접 전제라면 필요한 경계까지만 조사한다.
+The categories below are not mandatory stages. Begin from storage or consumption according to available evidence. Work on the unresolved completion-critical condition, not merely the easiest local success.
 
-## 2. 고정 순서 대신 의존 경계를 따른다
+For each result, ask whether it changes:
 
-매체, 논리 파일·블록, 코드 소비자, 폰트, 텍스트 구조는 가능한 조사 범주이지 강제 단계가 아니다. raw ROM처럼 파일시스템이 없는 입력도 있고, 이미 알려진 화면 문자열·글리프·소비 루틴이 직접적인 출발점인 경우도 있다.
+- feasibility or the required workaround;
+- the representative or conditional PoC target;
+- replacement versus code intervention;
+- extraction, reinsertion, compression, or runtime verification;
+- supported revision or distribution form; or
+- the priority of remaining risks.
 
-다음 조사 대상은 **완성 여부를 좌우하는 미확정 조건**에서 고른다. 우회안이 없는 용량·표현·소비 경계처럼 하나의 실패가 선언한 범위를 막거나 기본 설계를 폐기하게 만드는 조건이 우선이다. 같은 조건을 판정할 방법이 여럿이면 필요한 선행 상태와 증명 범위를 보존하는 것 중 비용이 낮은 방법을 고른다. 쉬운 부분의 성공만 보여 주고 해당 조건을 그대로 남기는 증거는 우선하지 않는다.
+If it changes none of these, record it only when it preserves hard-won evidence or resolves a declared denominator.
 
-조사는 알려진 화면 출력, raw byte, 포인터나 테이블, 글리프 원천, 실제 읽기·쓰기 코드처럼 저장과 소비 중 어느 쪽에서 시작해도 된다. 확인된 지점에서 양방향으로 확장하되, 새 조사가 다음 중 하나를 바꾸는지 먼저 묻는다.
+### 2.1 Input and rebuild boundary
 
-- 선언한 완성 범위의 실현 가능성 또는 필요한 우회안
-- PoC 표적 또는 성공 판정
-- 데이터 교체와 코드 개입 사이의 선택
-- 추출·재삽입·압축·런타임 자산 검증
-- 지원 리비전 또는 배포 형식
-- 위험의 우선순위
+- Identify each supported revision with a hash or an equally strong fingerprint.
+- For containers or filesystems, establish an unchanged rebuild round trip before editing.
+- For direct patching, establish expected source bytes and the complete post-change range.
+- Investigate filesystem, track, and sector details only when the build reads or rewrites them.
+- Do not make a release claim while the supported input remains unresolved.
 
-완성 경로나 위 판단을 바꾸지 않는 조사는 미룬다. 한 조사 범주가 다른 범주의 실제 전제일 때만 그 경계를 먼저 확정한다.
+### 2.2 Storage structure and consumer meaning
 
-### 2.1 입력과 재빌드 경계
+Byte patterns, search results, statistics, and prior-patch diffs produce candidates. Establish encoding, pointers, terminators, compression, and graphics interpretation through the actual consumer or independent equivalent runtime evidence.
 
-- 지원 리비전이 고정되면 해시와 필요한 구조 지문으로 입력을 식별한다.
-- 컨테이너나 파일시스템을 추출·재조립하는 빌드라면, 수정 전 무변경 왕복이 원본과 동등함을 `references/conventions/project-conventions.md` §5.1의 기준으로 먼저 증명한다.
-- 원본에 직접 패치를 적용하는 빌드라면 수정 위치의 예상 원본 바이트와 적용 후 범위를 검증한다.
-- 파일시스템·트랙·섹터 규칙은 실제 빌드가 그 계층을 읽거나 다시 쓸 때만 전제가 된다.
+Determine pointer width, byte order, base, and coordinate system from the consumer. CPU identity alone does not establish them. An unresolved control token may remain a reversible raw token when its boundary and argument width are known; do not invent semantics.
 
-입력 경계가 확정되지 않으면 이후의 성공은 다른 리비전이나 재빌드 우연일 수 있으므로 배포 가능 판정으로 승격하지 않는다.
+### 2.3 Glyph and render path
 
-### 2.2 저장 구조와 소비 의미
+- Connect the glyph source to a screen consumer.
+- Replacing an existing glyph in the same format proves that the replacement path can reuse that consumer.
+- A new encoding, hook, dynamic supplier, or relocation must state the solved constraint and the new consumption conditions it introduces.
+- Derive cell and glyph demand from the target corpus and actual budgets.
+- For a finite display population, measure applicable visible width, rows, pages, and start/end behavior at the consumer or window path. A stored source width or height is evidence of capacity only after establishing that the consumer uses it. Use `references/strategy/translation-workflow.md` §4 to distinguish source usage from confirmed capacity.
 
-바이트 패턴, 문자열 검색, 통계, 선행 패치 diff는 후보를 만든다. 인코딩·포인터·종료자·압축·그래픽 포맷은 **실제 소비자의 읽기 의미 또는 그와 독립적인 실행 증거**가 맞을 때만 확정한다.
+### 2.4 Capacity and runtime assets
 
-포인터의 엔디언·기준·폭은 CPU 계열명이 아니라 그 값을 읽는 소비자로 확정한다. 후보 주소가 우연히 유효 범위에 들어간다는 사실만으로 구조를 채택하지 않는다. 제어코드 의미를 모르는 경우에도 경계와 인자 폭이 확인되고 원시 토큰으로 가역 보존되면 추출·재삽입 후보가 될 수 있다.
+Compare capacity with the actual required repertoire, text growth, buffers, and transfers. Do not begin with relocation or dynamic mapping merely because capacity might be insufficient; first establish the limiting resource.
 
-### 2.3 글리프와 렌더 경로
+When a change triggers `references/strategy/runtime-assets.md` §1, assess the links in its §2.
 
-글리프 원천과 화면 소비자를 연결한다. ROM·파일·BIOS·폰트 ROM 중 어디서 공급되는지, 런타임 변환·버퍼·VRAM 업로드가 있는지에 따라 필요한 개입이 달라진다.
+### 2.5 Population and initial volume
 
-기존 글리프를 같은 포맷으로 교체해 목표 화면이 바뀌면 데이터 교체 경로의 재사용 가능성이 확인된다. 새 인코딩, 훅, 동적 공급이나 자산 이동을 선택할 수도 있지만, 그 선택이 해결할 확인된 제약과 새로 생기는 소비 요건을 함께 판정해야 한다. 셀 크기와 글리프 수는 플랫폼 관습이 아니라 대상 화면과 실제 공급 예산으로 판정한다.
+Work backward from declared screen and function consumers, selection branches, and indexes to enumerate files and entries. Do not grow the target list one runtime discovery at a time.
 
-유한한 표시 영역의 원문을 추가 가정 없이 열거할 수 있으면 제어 토큰과 가변 삽입을 반영한 최대 가시 폭, 행·페이지 수와 시작·끝 좌표를 소비 경로·창 종류별로 조사한다. 확인하지 못한 모집단이나 값은 미확정 범위로 구분한다. 원본에 폭·높이·좌표가 저장돼 있으면 실제 소비자가 그 값을 사용하는 방식까지 연결하고, 원본 사용 범위와 확인된 소비 한도를 `references/strategy/translation-workflow.md` §4에 따라 구분한다.
+- Statically enumerate a finite population when possible.
+- Partition it by shared format, selection, load or transform, consumer, and state lifetime.
+- A shared extension, directory, or one successful run does not prove a shared consumer path.
+- If static scope remains unresolved, report a lower bound and the unresolved region; narrow exceptions rather than claiming completeness.
+- Use `references/strategy/runtime-assets.md` §2 to distinguish one common runtime link from exceptions.
+- Survey early text volume through `references/strategy/text-extraction.md` §1.5. A representative PoC may precede expensive enumeration when the lower bound and unresolved region are explicit.
+- Candidate byte or string count does not equal translation workload.
 
-### 2.4 수용량과 런타임 자산
+## 3. Promoting hypotheses to facts
 
-수용량은 실제 설계가 요구하는 문자 집합·텍스트 성장·버퍼·전송 예산과 비교한다. 공간이 부족하다는 가설만으로 재배치나 동적 매핑을 기본값으로 삼지 않는다.
+Keep confirmed facts, candidates, and rejected candidates distinct.
 
-후보 설계가 `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하면 로더, 주소 계산, 버퍼, 전송, 캐시·재적재와 최종 소비의 연결을 `references/strategy/runtime-assets.md` §2에 따라 검증한다.
+- Establish stored meaning from a consumer, dispatcher, reference structure, or independent equivalent evidence.
+- Connect render input, intermediate representation, and screen output.
+- A self round trip proves implementation agreement, not game compatibility.
+- A completeness claim requires both a denominator and coverage of its consumer paths.
+- Conflicting evidence keeps a claim provisional.
+- One successful title or item does not establish a platform rule.
 
-### 2.5 모집단과 초기 분량
+### 3.1 Fixed revision and unresolved population
 
-현지화 범위의 저장·소비 경계가 드러나면, 선언한 화면·기능에서 소비자와 선택 분기로 거슬러 올라간 뒤 그 소비자가 참조하는 파일·항목으로 범위를 펼친다. 개별 파일에서 단서를 얻었더라도 같은 소비자에 속하는 모집단을 먼저 찾으며, 실행 중 새 항목이 보일 때마다 파일 목록을 수동으로 늘리는 방식을 기본값으로 삼지 않는다.
+For a fixed revision and a proven consumer, treat hook sites, original instructions, table entries, and pointer storage as revision specification. Use explicit constants and expected source bytes instead of runtime heuristics.
 
-구조·참조로 범위를 정할 수 있는 유한한 모집단은 정적으로 전수 열거하고 저장 형식, 선택 규칙, 적재·변환 경로, 최종 소비자와 상태 전이 뒤 유지 조건이 같은 항목과 예외로 나눈다. 같은 디렉터리·확장자나 한 번의 실행만으로 같은 소비 경로에 속한다고 가정하지 않는다. 참조 테이블·디스패처·읽기 코드·구조 검증처럼 각 항목을 판정하는 근거로 소속을 확인한다. 정적으로 전수 판정할 수 없는 범위는 확인된 하한과 미확정 범위를 구분하고 소비자·선택 경계를 더 조사해 별도 실행이 필요한 예외를 좁힌다. 공통 연결의 실제 작동과 남은 예외의 실행 검증은 `references/strategy/runtime-assets.md` §2에 따른다.
+Derive values that depend on build output, such as end addresses, branch displacements, file sizes, and checksums. A fixed specification does not mean hard-coding derived outputs.
 
-현지화 대상의 저장·소비 경계가 드러나면 `references/strategy/text-extraction.md` §1.5에 따라 대상 종류별 모집단과 분량을 조기에 조사한다. 전체 범위를 열거하는 비용이 크고 PoC가 설계를 먼저 뒤집을 수 있다면 확인된 하한과 미확정 범위를 기록한 뒤 대표 PoC를 먼저 수행할 수 있다. 어느 쪽이든 후보량을 번역 작업량으로 확정하지 않는다.
+A finite list becomes complete only after establishing its denominator. When population detection remains necessary, fail the build if the parser or detector cannot establish scope. Do not silently repair disagreement between heuristics and specification; reassess revision, denominator, and false positives.
 
-## 3. 가설을 사실로 승격하는 기준
+Store pointer findings under `references/conventions/data-formats.md` §4.
 
-조사 기록은 사실, 후보, 기각 가설을 구분한다. 후보를 사실로 승격하려면 그 결론을 실제로 구분하는 증거가 필요하다.
+## 4. Prior patches and lineage
 
-- 저장 구조는 읽기 코드·디스패처·포인터 소비 또는 동등한 독립 증거로 확인한다.
-- 렌더 경로는 수정 입력이 예상한 중간 상태와 최종 화면에 도달하는지 확인한다.
-- 압축·직렬화는 자기 라운드트립만으로 게임 소비 호환성을 주장하지 않는다. 원본 소비자 또는 독립 구현과 대조한다.
-- 호출 그래프나 자산 목록의 완전성은 선언한 분모가 모두 판정되고 소비 경로가 확인됐을 때만 주장한다.
+Use prior patches as candidate maps and risk evidence, not authority. Choose references by matching bottleneck and representation rather than language label alone. A Chinese or other CJK patch may expose non-Latin code-space, glyph, and budget constraints more directly than a Latin-variable-width patch, but remeasure the Korean corpus, cells, and spacing.
 
-서로 다른 관측이 충돌하면 더 강한 증거가 나올 때까지 후보로 남긴다. 단일 성공 표본을 플랫폼 일반 규칙으로 승격하지 않는다.
+Use a prior patch by:
 
-### 3.1 고정 리비전과 미확정 모집단
+- diffing it against its identified source to generate candidates;
+- cross-checking public results or independently reproduced behavior;
+- recording checksum, application order, license, and incompatibilities when it enters the build lineage; and
+- remeasuring every width, repertoire, slot, and representation constraint for the current target.
 
-지원하는 원본 리비전 하나가 고정되면, 실제 소비 또는 동등한 독립 증거로 역할을 확인하고 원본 바이트를 검증한 훅 위치·원본 명령·테이블 항목·포인터 저장 위치는 확인된 범위에서 그 리비전의 사양이다. 런타임 휴리스틱으로 다시 찾기보다 상수와 예상 원본 바이트를 명시하고 불일치를 실패시킨다. 카탈로그 전체의 완전성은 선언한 모집단을 실제로 전수 열거·판정했을 때만 주장한다.
+Once the target's own storage -> consumer -> screen path supplies sufficient evidence, use that path as the implementation basis. Do not require a fixed count of prior examples before transitioning. Retain prior patches only as coverage or failure candidates within their verified range.
 
-번역 길이·글리프 수·재배치 결과에 따라 달라지는 끝 주소·분기 거리·파일 크기·체크섬은 입력에서 파생한다. 여러 리비전, 런타임 생성 데이터, 아직 범위가 확정되지 않은 호출 경로처럼 모집단이 미확정이면 고정 목록으로 가장하지 않는다. 파싱·탐지 결과로 범위를 확정할 수 없으면 빌드를 실패시킨다. 휴리스틱 결과가 고정 사양과 다르면 자동 보정하지 않고 리비전·분모·거짓양성을 다시 판정한다.
+## 5. Completion
 
-포인터 카탈로그의 표현 규칙은 `references/conventions/data-formats.md` §4를 따른다.
+The initial survey is complete when:
 
-## 4. 선행 패치와 계보 자료
+1. Supported input and modification or rebuild boundaries are identified.
+2. A representative target has a reversible storage and consumer interpretation.
+3. Initial volume is labeled exact, lower bound, estimate, or unresolved.
+4. Required PoCs are distinguished from conditional PoCs, and skipped tests cite equivalent evidence.
+5. Each unresolved completion-critical condition has a next diagnostic or workaround.
+6. No high-impact risk remains without a diagnostic or viable design branch.
 
-타국어판, 선행 패치, 같은 개발사·엔진 계보의 다른 게임은 후보와 위험 지도를 제공한다. 원본의 의미나 대상 게임의 구조를 대신하는 권위는 아니다.
+Produce:
 
-선행 자료는 언어 이름보다 현재 병목과 표현 조건이 가까운지를 기준으로 고른다. 대량 비라틴 글리프 공급, 멀티바이트 코드 공간, 고정 셀의 저해상도 판독성, 폰트 저장·적재 예산이 문제라면 중문·한자권 패치는 영문 VWF 패치보다 한글과 비슷한 위험 지도를 제공할 수 있다. 다만 한자와 한글의 글자 수·획 구성·음절 구조, 받침 판독성과 조판은 다르므로 셀 크기·글리프 수·줄바꿈·공간 확장 해법은 한글 코퍼스와 실제 화면에서 다시 판정한다.
+- the current architecture and established conclusions;
+- a text and asset map including volume status; and
+- a proceed/risk table mapping unresolved conditions to next evidence.
 
-- 원본 대비 diff는 훅·재배치·폰트·압축 후보를 좁히는 데 쓴다.
-- 공개된 추출 결과나 구현은 자체 관측과 교차 검증한다.
-- 선행 패치를 실제 빌드 입력으로 삼는다면 체크섬, 적용 순서, 라이선스, 알려진 비호환을 배포 전제로 기록한다.
-- 문자 폭·인코딩·렌더 방식이 다른 현지화판의 해법은 대상 한글 수요로 다시 측정한다.
-
-원본의 저장→소비→화면 경로가 현재 결정을 내릴 만큼 확인되면 구현 기준은 원본 경로가 된다. 전환 시점을 고정된 항목 수로 정하지 않는다. 선행 패치는 이후에도 커버리지 대조와 실패 후보로 남길 수 있다.
-
-## 5. 완료 판정과 산출물
-
-초기 조사 완료는 자료량이 아니라 다음 결정이 가능한지로 판정한다.
-
-1. 지원 입력과 수정·재빌드 경계가 선언되어 있다.
-2. 대표 번역 대상의 저장과 소비 경로가 가역 표본으로 연결되어 있다.
-3. 현지화 대상별 초기 분량이 확정값·하한·추정치와 미확정 범위로 구분되어 있다.
-4. 필요한 PoC와 다른 조건부 검증이 구분되어 있고, 생략한 검증에는 동등 증거가 있다.
-5. 미확정 위험마다 다음 판정 실험 또는 우회안이 있다.
-6. 높은 위험 중 우회안도 판정 실험도 없는 항목이 없다.
-
-산출물은 현재 결론을 담는 아키텍처 기록, 초기 분량을 포함한 텍스트·자산 맵, 현재 설계의 진행 여부와 남은 위험을 보여 주는 표다. 분석 일지는 시간순 증거로 남길 수 있지만 현재 결론을 대신하지 않는다. 기록해야 할 의미와 관계는 `references/conventions/project-records.md` §3을 따른다.
-
-초기 조사 결과는 아직 판정되지 않은 다음 질문 또는 승인된 구현 경계로 돌려준다. PoC 발동 조건이 없거나 동등 증거가 있으면 반복 실험을 만들지 않는다. 검증이 실패하면 전체 조사를 반복하는 대신 실패한 경계를 다음 조사 대상으로 삼고, 해소한 결과를 원래 완성 조건과 함께 다시 판정한다. 분기를 바꾸는 플랫폼 경계는 해당 `references/platforms/<platform>.md`에서 확인하고 대상 게임의 증거로 확정한다.
+Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions. Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Apply platform constraints only from the applicable platform document and target evidence.

@@ -1,118 +1,118 @@
-# 재삽입 전략
+# Reinsertion strategy
 
-재삽입은 번역 바이트를 쓰는 기술이 아니라, 바뀐 길이·주소·코드가 실제 소비자의 경계와 상태 요건을 계속 만족하는지 판정하는 단계다. 길이 보존, 제자리 성장, 완전 재배치, 코드 훅 가운데 어느 것도 기본값으로 두지 않는다.
+Reinsertion is not merely writing translated bytes. It must preserve the consumer boundaries and state conditions affected by changed length, address, or code. Length preservation, in-place growth, full relocation, and code hooks are candidates, not defaults.
 
-## 1. 재삽입 정책
+## 1. Reinsertion policy
 
-| 확인된 조건 | 허용되는 선택 | 통과 기준 |
-|-------------|---------------|------------------|
-| 슬롯 폭 자체가 소비 경계이고 번역문이 들어감 | 길이 보존 | 종료·패딩·토큰·over-read |
-| 이동하는 모든 참조와 뒤따르는 위치 의존 구조를 갱신할 수 있음 | 제자리 성장 | 참조 완전성·정렬·크기·적재 |
-| 새 위치를 모든 소비자가 표현하고 도달할 수 있음 | 완전 재배치 | 주소 표현·로더·버퍼·수명 |
-| 데이터·조회 경로만으로 수용할 수 없음 | 코드 개입 검토 | 훅 ABI·원본 효과·복귀·설치 전제 |
-| 어느 조건도 확정되지 않음 | 정책 미확정 | 완성 경로를 가르는 질문으로 복귀하고 동등한 증거 중 비용이 낮은 것을 선택 |
+| Established condition | Available choice | Pass criteria |
+|---|---|---|
+| Slot width is the consumer boundary and the translation fits | Preserve length | Terminator, padding, tokens, and over-read |
+| Every moved reference and following position-dependent structure can be updated | Grow in place | Reference completeness, alignment, size, and load |
+| Every consumer can represent and reach a new location | Full relocation | Address representation, loader, buffer, and lifetime |
+| Data and lookup changes cannot satisfy consumption | Consider a code hook | Hook ABI, source effects, return, and installation prerequisites |
+| No condition is established | Policy unresolved | Return to a completion-changing question and choose the least costly equivalent evidence |
 
-한 파일 안에서도 엔트리·영역별로 다른 정책을 쓸 수 있다. 각 항목의 정책은 확인된 경계 모델과 안정적인 키에 명시하고, 초과·미확정 항목은 실패시킨다. 데이터 표현에는 `references/conventions/data-formats.md` §5의 규칙을 적용한다.
+Policies may differ by entry or region in one file. Bind each policy to an established boundary model and stable key. Fail on overflow or unresolved entries. Apply the representation rules in `references/conventions/data-formats.md` §5.
 
-### 1.1 고정 슬롯
+### 1.1 Fixed slots
 
-고정 슬롯을 채택하면 다음이 모두 성립해야 한다.
+A fixed-slot policy must satisfy all of these conditions:
 
-- 번역 바이트와 필수 토큰이 소비자가 읽는 범위 안에 들어간다.
-- 종료자, 길이 필드, 다음 포인터, 고정 레코드 폭 등 실제 경계 신호를 보존하거나 재계산한다.
-- 패딩 값과 위치가 문자·제어 인자·다른 필드로 소비되지 않는다.
-- 멀티바이트 문자나 제어 토큰을 중간에서 자동 절단하지 않는다.
+- Translation bytes and required tokens fit within the consumer's read extent.
+- Actual boundary signals such as terminator, length field, next pointer, or fixed record width are preserved or recomputed.
+- Padding value and position are not consumed as characters, control arguments, or another field.
+- No multibyte character or control token is truncated automatically.
 
-예산을 넘으면 빌드를 실패시키고 승인된 축약 또는 다른 정책을 선택한다. 특정 바이트나 “종료자 앞/뒤”를 전역 기본값으로 두지 않는다.
+Overflow must fail the build and require an approved shortening or another policy. Do not set a global padding byte or a universal rule based on position before or after a terminator.
 
-### 1.2 성장과 재배치
+### 1.2 Growth and relocation
 
-텍스트를 성장·이동시키려면 직접 포인터만이 아니라 다음 소비 범위를 확인해야 한다.
+Before growing or moving text, establish more than direct pointers:
 
-- 포인터 저장 위치, 타깃 주소, 기준 주소, 폭·엔디언·뱅크 표현
-- 문자열 내부를 가리키는 참조와 공유 tail·중복 참조
-- 뒤따르는 코드·메타데이터·다른 자산의 위치 의존값
-- 파일·컨테이너·파일시스템·게임 자체 위치·크기 메타데이터
-- 적재 버퍼, 해제 크기, 활성 메모리와 실제 소비 수명
+- pointer storage, target address, base, width, endianness, and bank representation;
+- references into strings, shared tails, and duplicate references;
+- position-dependent values in following code, metadata, and assets;
+- file, container, filesystem, and game-level location and size metadata; and
+- load buffers, decompressed size, active memory, and consumption lifetime.
 
-하나라도 갱신하거나 보존할 수 없으면 그 범위의 성장·재배치는 실패다. 대표 단위의 위험이 본 구현을 뒤집을 수 있고 동등 증거가 없다면 `references/strategy/poc.md`에서 재배치·길이를 먼저 검증한다.
+Growth or relocation fails for a scope if any required condition cannot be updated or preserved. If a representative risk can overturn the implementation and no equivalent evidence exists, verify length or relocation first through `references/strategy/poc.md`.
 
-## 2. 참조 완전성과 좌표
+## 2. Reference completeness and coordinates
 
-승인한 참조 카탈로그와 구조 파싱 가운데 무엇을 반복 빌드의 사양으로 삼을지, 휴리스틱 검색 결과를 어디까지 쓸지는 `references/strategy/text-extraction.md` §1.3으로 판정한다.
+Use `references/strategy/text-extraction.md` §1.3 to decide when an approved catalog or structural parser becomes repeated-build specification and when heuristic search remains only an audit.
 
-각 참조는 최소한 다음 좌표를 구분한다.
+Each reference must distinguish at least:
 
-- **저장 좌표**: 참조 바이트 자체가 있는 위치
-- **타깃 좌표**: 참조 값이 가리키는 원본 구조
-- **표현 규칙**: 폭, 엔디언, 기준 주소, 뱅크·세그먼트, 허용 범위
-- **소비자**: 그 값을 읽고 해석하는 경로
+- **Storage coordinate**: where the reference bytes reside.
+- **Target coordinate**: the source structure identified by the value.
+- **Representation**: width, endianness, base, bank or segment, and valid range.
+- **Consumer**: the path that reads and interprets the value.
 
-재배치 뒤 저장 좌표와 타깃 좌표가 각각 얼마나 움직였는지 독립적으로 계산한다. 이동량, 상대 거리, 최종 주소처럼 배치 결과에 의존하는 값은 원본 상수로 복제하지 않고 배치 결과에서 파생한다.
+After relocation, calculate storage-coordinate and target-coordinate movement independently. Derive displacement, relative distance, and final address from placement output rather than copying source constants.
 
-문자열 중간 참조는 원문의 바이트 거리만으로 새 위치를 추정하지 않는다. 번역 뒤에도 보존되는 명시 구조 앵커로 대응할 수 있을 때만 갱신한다. 대응할 수 없으면 해당 참조가 속한 구조를 원래 형태로 보존하거나 정책을 바꿔야 하며, 미해결 상태로 진행하지 않는다.
+Do not relocate an interior-string reference by applying its source byte distance to translated text. Update it only when an explicit structural anchor survives translation. Otherwise preserve the containing structure or change policy; do not proceed unresolved.
 
-뱅크·세그먼트·포인터 폭 경계를 넘으면 하위 오프셋만 고치지 않는다. 새 타깃을 표현하는 모든 상위 선택값과 소비자 전이를 함께 갱신할 수 있을 때만 이동을 허용한다.
+When a move crosses a bank, segment, or pointer-width boundary, update every higher-level selector and consumer transition required to represent the new target. Updating a low offset alone is insufficient.
 
-## 3. 재배치 검증
+## 3. Relocation verification
 
-재배치 출력은 다음을 자동 판정해야 한다.
+Relocated output must be checked mechanically for all of these conditions:
 
-- 승인된 참조 분모가 모두 해결됐고 예상하지 않은 참조 형식이 없다.
-- 새 값이 표현 폭·정렬·허용 주소 범위를 만족한다.
-- 각 참조가 선언한 구조 경계와 소비 가능한 타깃을 가리킨다.
-- 이동하지 않은 값과 보호 영역은 근거 없이 바뀌지 않았다.
-- 재추출 결과가 의도한 번역·토큰 구조와 일치한다.
-- 성장·이동한 자산이 실제 로더와 런타임 소비 경로에서 도달한다.
+- Every reference in the approved denominator resolves, with no unexpected reference form.
+- Every new value fits its representation width, alignment, and valid address range.
+- Every reference targets a declared structure boundary consumable by its reader.
+- Unmoved values and protected regions do not change without justification.
+- Re-extraction reproduces the intended translation and token structure.
+- The actual loader and runtime consumer reach every grown or moved asset.
 
-검증 실패를 다른 포인터 후보나 패딩 정책으로 자동 보정하지 않는다. 구조 모델을 수정하거나 해당 범위의 완료를 보류한다.
+Do not auto-correct a failed check by selecting another pointer candidate or padding policy. Correct the structure model or leave the scope incomplete.
 
-한 논리 변경이 여러 페이로드·포인터·훅 설치 위치를 함께 바꾸면 `references/conventions/project-conventions.md` §5.2에 따라 전체 변경 범위를 함께 검증하고, 하나라도 실패하면 아무 변경도 적용하지 않는다.
+When one logical change writes several payloads, pointers, or hook sites, verify the complete write set atomically under `references/conventions/project-conventions.md` §5.2. Apply none of it if any write fails.
 
-## 4. 코드 훅
+## 4. Code hooks
 
-기존 데이터·테이블·조회 경로만으로 소비 요건을 만족하지 못한다고 확인된 경우에만 코드 개입을 선택한다. 폰트나 인코딩을 바꿨다는 사실만으로 훅을 요구하지 않는다.
+Choose code intervention only after establishing that existing data, table, and lookup paths cannot meet consumer requirements. A font or encoding change alone does not require a hook.
 
-훅은 다음 인터페이스와 불변식을 명시하고 검증해야 한다.
+A hook must specify and verify:
 
-- 진입점의 live-in, 복귀점의 live-out, 의도한 새 출력
-- 덮어쓴 원본 명령의 효과와 모든 복귀 경로
-- 명령 모드, 분기 범위·지연 실행, 스택과 호출 규약
-- 뱅크·세그먼트·인터럽트 등 진입 상태의 보존 또는 의도적 변경
-- 공유 상태를 초기화·갱신·해제하는 코드·경로
+- entry live-ins, return live-outs, and intended new output;
+- the effects of overwritten source instructions and every return path;
+- instruction mode, branch range and delay behavior, stack, and calling convention;
+- preservation or intentional modification of bank, segment, interrupt, and other entry state; and
+- code paths that initialize, update, and release shared state.
 
-저장·복원할 CPU 상태와 인터럽트 처리는 복귀 뒤 실제로 읽히는 상태와 원본 명령의 효과에서 도출한다.
+Derive saved CPU state and interrupt handling from state read after return and from the effects of overwritten instructions.
 
-고정된 짧은 명령열을 넘어 code를 생성·이동하거나 참조 완전성을 주장하면 `references/conventions/project-conventions.md` §2.3의 assemble→disassemble 검산 규칙을 적용한다. 지원하지 않는 instruction을 임의 바이트나 데이터로 통과시키지 않는다.
+When generating or relocating more than a fixed short instruction sequence, or claiming reference completeness, apply the assemble-then-disassemble verification in `references/conventions/project-conventions.md` §2.3. Do not pass an unsupported instruction as arbitrary bytes or data.
 
-훅 설치는 대상 리비전 식별과 설치 위치의 기대 바이트·명령 경계를 확인한 뒤에만 쓴다. 상대 분기 거리, 리터럴 주소, 코드·데이터 끝처럼 최종 배치에 따라 바뀌는 값은 배치 결과에서 파생한다.
+Write a hook only after identifying the target revision and checking expected bytes plus instruction boundaries at the installation site. Derive branch displacement, literal addresses, and code or data ends from final placement.
 
-연속 채움값이나 실행되지 않아 보이는 범위는 자유 공간의 증거가 아니다. 직접·간접 진입, read·write, 복사 원천과 런타임 생성 용도를 배제하지 못하면 훅 공간으로 사용하지 않는다.
+Repeated fill or apparently unreachable space is not evidence of free space. Do not use it until direct and indirect entry, reads, writes, copy-source use, and runtime generation have been excluded for the declared denominator.
 
-## 5. 공간과 런타임 도달
+## 5. Space and runtime reachability
 
-빈 영역, 재배치로 비워진 범위, 확장 매체, 새 파일과 선언한 현지화 범위를 모두 번역해 원문이 더는 소비되지 않는 저장 영역은 모두 후보일 뿐이다. 새 공간을 채택하려면 다음을 증명한다.
+An empty region, relocation gap, expanded medium, new file, or source-text storage no longer used after complete translation is only a candidate. Adoption requires proof that:
 
-- 기존 참조자와 소비자가 없거나 모두 새 위치로 전환됐다.
-- 주소 디코딩·매퍼·파일시스템·컨테이너와 게임 자체 메타데이터가 새 범위를 표현한다.
-- 저장·해제·적재 버퍼와 전송량이 성장한 자산을 수용한다.
-- 보호 필드와 의도적 비정상 구조를 필요한 범위에서 보존한다.
-- 실제 실행 경로가 새 위치를 읽고 소비 시점까지 데이터를 유지한다.
+- no prior references or consumers remain, or all have moved;
+- address decoding, mapper, filesystem, container, and game metadata represent the range;
+- storage, decompression, load buffers, and transfers accept the grown asset;
+- protected fields and intentional irregular structures remain intact where required; and
+- the real runtime path reads the new location and retains it through consumption.
 
-원문 저장 영역을 회수 후보로 삼을 때는 엔트리 단위의 번역 완료를 그 바이트 범위의 해방으로 보지 않는다. 공유 tail, 중복 포인터, 문자열 내부 진입과 인라인 리터럴 때문에 한 엔트리를 번역해도 그 범위 전체가 비지 않으므로, 회수 단위는 참조 완전성이 입증된 범위로 잡는다. `references/strategy/text-extraction.md` §1.4의 모집단이 미확정이거나 `references/conventions/translation-artifacts.md` §5의 승인 예외로 원문을 남기는 범위는 회수 대상이 아니다.
+Translating one entry does not free all bytes in its range. Shared tails, duplicate pointers, interior entries, and inline literals can keep the range live. Reclaim only a range with established reference completeness. Do not reclaim a scope with unresolved population under `references/strategy/text-extraction.md` §1.4 or source text retained as an approved exception under `references/conventions/translation-artifacts.md` §5.
 
-파일 크기나 이미지 크기가 늘었다는 사실만으로 주소공간·버퍼·소비 경로가 확장됐다고 판정하지 않는다. 재삽입에 따른 자산 변경이 `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하면 완료 판정은 그 문서의 연결 검증을 따른다.
+Growth of file or image size does not prove expansion of address space, buffers, or consumer paths. If a reinserted asset triggers `references/strategy/runtime-assets.md` §1, completion requires that document's link assessment.
 
-## 6. 소비자 불변식
+## 6. Consumer invariants
 
-재삽입 뒤에는 해당 경로에 실제로 있는 불변식만 적용한다.
+Apply only invariants present on the target path:
 
-- **문자 경계**: look-ahead와 분기 소비자가 새 멀티바이트 문자와 제어 토큰의 경계를 동일하게 해석한다.
-- **엔트리 경계**: 종료자·길이·고정 폭·다음 포인터·구분자 가운데 해당 소비자에서 실제 경계를 결정하는 규칙을 보존한다.
-- **패딩·정렬**: 소비 가능한 위치와 값이 확정된 범위에만 넣고, trailing 토큰이나 다음 필드를 침범하지 않는다.
-- **레이아웃·클리어**: 표시 범위가 늘거나 줄어든 각 상태에서 그리기·클리어 범위가 일치하고 인접 UI·그래픽을 덮지 않는다. 페이지·창 전환이나 이탈·재진입 뒤에도 이전 범위의 픽셀·타일이 남지 않는다.
-- **공유 상태**: 모든 쓰기 주체와 상태 전이를 확인하고 초기화·갱신·해제 책임을 귀속한다.
-- **인코딩 커버리지**: 매핑되지 않은 문자는 빌드 실패이며 조용히 누락·대체하지 않는다.
-- **사용자 문자열**: 한글 입력을 지원하면 입력 문자 집합, 저장 인코딩·길이, 재표시 경로가 같은 규칙을 사용한다. 범위 밖이면 그 결정을 명시한다.
+- **Character boundaries**: Look-ahead and branch consumers interpret new multibyte characters and control tokens consistently.
+- **Entry boundaries**: Preserve whichever of terminator, length, fixed width, next pointer, or delimiter actually defines the consumer boundary.
+- **Padding and alignment**: Write only established consumable positions and values; do not invade trailing tokens or following fields.
+- **Layout and clearing**: Drawing and clearing extents match every expanded or reduced state without covering adjacent UI or graphics. No stale pixels or tiles remain after page or window transitions, exit, or re-entry.
+- **Shared state**: Identify every writer and transition, and assign initialization, update, and release responsibility.
+- **Encoding coverage**: An unmapped character fails the build; never omit or replace it silently.
+- **User strings**: If Hangul input is supported, input repertoire, stored encoding and length, and redisplay use the same rules. Otherwise state that it is out of scope.
 
-어느 불변식이 대상 경로에 있는지 불명확하면 성공으로 간주하지 않고 해당 소비자 조사로 돌아간다.
+If the presence of an invariant is unresolved, return to consumer investigation rather than treating it as passed.

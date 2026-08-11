@@ -1,47 +1,47 @@
-# 그래픽 텍스트 처리 전략
+# Graphics text
 
-자산 탐색과 이미지 편집 수단은 현재 포맷과 프로젝트에 맞춰 선택하고, 아래 기준으로 대상 범위·보존 조건·실제 소비와 완료 여부를 판정한다. 텍스처 컨테이너의 바이트 사양은 해당 플랫폼 문서에서 확인하고, 저장 자산과 런타임 소비자의 연결은 `references/strategy/runtime-assets.md`로 검증한다.
+Choose discovery and image-editing methods for the current format and project. Use the criteria below to determine the target population, preservation conditions, real consumption, and completion. Read byte-level texture-container facts from the relevant platform document. Verify the connection between stored assets and runtime consumers through `references/strategy/runtime-assets.md`.
 
-## 1. 발동 조건과 모집단
+## 1. Trigger and population
 
-배포 범위의 문자열이 폰트 렌더 경로가 아니라 그래픽 자산의 픽셀로 저장돼 있고 그 픽셀이 실제 화면 소비와 연결됐을 때 이 전략을 발동한다. 저장 형태가 미확정이거나 픽셀 저장 여부가 현재 결정을 바꾸지 않으면 별도 그래픽 텍스트 경로를 확정하지 않는다.
+Apply this strategy when a string in the distribution scope is stored as pixels in a graphics asset rather than rendered through a font, and those pixels are connected to a real screen consumer. Do not establish a separate graphics-text path when storage is unresolved or pixel storage cannot change the current decision.
 
-발동할 때는 검토할 자산·상태·변형의 분모를 먼저 고정한다. 각 항목은 `references/strategy/text-extraction.md` §1.4와 같은 **해결 / 제외 / 미확정**으로 판정하며, 여기서 해결은 번역 대상으로 확정한 항목이고 제외는 근거를 들어 비대상으로 판정한 항목이다. 하나의 라벨이 선택·비선택·비활성처럼 여러 자산으로 소비되면 각 변형을 별도 항목으로 센다. 전수 완료는 이 분모의 모든 항목이 판정됐을 때 성립한다.
+When this strategy applies, define the denominator of assets, states, and variants to review. Classify every item as **resolved / excluded / unresolved**, using the meanings in `references/strategy/text-extraction.md` §1.4. Here, resolved means confirmed as a translation target; excluded means judged out of scope with evidence. Count selected, unselected, disabled, or other separately consumed variants as separate items. Complete coverage requires a decision for every item in the denominator.
 
-표시 시점에 새 쓰기가 관측되지 않아도 자산 부재로 판정하지 않는다. 이미 적재된 자산일 수 있으므로 저장 위치, 적재 결과와 화면 소비자를 연결해야 한다. 정적 목록과 런타임 목록이 다르면 차이를 해소할 때까지 분모를 확정하지 않는다.
+Absence of a new write at display time does not prove that the asset is absent. It may have been preloaded; connect storage, load result, and screen consumer. If static and runtime inventories disagree, do not finalize the denominator until the difference is explained.
 
-모집단과 판정 상태를 기록할 때 구분할 의미는 `references/conventions/project-records.md` §5를 따른다.
+Use `references/conventions/project-records.md` §5 for the meanings and states recorded in this population.
 
-## 2. 보호 픽셀·팔레트 불변식
+## 2. Protected pixels and palette invariants
 
-헤더나 확정된 소비자가 자산 구조를 제공하지 않으면 수정 영역의 픽셀 인코딩, 시작 경계와 주소 계산, 구간 경계를 함께 판정한다. 선형 비트맵은 비트 깊이·픽셀 순서·시작 오프셋·행 간격·폭·높이를, 타일·평면·swizzle 표현은 해당 주소 규칙을 따른다. 파일 크기와 일부가 그림처럼 보인다는 사실은 후보 조건일 뿐이다. 채택한 해석은 수정 영역 전체를 설명하고 나머지 바이트를 보호할 수 있어야 하며, 모집단에서 제외해 그대로 보존할 영역까지 모두 해독하도록 강제하지 않는다.
+When neither a header nor a confirmed consumer defines the asset structure, determine pixel encoding, start boundary, address calculation, and segment boundaries together for the editable region. For a linear bitmap, determine bit depth, pixel order, start offset, row stride, width, and height. For tiled, planar, or swizzled data, determine the corresponding address rule. File size and a partially plausible image create candidates only. The adopted interpretation must explain the entire editable region and protect all remaining bytes; it need not decode an excluded region that will remain unchanged.
 
-수정 전에 자산별로 다음 조건을 선언한다.
+Before editing each asset, declare:
 
-- 수정 가능한 픽셀 영역과 반드시 보존할 픽셀 영역
-- 사용 가능한 팔레트 인덱스·속성과 공유 소비자
-- 크기, 정렬, 타일·셀 순서, 메타데이터와 압축 등 컨테이너 불변식
+- Editable and protected pixel regions.
+- Permitted palette indices or attributes and every known shared consumer.
+- Container invariants such as size, alignment, tile or cell order, metadata, and compression.
 
-원문을 지운 배경은 보호 영역을 훼손하지 않았음을 대조할 수 있는 승인된 기준이어야 한다. 결정적으로 재생성할 수 없으면 결과 자체를 고정 기준으로 삼아 동일성을 검증한다. 배경과 원문 픽셀의 경계를 확정할 수 없거나 클린 환경에서 결과를 재현·검증할 수 없으면 완료가 아니다.
+A text-free background must be an approved reference against which protected regions can be compared. If it cannot be regenerated deterministically, freeze the accepted result and verify identity against it. The asset is incomplete when the boundary between source text and background is unresolved, or when a clean environment cannot reproduce and verify the result.
 
-수정 전에 원본 자산의 무수정 라운드트립을 `references/conventions/project-conventions.md` §5.1의 동등 기준으로 확인한다. 여러 표현이 허용되는 포맷에서는 디코드 픽셀도 그 기준의 보호 대상에 넣는다. 수정 산출물은 허용된 영역 밖의 픽셀, 팔레트·속성과 컨테이너 불변식을 같은 기준으로 보존해야 한다.
+Before modification, establish an unchanged round trip under the equivalence criteria in `references/conventions/project-conventions.md` §5.1. When a format permits multiple encodings, include decoded pixels in the protected comparison. The modified artifact must preserve pixels outside the allowed region, palette indices or attributes, and all declared container invariants under the same criteria.
 
-## 3. 소비 경로
+## 3. Consumer path
 
-같은 의미를 공유하는 상태·변형마다 저장 자산, 적재 결과와 화면 소비자를 연결한다. 하나의 자산을 여러 화면이 공유하거나 하나의 화면이 여러 자산을 조합하면 그 관계와 변경 영향 범위를 검증 범위에 포함한다. 표시 결과만 같다는 이유로 저장→적재→선택 연결을 생략하지 않는다.
+For every state and variant that shares meaning, connect stored asset, load result, and screen consumer. Include sharing and change impact when one asset feeds several screens or one screen composes several assets. An identical display result does not justify omitting the storage-to-load-to-selection link.
 
-그래픽 자산 변경이 `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하면 시각 확인과 별개로 그 문서의 연결도 검증해야 한다.
+When a graphics change meets a trigger in `references/strategy/runtime-assets.md` §1, verify that document's links independently of visual review.
 
-## 4. 완료 판정
+## 4. Completion
 
-다음을 모두 만족할 때만 그래픽 텍스트 범위를 완료로 판정한다.
+Mark the graphics-text scope complete only when every condition below holds:
 
-- 선언한 모집단의 모든 항목이 해결 또는 제외로 판정됐고 미확정이 0건이다.
-- 헤더나 소비자에서 직접 확정되지 않은 자산은 수정 영역의 픽셀 인코딩·주소 계산·경계가 설명되고, 해석하지 않은 나머지 영역은 수정되지 않는다.
-- 보호 픽셀·팔레트·컨테이너 제약과 무수정 라운드트립이 빌드에서 재현된다.
-- 번역 영역이 승인된 조판·시각 기준을 따르고 실제 배경·팔레트에서 잘림 없이 판독되며, 대상에 있는 상태별 시각 구분이 유지된다.
-- 모든 대상 상태·변형이 확인된 소비 경로에 배정됐다.
-- 변경된 자산의 저장→적재→선택→표시 연결이 `references/strategy/runtime-assets.md` §2의 정적 전수 판정과 실행 증거로 확인됐다.
-- 수정하지 않은 대표 소비 경로가 기준 동작을 유지한다.
+- Every item in the declared denominator is resolved or excluded, with zero unresolved items.
+- For assets not directly defined by a header or consumer, pixel encoding, address calculation, and boundaries explain the editable region; all uninterpreted regions remain unchanged.
+- The build reproduces protected-pixel, palette, container, and unchanged-round-trip checks.
+- Translated regions follow approved layout and visual criteria, remain readable without clipping against the real background and palette, and preserve every required state distinction.
+- Every target state and variant is assigned to a confirmed consumer path.
+- Static population coverage and runtime evidence establish each changed asset's storage → load → selection → display path under `references/strategy/runtime-assets.md` §2.
+- Representative unchanged consumer paths preserve baseline behavior.
 
-분모, 배경·보호 영역, 공유 자산의 소비 경로와 실제 소비자 가운데 미확정 항목이 있으면 **미완료**다. 외부 대체 경로에서만 보이거나 파일 모집단에 없는 표시가 남은 경우에도 누락된 저장·합성 계층을 찾아야 한다. 미완료 항목은 배포 적격 범위에서 제외하거나 원인을 해소한다.
+The scope remains **incomplete** while any denominator item, background or protected region, shared-asset path, or real consumer remains unresolved. If text is visible only through an external substitute or appears outside the file population, locate the missing storage or composition layer. Exclude an incomplete item from release eligibility or resolve its cause.

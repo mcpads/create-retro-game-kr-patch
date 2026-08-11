@@ -1,161 +1,167 @@
-# 번역 워크플로우 전략
+# Translation workflow
 
-추출된 텍스트의 번역 적격·배포 적격 상태는 현재 맥락과 승인 결정, 보호 정보와 소비 제약, 사람 판단이 필요한 의미 문제를 분리해 판정한다. 각 상태는 아래 증거가 충족됐을 때 승격한다.
+Judge translation and distribution eligibility by separating established context and approved decisions, protected information and consumer constraints, and semantic issues that require human judgment. Promote each state only when its evidence is satisfied.
 
-## 1. 상태와 적격성
+## 1. States and eligibility
 
-번역 적격과 배포 적격은 서로 별개로 판정한다.
+Translation eligibility and distribution eligibility are separate.
 
-- **번역 적격**은 해당 단위의 의미를 판정하는 데 필요한 장면·화자·기능 맥락이 확정되고, 적용할 승인 용어·문체 결정이 식별된 상태다. 필요한 맥락이 확정되지 않은 단위는 추측으로 채우지 않고 번역 적격으로 승격하지 않는다.
-- **배포 적격**은 번역 적격 조건에 더해 보호 정보와 실제 소비 제약을 통과하고, 고위험 의미 판단이 모두 해소·승인된 상태다.
+- **Translation-eligible** means the scene, speaker, and functional context needed to determine meaning is established, and the applicable approved terminology and voice decisions are identified. Do not fill unresolved context by guesswork.
+- **Distribution-eligible** additionally means protected information and actual consumer constraints pass, and every high-impact semantic decision is resolved and approved.
 
-적격성의 단위는 실제 빌드 선택 경계에 맞춰 선언한다. 한 단위의 미해결 상태를 이유 없이 더 넓은 범위로 확대하지도, 미해결 단위를 선택 범위에 조용히 섞지도 않는다. 검수나 실행 QA에서 결함이 발견되면 영향을 받는 단위의 적격성을 취소하고 해당 판단 단계로 되돌린다.
+Define the eligibility unit at the real build-selection boundary. Do not expand one unresolved item to an unrelated scope or silently include it in a selected range. A defect found in review or runtime QA revokes eligibility for affected units and returns them to the relevant decision.
 
-선언한 번역 범위의 사람 검수는 릴리스 후보의 조건이다. 미완료 단위는 원문을 보존하거나 `references/conventions/translation-artifacts.md` §5의 개발 입력으로 구분해 기술 조사·구현·통합 검증을 계속한다. 다만 개발 빌드가 실제로 선택한 입력은 보호 정보와 확정된 구조·소비 제약을 지켜야 한다.
+Human review of the declared translation scope is a release-candidate condition, not a blocker for technical development. Preserve source text for incomplete units or mark them as development inputs under `references/conventions/translation-artifacts.md` §5. Any input selected by a development build must still preserve protected information and established structural and consumer constraints.
 
-완료율의 분모는 확인된 번역 대상과 근거가 있는 제외 범주로 선언한다. 새 추출물과 기존 자산의 개수 차이는 조사할 후보 변화이지 곧바로 누락 번역 수가 아니다. 추가·삭제·중복·비텍스트 여부를 판정하기 전에는 그 차이를 완료율이나 누락 수로 승격하지 않는다.
+Declare the completion denominator from confirmed translation targets and evidenced exclusions. A count difference between new extraction and existing assets is a candidate change, not a missing-translation count until additions, removals, duplicates, and non-text are distinguished.
 
-번역 작업을 전체 배포 범위로 확대하기 전에는 `references/strategy/text-extraction.md` §1.5의 분량 조사 판정을 통과한다. 그 전에 수행한 국소 범위의 결과를 전체 작업량·완료율이나 전체 코퍼스 수요로 확대하지 않는다.
+Before scaling translation to the full distribution scope, pass the volume survey in `references/strategy/text-extraction.md` §1.5. Do not generalize earlier local results into total workload, completion, or complete-corpus demand.
 
-자산 상태와 보호 정보에는 `references/conventions/translation-artifacts.md`의 의미 규칙을 적용하고, 공통 빌드 입력은 `references/strategy/build-and-verify.md` §1로 판정한다.
+Apply `references/conventions/translation-artifacts.md` to asset states and protected information, and `references/strategy/build-and-verify.md` §1 to common build inputs.
 
-## 2. 컨텍스트 확정
+## 2. Establishing context
 
-컨텍스트는 추출 텍스트를 실제 장면·화면·기능과 연결해 해석 후보를 좁히는 근거다. 전체 배포 범위의 전량 추출 완료를 기다리지 않고 분모가 확정된 범위부터 확인할 수 있지만, 번역할 범위의 분모와 소비 맥락은 확인돼 있어야 한다.
+Context links extracted text to actual scenes, screens, and functions and narrows interpretations. Work may begin on a scope with an established denominator before complete extraction of the entire distribution, but the translated unit's denominator and consumer context must be known.
 
-### 2.1 확정 판정
+### 2.1 Context decision
 
-컨텍스트가 확정됐다는 것은 대상 단위의 의미를 바꿀 수 있는 미확정 요소가 더는 남지 않았거나, 남은 불확실성이 번역 결과에 영향을 주지 않음이 확인됐다는 뜻이다. 필요한 요소는 게임과 문자열 역할에 따라 다르며, 모든 프로젝트에 같은 문서 묶음이나 체크리스트를 강제하지 않는다.
+Context is established when no unresolved factor can change the unit's translation, or remaining uncertainty is shown irrelevant to the result. Required evidence depends on the game and string role; do not impose one document set or checklist on every project.
 
-의미를 바꿀 수 있는 불확실성이 남으면 장면 확인·추가 추출·소비 경로 분석으로 되돌린다. 불확실성을 번역자의 일반지식이나 자연스러운 추측으로 대신하지 않는다.
+If uncertainty can change meaning, return to scene inspection, further extraction, or consumer-path analysis. Do not replace it with general knowledge or a plausible guess.
 
-대상 단위 밖의 서사·루트·관계 정보가 현재 의미를 바꿀 수 있으면 그 의존 범위도 먼저 확인한다. 서사 중심 범위의 본편 대사는 바깥 맥락의 영향 여부를 판정할 수 있도록 전체 줄거리·분기와 주요 관계 변화의 윤곽을 먼저 확보한다. 후반의 정체 공개, 분기별 사건 순서, 관계 변화처럼 국소 대사만으로 판정할 수 없는 작품은 관련 전체 서사·루트 구조를 재구성한 뒤 영향받는 배치를 번역 적격으로 승격한다. 반대로 독립된 UI나 장면처럼 바깥 맥락이 결과를 바꾸지 않음이 확인됐다면 전 작품의 스토리 파악을 선행 조건으로 만들지 않는다.
+When narrative, route, or relationship information outside the local unit can change meaning, establish that dependency first. For narrative-heavy dialogue, obtain enough of the complete plot, branches, and major relationship changes to assess outside influence. Reconstruct the applicable route structure before translating units affected by late reveals, branch order, or relationship changes. Conversely, do not require complete story reconstruction for independent UI or scenes already shown not to depend on it.
 
-### 2.2 근거의 범위
+### 2.2 Evidence scope
 
-원본 추출물과 실제 소비 장면을 기준선으로 삼는다. 현재 의미·순서·화자·용어의 적용 범위가 확정되지 않았다면 그 질문을 판정할 수 있는 외부 자료를 조사한다. 이미 판정된 질문 때문에 모든 자료군을 의례적으로 검색하지는 않는다.
+Use source extraction and actual consumed scenes as the baseline. Consult external sources when they can decide unresolved meaning, order, speaker, or terminology scope. Do not search every source category ceremonially after the question is already decided.
 
-- 공식 매뉴얼·사이트·가이드 같은 1차 자료는 설정, 명칭, 기능 설명의 근거가 될 수 있다. 공식 한국어판이나 다른 공식 현지화는 정착 표기와 해석의 후보지만, 작품·리비전·지역·시리즈 연속성이 맞는지 확인해야 한다.
-- 공략·워크스루는 장면 순서, 분기 조건, 등장 인물과 시스템 기능을 복원하는 근거다. 원문 표현이나 화자 의도를 확정하는 번역 원문으로 쓰지 않는다.
-- 선행 현지화·팬 패치·역공학 기록은 해석 후보와 기술 단서를 제공한다. 원문에 없는 보강·생략·시점 변경이 있을 수 있으므로 원본과 실제 장면에 다시 대조한다.
+- Primary sources such as official manuals, sites, and guides may establish setting, names, and functions. Official Korean or other localizations are candidates for established wording; verify title, revision, region, and series continuity.
+- Guides and walkthroughs may reconstruct scene order, branches, characters, and system functions. They are not source text for exact wording or speaker intent.
+- Prior localizations, fan patches, and reverse-engineering records provide interpretation candidates and technical clues. Compare them with source text and real scenes because they may add, omit, or change viewpoint.
 
-외부 자료로도 불확실성이 해소되지 않으면 추출 코퍼스 독해, 해당 루트 실행, 추가 추출·역공학으로 되돌린다. 출처를 찾았다는 사실만으로 적용 범위가 확인되지 않은 해석을 승인하지 않는다.
+If external sources do not resolve the question, return to corpus reading, route execution, extraction, or reverse engineering. Finding a source does not approve an interpretation whose applicability is unknown.
 
-새 근거가 기존 컨텍스트를 뒤집으면 현재 판단을 고치고 영향받는 번역의 적격성을 재평가한다. 폐기된 해석을 현재 사실과 함께 보존하지 않는다.
+When new evidence overturns context, correct the current decision and reassess affected eligibility. Do not preserve a rejected interpretation beside current fact as if both remained valid.
 
-### 2.3 논리 순서와 저장 순서
+### 2.3 Logical order and storage order
 
-저장 순서가 플레이·장면 순서라는 보장은 없다. 의미 판정에 필요하면 번역용 논리 뷰를 장면·화면·화자 관계에 맞춰 구성하되, 그 재배열을 추출 기준선이나 물리 배치 변경으로 확장하지 않는다. 동일 원문도 소비 장면이나 화자가 다르면 같은 번역을 강제하지 않는다.
+Storage order need not equal play or scene order. Build a translator-facing logical view around scene, screen, and speaker relations when required for meaning, but do not turn that reordering into a changed extraction baseline or physical layout. Identical source text need not receive identical translation when consumer scene or speaker differs.
 
-### 2.4 화자와 문체 맥락
+### 2.4 Speaker and voice context
 
-화자·청자·관계·장면이 번역을 바꾸는 텍스트는 그 근거를 컨텍스트에 포함한다. 제어 신호·화면·대화 순서처럼 확인된 근거와 어조에서 추정한 정보를 같은 확신도로 다루지 않는다. 추정이 결과를 바꿀 수 있으면 사람 판단 대상으로 남기고, 해소 전에는 해당 단위를 번역 적격으로 승격하지 않는다.
+Include speaker, addressee, relationship, and scene evidence when they can change translation. Do not give inferred tone the same confidence as established control signals, screens, or dialogue order. If an inference can change the result, leave it for human judgment and do not promote the unit before resolution.
 
-관계나 장면에 따라 문체가 달라질 수 있으므로 하나의 화자 규칙을 모든 상황에 일반화하지 않는다. 차이가 번역을 바꾸면 화자→청자 관계와 서사 시점까지 승인 범위를 나눈다. 그 표현이 표나 다른 구조인지는 프로젝트가 정하며, 승인 문체의 범위와 예외는 §3의 승인 기준에서 관리한다.
+One speaker rule need not apply across every relationship or scene. When differences change translation, scope approval by speaker-to-addressee relationship and narrative point. The project chooses the representation; §3 owns the approved scope and exceptions.
 
-## 3. 승인 용어·문체 기준
+## 3. Approved terminology and voice
 
-고유명사·시스템 용어·반복 표현·화자 문체처럼 번역 전반에 재사용되는 결정은 하나의 승인 기준에서 관리한다. 최소한 승인 결과, 적용 범위, 근거, 검토 상태를 구분하고 `references/conventions/translation-artifacts.md`의 의미·검증 규칙을 적용한다.
+Manage reusable decisions such as names, system terms, recurring expressions, and speaker voice in one approved basis. Distinguish decision, applicability, evidence, and review state, following `references/conventions/translation-artifacts.md`.
 
-- 작성자와 검토자는 같은 승인 기준을 입력으로 사용하며, 개별 번역에서 조용히 다른 표기나 문체를 채택하지 않는다.
-- 같은 원어라도 대상·화자·장면이 다르면 적용 범위를 나눈다. 반대로 같은 대상을 이유 없이 여러 표기로 갈라놓지 않는다.
-- 신규 용어, 출처 충돌, 문체 예외가 번역 결과를 바꿀 수 있으면 승인 전까지 영향받는 단위를 적격으로 승격하지 않는다.
-- 시리즈나 선행 현지화의 결정은 후보일 뿐이다. 대상 작품과 현재 맥락에서 다시 승인하지 않은 결정을 상속하지 않는다.
-- 대상 작품의 다른 정식판·이식판이나 같은 시리즈의 인명·지명·아이템·시스템 용어를 새로 승인할 때는 적용 가능한 공식 한국어 표기나 정식 계승 표기가 있는지 먼저 확인한다. 확인된 공식 표기도 원문의 의미와 대상 작품의 연속성에 맞는 범위에서만 채택한다.
-- 모든 프로젝트에 통하는 고정 출처 순위나 문체 우선순위를 두지 않는다. 무엇을 권위로 인정할지는 대상과 번역 목표에 맞춰 범위를 선언한다.
+- Writers and reviewers use the same approved basis and must not adopt silent local variants.
+- Split applicability when one source term refers to different targets, speakers, or scenes; do not create unexplained variants for the same target.
+- A new term, source conflict, or voice exception that can change output blocks affected eligibility until approval.
+- Series and prior-localization choices remain candidates until approved for this title and context.
+- Before approving names, places, items, or system terms, check applicable official Korean wording or formally inherited wording from another edition or title. Adopt it only where source meaning and continuity match.
+- Do not impose one source ranking or style priority on every project. Declare authority for the target and translation goal.
 
-자동 검사는 승인 기준 위반 후보를 만들 수 있지만 신규 표기를 승인하거나 충돌을 해소할 수 없다. 적용 단위와 허용 출력이 하나로 확정된 결정만 자동으로 위반을 판정할 수 있다. 자유 문장 안의 단어 포함 여부나 활용·생략·의역을 판단해야 하면 의미 검토로 보낸다.
+Automation may flag candidates against approved decisions but cannot approve a new wording or resolve a conflict. It may decide a violation only when applicability and allowed output are unambiguous. Word presence, inflection, omission, and adaptation in free prose require semantic review.
 
-### 3.1 번역 작업과 에이전트 배치 요건
+### 3.1 Translation work and agent assignment
 
-번역을 배치로 나눌 때는 맥락이 끊기지 않는 단위를 사용한다. 현재 번역을 맡은 에이전트는 자유 문장 초벌을 직접 수행하거나 같은 워크플로우의 서브에이전트와 작업을 나눈다. 서브에이전트에게는 아래 기준선과 맥락을 모두 전달하고 그 결과를 독립적으로 검토할 수 있어야 한다. 분량·속도·비용만을 이유로 번역 품질을 확인하지 않은 별도 모델·에이전트에게 초벌 전체를 넘기지 않는다.
+Split work at boundaries that preserve context. The current translation agent must either draft free prose directly or divide it among subagents within the same workflow. Give each subagent the complete baseline and context below and independently review its result. Do not outsource the full first draft to an unverified model or agent solely for volume, speed, or cost.
 
-별도 모델·에이전트를 쓰려면 대량 초벌을 만들기 전에 실제 대상의 대표 표본과 오역의 영향이 큰 문장을 실제 번역과 같은 맥락·용어·문체 조건으로 번역한다. 사람은 정확성, 맥락·문체 유지와 수정 부담을 평가해 맡길 범위를 정한다. 표본에는 맡길 범위의 대사, UI 문구, 고유명사가 포함된 문장, 앞뒤 맥락에 따라 뜻이 달라지는 문장과 보호 토큰·표시 제약이 있는 문장을 포함한다. 평가를 명목으로 전체 코퍼스를 먼저 생성하지 않으며, 평균 점수나 다른 모델·에이전트의 동의로 사람 평가를 대신하지 않는다.
+Before assigning substantial drafting to another model or agent, translate representative target samples and high-impact sentences under the same context, terminology, and voice conditions as production. A human evaluates accuracy, retained context and voice, and correction burden, then approves the assigned scope. Include dialogue, UI, sentences with names, context-sensitive sentences, and items with protected tokens or display constraints. Do not generate the full corpus under the label of evaluation, and do not replace human evaluation with an average score or agreement among models.
 
-평가 결과는 평가에 포함한 텍스트 범위와 당시 조건에만 적용한다. 모델·에이전트, 제공한 맥락, 용어·문체 기준이 달라지면 영향받는 범위를 다시 평가한다. 같은 기준선과 조건에서 사람이 평가한 표본은 작업 중 초안으로 유지할 수 있지만, 평가 통과만으로 검토 완료나 배포 적격을 얻지는 않는다. 평가를 통과하지 못한 모델·에이전트는 배치 구성·직렬화·보호 정보 검사에는 쓸 수 있지만 자유 문장 초벌을 만들거나 고르지 않는다.
+An evaluation applies only to the sampled text and conditions. Reevaluate affected scope when the model or agent, supplied context, terminology, or voice basis changes. A human-evaluated sample may remain as a working draft under the same baseline, but evaluation does not complete review or grant distribution eligibility. A failed model or agent may still organize batches, serialize data, and inspect protected information; it must not draft or choose free prose.
 
-이 조건을 충족한 작업에서 병렬 번역이나 검토를 쓸 때는 작업 단위마다 **판정에 필요한 맥락이 확정되고 독립 검토가 가능해야 한다**. 전체 코퍼스가 이 요건을 한 단위로 만족하지 못하면 배치로 나누고, 만족하면 분할을 의무화하지 않는다. 배치 크기나 에이전트 수는 고정하지 않으며, 장면·화자·기능 경계를 자르거나 검토자가 전체 관계를 잃을 만큼 큰 배치는 허용하지 않는다.
+Parallel drafting or review requires established decision context and independent review per unit. Split the corpus if it cannot satisfy those requirements as one unit; do not split it merely to create batches when it can. Do not cut scene, speaker, or functional context, or make batches so large that a reviewer loses the relationships needed for judgment.
 
-자유 문장의 초벌은 문맥을 읽고 만든다. 규칙 기반 자동화는 배치 구성·직렬화·검사를 맡는다. 적용 범위와 출력이 승인된 고정 문구 외에는 번역문을 만들거나 고르지 않는다.
+Draft free prose from context. Rule-based automation may organize batches, serialize data, and run checks. It must not generate or choose translated prose except for fixed phrases whose applicability and output are already approved.
 
-각 배치는 다음 입력을 같은 기준 시점으로 맞춰 번역자와 검토자에게 전달한다.
+Provide writers and reviewers with one baseline containing:
 
-- 안정 ID, 원문과 보호된 raw byte
-- 가역 제어 토큰과 경계·인자 폭이 확정된 수정 금지 raw token
-- 확정된 제어 토큰의 대상 소비 의미와 `references/strategy/text-extraction.md` §4.4의 적용 정책
-- 장면·화자·인접 문맥, 원본 소비 순서와 의미를 바꾸는 전역 서사·루트 의존
-- 승인된 용어·문체 기준과 적용 범위
-- 길이·레이아웃·인코딩 등 실제 소비 제약
+- stable ID, source text, and protected raw bytes;
+- reversible control tokens and forbidden raw tokens with established boundaries and argument widths;
+- target-consumer meaning and the policy from `references/strategy/text-extraction.md` §4.4 for established tokens;
+- scene, speaker, adjacent context, source consumption order, and any global narrative or route dependency that changes meaning;
+- approved terminology and voice with applicability; and
+- actual length, layout, encoding, and other consumer constraints.
 
-에이전트 출력은 번역문·판단 근거·질문과 제안 상태만 바꾸며 원본 식별 정보, raw byte와 보호 토큰을 다시 만들거나 정규화하지 않는다. 배치는 번역 편의를 위한 논리 단위일 뿐 원본 엔트리 경계·순서·물리 배치를 새로 정의하지 않는다.
+Agent output may change translated text, rationale, questions, and proposal state. It must not recreate or normalize source identity, raw bytes, or protected tokens. A batch is a logical translation unit; it does not redefine source entry boundaries, order, or physical placement.
 
-새 용어·문체 결정이나 원문 해석이 배치 사이에서 바뀌면 영향받는 이전 배치도 같은 승인 기준으로 다시 검증한다. 병렬 결과는 안정 ID와 기준선이 일치할 때만 합치고, 같은 엔트리·용어·보호 정보의 충돌을 나중 결과 우선으로 해소하지 않는다. 상태와 보호 필드에는 `references/conventions/translation-artifacts.md`의 의미 규칙을 적용한다.
+When a term, voice decision, or source interpretation changes across batches, revalidate earlier affected batches against the same approved basis. Merge parallel results only when stable IDs and baselines match. Never resolve conflicts in entries, terminology, or protected information by last-writer-wins. Apply the state and protected-field semantics in `references/conventions/translation-artifacts.md`.
 
-## 4. 보호 정보와 소비 제약
+## 4. Protected information and consumer constraints
 
-번역 가능한 내용과 보존해야 할 구조 정보를 분리한다. 원본 바이트·식별자·포인터 근거·경계 정보처럼 추출 기준선을 구성하는 값은 번역 과정에서 바꾸지 않는다.
+Separate translatable content from structure that must remain. Translation must not change source-baseline values such as raw bytes, identifiers, pointer evidence, and boundary information.
 
-제어 토큰은 실제 소비 의미를 확인해 보존, 조판 범위 내 이동, 재계산, 대상 의미로 변환, 수정 금지처럼 정책을 나눈다. 종료·이벤트·변수 삽입처럼 의미나 실행을 바꾸는 토큰은 순서와 인자까지 보존 정책에 포함한다. 경계와 인자 폭이 확정되고 의미만 미확정이면 수정 금지 raw 형태로 보존하지만, 경계나 인자 폭이 미확정이면 해당 단위를 번역·배포 적격에서 차단한다. 토큰 표현에는 `references/conventions/translation-artifacts.md` §3을, 가역성과 정책 판정에는 `references/strategy/text-extraction.md` §4.4를 적용한다.
+Assign control-token policies from actual consumption: preserve, move within layout, recompute, translate to target meaning, or forbid editing. A token that changes meaning or execution, such as termination, event, or variable insertion, includes order and arguments in its preservation rule. Preserve an unresolved-meaning token in forbidden raw form only when boundary and argument width are established. Otherwise block the unit from translation and distribution eligibility. Apply `references/conventions/translation-artifacts.md` §3 to representation and `references/strategy/text-extraction.md` §4.4 to reversibility and policy.
 
-줄바꿈·페이지 전환·대기처럼 조판과 진행을 제어하는 토큰의 소비 의미와 허용 위치가 확정되면 한국어의 판독성·페이지 호흡·표시 제약에 맞게 재배치할 수 있다. 각 토큰은 `references/strategy/text-extraction.md` §4.4의 정책과 동등한 상태 전이가 확인된 범위에서 조정한다. 창·초상·선택·입력·음성·이벤트 상태를 바꾸는 토큰은 각자의 정책으로 판정하고, 변경 결과는 `references/strategy/build-and-verify.md` §5에서 검증한다.
+Line, page, and wait tokens may move for Korean readability, page rhythm, and display constraints only after their consumer meaning and valid positions are established. Require equivalent state transitions under the token policy. Judge window, portrait, selection, input, voice, and event tokens by their own policies and verify changes through `references/strategy/build-and-verify.md` §5.
 
-길이·폭·줄 수·슬롯·인코딩·삽입 변수 조합은 언어 일반값이 아니라 실제 소비자가 요구하는 제약으로 판정한다. 제약 위반을 번역 품질 문제로 가장하거나, 의미 축약만으로 자동 해소하지 않는다. 번역 조정, 확인된 제어 토큰을 사용한 줄·페이지·진행 재구성과 수용량 변경 가운데 어느 경로가 맞는지는 위반 원인과 영향으로 선택한다.
+Derive length, width, rows, slots, encoding, and insertion combinations from the real consumer, not language-wide defaults. Do not disguise a technical constraint violation as poor translation or resolve it automatically through semantic shortening. Choose among phrasing adjustment, established line or page controls, progression changes, and capacity changes according to the cause and effect.
 
-유한한 표시 영역에서는 세 값을 구분한다. **원본 사용 범위**는 원문 전체의 최대 가시 폭, 행·페이지 수와 배치에서 관측한 값이다. **확인된 소비 한도**는 원본에 저장된 폭·높이·좌표가 실제 소비자의 계산과 연결돼 사양으로 확정된 값이다. **채택한 표시 범위**는 한글판이 쓰기로 정한 값이다. 관측한 최대값만으로 게임이 더 허용하지 않는다고 단정하거나, 렌더러·창 종류가 다른 값을 하나의 공통 한도로 합치지 않는다.
+For a finite display area, distinguish:
 
-번역 결과가 원본 사용 범위를 넘으면 자동으로 축약하거나 그 사실만으로 실패시키지 않는다. 소비 코드·표시 영역·실행 결과로 소비 한도를 확인하거나 채택한 표시 범위를 바꾼 뒤 같은 소비 경로에서 검증한다. 보호 정보나 확정한 소비 제약을 위반한 단위는 사람의 취향 판단으로 통과시킬 수 없으며 배포 적격에서 차단한다. 소비 한도가 미확정인 채 원본 사용 범위를 넘은 단위는 소비 경로 분석으로 되돌리고 배포 가능한 번역으로 판정하지 않는다.
+- **Observed source usage**: maxima observed across source visible width, rows, pages, and placement.
+- **Confirmed consumer capacity**: limits established by connecting stored width, height, or coordinates to consumer calculations.
+- **Adopted display range**: the range selected for the Korean patch.
 
-## 5. 생성·검토·승인의 분리
+An observed maximum does not prove that the game permits no more. Do not merge limits from different renderers or window types.
 
-기계적으로 통과·실패를 가를 수 있는 위반과 의미 판단이 필요한 문제를 같은 검수 단계로 합치지 않는다. 보호 정보·상태·인코딩·소비 제약 검사는 의미 검토나 사람 승인으로 대체할 수 없고, 의미 검토도 기계 검사의 통과만으로 대체할 수 없다.
+When translated output exceeds observed source usage, do not shorten it automatically or fail it for that fact alone. Establish capacity through consumer code, display area, and runtime results, or change the adopted display range and verify it on the same consumer path. Human preference cannot waive protected information or established consumer constraints. If capacity remains unresolved and output exceeds source usage, return to consumer analysis and withhold distribution eligibility.
 
-| 구분 | 대상 | 자동화가 할 수 있는 일 |
+## 5. Separate generation, review, and approval
+
+Do not merge mechanically decidable violations with semantic judgment. Semantic or human approval cannot replace protected-information, state, encoding, or consumer checks, and passing mechanical checks cannot replace semantic review.
+
+| Class | Subject | Role of automation |
 |---|---|---|
-| 확정 제약 | 보호 필드·토큰, 인코딩·글리프 매핑, 확인된 폭·높이·행·페이지·슬롯 한도, 적용 단위와 허용 출력이 하나로 정해진 승인 표기 | 해당 단위를 배포 적격으로 올리지 않고 릴리스 후보 빌드를 차단한다. |
-| 언어 휴리스틱 | 사전 등재 여부, 빈도, 맞춤법·띄어쓰기 검사, 반복 표현, LLM이 매긴 점수 | 후보와 근거·영향 범위를 만들고 사람 검토로 보낸다. 번역문을 바꾸거나 적합·부적합을 확정하지 않는다. |
-| 의미 판단 | 문맥상 의미, 자연스러움, 말투·관계, 의역, 고유명사와 말장난 | 독립 검토에서 선택지와 근거를 만들고 사람이 결정한다. |
+| Established constraint | Protected fields and tokens; encoding and glyph mapping; confirmed width, height, row, page, and slot limits; approved wording with one unambiguous applicability and output | Withhold distribution eligibility and block release-candidate builds on violation |
+| Language heuristic | Dictionary presence, frequency, spelling and spacing, repeated phrases, LLM scores | Produce candidates with evidence and affected scope for human review; do not edit prose or decide fitness |
+| Semantic judgment | Contextual meaning, naturalness, voice and relationship, adaptation, names, and wordplay | Produce options and evidence in independent review; a human decides |
 
-원본에서 관측한 최대 폭·높이는 그 사실만으로 §4의 확인된 소비 한도가 아니므로 확정 제약으로 취급하지 않는다. 사전 등재 여부도 번역의 정확성이나 오류를 단독으로 증명하지 않는다. 선택한 언어 휴리스틱의 미해결 후보는 검토 필요 상태로 남길 수 있지만, 탐지 자체는 확정 결함이 아니며 자동으로 적합·부적합을 가르지 않는다.
+Observed source maxima are not established consumer constraints by themselves. Dictionary presence does not prove correctness or error. Unresolved heuristic findings may remain review candidates; detection alone is not a confirmed defect and must not decide fitness automatically.
 
-자동 검사는 번역 결함 후보와 영향 범위를 만들 수 있다. 검출 규칙을 근거로 한 일괄 변환은 변환 규칙, 적용 범위와 예상 영향을 사람이 확인하고 명시적으로 승인한 경우에만 번역문에 반영한다. 승인은 제시한 기준선·규칙·범위에만 유효하며 하나라도 달라지면 다시 승인받는다. 일괄 변환을 승인했다는 사실만으로 배포 적격 상태를 부여하지 않으며, 결과는 현재 원문·맥락·승인 용어·문체와 보호·소비 제약을 다시 통과해야 한다. 예외나 고위험 의미 판단은 단위별 번역·검토로 보낸다. 번역 의미를 바꾸지 않는 직렬화, 보호 정보 검사와 통과 조건에서 계산되는 상태는 이 승인 대상이 아니다.
+An automated check may identify translation-defect candidates and affected scope. A batch transformation based on such a rule may edit translations only after a human explicitly approves the rule, baseline, scope, and expected impact. Any change to them requires renewed approval. Approval of the transformation does not grant distribution eligibility; results must pass current source, context, terminology, voice, protected-information, and consumer checks. Send exceptions and high-impact semantics to unit-level translation and review. Serialization, protected-information checks, and states derived from pass criteria do not require this approval when they do not change translation meaning.
 
-고위험 의미 판단은 특정 품질 항목의 고정 우선순위가 아니라, 틀렸을 때 플레이어의 이해·선택·진행·인물 관계·작품 의도를 실질적으로 바꿀 수 있는지로 판정한다. 원문 해석 충돌, 신규 표기, 말장난·문화 요소의 의역, 화자·관계 불확실성처럼 영향이 큰 선택은 가능한 해석과 근거를 남기고 사람이 승인한다. 미해결 고위험 판단이 하나라도 남은 단위는 배포 적격으로 승격하지 않는다.
+Judge semantic impact by whether an error would materially change player understanding, choice, progression, relationships, or authorial intent, not by a fixed ranking of quality categories. Record options and evidence for conflicts in source interpretation, new wording, adapted wordplay or cultural elements, and uncertain speaker or relationship. Human approval is required. One unresolved high-impact judgment blocks the affected unit from distribution eligibility.
 
-### 전체 배포 범위의 사람 검수 시점
+### Timing of human review for the complete distribution scope
 
-초벌 코퍼스는 표현 수요를 재기 위한 입력이다. 전체 배포 범위의 사람 검수는 통합 개발 빌드에서 다음 조건을 확인한 뒤, 릴리스 후보 판정 전에 완료한다.
+The first-draft corpus is an input for measuring representation demand. Complete-scope human review must finish before release-candidate judgment, but should begin only after the integrated development build establishes that:
 
-- 코퍼스와 런타임 삽입값의 고유 글리프가 `references/strategy/font-strategy.md` §3의 전체 레퍼토리·활성 작업 집합 예산에 들어가며 모두 공급 가능하다.
-- 해당 글리프 공급이 `references/strategy/runtime-assets.md` §2의 연결이나 동등한 증거로 목표 렌더 경로까지 이어진다.
-- 유한한 표시 영역은 §4에 따라 초벌 코퍼스의 최대 표시 수요를 수용하거나 표시 범위를 바꿔 검증할 경로가 있다.
+- unique glyphs from the corpus and runtime insertions fit and can be supplied under the total-repertoire and active-working-set budgets in `references/strategy/font-strategy.md` §3;
+- that supply reaches target render paths through `references/strategy/runtime-assets.md` §2 or equivalent evidence; and
+- every finite display area can accept the first draft's maximum demand, or has a verified path to change the adopted display range under §4.
 
-글리프 집합은 전체 코퍼스와 런타임 삽입값을 기준으로 커버리지와 매핑을 기계적으로 검사하고, 서로 다른 소비 경로는 대표 런타임 증거나 동등한 기존 증거로 판정한다. 한 글자 PoC나 일부 표본은 전체 코퍼스의 수용 증거가 아니다. 실패한 설계는 공급·적재·매핑을 바꾼 뒤 같은 수요와 소비 경로로 다시 검증한다.
+Check mapping and coverage mechanically across the complete corpus and runtime insertions. Judge distinct consumer paths with representative runtime evidence or existing equivalent evidence. One-glyph PoC or partial sample does not prove complete-corpus capacity. When a design fails, change supply, loading, or mapping and reverify the same demand and paths.
 
-용어·문체 방향이나 고위험 원문 해석처럼 먼저 필요한 사람 판단은 수행할 수 있다. 글리프 축소가 의미·말투를 해치면 이 단계에서 승인받는다. 사람 검토는 필요한 항목에만 한정하고, 이후 검수에서 새 글리프나 상태별 수요가 생기면 영향받는 범위를 글리프 예산과 소비 경로 판정으로 되돌린다.
+Human decisions needed earlier for terminology, voice, or high-impact source interpretation may proceed. If glyph reduction changes meaning or voice, obtain approval at that point. Limit early review to necessary decisions. If later review introduces new glyph or state-specific demand, return the affected scope to glyph-budget and consumer-path assessment.
 
-### LLM 초벌을 쓰는 조건부 흐름
+### Conditional flow for an LLM first draft
 
-§3.1의 번역 작업 요건에 따라 만든 LLM 초벌을 배포 적격으로 올릴 때는 다음 판단 사슬을 적용한다.
+When an LLM first draft made under §3.1 is considered for distribution eligibility, apply this decision chain:
 
 ```text
-LLM 초벌 → 독립 2차 LLM 리뷰 → 사람에게 옵션·근거 제시 → 사람 승인
-                  ↘ 기계 검사 위반은 해당 검증 단계로 반환
+LLM first draft -> independent second LLM review -> options and evidence to a human -> human approval
+                         \-> mechanical violations return to the applicable verification step
 ```
 
-2차 리뷰는 초벌의 결론을 전제로 승인하는 절차가 아니다. 초벌과 분리된 검토 맥락에서 원문, 승인 기준, 화자·장면 근거, 보호·소비 제약을 다시 대조한다. 의미·표기·문체에 선택지가 있으면 하나를 조용히 덮어쓰지 않고 가능한 옵션, 각 옵션의 근거와 영향, 권고를 사람에게 제시한다. 두 생성 결과가 일치한다는 사실만으로 품질을 승인하지 않는다. 최종 승인 책임은 사람에게 있으며, 승인 전에는 영향받는 단위를 배포 적격으로 승격하지 않는다.
+The second review must not assume the first draft's conclusion. In a separate review context, compare source, approved basis, speaker and scene evidence, and protected and consumer constraints again. When meaning, wording, or voice has alternatives, present options, evidence, impact, and a recommendation instead of silently overwriting the draft. Agreement between two generations does not approve quality. Human approval remains final, and affected units remain ineligible until then.
 
-독립성은 특정 모델·서비스·실행 방식이 아니라 초벌의 추론과 결론을 답으로 전제하지 않는 별도 검토를 뜻한다. 이 규칙은 LLM 초벌을 선택한 경우에만 발동하며, LLM을 쓰지 않는 프로젝트에 특정 도구를 도입하도록 강제하지 않는다.
+Independence means a review that does not take the first draft's reasoning or conclusion as the answer. It does not require a specific model, service, or execution mechanism. This flow triggers only when a project chooses an LLM first draft.
 
-## 6. 배포 적격 판정
+## 6. Distribution eligibility
 
-다음 조건을 모두 만족한 범위만 배포 대상 번역으로 승격한다.
+Promote only a scope satisfying all of these conditions:
 
-1. 번역 결과를 바꿀 수 있는 컨텍스트 불확실성이 없다.
-2. 적용되는 용어·문체 결정이 승인 기준과 일치한다.
-3. 보호 토큰과 실제 소비 제약을 모두 통과한다.
-4. 고위험 의미 판단이 해소되고 필요한 사람 승인을 받았다.
-5. LLM 초벌을 썼다면 독립 2차 LLM 리뷰와 옵션·근거 제시를 거쳤다.
+1. No context uncertainty remains that can change translation.
+2. Applicable terminology and voice match the approved basis.
+3. Protected tokens and actual consumer constraints pass.
+4. High-impact semantic judgments are resolved with required human approval.
+5. If an LLM produced the first draft, it received independent second LLM review and human-facing options and evidence.
 
-미적격 번역은 명시적인 비배포 개발 빌드·기술 실험·PoC의 입력으로만 예외적으로 사용할 수 있다. §3.1의 평가를 통과하지 못한 모델·에이전트의 출력은 이 예외에 포함하지 않는다. 이 사용만으로 배포 적격을 얻거나 위 조건을 우회하지 않으며, 입력의 구분과 보호 방식은 `references/conventions/translation-artifacts.md` §5를 따른다.
+An ineligible translation may be used only as an explicitly non-distribution development, technical, or PoC input. Output from a model or agent that failed §3.1 evaluation is not eligible for this exception. Such use neither grants distribution eligibility nor bypasses the conditions above; follow `references/conventions/translation-artifacts.md` §5 for identification and protection.
 
-어느 조건이 실패했는지에 따라 컨텍스트 조사, 용어·문체 승인, 보호·소비 제약 해소, 의미 판단으로 되돌린다. 이를 하나의 포괄적 "번역 완료" 상태로 뭉개지 않는다.
+Return failed units to context research, terminology and voice approval, protected or consumer-constraint resolution, or semantic judgment according to the failed condition. Do not collapse these states into one generic "translation complete" label.

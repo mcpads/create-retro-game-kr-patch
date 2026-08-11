@@ -1,96 +1,96 @@
-# 빌드와 검증
+# Build and verification
 
-빌드 입력, 배포 산출물, 정적 검증과 실행 검증은 아래 통과 조건으로 판정한다. 플랫폼별 체크섬·섹터·실행 환경은 해당 `references/platforms/` 문서에서 확인하고, 증거 기록은 `references/conventions/project-records.md`의 의미 구분을 따른다. 구체 파일·명령·직렬화는 대상 프로젝트의 기존 구조에 맞춘다.
+Judge build inputs, distribution artifacts, static checks, and runtime checks by the criteria below. Read the applicable `references/platforms/` document for platform-specific checksums, sectors, and execution environments. Record evidence according to `references/conventions/project-records.md`. The target project chooses concrete files, commands, and serialization.
 
-## 1. 재현 가능한 빌드
+## 1. Reproducible build
 
-빌드와 배포 경로는 다음 조건을 모두 만족해야 한다.
+The build and distribution path must satisfy all of these conditions:
 
-- 저작권 있는 원본 ROM·디스크 이미지와 패치된 이미지를 저장소나 배포물에 포함하지 않는다. 원본 주입과 취급 규약은 `references/conventions/project-conventions.md` §6.2를 따른다.
-- 불변 원본과 선언된 입력에서 결과를 처음부터 다시 만든다. 이전 패치 이미지를 다음 빌드의 입력으로 삼지 않는다.
-- 최종 변경은 빌드 입력으로 재현된다. 수동 조사에서 얻은 수정도 출처, 적용 조건, 기대 원본과 출력 규칙이 빌드에 고정돼야 한다.
-- 추출 자산을 편집한다면 엔트리 식별, 편집값과 보호값의 분리, 미해독 데이터의 가역 보존을 보장한다. 무수정 재조립의 동등 기준은 `references/conventions/project-conventions.md` §5.1을 따른다.
-- 패치 이미지와 배포 산출물은 같은 검증 그래프의 결과여야 한다. 적용 결과는 빌드가 만든 목표 이미지와 같아야 한다.
+- Do not commit or distribute copyrighted source ROMs, disc images, or patched images. Follow `references/conventions/project-conventions.md` §6.2 for source injection and handling.
+- Rebuild from an immutable source and declared inputs. Never use a previously patched image as the input to the next build.
+- Reproduce every final change from build inputs. A change discovered manually must enter the build with its source, applicability, expected original state, and output rule.
+- When editing extracted assets, preserve stable entry identity, separate editable values from protected values, and retain undecoded data reversibly. Follow `references/conventions/project-conventions.md` §5.1 for unchanged reassembly equivalence.
+- Produce the patched image and distribution artifact from the same verification graph. Applying the distribution artifact must reproduce the build target.
 
-주 빌드 경로는 선언한 범위에 채택한 번역·글리프·매핑·재삽입·코드·컨테이너 변경을 불변 원본에서 하나의 빌드 결과로 조합한다. 각 구성요소의 단위 검사와 PoC 산출물이 모두 성공해도, 함께 조합한 결과가 선언한 정적·실행 조건을 통과하지 않으면 통합 성공이 아니다. 전체 번역이 미완료인 개발 빌드는 `references/conventions/translation-artifacts.md` §5의 입력 정책으로 원문을 보존하거나 선택한 미적격 자산을 구분하되, 이미 채택한 기술 변경은 같은 빌드 결과에 통합한다. 통합 뒤의 정적·실행 증거는 그 정확한 빌드 결과에 귀속한다.
+The primary build must combine every adopted translation, glyph, mapping, reinsertion, code, and container change into one result made from the immutable source. Successful component checks or PoC artifacts do not prove integration. The combined result must pass its declared static and runtime criteria. A development build may preserve source text or exclude ineligible translation assets under `references/conventions/translation-artifacts.md` §5, but every adopted technical change must still enter the same build. Attribute post-integration evidence to that exact result.
 
-지원 리비전 하나와 모집단의 모든 항목이 판정됐다면 검증된 위치·기대 바이트·참조 카탈로그는 그 리비전의 사양으로 사용하고 불일치를 실패시킨다. 번역 길이, 글리프 수, 배치 결과처럼 입력에 따라 바뀌는 주소·크기·체크섬은 빌드 결과에서 파생한다. 휴리스틱 후보를 반복 빌드에서 조용히 새 사양으로 채택하지 않는다(`references/strategy/initial-survey.md` §3.1).
+When one supported revision and every member of a finite population have been established, use verified locations, expected bytes, and reference catalogs as the specification for that revision and reject mismatches. Derive addresses, sizes, and checksums that depend on translation length, glyph count, or placement from the build result. Do not silently promote new heuristic candidates into the specification during repeated builds (`references/strategy/initial-survey.md` §3.1).
 
-이번 변경에서 확정한 기준은 빌드 검사에 포함한다. 인코딩, 글리프·공간 예산, 레이아웃, 길이, 포인터, 압축, 컨테이너 가운데 해당 기준이 하나라도 어긋나면 검증 산출물을 만들지 않는다. `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하는 변경은 정적 저장·참조·용량과 실행 중 적재·상주·소비를 모두 통과해야 한다.
+Turn every established criterion affected by the change into a build check. Do not produce a verified artifact when an applicable encoding, glyph or space budget, layout, length, pointer, compression, or container invariant fails. A change that triggers `references/strategy/runtime-assets.md` §1 must pass both static storage/reference/capacity checks and runtime load/residency/consumption checks.
 
-원본에서 목표 이미지를 만드는 패치 쓰기는 `references/conventions/project-conventions.md` §5.2의 최종 변경 검증 규칙을 통과해야 하며, 통과하지 못하면 산출물을 만들지 않는다.
+Every write from the source to the target image must satisfy the final-write verification rules in `references/conventions/project-conventions.md` §5.2. A failed write check must prevent artifact production.
 
-## 2. 배포 형식과 이미지 변경
+## 2. Distribution format and image changes
 
-배포 형식은 제품명이나 플랫폼 관습이 아니라 다음 증거가 있는 경우에만 채택한다.
+Adopt a distribution format only when the project can prove that it:
 
-- 지원 원본의 리비전, 크기, 헤더·트랙·섹터 표현을 적용 전에 구분할 수 있다.
-- 적용 결과를 빌드 목표 이미지와 대조할 수 있다.
-- 파일 성장과 최종 이미지 크기, 필요한 변경 범위를 손실 없이 표현한다.
-- 멀티트랙이나 복수 산출물이 있으면 각 입력과 적용 순서가 식별돼 있다.
-- 사용자가 재현할 적용 경로와 배포 조건을 프로젝트가 고정할 수 있다.
+- distinguishes the supported source revision, size, and header, track, or sector representation before application;
+- compares the applied result with the build target;
+- represents file growth, final image size, and the required write set without loss;
+- identifies each input and application order for multi-track or multi-artifact releases; and
+- fixes a reproducible user application path and distribution conditions.
 
-파일 크기나 extent가 달라지면 제자리 수정, 부분 재배치, 전체 재빌드, 원형 패킹 보존 가운데 **변경된 소비 조건을 모두 검증할 수 있는 경로**만 사용한다. 어느 방식이 더 안전하다고 미리 정하지 않는다. 채택한 경로는 다음을 증명해야 한다.
+When file size or extent changes, choose in-place editing, partial relocation, full rebuild, or preservation of the original packing only if that path can verify every changed consumer condition. No option is safe by name alone. The chosen path must prove that:
 
-- 부트 로더와 게임 로더가 읽는 위치·크기·정렬이 새 배치와 일치한다.
-- 파일시스템·컨테이너·게임 내부에 중복된 참조와 메타데이터가 모두 같은 대상을 가리킨다.
-- 수정하지 않은 트랙·섹터·파일과 원본의 의도적 비정상 구조가 선언 범위 밖에서 보존된다.
-- 재파싱한 구조가 유효하고 실제 로더가 새 자산을 소비한다.
+- boot and game loaders read the new locations, sizes, and alignments;
+- duplicate references and metadata at filesystem, container, and game layers identify the same targets;
+- untouched tracks, sectors, files, and intentionally irregular source structures remain unchanged outside the declared scope; and
+- reparsed structures are valid and the real loader consumes the new assets.
 
-부분 재배치의 참조를 확정하지 못했다는 사실은 전체 재빌드의 정당성이 아니다. 어떤 후보도 위 증거를 만들지 못하면 이미지 변경은 미완료다.
+Failure to establish every reference for a partial relocation does not justify a full rebuild. If no candidate path can produce this evidence, the image change remains incomplete.
 
-## 3. 무결성 검증
+## 3. Integrity verification
 
-무결성 필드는 실제 소비가 확인된 경우에만 빌드 책임으로 삼는다.
+Make an integrity field a build responsibility only after establishing its consumer.
 
-- 헤더·컨테이너·게임 코드가 체크섬이나 크기 필드를 읽으면 모든 관련 쓰기 뒤 그 소비 범위에 맞춰 갱신하고 검증한다.
-- raw 섹터를 출력하면 변경한 섹터의 오류 감지·정정 필드를 실제 섹터 모드에 맞춰 갱신한다. 손대지 않은 원본 섹터의 비정상 필드는 보호나 매체 동작의 일부일 수 있으므로 근거 없이 정상화하지 않는다.
-- 파일 위치·크기·엔트리 구조가 바뀌면 그 값을 중복 보유하는 모든 계층을 갱신하고 재파싱 결과와 실제 소비를 대조한다.
+- If a header, container, or game routine reads a checksum or size field, update it after every relevant write and verify the exact consumed range.
+- If the build emits raw sectors, update error-detection and correction fields for changed sectors according to their actual sector mode. An irregular field in an untouched source sector may participate in protection or media behavior; do not normalize it without evidence.
+- If a file location, size, or entry layout changes, update every layer that duplicates those values and compare both reparsed structure and actual consumption.
 
-부팅에 성공했거나 한 실행 환경이 오류를 허용했다는 사실은 구조·섹터 무결성의 대체 증거가 아니다.
+Successful boot or tolerance in one execution environment does not prove structural or sector integrity.
 
-빌드와 적용 진입점은 같은 원본 식별 규칙을 검사하고, 불일치하면 결과를 만들지 않는다. 적용 뒤 결과도 빌드 목표 이미지와 대조한다.
+Build and application entry points must enforce the same source-identification rules. A mismatch must prevent output. The applied result must also match the build target.
 
-## 4. 실행 검증
+## 4. Runtime verification
 
-실행 검증은 이번 변경이 닿은 소비 경로와 배포 주장을 기준으로 범위를 정한다. 파일·자산 수 자체를 실행 횟수로 삼지 않으며, 공통 연결로 묶는 근거와 별도 실행이 필요한 예외는 `references/strategy/runtime-assets.md` §2에 따라 판정한다.
+Set runtime scope from the consumer paths touched by the change and from the distribution claims. Do not turn asset count into an equal number of runtime trials. Use `references/strategy/runtime-assets.md` §2 to determine which items share a proved link and which exceptions require separate execution.
 
-목표 상태의 플레이 경로가 미확정이거나 상태 개입으로 재현 비용을 줄이려면 `references/strategy/debugging.md`에서 도달 경로와 개입의 증명 범위를 먼저 판정한다.
+If the route to a target state is unknown, or state intervention could reduce reproduction cost, establish the route and the intervention's proof scope through `references/strategy/debugging.md` first.
 
-- 개발 환경은 현재 실패 계층을 구분할 수 있는 관측을 제공해야 한다. 사용한 관측 수단의 주소·이벤트·입력 해석이 실제 소비 경로와 맞는지 확인되지 않았다면 미발화를 음성 증거로 사용하지 않는다.
-- 특정 본체·매체·로더·실행 환경 지원을 주장하면 그 대상 경로에서 최종 후보를 확인한다. 두 번째 환경은 첫 환경의 관용이나 구현 고유 동작이 현재 위험일 때 추가하며, 첫 환경과 독립되지 않은 구현은 독립 증거로 세지 않는다.
-- 실행 범위는 수정한 대표 소비 경로를 중심으로 정하고, 변경이나 지원 주장이 영향을 줄 수 있는 부팅·이탈·재진입·공유 상태·미수정 대표 경로만 조건부로 추가한다.
-- 별도 렌더러, 분기, 사용자 입력·저장, 디스크·overlay 전환, 장시간 상주처럼 변경된 자산이나 상태의 소비를 바꾸는 기능이 있으면 해당 경로를 조건부 회귀로 추가한다. 게임에 없거나 변경과 무관한 기능은 공통 최소 조건으로 강제하지 않는다.
+- The development environment must expose observations that distinguish the current failure layer. Do not use absence of an event as negative evidence until the observation method's address, event, and input interpretation are known to cover the real consumer path.
+- When claiming support for a console, medium, loader, or execution environment, verify the final candidate on that target path. Add a second environment when tolerance or implementation-specific behavior in the first environment is a current risk. Implementations that are not independent do not count as independent evidence.
+- Center execution on representative modified consumer paths. Add boot, exit, re-entry, shared state, and representative unchanged paths only when the change or support claim can affect them.
+- Add separate renderers, branches, user input or saves, disc or overlay transitions, and long-lived residency as conditional regressions when they can change consumption of the modified asset or state. Do not impose features absent from the game or unrelated to the change as universal requirements.
 
-실행 판정과 재사용할 상태·입력 기록은 이를 만든 정확한 목표 이미지와 환경에 귀속한다. 바이트 동일성 또는 해당 경계의 같은 소비 동작이 확인되지 않으면 새 빌드에서 같은 경로를 다시 만든다.
+Bind every runtime result and reusable state or input recording to the exact target image and environment that produced it. Recreate the path on a new build unless byte identity or equivalent consumption at the relevant boundary has been established.
 
-같은 회귀가 반복되고 성공·실패를 명확히 판정할 수 있으면 재현 가능한 실행 검사로 만든다. 필요한 관측이 없거나 최종 의미·시각 판단을 자동으로 가를 수 없으면 자동화 성공으로 가장하지 않고 명시적 사람 검토로 남긴다.
+Turn a repeated, objectively decidable regression into a reproducible runtime check. When the required observation is unavailable or the final semantic or visual judgment is not mechanically decidable, retain an explicit HITL review instead of reporting automated success.
 
-## 5. 텍스트·표현·상호작용 QA
+## 5. Text, presentation, and interaction QA
 
-텍스트·표현·상호작용 변경의 최종 판정은 실제 소비 경로에서 수행한다. 표시 또는 저장 한도가 유한한 텍스트 범위는 대상 소비자가 확정한 인코딩·폭·줄·페이지·슬롯 모델로 선언 범위를 전수 판정한다. 다음 중 대상 경로에 있고 이번 변경이 영향을 줄 수 있는 항목만 활성화한다.
+Judge final text, presentation, and interaction changes on their actual consumer paths. For a finite text scope, evaluate every member against the encoding, width, row, page, and slot model established from that consumer. Activate only criteria present on the target path and plausibly affected by the change.
 
-- 번역 검토와 빌드는 같은 제약 모델을 사용한다.
-- 자동 줄바꿈, 제어 토큰의 상태 전이, 변수 삽입의 최악 조합처럼 실제 소비 결과를 바꾸는 요소를 포함한다.
-- 본문, 메뉴, 이름 입력처럼 소비 경로가 다른 범위는 각자의 기준으로 판정한다.
-- 고정 슬롯·인코딩·페이지 한계처럼 확정된 위반은 빌드를 실패시킨다. 스크롤이나 사람 판독처럼 프로젝트가 허용 범위를 정해야 하는 항목만 경고 또는 사람 검토로 둘 수 있다.
-- 글리프와 베이크드 텍스트는 각각 `references/strategy/font-strategy.md` §4와 `references/strategy/graphics-text.md` §4의 시각 완료 조건을 실제 배경·팔레트와 상태에서 판정한다.
-- 창·프레임의 크기와 위치를 바꿨다면 실제 앵커·클리핑·화면 경계를 판정하고, 함께 표시되는 포트레이트·커서·인접 UI와 겹치지 않는지 확인한다.
-- 변경이 상태별 자산이나 배치를 건드렸다면 대상에 있는 기본·포커스·선택·비활성 상태의 구분과 전이를 확인하고, 영향을 받는 탐색·확정·취소 입력의 이벤트·반복·상태 전이와 결과가 대상 모델을 유지하는지 검증한다.
-- 변경이 텍스트 진행이나 동기에 닿았다면 대상에 있는 페이지·대기·스크롤·자동 진행·건너뛰기와 음성·이벤트의 기준 시점을 확인하고, 선언한 허용 오차 안에서 순서와 동기가 유지되는지 판정한다.
-- 표시 범위가 바뀐 경로는 `references/strategy/reinsertion.md` §6의 레이아웃·클리어 조건을 전환·이탈·재진입에서 판정한다. 페이지·진행 변경에는 불필요한 빈 페이지나 의도하지 않은 조기·중복 진행이 없다.
+- Translation review and the build must use the same constraint model.
+- Include automatic wrapping, control-token state transitions, and worst-case variable insertion when they affect the consumed result.
+- Judge dialogue, menus, and name entry separately when they use different consumers.
+- A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling or human readability to warnings or HITL review.
+- Judge glyphs and baked graphics text against the visual completion criteria in `references/strategy/font-strategy.md` §4 and `references/strategy/graphics-text.md` §4, using real backgrounds, palettes, and states.
+- When a window or frame changes size or position, verify actual anchors, clipping, screen bounds, and overlap with portraits, cursors, and adjacent UI.
+- When a change touches state-specific assets or placement, verify the distinctions and transitions among applicable default, focused, selected, and disabled states. Verify affected navigation, confirm, and cancel event, repeat, state-transition, and result behavior against the target model.
+- When a change touches text progression or synchronization, verify applicable page, wait, scroll, auto-advance, skip, voice, and event timing within the declared tolerance.
+- For a changed display extent, verify the layout and clearing criteria in `references/strategy/reinsertion.md` §6 across transition, exit, and re-entry. Page or progression changes must not introduce empty pages or unintended early or duplicate advancement.
 
-원문의 글자 수·줄바꿈·관측 최대값은 원본 사용 범위일 뿐 확인된 소비 한도가 아니다. 최종 판정은 한국어 인코딩 결과와 실제 소비 조건을 따른다.
+Source character counts, line breaks, and observed maxima describe source usage, not confirmed consumer capacity. Judge the release result from Korean encoded output and the actual consumer conditions.
 
-## 6. 이슈와 릴리스 종료 판정
+## 6. Issue closure and release readiness
 
-결함은 같은 재현 절차가 수정본에서 통과하고, 수정이 닿은 분기·공유 상태·원래 정상인 대표 경로가 회귀를 통과할 때 종료한다. 원본 동작이나 범위 밖으로 종료하려면 그 판정을 구분하는 근거가 있어야 한다. 기록에는 `references/conventions/project-records.md` §7의 상태·근거 구분을 적용하고, 원인 격리와 수정은 `references/strategy/debugging.md`로 판정한다.
+Close a defect only when the same reproduction passes on the fix and the affected branches, shared state, and representative previously working paths pass regression. A decision that behavior is original or out of scope needs evidence distinguishing it from the defect. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7 and diagnose causes through `references/strategy/debugging.md`.
 
-선언한 번역 범위의 검수가 끝나지 않아도 개발 빌드와 기술 검증을 계속할 수 있다. 릴리스 후보는 다음을 모두 만족해야 한다.
+Incomplete human review of the declared translation scope does not block development builds or technical verification. A release candidate must satisfy all of these conditions:
 
-- 선언한 범위의 모든 변경이 불변 원본과 승인 입력에서 주 빌드 경로로 재생성되고, 구성요소별 검사와 실행 증거가 그 정확한 빌드 결과에서 함께 통과했다.
-- 선언한 현지화 범위가 `references/strategy/text-extraction.md` §1.4·§1.5의 모집단 판정과 일치하고, 미확정 영역과 완료 범위를 구분했다.
-- 선언한 자동 빌드·적용·실행 검사가 통과했다.
-- 알려진 치명 결함이 없고, 미해결 항목의 범위와 영향이 릴리스 판단에 반영됐다.
-- 선언한 사람 검토가 완료됐다.
-- 배포물 적용 결과가 검증한 목표 이미지와 일치한다.
+- Every declared change is regenerated from immutable source and approved inputs through the primary build, and component checks plus runtime evidence pass together on that exact result.
+- The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, with unresolved and completed areas distinguished.
+- Every declared automated build, application, and runtime check passes.
+- No known critical defect remains, and the scope and effect of unresolved items inform the release decision.
+- Every declared HITL review is complete.
+- Applying the distribution artifact reproduces the verified target image.

@@ -1,54 +1,54 @@
-# 런타임 자산 도달성 전략
+# Runtime asset reachability
 
-폰트·스크립트·그래픽·매핑 테이블·압축 블록의 사용 여부는 **저장 → 탐색 → 적재·변환 → 상주 → 소비** 연결로 판정한다.
+Determine whether a font, script, graphic, mapping table, or compressed block is used by connecting **storage → lookup → load or transform → residency → consumption**.
 
-자산 형식·배치법·로더 구현·검증 도구는 대상 프로젝트에 맞춰 선택한다. 각 단계의 내부 유효성을 검증할 때는 §4에서 변경이 닿은 항목의 기준만 적용하고, 여기서는 한 단계의 출력이 다음 단계의 입력으로 이어졌는지 확인한다.
+Choose asset formats, placement, loader implementations, and verification tools for the target project. Apply only the internal-validity criteria in §4 that correspond to changed stages. This document determines whether each stage's output becomes the next stage's input.
 
-## 1. 발동 조건
+## 1. Trigger conditions
 
-다음 변경이 하나라도 있으면 아래 연결 검증을 적용한다.
+Apply the link assessment below when any of these conditions holds:
 
-- 원본에 없던 런타임 자산을 추가한다.
-- 자산이 기존 슬롯·파일 extent·뱅크·섹터를 넘어 성장하거나 다른 위치로 이동한다.
-- 압축·패킹·식별 메타데이터를 바꾸어 로더 입력이나 출력이 달라진다.
-- 상주 방식을 바꾸거나 새 버퍼·캐시·DMA·overlay 경로를 사용한다.
-- 위치와 크기는 같아도 소비자가 해석할 인코딩·셀·인덱스·포맷 규칙을 바꾼다.
+- The build adds a runtime asset that did not exist in the source.
+- An asset grows beyond its original slot, file extent, bank, or sector, or moves elsewhere.
+- Compression, packing, or identity metadata changes the loader's input or output.
+- Residency changes, or the implementation adds a buffer, cache, DMA, or overlay path.
+- Location and size remain fixed but the consumer must interpret a different encoding, cell layout, index rule, or format.
 
-위 조건에 해당하지 않고, 같은 리비전과 소비 경로에서 변경 전후 연결이 동일하다는 기존 증거가 있는 단순 교체에는 별도 연결 검증이 필요하지 않다. 다른 리비전·로더·상주 방식이나 범위가 더 좁은 과거 증거로 생략하지 않는다.
+A separate link assessment is unnecessary for a same-size replacement only when existing evidence covers the same revision and consumer path and establishes identical links before and after the change. Evidence from another revision, loader, residency model, or narrower scope does not qualify.
 
-## 2. 연결 판정
+## 2. Link assessment
 
-`저장 → 탐색 → 적재·변환 → 상주 → 소비`는 판정을 위한 의존 모델이다. 직접 매핑된 자산처럼 여러 단계가 합쳐지거나 변환 단계가 없는 구조도 있다. 해당하지 않는 단계는 근거와 함께 제외한다. 기존 증거는 같은 지원 리비전·자산 식별 정보·소비 경로·상태 수명 조건에 적용되고 이번 변경이 그 연결을 건드리지 않았을 때만 재사용한다. 하나의 트레이스가 여러 연결을 함께 입증해도 된다.
+`Storage → lookup → load or transform → residency → consumption` is a dependency model, not a required implementation sequence. Directly mapped assets may combine stages, and some assets have no transform. Exclude an inapplicable stage only with evidence. Reuse prior evidence only when it covers the same supported revision, asset identity, consumer path, and state lifetime, and the current change does not alter that link. One trace may establish several links.
 
-실행 검증 횟수를 파일·항목 수에 맞추지 않는다. `references/strategy/initial-survey.md` §2.5에서 전수 열거한 항목 가운데 선택 규칙과 연결이 같은 범위는 각 항목이 그 범위에 속한다는 정적 근거를 갖춘 뒤 함께 판정한다. 대표 실행은 공통 연결의 실제 작동만 증명한다. 다른 항목도 그 연결을 쓰는지는 정적으로 전수 판정한다. 항목마다 연결이 다르거나 정적으로 가를 수 없으면 따로 실행 증거를 만들고, 같은 연결 안에서도 크기·형식·메타데이터·상태 전이가 소비 동작을 바꿀 수 있으면 해당 경계 항목을 추가한다.
+Do not make runtime sample count equal file or item count. For a population enumerated through `references/strategy/initial-survey.md` §2.5, assess together only items that have static evidence for the same selection rule and link. A representative runtime sample proves that the shared link operates; static coverage must still establish which other items use it. Produce separate runtime evidence when links differ or static analysis cannot distinguish them. Add boundary items when size, format, metadata, or state transition can change consumption even within one link class.
 
-변경이 닿은 경계에서는 다음을 확인한다.
+At every changed boundary, determine:
 
-1. 빌드가 만든 자산의 정체·위치·크기와 런타임 탐색 정보가 같은 대상을 가리키는가?
-2. 실제 읽기 경로가 그 대상을 선택하고, 해당 전략에서 검증한 적재·변환 결과를 다음 메모리 경계에 전달하는가?
-3. 전달된 자산이 필요한 용량과 수명을 가지며, 관련 상태 전이 뒤에도 소비 시점까지 유효한가?
-4. 필요한 소비 경로가 그 자산을 같은 포맷·인코딩·인덱스 규칙으로 읽고, RAM·VRAM 또는 최종 출력에서 결과가 연결되는가?
+1. Do the built asset's identity, location, and size refer to the same object as the runtime lookup metadata?
+2. Does the real read path select that object and pass the verified load or transform result to the next memory boundary?
+3. Does the delivered asset have the required capacity and lifetime, including after relevant state transitions, until consumption?
+4. Does every required consumer read the asset with the same format, encoding, and index rules, and can the result be connected through RAM, VRAM, or final output?
 
-부팅 성공, 이미지 내부 바이트 일치, 한 화면의 우연한 정상 표시는 각각 변경된 연결 전체의 증거가 아니다. 새 증거의 범위는 변경이 닿는 경계, 소비 경로, 자산 수명을 바꿀 수 있는 상태 전이로 한정한다.
+Boot success, matching bytes inside an image, or one apparently correct screen does not establish the complete changed link. Limit every claim to the changed boundaries, consumer paths, and state transitions that can alter asset lifetime.
 
-증명 대상이 적재·업로드·초기화·캐시 갱신이면 그 경계 뒤에서 만든 상태는 앞 경계를 통과했다는 증거가 아니다. 상태 저장 자체를 금지하지 않되, 같은 빌드의 경계 전 상태에서 이어가거나 새 실행으로 해당 경계를 다시 통과한다.
+When the claim concerns load, upload, initialization, or cache refresh, state created after that boundary does not prove that the boundary was crossed. Save states remain usable when they begin before the boundary in the same build; otherwise start a new run and cross the boundary again.
 
-## 3. 판정과 다음 행동
+## 3. Outcomes and next action
 
-- **통과** — 변경이 닿은 연결이 증거로 이어지고 관련 상태 전이 뒤에도 유지된다. 이 판정을 호출한 전략에 결과를 돌려준다.
-- **실패** — 처음 끊긴 연결에 해당하는 전략으로 돌아간다. 앞 단계의 통과 증거는 유지하고 실패하지 않은 계층까지 다시 설계하지 않는다.
-- **불명확** — 마지막으로 확인된 경계와 처음 확인되지 않은 경계를 기록한다. 구현 전 판정이 필요한 위험이면 `references/strategy/poc.md`에서 처음 확인되지 않은 연결을 가르는 진단을 설계하고, 결과를 원래 연결 판정으로 돌려준다.
+- **Pass** — Evidence connects every changed link and the asset remains valid across relevant state transitions. Return this result to the strategy that requested the assessment.
+- **Fail** — Return to the strategy that owns the first broken link. Preserve evidence for preceding links and do not redesign unaffected layers.
+- **Unresolved** — Record the last established boundary and the first unestablished boundary. If implementation depends on the answer, use `references/strategy/poc.md` to design a diagnostic that distinguishes that first missing link, then return the result to this assessment.
 
-## 4. 변경 항목별 기준
+## 4. Criteria by changed component
 
-| 판정 | 적용 문서 |
+| Question | Apply |
 |---|---|
-| 저장 공간·포인터·훅 | `references/strategy/reinsertion.md` |
-| 압축 식별, 해제·재압축 라운드트립과 변환 결과 | `references/strategy/compression.md` |
-| 글리프 수요·인코딩·상주 방식 | `references/strategy/font-strategy.md` |
-| 그래픽 텍스트의 복원·조판·재인코딩 | `references/strategy/graphics-text.md` |
-| 구현 전에 판정할 위험 | `references/strategy/poc.md` |
-| 실패한 연결의 원인 격리 | `references/strategy/debugging.md` |
-| 이미지 무결성·패치 산출물·회귀 | `references/strategy/build-and-verify.md` |
+| Storage space, pointers, and hooks | `references/strategy/reinsertion.md` |
+| Compression identification, decompression or recompression round trip, and transform result | `references/strategy/compression.md` |
+| Glyph demand, encoding, and residency model | `references/strategy/font-strategy.md` |
+| Restoration, layout, and re-encoding of graphics text | `references/strategy/graphics-text.md` |
+| Risk that must be resolved before implementation | `references/strategy/poc.md` |
+| Isolation of a broken link's cause | `references/strategy/debugging.md` |
+| Image integrity, patch artifacts, and regression | `references/strategy/build-and-verify.md` |
 
-구체적인 자산 목록, 파일 경로, 매니페스트 필드와 증거 기록 형식은 필요할 때 대상 프로젝트의 문서와 구현이 정한다.
+Let the target project's implementation and documentation define concrete asset lists, file paths, manifest fields, and evidence-record formats when they are needed.

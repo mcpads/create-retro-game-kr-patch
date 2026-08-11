@@ -1,112 +1,112 @@
-# 폰트 전략
+# Font strategy
 
-대상 리비전의 문자 소비자가 요구하는 코드→글리프 대응, 전체 저장 레퍼토리, 상태별 활성 작업 집합, 표현 형식과 검증 기준을 판정한다. 특정 폰트 제품, 변환 도구, 셀 크기나 캐시 구현을 기본값으로 두지 않는다. 실제 병목이 드러난 부분부터 확인하되 서로 다른 예산을 하나의 숫자로 합치지 않는다.
+Determine the target revision's code-to-glyph mapping, stored repertoire, state-specific active working sets, representation, and verification criteria. Do not assume a font product, conversion tool, cell size, or cache implementation. Investigate constraints that can change the design, and keep distinct budgets separate.
 
-## 1. 먼저 확정할 조건
+## 1. Conditions to establish
 
-다음 질문의 답이 이후 선택을 바꿀 때만 조사한다.
+Investigate an answer when it can change a later choice:
 
-- 어떤 본문·UI·전투·그래픽 경로가 같은 코드표와 글리프 공급자를 쓰는가.
-- 배포 코퍼스와 런타임 삽입값이 요구하는 문자 집합은 무엇인가.
-- 문자가 저장 코드에서 글리프 선택과 픽셀 소비까지 어떻게 이어지는가.
-- 전체 글리프를 저장하는 상한과 한 상태에서 동시에 활성화하는 상한은 각각 무엇인가.
-- 실제 소비자가 요구하는 셀, 비트 깊이, 배열, 팔레트와 클리어 범위는 무엇인가.
-- 채택한 글리프 원천과 변환 입력을 배포·재현할 수 있는가.
+- Which dialogue, UI, battle, and graphics consumers share a code table and glyph provider?
+- Which characters are required by the distribution corpus and runtime insertion values?
+- How does a stored code reach glyph selection and pixel consumption?
+- What limits the complete stored repertoire, and what separately limits glyphs active in one state?
+- Which cell, bit depth, layout, palette, and clearing range does the real consumer require?
+- Can the adopted glyph source and transform inputs be reproduced and distributed?
 
-분기를 바꾸는 하드웨어·매체 사실은 `references/platforms/`의 해당 문서에서 확인한다. 실제 픽셀 도달이나 용량 가정이 미확정이면 `references/strategy/poc.md`의 조건부 검증으로 판정한다.
+Read the applicable `references/platforms/` document for hardware or media facts that change a branch. Use a conditional test from `references/strategy/poc.md` when pixel reachability or capacity remains design-critical and unresolved.
 
-## 2. 문자 코드와 글리프 매핑
+## 2. Character-code-to-glyph mapping
 
-### 2.1 기존 코드 공간을 재사용할 때
+### 2.1 Reusing an existing code space
 
-비어 보이는 코드, lead, pair, 슬롯을 새 문자에 배정하려면 다음이 모두 성립해야 한다.
+Assign an apparently free code, lead, pair, or slot only when all of these conditions hold:
 
-1. 배포 대상 문자열 모집단과 파서가 도달 가능한 후보 영역을 확정했다.
-2. 원본 문자·외자·제어 토큰·종료자와 예약값을 구분했다.
-3. 해당 값을 소비하는 모든 디코더·조회·우회 경로가 새 매핑을 이해한다.
-4. 인코더, 디코더, 폰트 빌더와 검증기가 같은 명시 매핑을 소비한다.
-5. 선언하지 않은 원본 값이나 새 충돌이 발견되면 빌드를 실패시킨다.
+1. The distribution string population and parser-reachable candidate range are established.
+2. Source characters, external characters, control tokens, terminators, and reserved values are distinguished.
+3. Every decoder, lookup, and bypass path consuming the value understands the new mapping.
+4. Encoder, decoder, font builder, and validators consume the same explicit mapping.
+5. An undeclared source value or new collision fails the build.
 
-모집단이 미확정인 비배포 PoC에서는 선언한 대표 범위에 한정해 임시 매핑을 사용할 수 있지만, 그 결과로 배포 매핑의 비충돌이나 미사용 코드 집합을 확정하지 않는다.
+A non-distribution PoC with unresolved population may use a temporary mapping only for its declared representative scope. It does not prove collision freedom or the unused-code set for distribution.
 
-표준 디코더가 문자를 반환하지 않았거나 한 파일에서 출현 횟수가 0이라는 사실만으로 미사용을 확정하지 않는다. 일부 조합만 원본이 쓰는 영역은 그 조합을 그대로 예약하고, 나머지를 모든 소비 경로에서 안전하게 구분할 수 있을 때만 부분 재사용한다.
+A standard decoder returning no character, or zero occurrences in one file, does not prove a value unused. Preserve source-used combinations. Reuse the remainder only if every consumer can distinguish it safely.
 
-앞 문단의 예약은 원본이 그 문자를 계속 소비하는 동안 유효하다. 선언한 현지화 범위를 모두 번역해 원본이 더는 그 문자를 소비하지 않으면 예약을 풀고 재배정 후보로 삼는다. 다만 비텍스트 그래픽이 같은 슬롯을 소비하거나, 미번역 범위나 `references/conventions/translation-artifacts.md` §5의 승인 예외가 그 문자를 계속 요구하거나, 글리프가 BIOS·폰트 ROM처럼 수정 대상 밖에서 공급되면 회수 대상이 아니다.
+A reservation remains while the source consumes the character. It may become a reassignment candidate after the declared localization scope removes every source use. Do not reclaim it if non-text graphics use the slot, untranslated or approved exceptional content still needs it under `references/conventions/translation-artifacts.md` §5, or an external provider such as BIOS or font ROM supplies it.
 
-고정 지원 리비전에서 전수 확인한 코드 집합과 매핑은 휴리스틱이 아니라 명시 사양이다. 휴리스틱 탐색은 새 후보를 찾거나 사양 이탈을 감사하는 데만 쓰고, 빌드가 임의의 대체 매핑을 선택하게 하지 않는다.
+For a fixed supported revision, treat exhaustively verified code sets and mappings as explicit specification, not heuristics. Use heuristic search only to find candidates or audit specification drift; never let the build choose an arbitrary fallback mapping.
 
-### 2.2 완성형과 조합형
+### 2.2 Precomposed and compositional Hangul
 
-- 전체 레퍼토리 공급과 기존 1코드→1글리프 경로가 요구 문자를 수용하면 완성형을 후보로 둔다.
-- 전체 레퍼토리를 수용할 수 없고 공급 확장도 성립하지 않으며, 자모 합성·배치·클리어의 추가 처리 경로를 검증할 수 있을 때 조합형을 후보로 둔다.
-- 원본 게임에 합성 또는 동적 글리프 경로가 있어도 한글에 그대로 재사용할 수 있다고 가정하지 않고 실제 입력 범위와 상태 수명을 확인한다.
+- Consider precomposed glyphs when the complete repertoire fits and the existing one-code-to-one-glyph path can consume it.
+- Consider composition when the complete repertoire cannot fit, supply cannot be expanded, and an additional composition, placement, and clearing path can be verified.
+- An existing composition or dynamic glyph path is only a candidate. Verify its input range and state lifetime before applying it to Hangul.
 
-어느 쪽도 작은 셀에서의 판독성이나 레이아웃 적합성을 이름만으로 보장하지 않는다. 실제 타깃 출력으로 판정한다.
+Neither representation guarantees readability in a small cell or layout fitness. Judge the target output.
 
-## 3. 전체 레퍼토리와 활성 작업 집합
+## 3. Total repertoire and active working set
 
-### 3.1 서로 다른 두 예산
+### 3.1 Two different budgets
 
-| 예산 | 비교 대상 | 대표 제약 |
-|------|----------|-----------|
-| **전체 레퍼토리 예산** | 배포 코퍼스와 런타임 입력이 요구하는 전체 고유 글리프 | 코드 공간, 온미디어 저장 공간, 영구 매핑·카탈로그의 표현 범위 |
-| **활성 작업 집합 예산** | 한 화면·장면·프레임 구간에서 동시에 살아 있어야 하는 글리프 | 활성 RAM·VRAM·텍스처 슬롯, 인덱스 표현 범위, 전송·교체 시점 |
+| Budget | Compared population | Typical constraints |
+|---|---|---|
+| **Total repertoire** | Every unique glyph required by the distribution corpus and runtime inputs | Code space, on-media storage, persistent mapping and catalog representation |
+| **Active working set** | Glyphs that must coexist during one screen, scene, or frame interval | Active RAM or VRAM, texture slots, index representation, transfer and replacement timing |
 
-모든 글리프가 고정 슬롯에 1:1로 상주하는 설계에서만 두 예산의 최솟값을 전체 글리프 상한으로 쓸 수 있다. 동적 적재나 재매핑이 성립하면 전체 코퍼스는 전체 레퍼토리 예산과, 각 런타임 상태의 작업 집합은 활성 예산과 따로 비교해야 한다.
+Only a design that keeps every glyph in fixed one-to-one slots may use the smaller budget as a global glyph limit. With verified dynamic loading or remapping, compare the complete corpus with the total-repertoire budget and each runtime state with the active budget separately.
 
-인덱스 폭도 역할에 따라 분류한다. 코드가 영구 글리프 슬롯을 직접 선택하면 전체 레퍼토리를 제한하지만, 코드→활성 슬롯 매핑이 상태별로 바뀌면 활성 작업 집합과 매핑 테이블을 제한한다. 정적 배열 크기만 보고 어느 쪽인지 단정하지 않는다.
+Classify index width by role. A code that directly selects a permanent slot limits the total repertoire. A code remapped to a state-specific active slot limits the working set and mapping table. Static array size alone does not decide the role.
 
-### 3.2 예산 판정
+### 3.2 Budget decision
 
-전체 코퍼스의 글리프 수요를 확정하기 전에 `references/strategy/text-extraction.md` §1.5에서 배포 범위의 분모와 미확정 영역을 판정한다.
+Before finalizing corpus demand, establish distribution scope and unresolved regions through `references/strategy/text-extraction.md` §1.5.
 
-1. 배포 대상 코퍼스와 실제 런타임 삽입값에서 필요한 글리프를 전수 집계한다. 미확정 번역 표본은 확정 상한이 아니라 위험 신호로만 쓴다.
-2. 코드 공간·저장·매핑·활성 슬롯의 입력값을 대상 소비자에서 측정하고, 각 값의 적용 범위를 기록한다.
-3. 매핑되지 않은 문자나 해당 범위의 예산 초과가 있으면 빌드를 실패시키고 누락 목록과 병목을 보고한다.
-4. 비글리프 자원, 미사용 슬롯과 선언한 현지화 범위를 모두 번역해 더는 소비되지 않는 원본 글리프를 회수하려면 모든 참조자와 상태를 배제한 뒤에만 공급으로 계산하고, 전체 레퍼토리와 활성 작업 집합 가운데 어느 예산이 늘어나는지 따로 판정한다.
-5. 전체 레퍼토리가 부족하면 정확한 병목을 확정하고 공급 확장 가능성을 판정한다. 번역 어휘 축소나 문자 대체는 의미·말투 손실을 사람이 승인한 경우에만 사용한다.
-6. 활성 예산이 상태별 작업 집합보다 작으면 적재·교체·고정·해제 정책이 소비 수명 동안 글리프를 보존함을 증명한다. 이를 증명하지 못하면 동적 공급 설계는 통과하지 않는다.
+1. Count required glyphs across the complete distribution corpus and actual runtime insertion values. An unfinished translation sample is a risk signal, not a final bound.
+2. Measure code-space, storage, mapping, and active-slot limits from target consumers and record each value's applicability.
+3. Fail the build on an unmapped character or applicable budget overflow, and report the missing set and limiting resource.
+4. Count non-glyph resources, unused slots, or source glyphs eliminated by complete translation as supply only after excluding every reference and state. State whether this expands total repertoire or active working set.
+5. If total repertoire is insufficient, establish the exact bottleneck and determine whether supply can expand. Vocabulary reduction or character substitution requires human approval when it changes meaning or voice.
+6. If the active budget is smaller than a state's working set, prove that load, replacement, pinning, and release preserve every glyph throughout its consumption lifetime. Otherwise the dynamic design fails.
 
-번역 수요를 줄여야 할 때 출현 횟수만으로 후보를 고르지 않는다. 제거 전후 고유 글리프 집합의 차이, 장면·화자·기능별 분포, 기존 글리프로 의미·말투를 보존하는 대체 표현의 존재, 승인 용어·고유명사·힌트·캐릭터 표현에 미치는 영향을 함께 판정한다. 같은 글리프의 여러 출현을 바꿔도 절약은 한 슬롯이고 대체 표현이 새 글리프를 요구하면 실제 절감이 없을 수 있다.
+When demand must shrink, do not rank candidates by occurrence count alone. Compare the unique-glyph delta, distribution by scene, speaker, and function, available synonymous phrasing using existing glyphs, and effects on approved terminology, names, hints, and characterization. Replacing many occurrences of one glyph saves one slot; introducing another glyph may save none.
 
-승인 용어·고유명사·힌트·캐릭터 표현을 바꾸거나 의미·말투를 잃는 조정에는 사람 승인이 필요하고, 그렇지 않은 표현 조정은 `references/strategy/translation-workflow.md`의 일반 검토를 따른다.
+Changes to approved terminology, names, hints, characterization, meaning, or voice require human approval. Other phrasing adjustments follow `references/strategy/translation-workflow.md`.
 
-글리프 자산 변경이 `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하면 그 문서의 연결도 함께 검증해야 한다.
+If a glyph asset change triggers `references/strategy/runtime-assets.md` §1, verify its links as well.
 
-## 4. 글리프 원천과 표현 형식
+## 4. Glyph sources and representation
 
-폰트 제품군, 셀 크기, 비트 깊이와 변환 방식에는 전역 기본값을 두지 않는다. 별도 자형이 필요하다는 근거가 없으면 출처·배포 조건·문자 범위를 확인할 수 있고 선언한 주요 문자 집합을 공급하는 기성 글꼴에서 시작한다. 후보는 같은 문장과 글자를 대상 게임의 같은 변환 경로로 처리해 비교하며, 크기·기준선·이진화·여백 조정으로 요구를 충족하면 직접 자형을 만들지 않는다.
+Do not set a global font family, cell size, bit depth, or transform. Unless evidence requires new letterforms, begin with an established font whose provenance, distribution terms, and required character coverage are known. Compare candidates by sending the same strings through the target game's transform. Do not draw a new character set when size, baseline, rasterization, or margin adjustments make an existing source meet the requirement.
 
-직접 제작·보정은 주요 문자 집합을 기성 글꼴로 공급한 뒤에도 필수 문자·기호가 국소적으로 없거나, 조정 뒤에도 실제 UI의 판독성·상태 구분 등 확인된 UX 요구를 충족하지 못하는 글리프에 한정한다. 예를 들어 채택한 기성 글꼴에 `…`가 없으면 그 기호만 보완하며, 이를 이유로 본문 한글까지 직접 그리지 않는다. 제한적 보완으로도 선언한 배포 범위를 충족할 수 없고 전체 자형 설계가 필요한 UX 근거가 있을 때만 전체 글꼴 제작을 후보로 둔다.
+Author or correct glyphs only after an established font supplies the main character set, and only for local missing symbols or glyphs that still fail an established UX requirement such as readability or state distinction. If the adopted font lacks `...` as one semantic symbol, add that symbol rather than redrawing Hangul. Consider a complete custom font only when limited additions cannot cover the distribution scope and an established UX requirement justifies the larger design.
 
-폰트 이름, 제작자가 제시한 용도·크기와 폰트 미리보기는 후보를 좁히는 단서로만 쓴다. 글리프 누락·빈 출력·잘림·간격 오류처럼 기능을 해치는 문제와 획의 인상·작품 분위기 같은 시각적 선호를 구분한다. 채움·외곽선·그림자·하이라이트·광택 같은 표현 층은 대상 화면의 승인된 시각 기준을 이루거나 실제 소비 경로의 판독성·상태 구분에 필요한 경우에만 요구하며, 원본 스타일의 재현이나 특정 효과를 모든 경로의 기본값으로 두지 않는다.
+Font names, stated uses or sizes, and previews only narrow candidates. Distinguish functional failures such as missing glyphs, empty output, clipping, and spacing errors from aesthetic preferences such as stroke impression or mood. Require fill, outline, shadow, highlight, or gloss only when they are part of the approved visual target or necessary for readability or state distinction on the real consumer path. Do not make one source style or effect a global default.
 
-채택 조건:
+Adoption requires:
 
-- 필요한 모든 글리프가 존재하고 실제 잉크가 셀과 클리어 범위를 벗어나지 않는다.
-- 실제 번역문의 연속 문장, 받침·복합 모음·획 밀도가 높은 글자와 해당 경로에서 함께 쓰는 공백·구두점·숫자·라틴 문자를 표본으로 쓴다. 이 표본이 실제 배경·팔레트에서 충분한 대비와 판독성을 유지하고 기준선·행 높이·간격이 어긋나지 않으며, 셀·창·화면 경계에서 잘리거나 인접 요소를 침범하지 않는다.
-- 필요하다고 판정한 채움·외곽선·그림자·하이라이트·광택 등의 표현 층이 실제 소비 결과에서 의도한 역할을 유지한다.
-- 원천의 정확한 버전과 라이선스가 글리프 파생물 및 필요한 원본 파일의 배포 방식을 허용한다.
-- 같은 고정 입력과 변환 규칙에서 같은 게임 데이터를 재현한다.
-- 실제 소비자가 요구하는 배열·비트 깊이·팔레트·서브타일 순서를 만족한다.
+- Every required glyph exists, and actual ink remains within the cell and clearing range.
+- Samples include continuous translated sentences, dense Hangul forms, and the spaces, punctuation, digits, and Latin characters used on the path. On the real background and palette they retain contrast and readability, align baseline, line height, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
+- Every required fill, outline, shadow, highlight, or gloss layer retains its intended role in consumed output.
+- The exact source version and license permit distribution of derivatives and any required source files.
+- Fixed inputs and transform rules reproduce the same game data.
+- Output satisfies the consumer's layout, bit depth, palette, and subtile ordering.
 
-원본 표현을 재사용할 수 있으면 영향 범위가 작은 후보가 되지만 의무는 아니다. 셀, 비트 깊이, 배열이나 글리프당 크기를 바꾸면 그 값을 소비하는 주소 계산, 전송량, 인덱스, 클리어와 레이아웃 규칙을 함께 갱신하고 검증해야 한다. 저장 형식과 활성 형식이 다르면 변환 경계와 버퍼 수명도 별도 조건으로 둔다.
+Reusing source presentation may minimize impact but is not mandatory. If cell, bit depth, layout, or bytes per glyph change, update and verify every address calculation, transfer length, index, clearing, and layout rule that consumes them. If stored and active representations differ, establish the transform boundary and buffer lifetime separately.
 
-## 5. 복수 렌더 경로
+## 5. Multiple render paths
 
-본문·UI·이름 입력·그래픽 경로가 다른 공급자나 표현 규칙을 쓰면 경로별 코드표, 글리프 원천, 셀과 예산을 따로 판정한다. 한 경로의 PoC를 전체 게임으로 확대하지 않는다.
+When dialogue, UI, name entry, or graphics paths use different providers or representation rules, determine code table, glyph source, cell, and budgets per path. Do not generalize one path's PoC to the whole game.
 
-여러 경로가 같은 표현 파라미터를 공유한다면 하나의 명시 입력만 사용한다. 파라미터가 실제로 달라 한 설정이 다른 경로를 덮어쓰거나 빌드와 검토 결과가 어긋날 때만 타깃별 프로필을 분리한다. 프로필의 저장 형식이나 덮어쓰기 수단은 프로젝트가 정하되, 알 수 없는 타깃·값·누락을 묵인하지 않는다.
+Use one explicit input when several paths truly share presentation parameters. Split target profiles only when parameters differ and one setting would overwrite another or make build and review output disagree. The project chooses profile serialization and override mechanisms, but unknown targets, values, and omissions must fail.
 
-주소·뱅크·코드 경계처럼 고정 리비전에서 확인된 구조 상수는 표현 튜닝 값과 분리한다. 전자는 예상 바이트와 함께 명시 사양으로 유지한다.
+Keep revision-specific structural constants such as addresses, banks, and code boundaries separate from presentation tuning. Preserve those constants as explicit specification with expected bytes.
 
-## 6. 완료 조건
+## 6. Completion
 
-폰트 전략은 다음이 모두 성립할 때 완료다.
+Font work is complete only when:
 
-- 각 목표 소비 경로에서 배포 범위에 필요한 모든 문자가 그 경로에 적용되는 승인 매핑에 배정되고 미할당이 0이다.
-- 전체 레퍼토리와 각 대표 런타임 상태의 활성 작업 집합이 서로 맞는 예산을 통과한다.
-- 변환 경계가 원본 표본 또는 선언한 의미 동등 기준을 통과한다.
-- 모든 목표 렌더 경로에서 대표 문장과 경계 글리프가 정상 표시되고 주변 UI·그래픽을 침범하지 않는다.
-- `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하는 글리프 자산 변경이 그 문서의 연결 판정을 통과한다.
-- 채택한 원천·매핑·구조 상수·검증 근거가 재빌드 가능한 입력과 기록으로 남는다.
+- Every required character in the distribution scope maps through an approved mapping for each target consumer, with zero unmapped characters.
+- Total repertoire and representative runtime working sets pass their corresponding budgets.
+- Transform boundaries pass source samples or a declared semantic-equivalence criterion.
+- Representative sentences and boundary glyphs render correctly on every target path without invading adjacent UI or graphics.
+- Triggered glyph asset changes pass `references/strategy/runtime-assets.md` link assessment.
+- Adopted sources, mappings, structural constants, and evidence remain reproducible build inputs and records.

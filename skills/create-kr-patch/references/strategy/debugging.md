@@ -1,97 +1,97 @@
-# 디버깅과 이슈 처리
+# Debugging and issue resolution
 
-실행 검증은 판정에 필요한 목표 상태, 그 상태에 이르는 경로와 각 도달 수단이 증명하는 범위를 먼저 구분한다. QA 결함은 재현, 원인 판정과 회귀 검증까지 통과해야 종료한다. 디버거·에뮬레이터·관측 순서는 현재 가설과 환경에 맞춰 선택한다. 이슈의 증거·판정·다음 행동은 `references/conventions/project-records.md`에 따라 구분하고, 릴리스 종료 여부는 `references/strategy/build-and-verify.md`로 판정한다.
+Before runtime verification, distinguish the target state, routes to that state, and the proof scope of each route. A QA defect closes only after reproduction, causal diagnosis, correction, and regression verification. Choose debuggers, emulators, and observation order from the current hypotheses and environment. Record evidence, decisions, and next actions under `references/conventions/project-records.md`; judge release readiness through `references/strategy/build-and-verify.md`.
 
-## 1. 완료 조건
+## 1. Completion conditions
 
-결함 수정은 다음이 모두 성립할 때 완료다.
+A defect fix is complete only when:
 
-- 기준 입력·빌드·실행 상태와 증상을 반복해 구분할 수 있다.
-- 직접 관찰, 원인 가설, 기각 결론이 분리되어 있다.
-- 경쟁 가설을 가르는 증거로 결함 경계를 좁혔다.
-- 최초의 잘못된 상태와 증상까지의 전파를 설명할 수 있다.
-- 확정된 결함만 고친 뒤 같은 재현이 통과한다.
-- 수정이 닿은 인접 경로와 원래 정상인 대표 경로가 회귀를 통과한다.
+- the baseline input, build, runtime state, symptom, and pass/fail observation are repeatable;
+- direct observations, cause hypotheses, and rejected conclusions remain distinct;
+- discriminating evidence narrows the defect boundary;
+- the first incorrect state and its propagation to the symptom are explained;
+- the same reproduction passes after changing only the established defect; and
+- affected adjacent paths and representative previously working paths pass regression.
 
-증상이 사라졌더라도 수정이 결함을 없앤 이유를 설명할 수 없으면 원인 확정으로 승격하지 않는다.
+Disappearance of a symptom does not establish a cause unless the change's effect on the causal chain is explained.
 
-재현은 다른 실행에서도 같은 이슈를 구분할 만큼 입력, 상태, 실행 경로와 성공·실패 관측을 식별해야 한다. 실행마다 결과가 달라지면 구분 가능한 결과 범위까지 재현 조건에 포함한다. 기록이 보존해야 할 의미는 `references/conventions/project-records.md`를 따르고, 구체 필드는 프로젝트가 정한다.
+A reproduction must identify enough input, state, route, and observation to distinguish the same issue in another run. If results vary, include the distinguishable outcome range in the reproduction conditions. Preserve record semantics from `references/conventions/project-records.md`; the project chooses concrete fields.
 
-## 2. 판정 실험
+## 2. Decision experiments
 
-실험은 실행 전에 가능한 결과가 어느 가설을 승격·기각하는지 정해져 있어야 한다. 결과가 어느 쪽이든 현재 선택을 줄이지 못하면 질문을 더 좁힌다.
+Before an experiment, state which outcomes promote or reject each hypothesis. Narrow the question if no possible result would reduce the current choices.
 
-### 목표 상태 도달과 상태 개입
+### Reaching a target state and intervening in state
 
-실행 관측 전에 판정할 질문과 목표 상태, 그 상태에 이르기까지 실제로 거쳐야 하는 선행 조건을 정한다. 조작법·진행 흐름·분기·획득 조건이 미확정이면 웹에서 확인할 수 있는 설명서·공략·워크스루·플레이 영상·치트 자료를 먼저 조사해 후보 경로를 좁힌다. 자료가 대상으로 삼은 지역판·리비전과 선행 조건을 확인하고 대상 빌드에서 다시 대조한다. 같은 기준선과 조건의 검증된 도달 경로가 프로젝트 기록에 있으면 조사를 반복하지 않는다. 외부 자료는 진입 후보와 조작 순서를 제공할 뿐 실제 상태나 코드 경로의 증거가 아니다.
+First define the question, target state, and prerequisites that must remain real. When controls, progression, branches, or acquisition conditions are unknown, consult manuals, guides, walkthroughs, play videos, or cheat references to narrow candidate routes. Check the region, revision, and prerequisites described by each source, then reverify them on the target build. Reuse an already verified route under the same baseline and conditions. External material proposes entry routes and input sequences; it does not prove target state or code path.
 
-도달 수단은 고정 순서가 아니라, 판정에 필요한 선행 상태를 보존하는 후보 중 재현 비용이 가장 낮은 것을 고른다. 정상 플레이 경로, 호환성을 확인한 저장 상태·입력 기록, 게임 내부의 진입 수단, 검증된 치트·상태값 변경, 확인된 상태 전이 루틴 호출이 후보가 될 수 있다. 인위적 개입이 적다는 이유만으로 오래 걸리거나 결과가 일정하지 않은 플레이를 반복하지 않고, 빠르다는 이유만으로 판정에 필요한 선행 상태를 건너뛰지 않는다.
+Among routes that preserve the required prerequisites, choose the one with the lowest reproduction cost. Candidates include normal play, compatible saved states or input recordings, in-game entry points, verified cheats or state edits, and verified calls to state-transition routines. Do not repeat slow or unstable play merely because it has less intervention. Do not skip prerequisites merely because intervention is faster.
 
-상태값을 바꾸거나 루틴을 강제 호출하려면 정적·동적 분석으로 변경 대상 또는 루틴의 진입 조건·인자·호출 맥락·부작용·복귀 상태를 확인한다. 주소가 그럴듯하거나 한 번 원하는 결과가 나왔다는 사실만으로 검증된 개입으로 승격하지 않는다.
+Before editing state or forcing a routine call, use static and dynamic evidence to establish the target or routine's entry conditions, arguments, call context, side effects, and return state. A plausible address or one desired result does not establish a valid intervention.
 
-개입으로 만든 상태가 증명하는 범위는 개입 뒤에도 보존된 선행 조건과 목표 상태 이후의 소비에 한정한다. 호출자 선택, 획득 조건, 분기·이벤트 상태, 저장·불러오기나 다른 상태 전이가 판정 대상이면 정상 플레이 경로나 확인된 호출자 경로로 검증한다. 조사·검증용 개입은 프로젝트 기록에 남기고 패치 내용과 반복 빌드 입력에서는 분리한다. 기록에는 `references/conventions/project-records.md`의 공통 규칙을 적용한다.
+An intervened state proves only the prerequisites preserved after intervention and the consumption that follows the target state. If caller selection, acquisition conditions, branch or event state, saves, loads, or other transitions are under test, use normal play or a verified caller path. Record investigative interventions but keep them out of patch content and reproducible build inputs.
 
-### 변경 요인 격리
+### Isolating a changed factor
 
-의심 변경을 독립적으로 켜고 끌 수 있을 때만 제거·추가 결과를 그 변경의 인과 증거로 사용한다.
+Use removal or addition as causal evidence only when the suspected change can be toggled independently.
 
-- 제거했을 때만 증상이 사라지면 그 변경은 인과 후보로 승격한다.
-- 제거해도 증상이 남으면 단독 원인 가설만 기각하고 상호작용 가능성은 별도로 판정한다.
-- 참조 구현의 성공은 가능성 증거일 뿐 현재 구현의 정확성 증거가 아니다. 같은 입력과 조건에서 산출물을 대조해야 한다.
+- If the symptom disappears only when the change is removed, promote that change to a cause candidate.
+- If the symptom remains, reject only the single-cause hypothesis; assess interaction separately.
+- Success of a reference implementation proves feasibility, not correctness of the current implementation. Compare outputs under the same input and conditions.
 
-후보 집합을 나누는 탐색은 같은 입력에서 재현 결과가 일정하고, 후보 범위를 나눌 때 실패 여부가 한 방향으로만 바뀌는 경우에만 유효하다. 여러 변경의 조합으로만 실패하거나 중간 구성이 판정 불가능하면 한 요인을 고정하거나 의미 단위 격리로 돌아간다.
+Divide a candidate set only when reproduction is stable on the same input and failure changes monotonically as the set is partitioned. If only combinations fail or intermediate states are undecidable, hold one factor constant or isolate semantic units.
 
-정상과 실패 실행을 비교할 때는 현재 결함과 무관한 차이를 먼저 배제한다. 로그에서 먼저 보인 차이가 아니라 **증상과 인과적으로 연결된 최초의 잘못된 상태**를 원인 후보로 삼는다.
+When comparing working and failing runs, eliminate unrelated baseline differences first. Treat the earliest incorrect state causally linked to the symptom, not the first difference in a log, as the cause candidate.
 
-한 계층을 격리한 결과는 그 계층에만 적용한다. 압축, 재배치, 적재, 렌더 가운데 하나의 정상 결과를 다른 계층의 증거로 확장하지 않는다. 기준 입력이나 빌드 기준선이 바뀌면 과거 실험의 적용 범위를 다시 판정한다.
+An isolated result applies only to that layer. Success in compression, placement, loading, or rendering does not prove another layer. Reassess old experiments when the source or build baseline changes.
 
-## 3. 원인 사슬
+## 3. Causal chain
 
-원인 확정은 다음 경계를 연결해야 한다.
+Cause confirmation must connect:
 
 ```
-결함이 있는 입력·명령·규칙 → 최초 잘못된 상태 → 전파·수명 → 관측된 실패
+faulty input, instruction, or rule -> first incorrect state -> propagation and lifetime -> observed failure
 ```
 
-화면, 로그, 크래시 지점, 마지막 쓰기 주체는 사슬의 끝일 수 있다. `references/strategy/runtime-assets.md`의 저장→탐색→적재·변환→상주→소비 가운데 기대값과 처음 달라지는 경계를 찾고, 수정이 그 경로를 끊는 이유를 증명한다.
+A screen, log line, crash location, or last writer may be only the end of the chain. Find the first divergence along storage -> lookup -> load/transform -> residency -> consumption from `references/strategy/runtime-assets.md`, then explain why the fix breaks that causal path.
 
-같은 증상 이름은 같은 원인을 뜻하지 않는다. 원인 후보의 우선순위는 현재 관측과 원인 사슬을 설명하는 힘으로 정하고, 같은 가설을 가르는 실험 중 재현 비용이 낮은 것을 고른다.
+Identical symptom names do not imply identical causes. Rank candidates by how well they explain current observations and the chain, then choose the lowest-cost experiment among those that distinguish the same hypotheses.
 
-## 4. 관측 증거
+## 4. Observation evidence
 
-현재 가설을 가르는 값·이벤트만 수집한다. 사용한 관측 수단과 환경도 다음 조건을 통과해야 한다.
+Collect only values and events that distinguish current hypotheses. The observation method and environment must also satisfy these conditions:
 
-- 주소 변환, 뱅크·overlay 상태, 이벤트 시점과 입력 의미가 실제 소비 경로와 맞는다.
-- 이벤트 미발화는 사용한 관측 수단이 해당 경로의 이벤트를 기록할 수 있음이 확인된 경우에만 음성 증거가 된다.
-- 정상과 실패 실행은 같은 의미 상태에서 시작한다. 다른 빌드의 저장 상태를 재사용하면 호환성을 먼저 판정한다.
-- 한 환경의 관용이나 구현 결함을 배포 대상 전체의 동작으로 일반화하지 않는다.
+- Address translation, bank or overlay state, event timing, and input meaning match the real consumer path.
+- Absence of an event is negative evidence only after proving that the method records that event on the path.
+- Working and failing runs begin from the same semantic state. Establish compatibility before reusing saved state from another build.
+- Do not generalize tolerance or defects of one environment to every distribution target.
 
-본체·매체·로더·실행 환경 지원 주장을 어느 범위에서 검증할지는 `references/strategy/build-and-verify.md` §4로 판정한다.
+Use `references/strategy/build-and-verify.md` §4 to set the verification scope for console, medium, loader, and execution-environment claims.
 
-자동 증거만으로 판정할 수 없어 HITL이 필요하면, 가능한 결과가 경쟁 가설과 다음 행동을 구분하도록 요청한다. 응답이 구분력을 만들지 못하면 결론을 확정하지 않고 판정을 가를 관측으로 좁힌 뒤 결과를 원래 원인 사슬에 되돌린다. 사람이 본 패턴은 같은 입력에서 결과를 자동 판정할 수 있는 검사로 바꿀 수 있을 때만 자동화한다.
+When mechanical evidence cannot decide and HITL is required, ask for an observation whose possible answers distinguish hypotheses and next actions. If the response has no discriminating power, do not confirm a conclusion; narrow the requested observation and return it to the original causal chain. Automate a human-observed pattern only when the same input permits an objective result.
 
-## 5. 수정과 회귀
+## 5. Fix and regression
 
-수정은 확정된 결함 지점과 필요한 영향 범위에 한정한다. 별개의 정리·최적화나 증상을 우연히 가리는 변경을 같은 판정 실험에 섞지 않는다.
+Limit a fix to the established defect and necessary impact range. Do not mix unrelated cleanup, optimization, or symptom-masking changes into the same decision experiment.
 
-수정 뒤에는 수정 전 재현을 다시 통과시키고 결함의 영향 범위와 재발 위험에 맞는 회귀 검증으로 남긴다.
+After the fix, rerun the original reproduction and retain regression checks proportional to impact and recurrence risk:
 
-- 계산 가능한 길이·범위·매핑 불변식은 빌드 검사로 둔다.
-- 실행에서만 보이는 상태·수명 결함은 반복 가능한 실행 시나리오나 명시적 사람 검토로 둔다.
-- 상태 저장이나 입력 기록을 보존하면 빌드·실행 환경 호환성도 함께 식별한다.
-- 현재 결함과 상태 자원을 공유하는 경로, 수정이 건드린 분기, 원래 정상인 대표 경로를 함께 재검증한다.
+- Make calculable length, range, and mapping invariants build checks.
+- Keep state or lifetime defects visible only at runtime as repeatable scenarios or explicit HITL review.
+- Bind preserved saved states and input recordings to compatible builds and environments.
+- Recheck paths sharing state resources, branches touched by the fix, and representative previously working paths.
 
-모든 게임 기능을 이슈 하나의 회귀 범위로 확장하지 않는다.
+Do not expand one issue's regression scope to every game feature.
 
-## 6. 종료 판정
+## 6. Completion
 
-원본과 같은 동작으로 보고 이슈를 종료하려면 가능한 경우 같은 장면과 입력을 지원 원본에서 재현한다. 원본 재현이 불가능하면 비교 범위와 남은 불확실성을 기록하며, 다른 환경에서 비슷해 보인다는 사실만으로 동일 동작을 확정하지 않는다.
+To close an issue as original behavior, reproduce the same scene and input on a supported source build when possible. If that is impossible, record the comparison scope and remaining uncertainty. Similar appearance in another environment does not establish identical behavior.
 
-같은 오판을 반복하지 않도록 다음 판정을 유지한다.
+Retain these safeguards against repeated misdiagnosis:
 
-- 가설 이름을 사실 이름으로 굳히지 않는다.
-- 가설과 들어맞는 관측의 수보다 경쟁 가설을 가르는 증거를 우선한다.
-- 같은 전제의 변형이 반복해 빗나가면 전제 경계로 돌아간다.
-- 코드가 호출되지 않는다는 판정, 미사용 공간이라는 판정, 상태를 실제로 갱신하는 코드·경로의 확정은 선언한 분모를 전수 확인한 경우에만 한다.
-- 선행 구현은 확인한 입력·출력·상태 범위에서만 재사용한다.
-- 실패한 실험과 기각 근거를 보존한다.
+- Do not turn a hypothesis label into a fact label.
+- Prefer evidence that distinguishes competing hypotheses over more observations consistent with one hypothesis.
+- When repeated variants of one premise fail, return to the premise boundary.
+- Claims that code is unreachable, space is unused, or one path is the actual state writer require complete coverage of the declared denominator.
+- Reuse an earlier implementation only within its verified input, output, and state range.
+- Preserve failed experiments and rejection evidence.

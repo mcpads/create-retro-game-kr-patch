@@ -38,83 +38,83 @@
     "4": "CD 이미지와 sector"
   },
   "references/strategy/build-and-verify.md": {
-    "1": "재현 가능한 빌드",
-    "2": "배포 형식과 이미지 변경",
-    "3": "무결성 검증",
-    "4": "실행 검증",
-    "5": "텍스트·표현·상호작용 QA"
+    "1": "Reproducible build",
+    "2": "Distribution format and image changes",
+    "3": "Integrity verification",
+    "4": "Runtime verification",
+    "5": "Text, presentation, and interaction QA"
   },
   "references/strategy/compression.md": {
-    "2": "소비자의 포맷 해석",
-    "3": "해제 검증",
-    "4": "재압축 검증",
-    "5": "크기·재패킹·우회"
+    "2": "Consumer format interpretation",
+    "3": "Decompression verification",
+    "4": "Recompression verification",
+    "5": "Size, repacking, and alternatives"
   },
   "references/strategy/debugging.md": {
-    "2": "판정 실험",
-    "3": "원인 사슬",
-    "4": "관측 증거",
-    "5": "수정과 회귀",
-    "6": "종료 판정"
+    "2": "Decision experiments",
+    "3": "Causal chain",
+    "4": "Observation evidence",
+    "5": "Fix and regression",
+    "6": "Completion"
   },
   "references/strategy/font-strategy.md": {
-    "2": "문자 코드와 글리프 매핑",
-    "3": "전체 레퍼토리와 활성 작업 집합",
-    "3.2": "예산 판정",
-    "4": "글리프 원천과 표현 형식",
-    "5": "복수 렌더 경로",
-    "6": "완료 조건"
+    "2": "Character-code-to-glyph mapping",
+    "3": "Total repertoire and active working set",
+    "3.2": "Budget decision",
+    "4": "Glyph sources and representation",
+    "5": "Multiple render paths",
+    "6": "Completion"
   },
   "references/strategy/graphics-text.md": {
-    "1": "발동 조건과 모집단",
-    "2": "보호 픽셀·팔레트 불변식",
-    "3": "소비 경로",
-    "4": "완료 판정"
+    "1": "Trigger and population",
+    "2": "Protected pixels and palette invariants",
+    "3": "Consumer path",
+    "4": "Completion"
   },
   "references/strategy/initial-survey.md": {
-    "2": "고정 순서 대신 의존 경계를 따른다",
-    "2.2": "저장 구조와 소비 의미",
-    "2.5": "모집단과 초기 분량",
-    "3": "가설을 사실로 승격하는 기준",
-    "3.1": "고정 리비전과 미확정 모집단"
+    "2": "Follow dependency boundaries instead of a fixed sequence",
+    "2.2": "Storage structure and consumer meaning",
+    "2.5": "Population and initial volume",
+    "3": "Promoting hypotheses to facts",
+    "3.1": "Fixed revision and unresolved population"
   },
   "references/strategy/poc.md": {
-    "3": "가시성 검증"
+    "3": "Visibility verification"
   },
   "references/strategy/reinsertion.md": {
-    "1.1": "고정 슬롯",
-    "1.2": "성장과 재배치",
-    "2": "참조 완전성과 좌표",
-    "3": "재배치 검증",
-    "4": "코드 훅",
-    "5": "공간과 런타임 도달",
-    "6": "소비자 불변식"
+    "1.1": "Fixed slots",
+    "1.2": "Growth and relocation",
+    "2": "Reference completeness and coordinates",
+    "3": "Relocation verification",
+    "4": "Code hooks",
+    "5": "Space and runtime reachability",
+    "6": "Consumer invariants"
   },
   "references/strategy/runtime-assets.md": {
-    "1": "발동 조건",
-    "2": "연결 판정",
-    "4": "변경 항목별 기준"
+    "1": "Trigger conditions",
+    "2": "Link assessment",
+    "4": "Criteria by changed component"
   },
   "references/strategy/text-extraction.md": {
-    "1.2": "텍스트의 증거",
-    "1.3": "참조 모집단",
-    "1.4": "완료 분모",
-    "1.5": "번역 범위 확대 전 분량 조사",
-    "2": "인코딩과 글리프 대응",
-    "3.1": "경계와 인자 폭",
-    "3.2": "의미 확정",
-    "3.3": "범위별 사양",
-    "3.4": "미확정 토큰",
-    "3.5": "검출 오류 판정",
-    "4.1": "안정적인 식별",
-    "4.2": "원본 보존",
-    "4.4": "토큰 정책"
+    "1.2": "Evidence for text",
+    "1.3": "Reference population",
+    "1.4": "Completion denominator",
+    "1.5": "Volume survey before scaling translation",
+    "2": "Encoding and glyph mapping",
+    "3.1": "Boundaries and argument widths",
+    "3.2": "Establishing meaning",
+    "3.3": "Scope-specific specifications",
+    "3.4": "Unresolved tokens",
+    "3.5": "Detection error assessment",
+    "4.1": "Stable identifiers",
+    "4.2": "Source preservation",
+    "4.4": "Token policy"
   },
   "references/strategy/translation-workflow.md": {
-    "2.4": "화자와 문체 맥락",
-    "3": "승인 용어·문체 기준",
-    "3.1": "번역 작업과 에이전트 배치 요건",
-    "4": "보호 정보와 소비 제약",
-    "5": "생성·검토·승인의 분리"
+    "2.4": "Speaker and voice context",
+    "3": "Approved terminology and voice",
+    "3.1": "Translation work and agent assignment",
+    "4": "Protected information and consumer constraints",
+    "5": "Separate generation, review, and approval"
   }
 }

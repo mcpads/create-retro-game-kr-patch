@@ -1,156 +1,154 @@
-# 텍스트 추출 전략
+# Text extraction strategy
 
-텍스트 추출은 배포 범위의 소비 가능한 텍스트 모집단을 확정하고, 원본 코드·제어 토큰·경계·참조 관계를 재삽입 가능한 형태로 보존한다. 후보 탐색 기법과 분석 도구는 대상에 맞춰 선택하고, 완료 여부는 아래 기준으로 판정한다.
+Establish the consumable text population in distribution scope and preserve source codes, control tokens, boundaries, and references in a form that supports reinsertion. Choose discovery techniques and analysis tools for the target; judge completion by the criteria below.
 
-## 1. 모집단과 참조 모델
+## 1. Population and reference model
 
-### 1.1 지원 입력
+### 1.1 Supported input
 
-먼저 지원할 원본 리비전·디스크·실행 경로와 배포 텍스트 범위를 선언한다. 고정 리비전을 지원하면 해시와 구조 기대값으로 입력을 식별한다. 여러 입력을 지원하거나 모집단이 미확정이면 지원하지 못한 구조를 자동 추정하지 않고 명시적으로 실패시킨다.
+Declare supported source revisions, discs, execution paths, and distribution text scope. Identify a fixed revision by hash and structural expectations. For multiple inputs or unresolved populations, reject unsupported structures explicitly rather than inferring them silently.
 
-### 1.2 텍스트의 증거
+### 1.2 Evidence for text
 
-문자처럼 보이는 바이트열은 후보일 뿐이다. 텍스트 모집단에 포함하려면 다음 가운데 서로 독립적인 근거로 실제 소비를 입증해야 한다.
+A byte sequence that resembles characters is only a candidate. Include it in the text population only after independent evidence establishes actual consumption, such as:
 
-- 선언된 테이블·레코드·스크립트 구조가 그 범위를 문자열 경계로 식별한다.
-- 실행 소비자가 그 범위를 읽어 문자·토큰으로 해석한다.
-- 원본 화면·상태와 코드→글리프 결과가 대응한다.
-- 다른 독립 추출 경로가 같은 경계와 의미를 재현한다.
+- a declared table, record, or script structure identifies the string boundary;
+- a runtime consumer reads the range as characters or tokens;
+- source screen state corresponds to code-to-glyph output; or
+- another independent extraction path reproduces the same boundary and meaning.
 
-한 가지 통계, 표준 디코드 성공, 검색 hit 또는 화면 유사성만으로 확정하지 않는다.
+One statistic, standard decode, search hit, or visual resemblance does not establish text.
 
-### 1.3 참조 모집단
+### 1.3 Reference population
 
-고정 지원 리비전에서 전수 검토한 포인터·인덱스·스크립트 참조 카탈로그는 그 리비전의 명시 사양이다. 반복 빌드는 카탈로그의 개수·위치·기대 바이트를 검증하고 소비한다. 구조만으로 항목 수와 경계가 모두 정해지는 입력은 선언한 범위에 따라 파싱한다. 휴리스틱 검색은 새 후보 발견과 누락 감사에만 쓰며 결과를 자동 채택하지 않는다.
+For a fixed supported revision, an exhaustively reviewed catalog of pointers, indexes, and script references is explicit specification. Repeated builds must verify and consume its count, locations, and expected bytes. Parse inputs whose count and boundaries follow completely from established structure within the declared scope. Use heuristic searches to discover candidates and audit omissions, never to adopt results automatically.
 
-참조 값의 폭·엔디언·기준 주소·뱅크·세그먼트는 플랫폼 관습이 아니라 실제 소비자에서 확정한다. 파일 순서, 포인터 정렬, 다음 참조가 현재 엔트리의 끝이라는 가정도 소비자가 보장하지 않으면 경계로 쓰지 않는다. 중복 포인터, 공유 tail, 문자열 내부 진입은 원본 관계 그대로 보존한다.
+Establish reference width, endianness, base, bank, and segment from the real consumer, not platform convention. Do not use file order, pointer sorting, or the next reference as a boundary unless the consumer guarantees it. Preserve duplicate pointers, shared tails, and interior-string entries.
 
-### 1.4 완료 분모
+### 1.4 Completion denominator
 
-“전량 추출”은 선언한 모집단의 모든 항목이 해결·제외·미확정으로 계수되고 미확정이 0건이라는 뜻이다. 다음을 구분해 기록한다.
+"Complete extraction" means every member of the declared population is counted as resolved, excluded, or unresolved, with zero unresolved members. Record separately:
 
-- 추출·번역·보존 대상으로 해결된 항목
-- 비텍스트 또는 범위 밖으로 근거 있게 제외한 항목
-- 아직 의미·경계·소비자가 미확정인 항목
+- resolved extraction, translation, or preservation targets;
+- items excluded as non-text or out of scope with evidence; and
+- items whose meaning, boundary, or consumer remains unresolved.
 
-미확정 항목을 제외 항목에 합치지 않는다. 분모가 확정되지 않았다면 완료가 아니라 남은 조사 범위를 보고한다.
+Do not merge unresolved into excluded. If the denominator is not established, report remaining investigation rather than completion.
 
-### 1.5 번역 범위 확대 전 분량 조사
+### 1.5 Volume survey before scaling translation
 
-대표 단위의 기술 PoC와 배포 범위의 분량 판정은 다르다. 파일·자산 목록이 정적으로 확정돼 있거나 초기 조사·PoC에서 확인한 파서·테이블·참조 경계가 추가 가정 없이 선언한 범위를 열거할 수 있으면 표본에서 멈추지 않고 그 시점에 전체 범위를 열거한다. 새 화면이나 파일을 발견할 때마다 수동으로 항목을 보태는 방식을 전체 분모의 기본 수립 방법으로 삼지 않는다.
+A technical PoC on a representative unit is different from a volume decision for distribution scope. When a static asset list or an established parser, table, or reference boundary can enumerate the declared scope without new assumptions, enumerate the full scope at that point. Do not make manual accumulation after each newly observed screen or file the default way to establish a denominator.
 
-분량은 현지화 대상 종류와 소비자 범위별로 집계하며 다음을 구분한다.
+Measure by localization kind and consumer scope, distinguishing:
 
-- 전수 열거한 모집단과 그 안의 해결·제외·미확정 항목 수
-- 확인된 구조에서 얻은 확정값, 미확정 범위가 남은 하한, 근거가 제한된 추정치
-- 열거하지 못한 컨테이너·실행 경로, 미확정인 이유와 범위를 확정하는 데 필요한 다음 증거 또는 종료 조건
-- 엔트리 수, 원문 문자·코드 단위와 raw byte 수, `references/strategy/graphics-text.md` §1에서 확정한 그래픽 텍스트 블록 수 가운데 번역 작업량·저장·표현 설계를 바꾸는 측정값과 단위
+- the exhaustively enumerated population and counts of resolved, excluded, and unresolved items;
+- exact values from established structure, lower bounds with unresolved scope, and estimates with limited evidence;
+- containers or execution paths not enumerated, why they remain unresolved, and the next evidence or stopping condition;
+- units that can change translation workload, storage, or representation design, such as entry count, source character or code units, raw bytes, and graphics-text blocks established by `references/strategy/graphics-text.md` §1.
 
-공유 문자열과 중복 참조는 논리적 번역 단위와 물리적 저장 단위에서 따로 센다. 디코드되거나 검색된 후보는 §1.2의 텍스트 증거를 통과하기 전까지 확정 번역량에 합치지 않는다. 초기 분량은 전체 완료 판정이 아니며, 원문량만으로 한국어의 길이 증가나 고유 글리프 수를 확정하지 않는다.
+Count shared strings and duplicate references separately as logical translation units and physical storage units. Do not add decoded or searched candidates to confirmed workload before they pass §1.2. Early volume is not completion, and source volume alone does not determine Korean length growth or unique-glyph demand.
 
-기술 PoC와 분모가 확정된 국소 범위의 번역은 이 판정 전에도 수행할 수 있다. 번역 작업을 전체 배포 범위로 확대하기 전에는 선언한 대상 종류별로 모집단을 전수 열거할 수 있는지 판정하고, 가능한 범위는 전수 열거한다.
+A technical PoC or translation of a local scope with a known denominator may precede this decision. Before scaling translation to the whole distribution scope, determine whether each declared target kind can be enumerated and enumerate every possible scope.
 
-구조상 전수 열거할 수 없으면 확인된 하한·미확정 범위·종료 조건을 명시한다. 남은 분량이 작업량 판정이나 기술 설계 선택을 바꿀 수 있는 미확정성으로 남아 있으면 전체 범위로 확대하지 않는다. 모집단이 확정되기 전에는 정확한 전체 작업량·완료율·전체 코퍼스 수요를 주장하지 않는다.
+If structure prevents exhaustive enumeration, state the established lower bound, unresolved scope, and stopping condition. Do not scale while remaining uncertainty can change workload or technical design. Do not claim exact workload, completion percentage, or complete-corpus demand before establishing the population.
 
-## 2. 인코딩과 글리프 대응
+## 2. Encoding and glyph mapping
 
-인코딩 이름은 후보를 설명하는 표지일 뿐 실제 해석이 아니다. 다음 근거로 소비자의 해석을 확정한다.
+An encoding name labels a candidate; it does not establish actual interpretation. Confirm consumer semantics from:
 
-- 소비자가 읽는 코드 단위와 문자 경계
-- 코드→글리프·기호·제어 분기
-- 실제 화면 또는 글리프 공급 결과와의 대응
-- 원본 코드의 decode→encode 가역성
+- code units and character boundaries read by the consumer;
+- branches from code to glyph, symbol, or control behavior;
+- correspondence with actual screens or glyph supply; and
+- reversible decode and encode of source codes.
 
-표준 인코딩과 유사해도 게임 고유 외자·예약 코드·제어 토큰이 섞일 수 있다. 표준 디코더가 실패한 값을 곧바로 미사용이나 오류로 분류하지 않는다. 반대로 표준 문자가 나온다는 이유만으로 게임이 그 의미로 소비한다고 확정하지 않는다.
+A standard-like encoding may include game-specific external characters, reserved codes, and control tokens. Decoder failure does not make a value unused or invalid. Successful standard decoding does not prove that the game consumes the value with that meaning.
 
-여러 렌더 경로·파일·상태가 서로 다른 코드표를 쓰면 범위별 매핑으로 분리한다. 하나의 코드표로 합칠 수 있는지는 모든 소비자와 원본 왕복이 같은 매핑을 만족할 때만 판정한다.
+Separate mappings by renderer, file, or state when code tables differ. Merge them only after every consumer and source round trip satisfies one mapping. Apply `references/strategy/font-strategy.md` §2 when reusing code space for Hangul.
 
-코드 공간을 한글에 재사용할 때는 `references/strategy/font-strategy.md` §2의 조건과 고정 리비전 매핑 원칙을 적용한다.
+## 3. Control tokens
 
-## 3. 제어 토큰
+### 3.1 Boundaries and argument widths
 
-### 3.1 경계와 인자 폭
+A control-token definition includes argument count and width, termination, nesting or state effects, and the position after consumption, not only an opcode. Preserve established byte boundaries and argument widths even when meaning is unresolved. When character and token ranges overlap, distinguish them by the actual dispatch conditions.
 
-각 제어 토큰은 opcode만이 아니라 인자 수·폭, 종료 조건, 중첩·상태 효과와 소비 뒤 위치를 포함한다. 의미가 불명확해도 확인된 바이트 경계와 인자 폭은 보존한다. 문자 코드와 토큰 대역이 겹치면 실제 디스패치 조건으로 구분한다.
+### 3.2 Establishing meaning
 
-### 3.2 의미 확정
+Frequency and position generate hypotheses. Confirm meaning when independent evidence from consumer branches, state changes, and screen, audio, or event results agrees. Identical appearance does not make two tokens equivalent when internal state effects differ.
 
-빈도나 위치는 가설을 만드는 단서다. 토큰의 의미는 소비 분기, 상태 변화, 화면·오디오·이벤트 결과 같은 독립 증거가 맞을 때 확정한다. 표시 결과가 같아도 내부 상태 효과가 다를 수 있으므로 겉모양만으로 토큰을 합치지 않는다.
+### 3.3 Scope-specific specifications
 
-### 3.3 범위별 사양
+The same byte may mean different things in different engines. A token specification must identify its consumer and applicability. Do not assign an established name automatically to unresolved code outside that scope.
 
-같은 바이트가 다른 엔진에서 다른 의미를 가질 수 있다. 토큰 사양은 소비자와 적용 범위를 포함해야 하며, 범위 밖의 미확정 코드를 기존 이름으로 자동 해석하지 않는다.
+### 3.4 Unresolved tokens
 
-### 3.4 미확정 토큰
+When boundary and argument width are established but meaning is unresolved, assign `forbidden` and preserve opcode, arguments, source order, and position in consumption order as raw representation. Translation must not delete, modify, or move it. Promote the entry for distribution only when changes to surrounding length, placement, and timing are shown not to change the token's consumed result or subsequent state. If that cannot be verified, or boundary or argument width is unresolved, assign no token policy and block the entry from translation and distribution eligibility.
 
-코드 경계와 인자 폭은 확정됐지만 의미만 미확정인 토큰은 `forbidden`으로 두고 opcode·인자·원본 순서와 소비 순서상의 위치를 raw 표현으로 보존한다. 번역자가 이를 삭제·변형·이동하지 못하게 하고, 주변 문자열의 길이·배치·타이밍 변경이 토큰의 소비 결과와 후속 상태를 바꾸지 않는지 검증할 수 있을 때만 배포 적격으로 올린다. 이를 검증할 수 없거나 경계·인자 폭 자체가 미확정이면 토큰 정책을 부여하지 않고 해당 엔트리를 번역·배포 적격에서 차단한다.
+### 3.5 Detection error assessment
 
-### 3.5 검출 오류 판정
+- **False positive**: A text or reference candidate is not consumed or is interpreted as another structure.
+- **False negative**: Consumable text or a reference is missing from the extraction denominator.
 
-- **거짓양성**: 텍스트·참조 후보를 실제 소비자가 사용하지 않거나 다른 구조로 해석한다.
-- **거짓음성**: 실제 소비 가능한 텍스트·참조가 추출 분모에서 빠졌다.
+A filter reducing candidate count does not by itself improve accuracy. Assess false positives and false negatives separately against an approved catalog, a structurally exhaustive scope, runtime consumption scope, or an independent extraction. A filter that silently discards unresolved candidates cannot satisfy completion.
 
-정밀도를 높이는 필터가 참조 분모를 줄였다는 사실만으로 개선으로 판정하지 않는다. 승인된 카탈로그, 구조만으로 전수 열거한 범위, 런타임 소비 범위 또는 독립 추출 결과와 비교해 거짓양성과 거짓음성을 따로 평가한다. 미확정 후보를 조용히 버리는 필터는 완료 조건을 충족할 수 없다.
+## 4. Extraction artifact requirements
 
-## 4. 추출 산출물 요건
+### 4.1 Stable identifiers
 
-### 4.1 안정적인 식별
+Each item needs identity and source coordinates that survive translation changes. Display order alone must not identify a reinsertion target. Follow `references/conventions/translation-artifacts.md` for preserved meaning and validation of identity, coordinates, and protected data. The project chooses field names and serialization.
 
-각 항목은 번역문이 바뀌어도 유지되는 식별 정보와 원본 좌표를 가져야 한다. 표시 순번만으로 재삽입 대상을 식별하지 않는다. 식별 정보·원본 좌표·보호 정보가 보존해야 할 의미와 검증 규칙은 `references/conventions/translation-artifacts.md`를 따르고, 필드명과 직렬화는 프로젝트가 정한다.
+### 4.2 Source preservation
 
-### 4.2 원본 보존
+Retain source codes, tokens, sharing relationships, and boundary-recovery data separately from translator-facing text. Human-editable representation must not become the only source evidence.
 
-번역자가 보는 문자열과 별도로 원본 코드·토큰·공유 관계·경계 복원에 필요한 정보를 잃지 않아야 한다. 사람이 편집하는 표현이 유일한 원본 근거가 되지 않게 한다.
+### 4.3 Applicability
 
-### 4.3 적용 범위
+An artifact must declare the revision, file, bank, script, consumer, and exclusions it represents. Fail on cross-scope key collisions or accidental application to unsupported input.
 
-산출물은 자신이 대표하는 리비전, 파일·뱅크·스크립트, 소비자와 제외 범위를 선언한다. 같은 키가 다른 범위에서 충돌하거나 지원하지 않는 입력에 우연히 적용되면 실패시킨다.
+### 4.4 Token policy
 
-### 4.4 토큰 정책
+Assign each token a policy from consumer meaning:
 
-토큰마다 소비 의미에 따라 정책을 선언한다.
+| Policy | Condition | Requirement |
+|---|---|---|
+| `preserve` | Source meaning and order are required, such as termination, event, or state | Preserve opcode, arguments, and order |
+| `movable-layout` | Layout tokens such as line or page breaks may move | Constrain valid positions and reverify layout |
+| `recompute` | Value derives from output, such as length or checksum | Recompute from the final result and verify |
+| `translate` | Source and target consumers use different opcode or index meanings | Map to a verified equivalent token, or replace with an approved literal only after proving the value static; fail if dynamic value or execution effect is lost |
+| `forbidden` | Boundary and argument width are established, but meaning is unresolved or editing is disallowed | Preserve raw opcode, arguments, source order, and consumption-order position; fail on edits or moves, and block distribution if surrounding changes cannot be shown harmless |
 
-| 정책 | 조건 | 요구 사항 |
-|------|------|-----------|
-| `preserve` | 종료·이벤트·상태처럼 원본 의미와 순서가 필수 | opcode·인자·순서를 보존 |
-| `movable-layout` | 줄·페이지처럼 조판에 따라 이동 가능 | 허용 위치와 레이아웃 재검증 |
-| `recompute` | 길이·체크값처럼 출력에서 파생 | 최종 결과로 재계산하고 검증 |
-| `translate` | 대상 소비자의 opcode·인덱스 의미가 원본과 달라 같은 토큰이 다른 결과를 냄 | 검증된 동등 토큰으로 매핑하거나 값이 정적임을 증명한 뒤 승인된 리터럴로 치환; 동적 값·실행 효과가 사라지면 실패 |
-| `forbidden` | 경계·인자 폭은 확정됐으나 의미가 미확정이거나 편집 불가 | opcode·인자·원본 순서와 소비 순서상의 위치를 raw 보존, 수정·이동 시 실패. 주변 변경이 소비 결과와 후속 상태를 바꾸지 않음을 검증할 수 없으면 배포 적격에서 차단 |
+Do not force every token to remain at the same byte position, and do not let a layout engine move every token freely. Encoder and validator must consume the same policy definition.
 
-모든 토큰을 1:1 위치 보존으로 묶거나, 반대로 조판기가 임의 이동하게 하지 않는다. 정책은 실제 소비 의미에서 결정하며 인코더와 검증기가 같은 정책 정의를 사용한다.
+## 5. Round trip and completeness
 
-## 5. 라운드트립과 완전성
+Verify an unchanged round trip before editing across every extraction, serialization, and reinsertion boundary.
 
-추출·직렬화·재삽입 경계가 있으면 수정 전 왕복을 먼저 검증한다.
+- Apply the equivalence criteria in `references/conventions/project-conventions.md` §5.1, including preservation of reference relationships.
+- Bytes outside the parser's declared read-write extent must remain unchanged.
+- Every source character, token, argument, and sharing relationship must be recoverable without loss.
 
-- 동등 기준은 `references/conventions/project-conventions.md` §5.1을 따르고, 참조 관계의 보존도 그 기준에 포함한다.
-- 파서가 읽고 다시 쓰도록 선언한 범위 밖의 바이트는 바뀌지 않아야 한다.
-- 모든 원본 문자·토큰·인자·공유 관계가 손실 없이 복원돼야 한다.
+Round-trip success proves that extracted members can be written back. It does not prove that no text was missed. Completion also requires the §1.4 population and independent consumer or structural evidence; no single coverage score replaces them.
 
-라운드트립 성공은 “추출한 항목을 잘 되썼다”는 증거이지, 빠진 텍스트가 없다는 증거는 아니다. 완료 판정에는 §1.4의 모집단 확정과 독립적인 소비·구조 증거가 함께 필요하다. 어느 단일 커버리지 수치도 이를 대체하지 못한다.
+## 6. Text map and exclusions
 
-## 6. 텍스트 맵과 제외 범위
+The text map is a current account of the denominator and remaining uncertainty, not a file list or journal. It must distinguish:
 
-텍스트 맵은 파일 목록이나 작업 일지가 아니라 현재 분모와 남은 불확실성을 보여 주는 기록이다. 최소한 다음을 구분한다.
+- declared text and reference populations with resolution states;
+- applicability of code tables, tokens, and boundary models;
+- evidence for non-text and out-of-scope exclusions;
+- unresolved candidates and the evidence needed for the next decision; and
+- ranges eligible for relocation or space reclamation with evidence of reference completeness under `references/strategy/reinsertion.md` §5.
 
-- 선언한 텍스트·참조 모집단과 해결 상태
-- 코드표·토큰·경계 모델의 적용 범위
-- 비텍스트·범위 밖으로 제외한 근거
-- 미확정 후보와 다음 판정에 필요한 증거
-- 재배치·공간 회수에 사용 가능한 범위와 그 참조 완전성 근거. 채택 조건은 `references/strategy/reinsertion.md` §5를 따른다
+Repeated fill, decode failure, or zero current search hits does not prove non-text or free space. Include inline literals when a real consumer reads them. Apply the record semantics in `references/conventions/project-records.md`.
 
-반복 채움값, 디코드 실패, 현재 검색 hit 0만으로 비텍스트나 자유 공간을 선언하지 않는다. 인라인 리터럴도 실제 소비자가 읽는다면 다른 저장 형태와 같은 분모에 포함한다. 기록에는 `references/conventions/project-records.md`의 의미 구분을 적용한다.
+## 7. Completion
 
-## 7. 완료 판정
+Text extraction is complete only when:
 
-텍스트 추출은 다음이 모두 성립할 때 완료다.
+- Every member of the declared population is counted under §1.4 with zero unresolved items.
+- Scaling to full distribution scope has passed the volume survey in §1.5.
+- Code-table and token boundaries and argument widths are established; unresolved-meaning tokens have a policy or their entries are blocked.
+- Extraction artifacts provide stable identity, source preservation, declared applicability, and token policies.
+- Unchanged round trip passes the declared equivalence rule, and false positives and false negatives are assessed separately.
+- The text map represents the current denominator and unresolved candidates.
 
-- 선언한 모집단의 모든 항목이 §1.4의 해결·제외·미확정으로 계수되고 미확정이 0건이다.
-- 번역을 전체 배포 범위로 확대한다면 §1.5의 분량 조사를 통과했다.
-- 코드표와 제어 토큰의 경계·인자 폭이 확정되고, 의미가 미확정인 토큰은 정책을 받았거나 해당 엔트리가 적격에서 차단됐다.
-- 추출 산출물이 안정적인 식별, 원본 보존, 적용 범위 선언과 토큰 정책 요건을 만족한다.
-- 무수정 왕복이 선언한 동등 기준을 통과하고, 거짓양성과 거짓음성을 따로 평가했다.
-- 텍스트 맵이 현재 분모와 남은 미확정 후보를 보여 준다.
-
-라운드트립 통과, 단일 커버리지 수치나 대표 단위의 PoC 성공은 이 조건을 대신하지 않는다.
+Round trip, one coverage score, or one representative PoC does not replace these conditions.

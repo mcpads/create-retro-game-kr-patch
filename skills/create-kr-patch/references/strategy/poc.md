@@ -1,85 +1,83 @@
-# PoC 전략
+# Proof of concept
 
-## 1. 역할
+Use a PoC to resolve uncertainty that can change deployability before dependent implementation. Prioritize a condition whose failure would block completion or force redesign. Reuse equivalent evidence from the same revision and conditions. Compare cost only among tests that preserve the same condition, prerequisites, and proof scope.
 
-PoC(proof of concept)는 배포 가능성을 뒤집을 수 있는 불확실성을, 그 증거에 의존하는 구현을 확정하기 전에 범위가 명시된 증거로 판정한다. 선언한 완성 범위에서 하나의 실패만으로 완성이 불가능해지거나 설계를 크게 바꾸는 조건을 우선 판정한다.
+## 1. Role and entry conditions
 
-정적 분석·계산이나 같은 리비전과 동일한 조건에서 얻은 동등한 증거가 이미 위험을 해소했다면 그 근거를 재사용한다. 남은 불확실성이 완성 여부를 좌우하거나, 해소하지 않은 채 후속 작업을 진행하면 대규모 재작업이 생긴다면 먼저 PoC로 판정한다. 같은 조건과 필요한 선행 상태를 보존하는 실험 사이에서 비용을 비교하며, 제약을 우회한 쉬운 성공으로 대신하지 않는다.
+Run a PoC when the unresolved condition is completion-critical and postponing it would cause substantial rework. Before execution, state:
 
-각 PoC는 수행 전에 다음을 정한다.
+- the assumption and risk;
+- pass, fail, and unresolved outcomes; and
+- the implementation choices available after each outcome.
 
-- 구분하려는 가정과 발동시킨 위험 신호
-- 성공·실패·불명확의 판정 기준
-- 각 결과가 승인하거나 폐기할 후속 선택지
+If no outcome reduces those choices, split out a narrower diagnostic. Do not shrink the original proof scope merely to obtain an easy success.
 
-결과가 어느 쪽이어도 다음 선택을 줄이지 못한다면 가설을 가를 진단으로 나눈다. 진단을 나눠도 원래 PoC의 판정 범위는 줄이지 않는다.
+## 2. Choosing the proof scope
 
-## 2. 검증 항목
-
-| 검증 | 발동 조건 | 판정 질문 |
+| Scope | Trigger | Question |
 |---|---|---|
-| 가시성 | 목표 리비전·렌더 경로에서 한글 픽셀 도달이 동등한 런타임 증거로 확인되지 않음 | 한글 글리프가 게임의 실제 데이터 경로를 지나 화면까지 도달하는가 |
-| 대표 E2E | 대표 텍스트의 추출→변환→재삽입→소비 경로가 아직 검증되지 않았고 규모를 늘린 뒤의 재작업 범위가 큼 | 실제 빌드 파이프라인의 한 단위가 끝까지 보존되는가 |
-| 조건부 | 특정 위험 신호가 있고 정적 증거만으로 통과·기각할 수 없음 | 그 위험이 선택한 설계를 뒤집는가 |
+| Visibility | No equivalent runtime proof exists for the target revision and renderer | Can intended glyph pixels reach the screen through the actual path? |
+| Representative end to end | No evidence connects extraction, transformation, reinsertion, and consumption for a representative unit, and scaling first would create large rework | Does one representative unit survive the complete path? |
+| Conditional | A specific unresolved risk can change the design and has no static pass or rejection | Does the target condition hold under its real constraints? |
 
-각 항목의 증명 범위는 서로 독립적이다. 가시성은 실제 데이터 경로를 거친 한글 픽셀 도달을, 대표 E2E는 선언한 단위의 추출→소비 연결을 증명한다. 글리프 예산·인코딩 공간·재배치·압축과 다른 렌더 경로·자산 종류는 해당 항목의 별도 증거로 판정한다.
+These scopes are independent. Visibility proves pixels through a declared data path. Representative end to end proves one declared unit. Encoding budgets, relocation, compression, and other consumers need separate criteria when they can still change the design.
 
-이미 검증한 증거는 같은 리비전·렌더 경로·조건에 적용되고, 현재 변경이 자산 식별 정보·연결·소비 동작을 건드리지 않았거나 그 동등성을 입증했을 때만 재사용한다. 이 규칙은 아래 모든 검증 항목에 적용한다.
+Reuse evidence only when revision, renderer or consumer, preconditions, and proof scope match, and the current change does not alter identity, links, or consumption. Otherwise prove equivalence or rerun the relevant test.
 
-## 3. 가시성 검증
+## 3. Visibility verification
 
-표적은 가장 빨리 보이는 화면이 아니라 한글화의 주 대상 렌더 경로를 대표하는 화면으로 고른다. 대상 경로가 여러 개인지 불명확하면 경로별 소비자를 먼저 분리한다. 게임 데이터를 통과하지 않는 스크린샷 합성, 외부 자막이나 실행 환경의 오버레이는 가시성 증거가 아니다.
+Choose a representative primary renderer, not merely the earliest reachable screen. Test separate consumers when their equivalence is unresolved. A composited screenshot, external subtitle, or overlay does not prove in-game consumption.
 
-가시성 검증은 다음을 모두 만족해야 통과한다.
+Visibility passes only when:
 
-1. 목표 한글 글리프가 의도한 위치와 자형으로 표시된다.
-2. 해당 글리프가 대상 리비전의 실제 저장·적재·선택·표시 경로를 통과했음이 연결된다.
-3. 같은 화면의 주변 텍스트·UI와 진입·이탈 동작에 새 회귀가 없다.
-4. 증명한 경로와 증명하지 않은 범위가 기록된다.
+- the intended glyph appears at the intended position and shape;
+- target storage, load, selection, and display are connected;
+- nearby UI and entry or exit behavior remain intact; and
+- the record distinguishes what the test proved from what it did not prove.
 
-자형 자체가 검증 대상이 아니라면 가시성 검증에도 `references/strategy/font-strategy.md` §4의 기성 글꼴 우선 원칙을 적용한다. 필수 글리프의 국소 누락이나 실제 UI의 판독성·상태 구분 같은 UX 요구 때문에 직접 만든 글리프는 그 범위와 이유를 기록한다. 임시 자형의 표시 성공은 배포 글꼴의 선택이나 완성을 증명하지 않는다.
+Begin with an established font unless letterform design is the uncertainty under test. Create or edit glyphs only for local missing symbols or verified UX requirements. A temporary glyph proves the path, not release-font completion.
 
-## 4. 대표 텍스트 E2E 검증
+## 4. Representative text end to end
 
-대표 단위는 대사 블록, 메뉴 화면, 페이지처럼 함께 작동해야 하는 추출→소비 경계를 끝까지 잇는 단위다. 길이·제어 토큰·포인터·압축·패딩 중 목표 범위에 함께 적용되는 제약과 확인된 제약 중 가장 까다로운 경계 사례를 포함한다. 한 사례가 서로 다른 소비 경로나 위험 종류를 대표하지 못하면 종류별 경계 사례를 둔다. 제약을 우회한 짧은 문자열은 대표 증거가 아니다.
+Choose a unit that connects the complete extraction-to-consumption boundary and includes the hardest applicable established constraint: length, control tokens, pointers, compression, padding, or another design-critical boundary. A short string that bypasses the hard condition is not representative.
 
-해당 변환과 제약이 있는 범위에서 다음을 확인한다.
+Use separate units for consumers or risks that do not share the same path. Verify:
 
-1. 원문 추출과 무수정 라운드트립 또는 선언한 의미 동등성
-2. 문자·토큰의 보존·재계산 정책과 글리프 대응
-3. 길이·경계·참조·컨테이너 제약을 지킨 재삽입
-4. 빌드 산출물의 실제 적재와 소비
-5. 대표 경로의 표시와 주변 동작 회귀 부재
+- unchanged round trip or the declared semantic-equivalence rule;
+- token and glyph policy;
+- reinsertion extent, references, and container structure;
+- actual load and consumption; and
+- displayed result plus affected regression paths.
 
-통과 뒤 본 구현으로 승격하는 것은 임시 실험물이 아니라 확정된 규칙, 판정 근거와 재현 가능한 검증이다.
+Promote reproducible rules, evidence, and checks into the primary path, not the temporary artifact.
 
-대표 E2E 통과는 전체 분량의 완전성을 증명하지 않고, 전체 모집단이 미확정이라는 사실도 선언한 대표 단위의 PoC 판정을 무효화하지 않는다. 대표 단위에서 확인한 경계로 더 넓은 범위를 열거할 수 있는지는 `references/strategy/text-extraction.md` §1.5가 판정한다.
+One representative unit does not prove total volume. An unresolved population does not invalidate the unit; use `references/strategy/text-extraction.md` §1.5 to decide when enumeration must precede scaling.
 
-## 5. 조건부 검증
+## 5. Conditional verification
 
-아래 항목은 위험이 실제로 관측되고 동등한 증거가 없을 때만 검증한다.
+Run a conditional PoC only for a design-changing risk without equivalent static evidence. Examples include:
 
-| 위험 | 발동 조건 | 통과 기준 |
-|---|---|---|
-| 복수 소비 경로 | 목표 화면들이 서로 다른 글리프·텍스처·렌더러를 쓸 가능성이 있음 | 배포 범위의 각 화면이 어느 소비 경로와 제약에 속하는지 확인됨 |
-| 인코딩·제어 충돌 | 새 코드 영역이나 문자 폭이 기존 파서·제어 토큰과 충돌할 수 있음 | 목표 코퍼스가 모호성 없이 디코드되고 비텍스트·제어 경로를 침범하지 않음 |
-| 저장·활성 자산 예산 | 글리프·텍스처의 저장 공간이나 동시 메모리·VRAM 공급이 수요에 근접함 | 선언한 배포 수요가 공급과 자산 수명 요건 안에서 충돌 없이 소비됨 |
-| 길이·재배치 | 번역 성장으로 경계·참조·정렬·후속 데이터가 이동할 수 있음 | 대표 변경이 모든 관련 참조와 경계를 보존한 채 적재·소비됨 |
-| 압축·컨테이너 | 수정 자산이 압축·패킹돼 있고 크기나 표현이 달라질 수 있음 | 무수정 동등성과 수정 후 컨테이너 유효성·게임 소비 호환성이 모두 성립함 |
-| 그래픽 텍스트 | 배포 범위의 문자가 그래픽 픽셀로 저장됨 | `references/strategy/graphics-text.md` §4의 완료 판정이 대표 경로에서 성립함 |
-| 표현·상호작용 | 창·상태별 표현이나 페이지·입력·음성·이벤트 동기가 번역 또는 새 표시 경로에 의존하고 잘못 고르면 설계를 뒤집음 | `references/strategy/build-and-verify.md` §5의 해당 조건을 대표 경로에서 통과하고 증명 범위를 제한함 |
-| 사용자 문자열 | 사용자가 만든 문자열이 저장되고 다른 화면에서 다시 소비됨 | 입력 가능 집합, 저장 표현, 재표시와 길이 조건이 배포 범위에서 함께 동작함 |
+- separate render or consumer paths;
+- encoding or control-code collisions;
+- stored repertoire or active working-set capacity;
+- growth or relocation;
+- compression or container rebuilding;
+- graphics text;
+- representation or interaction constraints such as windows, states, pages, input, audio, or event synchronization; and
+- user strings that must survive input, storage, and redisplay.
 
-위험 신호가 없거나 계산·정적 근거로 판정 가능하면 별도 검증을 추가하지 않고 그 근거를 기록한다. 표현·상호작용 PoC는 전량 적용 전에 설계를 바꿀 대표 위험만 고르며 최종 QA 기준을 다시 정의하지 않는다. 후보 변경이 `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하면 그 문서에서 아직 입증되지 않은 연결을 해당 검증의 통과 기준으로 삼는다.
+For presentation or interaction, use a representative condition that can change implementation and apply the relevant criteria in `references/strategy/build-and-verify.md` §5. Do not turn every final-QA item into a PoC.
 
-## 6. 판정과 산출물
+When a runtime asset change triggers `references/strategy/runtime-assets.md` §1, include unresolved links from `references/strategy/runtime-assets.md` §2 in the pass criteria.
 
-PoC 결과는 **통과 / 실패 / 불명확**으로 판정한다.
+Do not run a separate conditional test when the risk is absent or equivalent static evidence already decides it.
 
-- 통과는 선언한 범위의 후속 구현만 승인한다.
-- 실패는 깨진 전제를 폐기하거나 설계를 바꿀 때까지 의존 작업을 막는다.
-- 불명확은 증거가 부족한 상태이며 통과로 간주하지 않는다. 처음 확인되지 않은 경계를 가르는 진단으로 나누고, 결과를 원래 PoC의 완성 조건으로 되돌려 판정한다.
+## 6. Outcomes and integration
 
-기록에는 발동 위험, 표적의 대표성, 사전 기준, 실제 증거, 증명·비증명 범위, 기각한 가정과 다음 선택을 연결한다. 위험 신호가 있었지만 정적 근거나 동등한 기존 증거로 PoC를 생략했다면 그 판정 근거를 남긴다. 기록에는 `references/conventions/project-records.md` §4의 구분과 검증 규칙을 적용한다.
+- **Pass** applies only to the declared scope.
+- **Fail** blocks dependent implementation until the assumption or design changes.
+- **Unresolved** is not pass. Split the first unproved boundary, then return to the original condition.
 
-PoC 결과를 본 구현에 채택하면 확정된 규칙과 입력을 주 빌드 경로에 연결하고, 그 시점까지 채택한 다른 변경과 함께 불변 원본에서 개발 빌드를 다시 만든다. 전체 번역이 끝나지 않은 개발 빌드의 입력 정책은 `references/conventions/translation-artifacts.md` §5를 따르되, 이를 이유로 글리프·인코딩·재삽입·코드 변경을 서로 분리된 실험물로만 남기지 않는다. 각 구성요소의 독립 성공은 `references/strategy/build-and-verify.md` §1의 통합 빌드를 통과할 때까지 전체 구현의 성공이 아니다.
+Record risk, representativeness, prior criteria, evidence, proved and unproved claims, rejected choices, and next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
+
+Adopt a successful PoC into the primary build from immutable source and combine it with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5, but components must not remain isolated. Component success becomes project success only after the integrated build passes `references/strategy/build-and-verify.md` §1.

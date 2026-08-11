@@ -1,89 +1,89 @@
-# 압축 대응 전략
+# Compression strategy
 
-압축된 자산을 수정할 때는 아래 발동 조건과 검증 기준을 적용한다. 압축 포맷의 바이트 사양과 구현은 대상 플랫폼과 프로젝트에서 확인한다.
+Apply these trigger conditions and verification criteria when modifying compressed assets. Establish the byte-level format and implementation from the target platform and project.
 
-## 1. 발동 조건과 분모
+## 1. Trigger and denominator
 
-대상 로더나 소비자가 저장 입력을 해제·변환해 다른 바이트열로 만들고, 그 출력이 실제 소비와 연결됐을 때 이 전략을 발동한다. 변환 경계가 미확정이거나 압축 여부가 현재 결정을 바꾸지 않으면 별도 압축 경로를 확정하지 않는다.
+Use this strategy when the target loader or consumer transforms stored input into another byte stream and that output is linked to actual consumption. Do not establish a separate compression path when the transform boundary is unresolved or compression does not affect the current decision.
 
-발동할 때는 지원 분모를 먼저 선언한다.
+Declare the supported denominator when this strategy applies:
 
-- 특정 자산만 재압축하면 그 자산과 같은 소비 규칙을 쓰는 범위를 검증한다.
-- 압축기를 공통 빌드 경로로 쓰거나 포맷 전반 지원을 주장하면 그 경로가 처리하는 전체 코퍼스를 검증한다.
-- 지원하지 않는 변형은 원본 그대로 보존하거나 명시적으로 실패시킨다.
+- For one recompressed asset, verify the population that shares its consumer rules.
+- For a compressor in the common build path or a claim of general format support, verify the complete corpus processed by that path.
+- Preserve unsupported variants unchanged or reject them explicitly.
 
-## 2. 소비자의 포맷 해석
+## 2. Consumer format interpretation
 
-채택할 포맷 해석은 대상 소비자의 읽기 의미 또는 그와 독립된 동등 증거로 확정한다. 알고리즘 이름과 형제 게임의 구현은 후보를 좁히는 데 사용하고, 최소한 다음 경계를 대상 입력에서 확인한다.
+Establish the adopted format interpretation from the target consumer's read semantics or independent equivalent evidence. An algorithm name or a sibling game's implementation may narrow candidates, but verify at least these boundaries on target input:
 
-- 입력 경계와 종결 조건
-- literal·match의 값 해석과 바이트·비트 순서
-- 참조 가능한 출력 범위와 겹친 복사의 의미
-- 출력 크기, 정렬, 버퍼와 목적지 상한
-- 컨테이너 필드별 소비자와 보호 범위
+- input extent and termination;
+- literal and match interpretation, including byte and bit order;
+- valid output references and overlapping-copy semantics;
+- output size, alignment, buffer, and destination limits; and
+- the consumer and protected range of each container field.
 
-소비 여부가 미확정인 필드는 임의 값으로 만들지 않는다. 원본을 보존하거나 공개 사양에 맞게 생성하고, 어느 쪽도 정당화할 수 없으면 지원 범위에서 제외한다.
+Do not invent values for fields whose consumption is unresolved. Preserve the source value or generate it from a public specification. Exclude the variant from supported scope if neither choice is justified.
 
-## 3. 해제 검증
+## 3. Decompression verification
 
-해제 구현은 다음을 모두 만족해야 한다.
+A decompressor must:
 
-- 선언한 분모의 원본 스트림을 경계 밖 접근 없이 처리한다.
-- 결과가 대상 소비자가 만든 출력 또는 독립된 정답과 일치한다.
-- 지원하는 드문 모드와 경계 조건에서도 같은 의미를 낸다.
-- 지원 밖 변형, 잘린 입력, 불가능한 참조를 성공으로 처리하지 않는다.
+- process every source stream in the declared denominator without out-of-bounds access;
+- match output produced by the target consumer or an independent oracle;
+- retain the same meaning for supported rare modes and boundary conditions; and
+- reject unsupported variants, truncated input, and impossible references.
 
-한 표본의 그럴듯한 화면이나 외부 구현의 존재만으로 포맷 해석을 확정하지 않는다. 외부 구현을 채택하더라도 동일 변형과 대상 표본에서 위 기준을 다시 검증해야 한다.
+One plausible screen or the existence of an external implementation does not establish the interpretation. Reverify an adopted external implementation against the same variant and target samples.
 
-## 4. 재압축 검증
+## 4. Recompression verification
 
-재압축은 세 기준을 구분한다.
+Keep these three criteria distinct:
 
-| 기준 | 의미 | 적용 조건 |
+| Criterion | Meaning | Requirement |
 |---|---|---|
-| A. 자기 라운드트립 | 자체 압축 결과를 자체 해제하면 입력이 복원됨 | 압축기를 적용하는 선언 분모에서 필수 |
-| B. 원본 바이트 재현 | 원본 해제본을 다시 압축하면 원본 스트림과 같음 | 포맷이 하나의 정규 표현을 요구할 때만 필수 |
-| C. 대상 소비 호환 | 대상 소비자가 새 스트림을 기대 결과로 해제·사용함 | 배포 경로에서 필수 |
+| A. Self round trip | The project's decompressor restores the compressor input | Required for the declared compressed population |
+| B. Source-byte reproduction | Recompressing source-decompressed data reproduces the source stream | Required only when the format demands one canonical representation |
+| C. Target-consumer compatibility | The target consumer decompresses and uses the new stream as intended | Required for distribution |
 
-A는 자체 구현끼리의 합의만 증명하므로 C를 대신하지 않는다. 재압축을 배포 경로에 넣으려면 다음을 모두 만족해야 한다.
+A proves agreement between the project's own implementations only; it does not prove C. Before using recompression in distribution:
 
-- A를 선언한 분모에서 검증한다.
-- 대상 소비자의 참조 범위, 출력 상한, 종결 불변식을 압축 출력에 강제한다.
-- 대상 소비자가 만든 해제 결과 또는 §2의 독립된 동등 증거를 기대 해제본과 대조한다.
-- 해제 뒤의 적재·표시 증거는 소비 연결을 보강하지만 해제 결과의 정확성을 대신하지 않는다.
+- verify A across the declared denominator;
+- enforce the target consumer's reference range, output limit, and termination invariants on compressor output;
+- compare the expected decompressed bytes with output from the target consumer or the independent evidence established in §2; and
+- treat post-decompression load or display as supporting evidence for consumption, not as a replacement for output correctness.
 
-### 결함이 관측됐을 때의 무변경 대조군
+### Unchanged control for observed defects
 
-재압축한 자산에서 결함이 나타나고 코덱과 내용 변경을 구분할 필요가 있을 때만, 원본 해제 데이터를 바꾸지 않고 같은 압축기로 다시 싸서 동일한 소비 경로에 넣는다. 이는 `references/strategy/debugging.md` §2의 변경 요인 격리를 압축 계층에 적용한 것이므로 그 문서의 격리 조건도 함께 만족해야 한다.
+When a recompressed asset fails and codec behavior must be separated from content changes, recompress unchanged source-decompressed bytes with the same compressor and feed them through the same consumer path. This applies the change isolation in `references/strategy/debugging.md` §2 and must satisfy its isolation conditions.
 
-- 무변경 재압축에서도 결함이 재현되면 코덱과 대상 해제기의 의미 차이를 원인 후보로 유지한다.
-- 무변경 재압축은 정상이고 수정본만 실패하면 수정 데이터의 경계, 출력 상한, 후속 배치·소비 경로를 분리해 판정한다.
+- Failure of the unchanged recompression keeps a semantic mismatch between compressor and target decompressor as a cause candidate.
+- Success of the unchanged recompression with failure only after editing moves attention to edited boundaries, output limits, placement, and downstream consumption.
 
-자기 라운드트립 성공만으로 압축 계층을 원인 후보에서 제외하지 않는다. 반대로 코덱과 내용 가운데 원인이 모호하지 않은 경로에 무변경 대조군을 완료 조건으로 강제하지 않는다.
+Self round-trip success does not remove the codec layer from consideration. Do not require this control when codec and content are already distinguished.
 
-## 5. 크기·재패킹·우회
+## 5. Size, repacking, and alternatives
 
-재압축 출력이 원래 할당을 넘으면 압축률 추정이 아니라 실제 출력과 소비 경계로 대안을 비교한다.
+If recompressed output exceeds its allocation, compare options against actual output and consumer boundaries rather than estimated compression ratio:
 
-- 같은 포맷 해석 안에서 더 작은 유효 스트림을 만들 수 있는가?
-- 수정 범위를 줄여도 현지화 요구를 만족하는가?
-- 이동한 위치와 크기를 모든 주소·메타데이터·로더·버퍼가 표현하고 소비할 수 있는가?
-- 컨테이너를 재직렬화하면서 미수정 데이터와 보호 메타데이터를 보존할 수 있는가?
-- 대상 소비자가 검증된 비압축 또는 다른 소비 경로를 실제로 제공하는가?
+- Can the same format interpretation produce a smaller valid stream?
+- Can a smaller edit still meet the localization requirement?
+- Can every address, metadata field, loader, and buffer represent and consume a relocated extent?
+- Can container reserialization preserve untouched data and protected metadata?
+- Does the target consumer provide a verified uncompressed or alternate path?
 
-압축을 우회해도 훅, 저장 공간과 적재·상주·소비 경로를 새로 검증해야 한다. 더 단순해 보인다는 이유만으로 우회하지 않는다. 압축 자산 변경이 `references/strategy/runtime-assets.md` §1의 발동 조건에 해당하면 그 문서의 연결도 검증해야 한다.
+Bypassing compression introduces new code, storage, load, residency, and consumption conditions. Verify them; do not select a bypass merely because it appears simpler. If the asset change triggers `references/strategy/runtime-assets.md` §1, verify those links as well.
 
-## 6. 완료 판정
+## 6. Completion
 
-압축 대응은 적용되는 항목이 모두 판정될 때 완료다.
+Compression work is complete only when every applicable condition is decided:
 
-- 실제 소비자로 포맷 변형과 경계 조건을 확정했다.
-- 선언한 분모의 원본 스트림을 정확히 해제한다.
-- 재압축한 범위에서 A를 통과한다.
-- 정규 표현이 필수라면 B를 통과한다.
-- 재압축 출력이 대상 소비자의 불변식과 출력 상한을 만족하고 C를 통과한다.
-- 재압축 결함으로 코덱과 내용 변경이 경합했다면 무변경 대조군으로 둘을 구분했다.
-- 압축 자산 변경이 `references/strategy/runtime-assets.md` §1의 발동 조건에 해당한다면 그 문서의 연결 판정을 통과했다.
-- 지원 밖 변형과 미확정 필드를 보존하거나 명시적으로 거부한다.
+- The target consumer established the format variant and boundaries.
+- Every source stream in the declared denominator decompresses correctly.
+- Every recompressed item passes A.
+- A canonical format, if required, passes B.
+- Recompressed output satisfies target invariants and output limits and passes C.
+- If codec and content competed as explanations for a defect, an unchanged control distinguished them.
+- A triggered runtime-asset change passes the link assessment in `references/strategy/runtime-assets.md`.
+- Unsupported variants and unresolved fields are preserved or explicitly rejected.
 
-자기 라운드트립, 부팅, 한 화면 표시 가운데 하나만으로 압축 대응 완료를 선언하지 않는다.
+Self round trip, successful boot, or one displayed screen alone does not prove completion.
