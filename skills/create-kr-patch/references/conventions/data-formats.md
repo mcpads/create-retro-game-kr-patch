@@ -1,30 +1,30 @@
-# 분석·빌드 데이터 시행 규약
+# Data conventions for analysis and builds
 
-텍스트 추출·번역·재삽입·폰트 빌드 사이에서 교환하는 기계 판독 데이터는 전략이 요구한 의미와 통과 조건을 아래 구분과 검증으로 보존한다. 프로젝트에 이미 같은 의미와 검증을 제공하는 형식이 있으면 그 직렬화와 필드명을 유지한다. 텍스트 맵·PoC·HITL·QA처럼 사람이 판정을 추적하는 기록은 `references/conventions/project-records.md`를 따른다.
+Machine-readable data exchanged among text extraction, translation, reinsertion, and font building must preserve the meanings and pass criteria required by strategy. When the project already has an equivalent format and validation, retain its serialization and field names. Human-tracked decisions such as text maps, PoCs, HITL, and QA follow `references/conventions/project-records.md`.
 
-## 목차
+## Contents
 
-1. 공통 규칙
-2. 문자 매핑 테이블
-3. 제어코드 사양
-4. 포인터 카탈로그
-5. 재삽입 정책 데이터
-6. 폰트 렌더 프로필
-7. 검증 바인딩
+1. Common rules
+2. Character mapping tables
+3. Control-code specifications
+4. Pointer catalogs
+5. Reinsertion policy data
+6. Font render profiles
+7. Validation binding
 
-## 1. 공통 규칙
+## 1. Common rules
 
-분석·빌드 산출물에는 `references/conventions/project-conventions.md` §1·§3.2의 단일 기준과 기계 판독 입출력 요건을 적용한다. 다음 도메인별 의미도 함께 보존한다.
+Apply the single-basis and machine-readable I/O requirements in `references/conventions/project-conventions.md` §1, §3.2. Preserve these domain meanings as well:
 
-- 원본 좌표·원본 바이트·포인터 원시값은 분석·빌드 데이터의 보호 정보다. 번역문이나 표현 파라미터와 섞어 수작업으로 고치지 않는다.
-- 오프셋·주소·바이트열은 사람이 검토할 때 진법과 폭을 알아볼 수 있게 직렬화한다.
-- 고정 원본에서 전수 확인한 모집단은 정확한 상수·카탈로그로 표현한다. 휴리스틱 재탐지 결과를 빌드가 조용히 채택하지 않으며, 확정 목록과의 차이는 원본 리비전 또는 사양 재검토가 필요한 오류로 보고한다. 어떤 값을 고정하고 파생할지는 `references/strategy/initial-survey.md` §3.1이 판정한다.
+- Source coordinates, source bytes, and raw pointer values are protected analysis and build data. Do not mix them with translations or presentation parameters for manual editing.
+- Serialize offsets, addresses, and byte strings with visible radix and width for human review.
+- Represent a population exhaustively established on fixed source input as exact constants or a catalog. The build must not adopt heuristic rediscovery silently. A difference from the established population indicates the source revision or specification must be reassessed. Use `references/strategy/initial-survey.md` §3.1 to decide which values are fixed and which derive from output.
 
-아래 JSON은 필드 의미를 설명하기 위한 선택 예시다. 기존 구조나 다른 직렬화가 같은 의미와 검증을 제공하면 그대로 사용한다. 번역자가 편집하는 원문·번역문·상태·토큰·승인 정보에는 `references/conventions/translation-artifacts.md`를 적용한다. 분석·빌드 데이터와 번역 자산은 안정 ID와 원본 식별 정보로 연결하고, 문자 매핑·포인터·재삽입 정책은 분석·빌드 데이터의 한 위치에서 관리한다.
+The JSON below is an optional illustration of field meaning. Retain another structure or serialization that provides the same meaning and checks. Apply `references/conventions/translation-artifacts.md` to translator-edited source text, translation, state, tokens, and approvals. Link analysis data and translation assets by stable ID and source identity. Maintain character mappings, pointers, and reinsertion policies in one analysis/build-data location each.
 
-## 2. 문자 매핑 테이블
+## 2. Character mapping tables
 
-커스텀 인코딩의 바이트열과 문자·문자열 대응은 프로젝트가 이미 채택한 표현을 따른다. 별도 표현이 없고 단순 대응표가 충분할 때는 다음과 같은 `.tbl` 형식을 선택할 수 있다.
+Follow the project's existing representation for mapping custom-encoding bytes to characters or strings. When no representation exists and a simple mapping is sufficient, a `.tbl` form may be used:
 
 ```text
 41=あ
@@ -33,26 +33,26 @@ F0=のは
 FF00=[END]
 ```
 
-- 왼쪽은 공백 없는 16진 바이트열이며 바이트 경계를 보존한다.
-- 오른쪽은 한 글자뿐 아니라 DTE/MTE가 확장하는 여러 글자일 수 있다.
-- 도구가 제어코드 이름을 테이블에 함께 두면 대괄호 표기를 쓸 수 있다. 추출 산출물로 내보낼 때는 `references/conventions/translation-artifacts.md`의 가역 토큰으로 정규화한다.
-- 미해독 바이트를 문자로 추정해 채우지 않는다. 조사용 덤프에서는 `<XX>`처럼 원시값이 보이는 표기를 쓴다. 편집 가능한 번역 자산에 가역 raw 토큰으로 보존할 수 있는 범위는 `references/strategy/text-extraction.md` §3.4가 판정한다.
-- 테이블이 바뀌면 기존 번역 자산의 보호 필드를 손으로 고치지 않고 재추출해 차이를 검토한다.
+- The left side is a hexadecimal byte sequence without whitespace and preserves byte boundaries.
+- The right side may contain one character or a multi-character DTE/MTE expansion.
+- A tool may place control-code names in brackets. Normalize them to reversible tokens from `references/conventions/translation-artifacts.md` when producing extraction artifacts.
+- Do not guess a character for an undecoded byte. Investigation output may expose a raw form such as `<XX>`. `references/strategy/text-extraction.md` §3.4 decides when editable translation assets may retain a reversible raw token.
+- When the table changes, re-extract and review differences instead of manually changing protected fields in existing translation assets.
 
-`.tbl`을 쓰지 않는 구현도 디코드와 인코드가 같은 매핑 정의를 공유하고, 다대일·일대다 매핑과 미해독 바이트를 손실 없이 표현해야 한다.
+An implementation without `.tbl` must still share one mapping definition between decode and encode and represent many-to-one mappings, one-to-many mappings, and undecoded bytes without loss.
 
-## 3. 제어코드 사양
+## 3. Control-code specifications
 
-제어코드 사양은 추출기와 재삽입기가 함께 읽는 단일 데이터로 둔다. 최소 의미는 다음과 같다.
+Keep one control-code specification consumed by both extractor and reinsertor. It must express at least:
 
-- 코드 바이트 또는 식별 패턴
-- 인자 개수와 각 인자의 폭·엔디언·보존 방식
-- 문자열이나 메시지를 끝내는지 여부
-- 사람이 편집하는 토큰 이름과 의미
-- 적용되는 파일·영역·렌더러 범위
-- 원본 raw에 포함할 인자와 재배치 때 다시 계산할 인자의 구분
+- code bytes or identifying pattern;
+- argument count and each argument's width, endianness, and preservation rule;
+- whether it terminates a string or message;
+- human-editable token name and meaning;
+- applicable file, region, and renderer scope; and
+- which arguments remain in source raw data and which are recomputed after relocation.
 
-필요한 의미를 설명하면 다음과 같은 구조화 레코드가 된다.
+One optional structured representation is:
 
 ```json
 {
@@ -64,20 +64,20 @@ FF00=[END]
 }
 ```
 
-의미가 아직 불명확해도 코드 경계와 인자 폭은 기록한다. 이때 중립적인 이름을 쓰고 바이트열을 통째로 보존한다. 의미 추정이 바뀌어도 파싱 경계가 흔들리지 않게 하는 것이 우선이다.
+Record byte boundaries and argument widths even when meaning remains unclear. Use a neutral name and preserve the full byte sequence. A later change in semantic interpretation must not change established parsing boundaries silently.
 
-## 4. 포인터 카탈로그
+## 4. Pointer catalogs
 
-고정 원본 리비전에서 포인터 모집단을 전수 확인해 카탈로그 방식을 채택한 경우, 포인터 카탈로그는 원본 좌표계의 포인터를 새 좌표계에서 다시 쓸 수 있게 하는 전수 목록이다. 모집단을 명시 사양으로 승격할 때는 `references/strategy/initial-survey.md` §3.1의 조건을 적용한다. 카탈로그는 최소한 다음을 복원할 수 있어야 한다.
+When an exhaustively verified pointer population for a fixed source revision is represented as a catalog, it must allow every pointer in source coordinates to be rewritten in target coordinates. Apply the promotion conditions in `references/strategy/initial-survey.md` §3.1. The catalog must recover at least:
 
-- 포인터 바이트의 원본 저장 위치
-- 폭·엔디언과 주소 기준(파일·RAM·뱅크·테이블 상대)
-- 원본 raw 값과 해석한 원본 타겟
-- splice나 재배치로 저장 위치 자체가 움직이는지 여부
-- 보정 뒤 타겟을 검증할 패턴이나 경계 조건
-- 문자열 중간 포인터라면 새 번역에서 같은 구조 지점을 찾을 앵커
+- source storage location of the pointer bytes;
+- width, endianness, and address basis such as file, RAM, bank, or table relative;
+- raw source value and interpreted source target;
+- whether splice or relocation moves the storage location itself;
+- a pattern or boundary condition validating the adjusted target; and
+- for an interior-string pointer, an anchor identifying the same structural point after translation.
 
-선택 가능한 JSON 표현 예시는 다음과 같다.
+An optional JSON representation is:
 
 ```json
 {
@@ -95,52 +95,52 @@ FF00=[END]
 }
 ```
 
-필드명이나 JSON 사용은 선택 사항이다. 확정 리비전 카탈로그에서는 포인터를 splice 뒤 버퍼에서 다시 읽지 않도록 원본 raw 값과 저장 좌표를 고정하고, 반복 빌드는 승인된 카탈로그를 소비한다. 탐색 스캐너는 생성·갱신 후보만 만들며 새 후보를 조용히 채택하지 않는다.
+Field names and JSON are optional. For an established revision catalog, keep source raw values and storage coordinates fixed rather than rereading pointers from a post-splice buffer. Repeated builds consume the approved catalog. A discovery scanner proposes additions or updates but never adopts them silently.
 
-반대로 여러 리비전, 런타임 생성 데이터, 아직 범위가 확정되지 않은 구조는 고정 카탈로그로 가장하지 않는다. 명시 스키마와 항목 수만으로 모든 포인터를 빠짐없이 순회할 수 있는 테이블은 반복 빌드에서 직접 파싱해도 된다. 어느 경로든 휴리스틱 후보를 검토 없이 보정 대상으로 삼거나, 확정된 포인터를 대응 처리 없이 버리면 빌드를 실패시킨다.
+Do not disguise multiple revisions, runtime-generated data, or unresolved structures as a fixed catalog. A table whose schema determines every count and boundary may instead be parsed directly on each build. Either route must fail when a heuristic candidate is adjusted without review or an established pointer disappears without an explicit mapping decision.
 
-## 5. 재삽입 정책 데이터
+## 5. Reinsertion policy data
 
-엔트리별 정책은 번역자가 편집하는 문장과 분리해 빌드 데이터로 관리한다. 번역 자산을 확장한다면 안정적인 엔트리 키로 연결하고, 보호 필드로 취급한다.
+Keep per-entry policy in build data separate from translator-edited prose. If translation assets reference it, use a stable entry key and treat the policy as protected data.
 
-표현 형식과 무관하게 다음 의미가 필요하다. 아래 필드명은 예시다.
+The representation must preserve these meanings; field names are examples:
 
-| 예시 필드명 | 의미 |
+| Example field | Meaning |
 |---|---|
-| `mode` | `fixed`, `relocate`, `grow` 가운데 선택한 길이·배치 정책 |
-| `overflow_policy` | 초과 시 실패, 승인된 번역 조정, 재배치 등 선택한 해소 경로. 자동 부분 절단은 허용하지 않는다 |
-| `pad_byte` | 대상 엔진이 무동작으로 처리한다고 확인한 패딩 바이트열 |
-| `pad_position` | 종료 시퀀스 전·후 또는 고정 슬롯 잔여부 가운데 확인된 삽입 위치 |
-| `terminator_policy` | 종료자 보존·재생성·부재 등 경계 처리 방식 |
-| `alignment` | 엔트리나 블록이 유지해야 하는 바이트 정렬 |
+| `mode` | Established length and placement policy: `fixed`, `relocate`, or `grow` |
+| `overflow_policy` | Selected response such as failure, approved translation adjustment, or relocation; automatic truncation is forbidden |
+| `pad_byte` | Byte sequence established as no-op padding for the target engine |
+| `pad_position` | Established insertion position before or after termination, or in a fixed-slot remainder |
+| `terminator_policy` | Boundary handling such as preserve, regenerate, or absent |
+| `alignment` | Required byte alignment for an entry or block |
 
-패딩·종료자·정렬에는 전역 기본값을 두지 않는다. 같은 소비 경계가 검증된 명시 범위에서만 하나의 프로필 기본값을 공유한다. 필요한 값이 누락되면 임의 기본값으로 진행하지 않고 빌드를 실패시킨 뒤 해당 엔트리의 경계를 먼저 확정한다.
+Do not define global defaults for padding, terminators, or alignment. A profile default may apply only to an explicit scope with the same verified consumer boundary. Missing required values must fail the build and return to boundary investigation rather than selecting arbitrary defaults.
 
-## 6. 폰트 렌더 프로필
+## 6. Font render profiles
 
-`references/strategy/font-strategy.md` §5가 경로별 프로필 분리를 요구한 경우, 프로필은 각 목표 소비 경로의 표현 입력과 검증 결과를 모호성 없이 연결해야 한다.
+When `references/strategy/font-strategy.md` §5 requires per-path profiles, each profile must link presentation inputs and verification output to one target consumer without ambiguity.
 
-프로필은 타깃별로 다음 의미 가운데 실제 렌더 경로에 필요한 것만 선언한다.
+Declare only meanings needed by the target render path:
 
-- 소스 글리프의 프로젝트 상대 식별자와 정확한 버전·라이선스 근거
-- 타깃 렌더 경로와 셀·기준선·여백
-- 래스터화·이진화·윤곽 처리처럼 결과 픽셀을 바꾸는 파라미터
-- 비트 깊이·팔레트·패킹·서브타일 순서처럼 게임 데이터 표현을 정하는 값
-- 같은 프로필로 생성한 비교 결과와 실제 빌드 산출물을 연결하는 식별자
+- project-relative source-glyph identity, exact version, and license evidence;
+- target render path, cell, baseline, and margins;
+- rasterization, thresholding, outline, and other parameters that affect pixels;
+- bit depth, palette, packing, and subtile order defining game representation; and
+- identity linking comparison output and actual build artifacts made from the same profile.
 
-필드명과 직렬화 형식, 값을 정하는 방식은 프로젝트가 정한다. 어느 소비 경로에 어떤 값이 적용되는지가 하나로 판정돼야 하며, 알 수 없는 타깃·값·누락은 오류로 처리한다. 검토 결과와 빌드는 같은 확정값을 사용해야 한다.
+The project chooses field names, serialization, and how values are selected. Applicability must be unambiguous; unknown targets, values, or omissions are errors. Review output and builds must use the same established values.
 
-메모리 주소·뱅크·인코딩 경계처럼 역공학으로 확정한 구조값은 이 프로필에 섞지 않는다. 표현을 자주 바꾸는 값과 확정 구조값을 분리한다.
+Do not mix reverse-engineered structural constants such as memory addresses, banks, and encoding boundaries into a presentation profile. Keep frequently adjusted presentation values separate from established structure.
 
-## 7. 검증 바인딩
+## 7. Validation binding
 
-데이터 표현은 다음 검사를 기계적으로 판정할 수 있어야 한다.
+The representation must allow mechanical decisions that:
 
-- 번역 자산의 원문 표기 재인코딩 결과가 보호된 원본 바이트와 같고, 그 바이트가 원본 파일의 기록 위치와 같다.
-- 번역 자산의 안정 ID와 추출 기준선이 해당 원본 엔트리 및 해당하는 재삽입 데이터에 모호성 없이 연결된다. 필수 연결의 누락·ID 충돌·적용 범위가 다른 연결은 없고, 공유 엔트리·중복 참조 같은 의도된 관계는 원본 관계로 표현된다.
-- 제어코드 사양의 모든 코드가 인자 폭만큼 정확히 소비되며, 미해독되거나 잘린 코드가 없다.
-- 포인터 raw 값을 기준 주소 규약으로 해석하면 기록한 원본 타겟이 나오고, 역변환하면 같은 raw 값이 나온다.
-- 재삽입 뒤 모든 카탈로그 포인터가 유효 범위와 타겟 패턴을 만족하고, 카탈로그 엔트리 수가 예고 없이 변하지 않는다.
-- 폰트 프로필의 모든 타깃이 빌드 산출물과 비교 시트에서 같은 해석 결과를 사용한다.
+- re-encoding translation-artifact source text reproduces protected source bytes at the recorded source location;
+- stable IDs and extraction baseline link each source entry to applicable reinsertion data without missing required links, cross-scope collisions, or loss of intentional sharing and duplicate references;
+- every control code consumes exactly its argument width, with no undecoded or truncated code;
+- interpreting a raw pointer under its address basis produces the recorded source target, and inverse conversion reproduces the raw value;
+- every catalog pointer after reinsertion satisfies valid range and target checks, with no unannounced catalog-size change; and
+- every font-profile target uses the same interpretation in build artifacts and comparison output.
 
-구체 테스트 코드는 프로젝트 언어와 기존 테스트 구조를 따른다. 필드명을 바꾸면 테스트도 같은 커밋에서 바꾸며, 호환을 위해 알 수 없는 필드를 묵인하는 대신 명시적인 스키마 버전 변환을 둔다.
+Concrete test code follows the project language and test structure. A field-name change must update tests in the same commit. Do not tolerate unknown fields for compatibility; provide an explicit schema conversion when compatibility is required.

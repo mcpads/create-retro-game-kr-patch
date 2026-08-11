@@ -1,44 +1,44 @@
-# 번역 자산 시행 규약
+# Translation asset conventions
 
-번역 전략이 요구하는 원문 보존, 검토 상태, 가역 제어코드와 빌드 입력 자격을 파일과 데이터에서 아래 의미와 검증으로 보존한다. 프로젝트에 이미 같은 의미와 검증을 제공하는 스키마나 작업 관리 체계가 있으면 그 직렬화·디렉터리·필드명을 유지한다.
+Preserve source text, review state, reversible control codes, and build eligibility required by translation strategy through the meanings and checks below. Retain an existing schema or work-management system that provides equivalent meaning and validation, including its serialization, directories, and field names.
 
-## 목차
+## Contents
 
-1. 필수 의미
-2. 선택 JSON 프로필
-3. 제어코드 토큰
-4. 진행 상태 의미
-5. 빌드 입력 자격
+1. Required meaning
+2. Optional JSON profile
+3. Control-code tokens
+4. Progress-state meaning
+5. Build-input eligibility
 
-## 1. 필수 의미
+## 1. Required meaning
 
-번역 자산 표현은 최소한 다음을 구분해야 한다.
+A translation-asset representation must distinguish at least:
 
-- 원본 이미지와 추출 영역을 식별하는 출처
-- 재추출 뒤에도 대조할 수 있는 안정적인 엔트리 식별자
-- 원본 바이트와 그 바이트에서 파생한 디코딩 결과
-- 번역자가 수정하는 번역문
-- 미번역·작업 중·검토 필요·사람 판단 필요·배포 적격을 구분하는 상태
-- 의역·표기 결정·미확정 해석의 근거
-- 재삽입에 필요한 구조 정보, 또는 그 정보를 담은 분석·빌드 데이터로 이어지는 안정적인 연결
+- provenance identifying the source image and extraction region;
+- stable entry identity comparable after re-extraction;
+- source bytes and the decoded result derived from them;
+- translator-edited output;
+- states distinguishing untranslated, in progress, needs review, needs human judgment, and distribution-eligible;
+- evidence for adaptation, wording decisions, and unresolved interpretations; and
+- structure required for reinsertion, or a stable link to analysis and build data containing it.
 
-번역 자산에 포함된 원본 바이트·원문·구조 정보와 연결 식별자는 보호 영역이다. 번역 작업은 번역문·검토 상태·판단 근거만 바꾸며, 보호 영역이 달라지면 재추출 또는 명시적인 구조 변경으로 처리한다.
+Source bytes, source text, structural information, and link identities in a translation asset are protected. Translation work may change only translated output, review state, and decision evidence. A protected change requires re-extraction or an explicit structural change.
 
-문자 매핑·제어코드 원시 사양·포인터 카탈로그·재삽입 정책에는 `references/conventions/data-formats.md`의 의미 규칙을 적용한다. 번역 자산은 안정 ID와 원본 식별 정보로 연결하거나 기존 통합 자산 안의 보호 정보로 함께 보존할 수 있다. 같은 값은 한 위치에서만 편집한다.
+Apply `references/conventions/data-formats.md` to character mappings, raw control-code specifications, pointer catalogs, and reinsertion policy. A translation asset may link to them by stable ID and source identity or preserve protected information inside an established integrated artifact. Edit each value in only one location.
 
-에이전트 번역·리뷰 배치의 입력 요건은 `references/strategy/translation-workflow.md` §3.1이 판정한다. 번역 자산은 배치에 전달한 보호값과 적용한 기준선의 버전 식별자를 보존해 병합할 때 현재 기준선과 대조할 수 있어야 한다. 배치 파일이 이 값을 복사해 보여 주더라도 각 기준선은 한 곳에서만 관리하며, 에이전트 응답으로 보호 영역을 덮어쓰지 않는다.
+`references/strategy/translation-workflow.md` §3.1 determines agent translation and review-batch inputs. Preserve the protected values and baseline versions provided to a batch so merge can compare them with the current baseline. Even when a batch copy displays these values, maintain each baseline in one location and never overwrite protected fields from an agent response.
 
-별도 모델·에이전트를 평가하면서 만든 번역은 평가 범위·조건과 출처를 식별한다. 사람이 해당 범위를 맡기기로 결정했고 현재 기준선·보호 정보·맥락·용어·문체 조건이 평가 때와 같다면 그 표본을 작업 중 번역으로 합칠 수 있다. 평가만으로 검토가 끝나거나 배포 적격을 얻지는 않으며, 평가를 통과하지 못한 결과는 빌드가 선택하는 번역문으로 사용하지 않는다.
+Translation made while evaluating another model or agent must identify evaluation scope, conditions, and provenance. A human-approved sample may enter work in progress only while source baseline, protected information, context, terminology, and voice match the evaluation. Evaluation does not complete review or grant distribution eligibility. Output that failed evaluation must not become build-selected translation.
 
-병합·재삽입 직전에는 배치에 복사된 원본 메타데이터끼리 비교하는 데 그치지 않고, 지원 원본 또는 그 원본에서 다시 만든 현재 추출 기준선과 원본 식별 정보·raw byte를 대조한다. 현재 기준선과 다르면 이전 기준선의 결과로 보고 병합하지 않으며, 재추출 영향 범위를 먼저 판정한다.
+Immediately before merge or reinsertion, compare source identity and raw bytes against supported source or the current extraction baseline regenerated from it, not merely against metadata copied among batches. A mismatch identifies output from an older baseline; do not merge until its impact has been assessed.
 
-### 승인 용어·문체 결정
+### Approved terminology and voice decisions
 
-용어·반복 표현·문체의 승인 기준은 최소한 결정의 안정 ID, 원어 대상 또는 상황, 승인 결과, 적용 작품·리비전·장면·화자 관계와 서사 시점의 범위, 근거와 적용 한계, 승인·미확정·충돌 상태를 구분한다. 같은 원어에 범위가 다른 결정을 둘 수 있으므로 원문 문자열만을 전역 유일 키로 쓰지 않는다. 새 근거로 결정이 바뀌면 이전 결정을 조용히 덮지 않고 영향받는 배치가 어느 기준선을 다시 검증해야 하는지 식별할 수 있어야 한다. 파일 수·표 구조·필드명은 프로젝트가 정한다.
+The approved basis for terms, repeated expressions, and voice must distinguish a stable decision ID, source referent or situation, approved output, applicability by title, revision, scene, speaker relationship, and narrative point, evidence and transfer limit, and approved, unresolved, or conflicting state. Because one source term may have scope-specific decisions, do not use the source string as a globally unique key. When new evidence changes a decision, retain enough lineage to identify affected batches requiring revalidation; do not silently overwrite it. The project chooses file count, table structure, and field names.
 
-## 2. 선택 JSON 프로필
+## 2. Optional JSON profile
 
-다음 JSON은 필수 의미와 보호 경계를 설명하기 위한 선택 예시다. 기존 구조가 같은 의미와 검증을 제공하면 이 형식으로 바꾸지 않는다.
+This JSON only illustrates required meaning and protected boundaries. Do not migrate an equivalent existing structure to this form.
 
 ```json
 {
@@ -56,8 +56,8 @@
       "ptr_value": "0x0000",
       "file_offset": "0x000000",
       "raw_hex": "...FE",
-      "text": "원문{end}",
-      "ko": "번역문{end}",
+      "text": "source{end}",
+      "ko": "translation{end}",
       "status": "in_progress",
       "notes": null,
       "flags": []
@@ -77,57 +77,55 @@
 }
 ```
 
-이 예시 형식에도 `references/conventions/project-conventions.md` §3.2의 기계 판독 입출력 요건을 적용한다.
+This example also follows the machine-readable I/O requirements in `references/conventions/project-conventions.md` §3.2.
 
-- `table_id`와 `entry_id`는 안정적으로 유지한다. 빈 슬롯도 엔트리 순서와 개수에 포함한다.
-- `raw_hex`와 `text`는 추출기가 채우는 보호 필드다. `ko`, `status`, `notes`는 번역 단계의 수정 가능 필드다.
-- 중복 포인터와 미해독 바이트는 `flags`로 나타내되, 프로젝트가 다른 표현을 쓰면 동일한 의미와 라운드트립을 보존한다.
+- Keep `table_id` and `entry_id` stable. Empty slots remain part of entry order and count.
+- `raw_hex` and `text` are extractor-owned protected fields. `ko`, `status`, and `notes` are translation-stage fields.
+- Represent duplicate pointers and undecoded bytes through `flags` or an equivalent project representation that preserves meaning and round trip.
 
-## 3. 제어코드 토큰
+## 3. Control-code tokens
 
-사람이 편집하는 원문과 번역문에는 제어코드를 원래 바이트열로 되돌릴 수 있는 토큰으로 표현한다. 선택 가능한 문법 예시는 다음과 같다.
+Represent control codes in human-editable source and translated text as tokens reversible to their original bytes. Optional syntax examples:
 
-- 인자 없음: `{br}`, `{wait}`, `{end}`
-- 인자 있음: `{delay:1E}`, `{face:02,05}`
-- 미해독 코드: `{op27:0B}`
-- 경계가 확인된 미해독 raw byte: `{raw:XX}`
+- no arguments: `{br}`, `{wait}`, `{end}`
+- arguments: `{delay:1E}`, `{face:02,05}`
+- undecoded code: `{op27:0B}`
+- undecoded raw byte with established boundary: `{raw:XX}`
 
-토큰 문법은 바이트열과 전단사여야 한다. 리터럴 중괄호와 충돌하면 이스케이프를 정의한다. 토큰의 보존·이동·재계산·대상 의미 변환·수정 금지 정책은 `references/strategy/text-extraction.md` §4.4가 판정하며, 빌드 입력 검사는 그 정책에 맞춰 집합·순서·파라미터와 변환 결과를 대조한다. 모든 토큰을 원문과 1:1로 강제하지 않는다. 토큰 이름과 구두점은 프로젝트가 바꿀 수 있지만 가역성과 검증 가능성은 유지한다.
+Token syntax must be bijective with byte sequences. Define escaping for literal syntax collisions. `references/strategy/text-extraction.md` §4.4 determines preserve, move, recompute, translate-to-target-meaning, and forbidden policies. Build-input checks compare token set, order, parameters, and transformed output according to the applied policy. Do not require one-to-one position for every token. Projects may rename tokens and punctuation while preserving reversibility and verification.
 
-## 4. 진행 상태 의미
+## 4. Progress-state meaning
 
-작업 관리 체계는 최소한 다음 상태 의미를 구분해야 한다. 표의 상태명은 선택 예시다.
+Work management must distinguish at least these meanings. Names are examples:
 
-| 예시 상태명 | 의미 | 다음 상태의 최소 조건 |
+| Example state | Meaning | Minimum condition for the next state |
 |---|---|---|
-| `untranslated` | 추출 기준선, 번역문 없음 | 작업 착수 |
-| `in_progress` | 번역 또는 수정 중 | 해당 엔트리 번역과 확정 제약 검사 통과 |
-| `needs_review` | 교차 검토 필요 | 해당하는 독립 교차 검토, 선택한 언어 휴리스틱이 만든 후보 검토와 확정 제약 위반 해소 |
-| `needs_human_review` | 사람 판단 필요 | 사람의 판단·승인과 근거 기록 |
-| `complete` | 확정 제약 검사와 필요한 사람 승인을 통과한 배포 적격 상태 | 결함 발견 시 앞 상태로 강등 |
+| `untranslated` | Extraction baseline present, no translation | Work begins |
+| `in_progress` | Translation or correction underway | Entry translation and established-constraint checks pass |
+| `needs_review` | Cross-review required | Applicable independent review, review of selected language-heuristic candidates, and resolution of established-constraint failures |
+| `needs_human_review` | Human judgment required | Human decision and approval with evidence |
+| `complete` | Distribution-eligible after established checks and required human approval | Regress when a defect is found |
 
-상태를 어디에 어떻게 표현할지는 기존 프로젝트 구조가 정한다. 파일 단계와 엔트리 상태를 함께 두면 서로 어긋나지 않는지 검증하고, 가능하면 하나를 다른 하나에서 계산한다.
+The existing project chooses representation. When file-level and entry-level states coexist, validate agreement and derive one from the other when possible.
 
-확정 제약 검사와 언어 휴리스틱의 경계는 `references/strategy/translation-workflow.md` §5가 판정한다. 언어 휴리스틱은 사람 검토 후보를 만들 수 있지만 탐지 결과만으로 번역을 적합·부적합으로 확정하지 않는다.
+`references/strategy/translation-workflow.md` §5 defines the boundary between established checks and language heuristics. Heuristics may generate human-review candidates but must not decide translation fitness from detection alone.
 
-## 5. 빌드 입력 자격
+## 5. Build-input eligibility
 
-빌드는 개발·PoC와 릴리스 후보의 입력 정책을 구분한다.
+Builds distinguish development or PoC input policy from release-candidate input policy. Development may continue before review of the declared translation scope is complete.
 
-선언한 번역 범위의 검수가 끝나지 않아도 개발·PoC 빌드를 만들 수 있다.
+- A **development or PoC build** may explicitly select an ineligible translation produced under `references/strategy/translation-workflow.md` §3.1, but must mark the artifact non-distribution. It must preserve extraction-baseline source text for unselected ineligible entries or fail. It must not mix ineligible translations silently or select output from a model or agent that failed evaluation.
+- A **release-candidate build** consumes only eligible translations within declared localization scope. Source branding, symbols, or other content intentionally left outside scope require approved exceptions.
 
-- **개발·PoC 빌드**는 `references/strategy/translation-workflow.md` §3.1의 요건에 따라 만든 미적격 번역을 명시적으로 선택할 수 있지만 비배포 산출물임을 표시하고, 선택하지 않은 미적격 엔트리는 추출 기준선의 원문을 보존하거나 빌드를 실패시킨다. 미적격 번역을 조용히 섞지 않으며, 평가를 통과하지 못한 모델·에이전트의 출력은 선택하지 않는다.
-- **릴리스 후보 빌드**는 선언한 현지화 범위에서 적격 판정을 받은 번역만 소비한다. 범위 밖에 의도적으로 남기는 원문·브랜딩·기호는 승인 예외로 기록한다.
+Distribution eligibility includes at least:
 
-배포 대상 엔트리의 적격 판정에는 최소한 다음이 포함된다.
+- protected fields match the extraction baseline;
+- no missing translation, unapproved residual source character, or unknown state remains;
+- token boundaries and argument widths are established so `references/strategy/text-extraction.md` §4.4 policies apply;
+- control-code tokens parse and satisfy the applied preserve, move, recompute, or translate-to-target-meaning policy;
+- glyph coverage and length or layout under confirmed consumer constraints pass; and
+- human decisions retain their decision and evidence.
 
-- 보호 필드가 추출 기준선과 일치한다.
-- 번역 누락, 승인되지 않은 원문 문자 잔존, 알 수 없는 상태가 없다.
-- 토큰 경계와 인자 폭이 모두 확정되어 `references/strategy/text-extraction.md` §4.4의 정책을 적용할 수 있다.
-- 제어코드 토큰이 파싱 가능하고 적용된 보존·이동·재계산·대상 의미 변환 정책을 만족한다.
-- 글리프 커버리지와 확인된 소비 제약에 따른 길이·레이아웃 검사가 통과한다.
-- 사람 판단이 필요한 항목은 결정과 근거가 남아 있다.
+A failed check or new evidence revokes eligibility and returns the unit to the required review state. The decision, not a state name or storage location, determines build input.
 
-검사 실패나 새 증거가 생기면 적격 상태를 취소하고 필요한 검토 단계로 되돌린다. 상태 이름이나 저장 위치가 아니라 이 판정 결과가 빌드 입력을 결정한다.
-
-병렬·순차 배치를 합칠 때는 각 배치가 사용한 추출·컨텍스트·용어·문체 기준선과 보호 필드가 현재 승인 기준선과 일치하고, 안정 ID의 누락·중복·충돌이 없음을 검증한다. 기준선이 바뀌었으면 영향받는 결과를 다시 검증한다. 같은 엔트리에 서로 다른 번역문·상태·근거가 들어오면 입력 순서나 나중 결과 우선으로 고르지 않고 명시적 검토 대상으로 남긴다.
+When merging parallel or sequential batches, verify that each batch's extraction, context, terminology, and voice baselines and protected fields match current approved baselines and that stable IDs have no omissions, duplicates, or conflicts. Revalidate affected output after a baseline change. Conflicting translation, state, or evidence for one entry must remain for explicit review rather than being resolved by input order or last-writer-wins.

@@ -1,165 +1,165 @@
-# 프로젝트 시행 컨벤션
+# Project conventions
 
-한글 패치 전략의 불변식과 판정 기준을 프로젝트 구조·인터페이스·검증으로 옮길 때 아래 규약을 지킨다. 먼저 기존 저장소의 구조와 도구체인을 확인하고 동등한 장치가 있으면 유지한다. 디렉토리, 명령, 언어, 라이브러리와 제품은 기존 프로젝트와 현재 환경에서 선택하고, 플랫폼별 기술 세부는 `references/platforms/`의 해당 문서에서 확인한다.
+Use these rules to implement patch-strategy invariants and decision criteria as project structure, interfaces, and verification. Inspect the existing repository and toolchain first and retain an equivalent mechanism when present. Choose directories, commands, languages, libraries, and products for the current project and environment. Read the applicable `references/platforms/` document for platform constraints.
 
-## 목차
+## Contents
 
-1. 역할 분리와 단일 기준
-2. 주 빌드 경로와 코드 경계
-3. 인터페이스와 교환 데이터
-4. 외부 구성요소의 재현 조건
-5. 테스트 정책
-6. 원본 자산 취급
+1. Responsibility boundaries and a single basis
+2. Primary build path and code boundary
+3. Interfaces and exchange data
+4. Reproduction conditions for external components
+5. Test policy
+6. Source-asset handling
 
-## 1. 역할 분리와 단일 기준
+## 1. Responsibility boundaries and a single basis
 
-저장소를 만들거나 확장하기 전에 기존 빌드·테스트·문서·자산 흐름을 조사한다. 이미 같은 책임을 맡는 위치와 검증이 있으면 새 구조를 병설하지 않는다. 새 구획은 다음 역할이 서로 다른 갱신 경로로 갈라지지 않도록 나눈다.
+Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when one location and check already own the responsibility. Separate these roles without giving one fact several update paths:
 
-- 재현 가능한 빌드에 들어가는 소스 입력
-- 원본에서 다시 만들 수 있는 중간·출력 산출물
-- 역공학의 현재 결론과 그 근거
-- 번역 자산과 검토 상태
-- 런타임·QA 증거와 이슈 기록
-- 저장소 밖에서 주입하는 원본 이미지와 로컬 캐시
+- source inputs to the reproducible build;
+- intermediate and output artifacts regenerable from source;
+- current reverse-engineering conclusions and their evidence;
+- translation assets and review state;
+- runtime and QA evidence plus issue records; and
+- externally injected source images and local caches.
 
-같은 현재 사실이나 상태는 한 위치에서 관리한다. 사람이 보는 요약과 기계 입력이 모두 필요하면 한쪽을 다른 쪽에서 생성하거나 기준 위치를 명시적으로 가리킨다. 프로젝트 안내 문서는 현재 구조, 빌드·검증 시작점, 핵심 문서와 알려진 함정을 연결하고 분석 본문이나 진행 상태는 해당 기록에 둔다.
+Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the records that own them.
 
-조사 실험과 일회성 변환은 주 빌드 경로 밖에 둘 수 있다. 반복 빌드에 필요해지는 순간 버전 고정, 명시적 입출력, 오류 전파와 테스트를 갖춘 정식 구성요소로 승격한다. 승격하지 않은 임시 산출물이나 수동 편집 결과를 빌드의 유일한 입력으로 삼지 않는다.
+Investigation experiments and one-off transforms may remain outside the primary build. When repeated builds depend on one, promote it into a maintained component with fixed version, explicit inputs and outputs, propagated failures, and tests. An unpromoted temporary artifact or manual edit must not become the build's only input.
 
-번역 자산의 의미와 검토 상태에는 `references/conventions/translation-artifacts.md`를, 조사·PoC·QA 기록의 의미와 관계에는 `references/conventions/project-records.md`를 적용한다.
+Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to investigation, PoC, and QA records.
 
-## 2. 주 빌드 경로와 코드 경계
+## 2. Primary build path and code boundary
 
-### 2.1 단일 주 파이프라인 원칙
+### 2.1 One primary pipeline
 
-추출·변환·재삽입·패치 생성은 **하나의 문서화된 주 경로**에서 원본부터 다시 실행할 수 있어야 한다. 외부 구성요소를 호출해도 되지만 주 경로에 채택 버전, 입력, 출력, 옵션, 실패 조건과 결과 검증을 고정한다. 보조 경로가 같은 산출물을 독립적으로 수정하거나 수동 결과를 이어받아서는 안 된다.
+Extraction, transformation, reinsertion, and patch generation must rerun from source through one documented primary path. External components may participate, but the path must fix their adopted version, input, output, options, failure conditions, and output verification. A secondary path must not modify the same artifact independently or inherit an untracked manual result.
 
-주 경로는 다음 요건을 만족한다.
+The primary path must:
 
-1. 오프셋·크기·정수 폭·엔디언을 명시해 바이트 단위 결과를 재현한다.
-2. 같은 선언 입력에서 같은 의미와 검증 결과를 가진 산출물을 만든다.
-3. 인코딩 누락, 손실 변환, 범위 초과, 알 수 없는 상태와 검증 실패를 조용히 건너뛰지 않고 실패로 반환한다.
-4. 다른 환경에서도 필요한 버전과 입력을 식별하고 같은 진입점으로 실행할 수 있다.
+1. declare offsets, sizes, integer widths, and endianness to reproduce byte-level output;
+2. produce artifacts with the same meaning and verification result from the same declared inputs;
+3. fail on missing encodings, lossy transforms, overflow, unknown states, and failed verification;
+4. identify required versions and inputs and provide the same entry point in another environment.
 
-기존 프로젝트가 여러 구성요소를 묶은 동등한 재현 경로를 이미 갖고 있다면 하나의 언어나 하나의 실행 파일로 합칠 필요는 없다. 책임과 실패가 한 빌드 그래프에서 추적되면 된다.
+An existing project may retain several components or languages when they already form an equivalent reproducible path. They need not become one executable if responsibility and failure remain traceable in one build graph.
 
-### 2.2 재사용 경계
+### 2.2 Reuse boundary
 
-재사용 단위는 특정 게임의 정보 없이 입력·출력과 불변식을 설명할 수 있어야 한다. CPU 명령 처리, 컨테이너 파싱, 주소 변환, 그래픽 변환에 게임 이름, 원본 리비전, 인코딩 테이블, 포인터 주소나 훅 위치가 필요하면 해당 부분은 해당 게임의 구현에 남긴다.
+A reusable unit must describe inputs, outputs, and invariants without target-game facts. Keep target-specific revision, encoding table, pointer addresses, hook locations, and similar facts in the target implementation rather than embedding them in reusable CPU, container, address, or graphics components.
 
-분리 전후에 같은 테스트 벡터와 소비 결과가 유지되어야 한다. 재사용 가능성이나 구성요소 수만으로 공통 계층을 만들거나 기존 경계를 바꾸지 않는다.
+The same test vectors and consumed result must survive extraction into a reusable component. Reuse potential or component count alone does not justify a shared layer or a changed boundary.
 
-### 2.3 기계어 생성·해석 검산 규칙
+### 2.3 Machine-code generation and interpretation verification
 
-패치가 고정된 짧은 명령열을 넘어 기계어를 생성·이동하거나 제어 흐름·참조의 완전성을 주장한다면 대상 ISA 프로필을 선언하고 같은 의미 모델로 assemble·disassemble할 수 있어야 한다. 프로필은 CPU 변형, 명령 폭과 해석 모드, 사용하는 확장과 상태 의존 해석을 구분한다. 특정 제품이나 라이브러리를 요구하지 않지만, 프로젝트가 기계어 생성·해석을 직접 구현한다면 패치에 당장 필요한 명령 부분 집합이 아니라 선언한 프로필의 유효한 instruction·addressing mode 전체를 양방향으로 지원해야 한다.
+When a patch generates or moves more than a fixed short instruction sequence, or claims completeness of control flow or references, it must declare a target ISA profile and assemble and disassemble under the same semantic model. The profile distinguishes CPU variant, instruction width and interpretation mode, extensions, and state-dependent interpretation. No product or library is required. If the project implements generation and interpretation itself, it must support every valid instruction and addressing mode in the declared profile, not only the subset currently needed by one patch.
 
-- 선언한 프로필의 모든 유효한 instruction·mode를 assemble→disassemble과 disassemble→assemble의 의미 동등성으로 검증한다.
-- 프로필 밖 opcode·mode, 예약값과 잘린 명령을 데이터나 성공으로 오인하지 않고 실패시킨다.
-- 최종 배치 뒤 생성 영역을 다시 disassemble해 명령 경계, operand, branch target, delay slot·literal pool과 복귀 경로를 검산한다.
-- 원본 명령을 이동하면 원래 효과와 live-state 불변식을 새 위치에서도 비교한다.
-- 참조·호출 그래프의 완전성을 주장하면 선언한 entry point, bank·overlay·mode 범위와 미해석 영역을 함께 보고한다.
+- Verify every valid instruction and mode in the declared profile for semantic equivalence in both assemble -> disassemble and disassemble -> assemble directions.
+- Reject out-of-profile opcodes and modes, reserved values, and truncated instructions rather than treating them as data or success.
+- After final placement, disassemble generated ranges again and verify instruction boundaries, operands, branch targets, delay slots, literal pools, and return paths.
+- When moving source instructions, compare original effects and live-state invariants at the new location.
+- A completeness claim for references or calls must report declared entry points, bank, overlay, and mode scope plus uninterpreted regions.
 
-ISA 지원 완전성의 분모는 선언한 프로필의 유효한 instruction·mode 전체이고, 코드 분석 완전성의 분모는 분석 대상으로 선언한 code 영역이다. 두 분모를 섞지 않는다. literal·embedded data와 canonical alias를 분리해 보고하고, 프로필 밖을 조용히 명령이나 동등한 opcode로 흡수하지 않는다. 선택 확장을 프로필에서 제외하려면 생성·이동·분석 범위에 나타나지 않음을 확인해야 하며, 실제로 만나면 실패시키고 프로필과 검증 범위를 다시 정한다.
+The denominator for ISA support is every valid instruction and mode in the declared profile. The denominator for code-analysis completeness is the declared code region. Do not merge them. Report literals, embedded data, and canonical aliases separately. Do not absorb out-of-profile values as instructions or equivalent opcodes. Excluding an optional extension requires evidence that it does not appear in generated, moved, or analyzed scope; encountering it must fail and require a revised profile and verification range.
 
-고정 지원 리비전에서 확인된 짧은 명령열은 기대 바이트와 독립적인 명령 경계·효과 검증이 붙으면 자체 ISA 구현 없이 명시 바이트 사양으로 둘 수 있다. 최종 배치에 따라 branch 거리·주소·리터럴이 달라지거나 원본 명령을 이동하는 순간에는 이 예외를 적용하지 않고 배치 결과와 완전한 ISA 경로에서 검산한다.
+A fixed short instruction sequence on a verified revision may remain an explicit byte specification without a local ISA implementation only when expected bytes and an independent check of instruction boundaries and effects are present. This exception ends when final placement changes branches, addresses, or literals, or when source instructions move; use the complete ISA path and final placement instead.
 
-## 3. 인터페이스와 교환 데이터
+## 3. Interfaces and exchange data
 
-### 3.1 실행 인터페이스 요건
+### 3.1 Execution interface
 
-구체 명령 이름과 인터페이스 형태는 기존 프로젝트 관례를 따른다. 새 인터페이스가 필요하면 다음만 고정한다.
+Follow the existing project's command and interface conventions. A new interface needs only these properties:
 
-- 입력 원본, 설정, 번역 자산과 출력 위치를 명시적으로 전달할 수 있다.
-- 호스트별 절대 경로나 숨은 전역 상태를 코드에 박지 않는다.
-- 성공·실패가 자동화에서 판정 가능하고, 실패에는 대상 영역과 원인이 포함된다.
-- 분석 결과는 후속 단계가 안정적으로 소비할 수 있으며, 사람용 출력만을 파싱하게 만들지 않는다.
-- 주 빌드 진입점은 필요한 검증을 우회하지 않고 최종 산출물까지 연결한다.
+- source input, configuration, translation assets, and output location are explicit;
+- no host-specific absolute path or hidden global state is embedded in code;
+- automation can decide success and failure, and failures identify affected scope and cause;
+- analysis output is stable machine input for later stages rather than parsed human prose; and
+- the primary build entry point reaches final artifacts without bypassing required verification.
 
-분석과 빌드를 한 인터페이스에 둘지 나눌지는 프로젝트가 정한다. 기존에 동등한 호출 방식이 있으면 새 명명 규칙이나 래퍼를 덧씌우지 않는다.
+The project decides whether analysis and build share one interface. Do not add a naming scheme or wrapper over an equivalent existing call path.
 
-### 3.2 기계 판독 가능한 입출력
+### 3.2 Machine-readable input and output
 
-단계 사이의 교환 데이터는 스키마와 허용 값이 검증되는 기계 판독 형식으로 둔다. 직렬화 형식과 필드명은 프로젝트가 선택하되 다음 의미를 잃지 않는다.
+Exchange data between stages must use a machine-readable representation with validated schema and allowed values. The project chooses serialization and field names, but must preserve:
 
-- 원본과 영역을 식별하는 출처, 재추출 뒤에도 유지되는 안정 ID
-- 추출기가 보호하는 원본 정보와 사람이 수정하는 정보의 분리
-- 정수 폭·엔디언·주소 기준·경계·제어 정보의 명시
-- 알 수 없는 필드·상태·토큰과 타입 불일치를 오류로 처리하는 검증
-- 스키마 변경을 조용히 흡수하지 않는 명시적 버전 전환
+- provenance identifying source and region, plus stable identity surviving re-extraction;
+- separation of extractor-protected source information from human-edited information;
+- explicit integer width, endianness, address basis, boundaries, and control information;
+- rejection of unknown fields, states, tokens, and type mismatches; and
+- explicit conversion for schema changes rather than silent absorption.
 
-추출 결과와 번역 입력은 같은 보호 정보 기준선을 참조한다. 번역 자산에는 `references/conventions/translation-artifacts.md`를, 문자 매핑·제어코드·포인터·재삽입 정책·폰트 프로필에는 `references/conventions/data-formats.md`를 적용한다. 기존 프로젝트에 동등한 형식이 있으면 의미와 검증을 대조해 그대로 사용한다.
+Extraction output and translation input must share one protected-information baseline. Apply `references/conventions/translation-artifacts.md` to translation assets and `references/conventions/data-formats.md` to mappings, control codes, pointers, reinsertion policy, and font profiles. Retain an equivalent established project format after comparing meaning and validation.
 
-자주 조정하는 표현 파라미터와 역공학으로 확정한 구조값은 서로 다른 입력으로 관리한다. 각 값은 한 위치에서 갱신한다.
+Keep frequently adjusted presentation parameters separate from reverse-engineered structural values. Update each value in one place.
 
-## 4. 외부 구성요소의 재현 조건
+## 4. Reproduction conditions for external components
 
-외부 프로그램·라이브러리·서비스가 주 빌드 경로의 결과에 영향을 준다면 다음을 프로젝트에 고정한다.
+When an external program, library, or service affects primary-build output, record in the project:
 
-- 결과를 재현할 수 있는 배포처와 버전 또는 커밋
-- 선언 입력·옵션·출력과 실패 전파 방식
-- 해당 구성요소가 맡은 능력과 적용 범위
-- 대상 원본이나 대표 위험 코퍼스에서의 라운드트립·교차 검증 결과
-- 주 빌드 경로에서 결과를 독립적으로 검증하는 방법
-- 함께 배포하거나 재배포할 때의 라이선스 조건
+- a source and version or commit sufficient to reproduce the result;
+- declared inputs, options, outputs, and failure propagation;
+- the capability and applicability assigned to the component;
+- round-trip or cross-validation results on target source or a representative risk corpus;
+- independent verification of its output in the primary build; and
+- license conditions for bundling or redistribution.
 
-프로젝트는 현재 환경과 기존 구현에서 위 재현 조건을 충족하는 구성요소를 선택한다. 이미 동등한 재현·검증 장치가 있으면 그대로 사용한다.
+Choose a component that satisfies these conditions in the current environment and implementation. Retain an existing equivalent reproduction and verification mechanism.
 
-## 5. 테스트 정책
+## 5. Test policy
 
-### 5.1 라운드트립 우선
+### 5.1 Round trip first
 
-컨테이너, 인코딩, 압축, 주소 변환과 렌더 데이터는 먼저 왕복 불변식을 검증한다. `parse → serialize`처럼 무수정 입력을 왕복시켰을 때 포맷이 정규 표현 하나만 허용하면 원본 바이트와 동일해야 하고, 여러 직렬화가 허용되면 게임 소비 결과와 보호할 메타데이터가 동일해야 한다. 어느 기준을 적용하는지는 수정 전에 선언한다. 다른 문서가 무수정 왕복을 요구할 때도 이 동등 기준을 쓴다.
+First verify round-trip invariants for containers, encodings, compression, address conversion, and render data. For an unchanged transform such as parse -> serialize, require source-byte identity when the format has one canonical representation. When several serializations are valid, require equivalent game consumption and protected metadata. Declare the applicable equivalence before editing. Other documents that require unchanged round trip use this same criterion.
 
-검증 분모는 그 왕복이 책임지는 범위로 선언한다. 특정 자산만 다시 만들면 같은 소비 규칙을 쓰는 범위를, 공통 빌드 경로에 넣거나 포맷 전반 지원을 주장하면 그 경로가 처리하는 전체 코퍼스를 검증한다. 대표 표본만 통과한 상태를 선언 분모 전체의 지원으로 일반화하지 않고, 분모 안의 위험 경계 표본을 포함한다.
+Declare the denominator owned by the round trip. Rebuilding one asset requires the population sharing its consumer rule. Putting a transform into the common build or claiming general format support requires the full corpus processed by that path. Do not generalize representative samples to the declared denominator; include applicable boundary-risk samples.
 
-인코드↔디코드, 압축↔해제, 논리↔물리 주소처럼 역함수가 있는 쌍은 경계값·빈 값·최대 크기·잘린 입력·잘못된 입력을 자동 생성하거나 체계적으로 열거해 검사한다. 오류 입력이 부분 결과를 성공처럼 내보내지 않는지도 함께 확인한다.
+For inverse pairs such as encode/decode, compress/decompress, and logical/physical address conversion, generate or systematically enumerate boundary, empty, maximum, truncated, and invalid inputs. Invalid input must not emit partial output as success.
 
-### 5.2 Expected Write 규칙
+### 5.2 Expected Write rules
 
-원본에서 목표 이미지를 만드는 모든 변경은 적용 전에 검증 가능한 Expected Write로 계획한다. 코드·데이터 쓰기뿐 아니라 생성 영역, 재구성한 컨테이너, 포인터·체크섬·헤더 후처리, 길이 증가와 절단도 이 경계를 거쳐야 하며 최종 출력을 직접 바꾸는 별도 경로를 두지 않는다. 구성요소가 후보 파일이나 바이트열을 통째로 만들 수는 있지만, 최종 이미지에 합치기 전에 그 차이를 Expected Write로 등록하고 검증해야 한다.
+Every change from source to target image must be planned as a verifiable Expected Write before application. This includes code and data writes, generated regions, rebuilt containers, pointer, checksum, and header postprocessing, growth, and truncation. No separate path may mutate final output. A component may build a candidate file or byte stream, but before merging it into the final image it must register and verify the resulting differences as Expected Writes.
 
-전체 쓰기 계획을 먼저 계산하고 불변 원본을 기준으로 모두 검증한 뒤에만 하나의 출력에 적용한다. 앞선 쓰기가 바꾼 작업 버퍼를 기대 원본으로 인정하지 않는다. 의도적인 의존이 있으면 선행 출력과 합성 규칙을 계획에 명시하고 최종 바이트와 하나의 쓰기 주체를 적용 전에 확정한다. 구체 API나 자료형은 프로젝트가 정하지만 각 쓰기에는 최소한 쓰기 주체·의미, 원본 좌표계와 허용 범위, 기대 원본 바이트 또는 검증 가능한 원본 조건, 최종 바이트나 파생 규칙이 있어야 한다. 고정 지원 리비전의 고정 범위는 정확한 기대 바이트나 그 범위를 식별하는 강한 해시로 검증하며, 파일 안에 존재한다는 식의 넓은 조건만으로 쓰기를 허용하지 않는다.
+Calculate the complete write plan first, verify every write against immutable source, then apply it to one output. Do not treat a buffer changed by an earlier write as expected source. If writes intentionally depend on one another, declare the predecessor output and composition rule and establish final bytes plus one writer before application. The project chooses concrete APIs and types, but each write needs at least: writer and meaning, source coordinate system and allowed range, expected source bytes or an equally strong source condition, and final bytes or a derivation rule. A fixed range on a fixed supported revision requires exact expected bytes or a strong hash identifying the range; existence somewhere in the file is not sufficient.
 
-빌드는 다음을 실패로 처리한다.
+The build must fail when:
 
-- 기대 원본과 다른 입력에 쓰려는 경우
-- 등록하지 않은 경로가 최종 출력이나 그 일부를 수정한 경우
-- 서로 다른 쓰기 주체가 같은 범위를 예고 없이 덮는 경우
-- 보호·비대상·허용 범위 밖을 수정하는 경우
-- 등록한 쓰기 합집합으로 설명되지 않는 최종 diff가 생긴 경우
-- 포인터·체크섬·메타데이터 후처리가 추적 계층을 우회한 경우
+- expected source does not match;
+- an unregistered path modifies final output;
+- different writers overlap without a declared composition;
+- a protected, non-target, or out-of-range region changes;
+- the union of registered writes does not explain the final diff; or
+- pointer, checksum, or metadata postprocessing bypasses write tracking.
 
-한 논리 변경에 속한 쓰기는 함께 검증하며, 하나라도 실패하면 적용을 시작하지 않고 일부만 반영된 산출물을 남기지 않는다. 이를 만족하는 적용 방식은 프로젝트가 정한다.
+Verify all writes belonging to one logical change together. If one fails, apply none and leave no partially modified artifact. The project chooses the application mechanism.
 
-의도적으로 겹쳐야 하는 변경은 적용 순서에 맡기지 않고 하나의 합성 쓰기나 명시된 의존으로 먼저 해소한다. 최종 출력에서는 각 변경 바이트의 쓰기 주체와 이유가 하나로 판정돼야 한다. 기존 프로젝트가 tracked image, 변경 영역 매니페스트, 전후 diff 검증 등 동등한 장치를 갖고 있으면 그 장치로 사전 계획·불변 원본 검증·단일 쓰기 주체·전체 diff 조건을 모두 통과한다.
+Resolve intentional overlap as one composed write or explicit dependency before application, not by execution order. Every changed output byte must have one decidable writer and reason. An existing tracked image, change manifest, or before/after diff mechanism is equivalent only if it satisfies prior planning, immutable-source verification, single writer, and complete-diff conditions.
 
-큰 file·bank·sector를 한 단계가 재구성해도 실제로 쓸 수 있는 하위 범위와 보호 소비자를 구분한다. padding 값이나 상위 container의 쓰기 주체를 근거로 허용 범위를 넓히지 않는다.
+When one stage rebuilds a large file, bank, or sector, distinguish writable subranges and protected consumers. Do not broaden the allowed range merely because the stage owns padding or the outer container.
 
-최종 diff 감사는 원본과 출력의 공통 길이뿐 아니라 길이 변경, 추가된 tail과 잘린 범위까지 포함한다. 기대 최종 크기와 모든 변경 영역이 등록한 쓰기·파생 규칙으로 설명되지 않으면 실패시킨다.
+Final-diff audit must include length changes, appended tails, and truncated ranges as well as the common source-output extent. Fail unless registered writes and derivation rules explain expected final size and every changed region.
 
-### 5.3 통합 테스트
+### 5.3 Integration tests
 
-통합 테스트는 선언한 원본과 번역·설정 입력에서 주 빌드 경로를 실행해 최종 산출물까지 확인한다. 최소한 다음을 다룬다.
+An integration test runs the primary build from declared source, translation, and configuration inputs through final artifacts. It covers at least:
 
-- 빌드 완주와 출력 크기·헤더·체크섬·컨테이너 유효성
-- 번역 자산의 보호 정보, 글리프 커버리지, 길이·레이아웃과 포인터 범위
-- 생성한 차분 산출물을 원본에 적용한 결과와 빌드 산출물의 동일성
-- 변경한 런타임 경로에 필요한 정적 검사와 별도 실행 검증의 연결
+- build completion and output size, header, checksum, and container validity;
+- translation protected information, glyph coverage, length and layout, and pointer ranges;
+- identity between the built target and the result of applying the distribution artifact to source; and
+- the link between static checks and separate runtime verification required by changed paths.
 
-원본 이미지가 없는 환경에서는 원본이 필요한 검사를 명시적으로 “실행하지 않음”으로 보고하고, 원본 없이 가능한 스키마·번역·단위 검사는 계속 수행한다. 검사가 빠진 상태를 전체 통과로 표시하지 않는다. 실행 검증의 판정 기준은 `references/strategy/build-and-verify.md`, 증거 기록의 의미는 `references/conventions/project-records.md`를 따른다.
+When source media is unavailable, report source-dependent checks as explicitly not run and continue schema, translation, and unit checks that do not require it. Never report a partial run as complete success. Use `references/strategy/build-and-verify.md` for runtime criteria and `references/conventions/project-records.md` for evidence semantics.
 
-## 6. 원본 자산 취급
+## 6. Source-asset handling
 
-### 6.1 저작물 비커밋 원칙
+### 6.1 Do not commit copyrighted source assets
 
-원본 ROM·디스크 이미지와 패치가 적용된 전체 출력 이미지, 원본에서 통째로 추출한 그래픽·폰트·오디오·메모리 덤프는 저장소에 커밋하지 않는다. 저장소의 무시 규칙은 프로젝트가 사용하는 실제 입력·출력 위치와 확장자를 빠짐없이 덮어야 한다.
+Do not commit source ROMs or disc images, fully patched output images, or whole graphics, font, audio, and memory dumps extracted from copyrighted source. Ignore rules must cover every actual project input and output location and extension.
 
-저장소에는 자체 작성 코드·문서·번역 데이터, 원본을 재현하지 않는 배포 산출물, 재생성 절차와 해시처럼 프로젝트가 배포 권리를 확인한 것만 둔다. 제3자 폰트·도구·기준 자산은 정확한 라이선스와 출처를 확인하고 그 조건이 허용할 때만 추적한다. 특정 산출물이 원본을 포함하지 않는다는 사실만으로 배포 가능하다고 단정하지 않고 프로젝트가 적용되는 권리와 배포 조건을 확인한다.
+Track only project-authored code, documentation, and translation data; distributable artifacts that do not reproduce source; regeneration procedures; hashes; and other material whose distribution rights have been established. Track third-party fonts, tools, and reference assets only after confirming exact license and source and only as permitted. Absence of embedded source content does not by itself establish distribution rights; assess applicable rights and terms.
 
-### 6.2 원본 주입과 식별
+### 6.2 Source injection and identification
 
-원본 이미지 위치는 코드에 하드코딩하지 않고 실행 시점의 입력이나 프로젝트가 문서화한 로컬 설정으로 주입한다. 로컬 기본 위치를 둘 수 있지만 다른 환경에서 재정의할 수 있어야 하며, 호스트별 절대 경로나 개인 파일명은 저장소 문서의 전제가 되지 않는다.
+Inject source-image location at runtime or through documented local configuration; do not hard-code it. A local default may exist if another environment can override it. Host-specific absolute paths and personal filenames must not become repository assumptions.
 
-빌드는 입력을 읽기 전에 리비전·리전·크기와 강한 식별 해시를 검증하고, 알려진 원본과 다르면 명확히 실패한다. 기대 식별자는 코드나 검증되는 매니페스트 가운데 한 곳에서 관리한다. 여러 원본을 지원하면 원본별 좌표·포맷 프로필을 분리하고, 어느 프로필을 골랐는지 산출물에 남긴다.
+Before reading content, verify revision, region, size, and a strong identity hash. Fail clearly on an unknown source. Maintain expected identity in one code or validated-manifest location. When supporting several sources, separate coordinate and format profiles and record the selected profile in output.
 
-팔레트, 타일 베이스, 글리프 원본, 베이크드 그래픽처럼 원본에서 얻을 수 있는 빌드 입력은 가능한 한 선언한 원본에서 다시 추출한다. 선행 패치의 추출물과 수동 작업 파일은 비교·부트스트랩 근거로 사용할 수 있지만, 선언한 원본과 독립 검증 없이 빌드 입력으로 채택하지 않는다. 재생성할 수 없는 로컬 파생 자산이 불가피하면 그 한계, 식별 해시, 필요한 권리와 검증 절차를 프로젝트 문서에 명시하고 누락 시 빌드를 실패시킨다.
+Regenerate source-derived build inputs such as palettes, tile bases, glyph originals, and baked graphics from declared source when possible. Prior-patch extracts and manual working files may provide comparison or bootstrap evidence but must not enter the build without independent verification against declared source. When an irreproducible local derivative is unavoidable, document its limit, identity hash, necessary rights, and verification procedure, and fail the build when it is absent.

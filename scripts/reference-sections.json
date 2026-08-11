@@ -1,30 +1,30 @@
 {
   "references/conventions/data-formats.md": {
-    "4": "포인터 카탈로그",
-    "5": "재삽입 정책 데이터",
-    "6": "폰트 렌더 프로필"
+    "4": "Pointer catalogs",
+    "5": "Reinsertion policy data",
+    "6": "Font render profiles"
   },
   "references/conventions/project-conventions.md": {
-    "1": "역할 분리와 단일 기준",
-    "2.3": "기계어 생성·해석 검산 규칙",
-    "3.2": "기계 판독 가능한 입출력",
-    "4": "외부 구성요소의 재현 조건",
-    "5.1": "라운드트립 우선",
-    "5.2": "Expected Write 규칙",
-    "5.3": "통합 테스트",
-    "6": "원본 자산 취급",
-    "6.2": "원본 주입과 식별"
+    "1": "Responsibility boundaries and a single basis",
+    "2.3": "Machine-code generation and interpretation verification",
+    "3.2": "Machine-readable input and output",
+    "4": "Reproduction conditions for external components",
+    "5.1": "Round trip first",
+    "5.2": "Expected Write rules",
+    "5.3": "Integration tests",
+    "6": "Source-asset handling",
+    "6.2": "Source injection and identification"
   },
   "references/conventions/project-records.md": {
-    "3": "초기 조사 기록",
-    "4": "PoC 판정 기록",
-    "5": "베이크드 텍스트 카탈로그",
-    "7": "QA 라운드와 이슈"
+    "3": "Initial survey records",
+    "4": "PoC decision records",
+    "5": "Baked-text catalog",
+    "7": "QA rounds and issues"
   },
   "references/conventions/translation-artifacts.md": {
-    "1": "필수 의미",
-    "3": "제어코드 토큰",
-    "5": "빌드 입력 자격"
+    "1": "Required meaning",
+    "3": "Control-code tokens",
+    "5": "Build-input eligibility"
   },
   "references/platforms/gg.md": {
     "4": "저장에서 화면 소비까지"

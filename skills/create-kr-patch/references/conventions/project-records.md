@@ -1,176 +1,174 @@
-# 프로젝트 기록 시행 규약
+# Project record conventions
 
-초기 조사, PoC, 그래픽 카탈로그, HITL 관측과 QA 이슈는 증거·판정·다음 행동을 구분해 기록한다. 기존 프로젝트에 동등한 기록 체계가 있으면 그대로 유지한다. 아래 필드명과 상태명은 선택 가능한 예시이며, 경로·직렬화 형식·도구는 고정하지 않는다.
+Record initial surveys, PoCs, graphics catalogs, HITL observations, and QA issues with evidence, decision, and next action kept distinct. Retain an equivalent existing record system. Field and state names below are optional examples; paths, serialization, and tools are not fixed.
 
-번역 원문·번역문·제어코드·검토 상태는 `references/conventions/translation-artifacts.md`에 따라 보존하고, 저장소 전체 레이아웃과 원본·파생 자산 취급은 `references/conventions/project-conventions.md`를 따른다.
+Preserve source and translated text, control codes, and review states under `references/conventions/translation-artifacts.md`. Follow `references/conventions/project-conventions.md` for repository layout and source or derived assets.
 
-## 목차
+## Contents
 
-1. 공통 기록 규칙
-2. 기록 배치
-3. 초기 조사 기록
-4. PoC 판정 기록
-5. 베이크드 텍스트 카탈로그
-6. HITL 관측 요청
-7. QA 라운드와 이슈
-8. 기록 검증
+1. Common record rules
+2. Record placement
+3. Initial survey records
+4. PoC decision records
+5. Baked-text catalog
+6. HITL observation requests
+7. QA rounds and issues
+8. Record validation
 
-## 1. 공통 기록 규칙
+## 1. Common record rules
 
-프로젝트 기록은 형식과 무관하게 다음 의미를 구분한다.
+Regardless of format, distinguish:
 
-- **범위와 기준선**: 어느 원본·빌드·화면·자산·코드 경로를 기록한 것인지 식별한다.
-- **증거 귀속**: 실행·관측 증거를 이를 만든 정확한 입력·산출물·환경에 연결한다. 바뀔 수 있는 경로나 상태 이름만으로 내용 동일성을 대신하지 않는다.
-- **관찰과 해석**: 직접 관찰한 사실, 아직 검증되지 않은 가설, 격리로 확정한 결론을 섞지 않는다.
-- **근거**: 해시, 덤프, 스크린샷, 트레이스, 디스어셈블 결과, 재현 절차처럼 판정을 다시 확인할 수 있는 근거 위치를 둔다.
-- **판정**: 통과, 실패, 불명확을 구분하고 판정 기준과 실제 결과를 함께 남긴다.
-- **다음 행동**: 실패하면 버릴 가정, 불명확하면 원래 조건을 가를 확인, 통과하면 승격할 지식이나 후속 단계를 연결한다.
-- **실행 개입**: 치트·상태값 변경·루틴 호출 등으로 목표 상태를 만들었다면 정확한 기준선, 개입 전 상태, 변경 대상·값 또는 호출 조건·인자, 우회한 플레이·코드 경로, 개입 후 상태, 증명한 범위와 증명하지 못한 범위를 연결한다. 개입을 패치 변경이나 정상 플레이로 도달했다는 증거와 섞지 않는다.
+- **Scope and baseline**: Identify the source, build, screen, asset, and code path represented.
+- **Evidence binding**: Bind runtime and observation evidence to the exact input, artifact, and environment that produced it. A mutable path or state name does not establish content identity.
+- **Observation and interpretation**: Separate direct observation, unverified hypothesis, and conclusion established through isolation.
+- **Evidence location**: Link hashes, dumps, screenshots, traces, disassembly, and reproduction steps needed to reassess a decision.
+- **Decision**: Distinguish pass, fail, and unresolved; retain both criteria and observed result.
+- **Next action**: On failure identify the rejected assumption; when unresolved identify the observation that distinguishes the original condition; on pass identify promoted knowledge or the next step.
+- **Runtime intervention**: For a target state created by a cheat, state edit, or forced routine call, identify exact baseline, pre-intervention state, edited target and value or call conditions and arguments, bypassed play and code path, post-intervention state, and proved and unproved scope. Do not mix intervention with patch changes or evidence of normal-play reachability.
 
-컬렉션의 항목은 재정렬·파일 이동 뒤에도 유지되는 안정 ID를 쓴다. 주소·오프셋·파일명만 ID로 쓰면 재빌드나 재배치 때 추적이 끊기므로, 별도 논리 ID와 현재 물리 위치를 분리한다. 같은 사실을 여러 기록에 복사하지 않고 해당 항목의 ID나 프로젝트 상대 경로를 참조한다.
+Collection entries need stable IDs that survive reorder and file moves. Do not use address, offset, or filename alone as identity; separate logical ID from current physical location. Refer to one owning record by ID or project-relative path instead of copying the same fact.
 
-## 2. 기록 배치
+## 2. Record placement
 
-기존 저장소에서 같은 책임을 맡는 기록 위치와 연결 방식을 우선한다. 새로운 위치도 다음 책임을 유지한다.
+Prefer existing repository locations and links with the same responsibility. Any new arrangement must retain these properties:
 
-- 한 종류의 현재 기록은 한 곳에서 관리하고, 안내 문서는 그 위치를 가리킨다.
-- 현재 결론·활성 판정과 완료·폐기된 계획을 같은 상태로 섞지 않는다.
-- 기록을 나누거나 합쳐도 안정 ID와 참조 관계가 유지되어야 한다.
-- 대용량·저작물·환경 종속 증거를 저장소 밖에 두면 커밋되는 기록에 식별자와 재생성·재현 조건을 남긴다.
+- One current record kind is maintained in one place, with guidance pointing to it.
+- Current conclusions and active decisions remain distinct from completed or abandoned plans.
+- Stable IDs and relationships survive splitting or merging records.
+- When large, copyrighted, or environment-specific evidence remains outside the repository, committed records retain its identity and regeneration or reproduction conditions.
 
-직렬화 형식과 배치는 기존 구조, 검토 방식, 기계 판독 필요성에 따라 프로젝트가 정한다. 형식 변경만을 위해 동등한 기존 기록을 이관하지 않는다.
+The project chooses serialization and placement from its structure, review method, and machine-readability needs. Do not migrate equivalent existing records only to change format.
 
-## 3. 초기 조사 기록
+## 3. Initial survey records
 
-### 3.1 아키텍처 기록
+### 3.1 Architecture record
 
-현재 검증된 구조만 본문으로 유지하고, 날짜순 실험 일지와 분리한다. 다음 표는 필요한 의미와 선택 가능한 필드명을 보여 준다.
+Keep only currently verified structure in the main record and separate it from a chronological experiment log. This table shows required meanings and optional field names:
 
-| 필드 | 내용 |
+| Field | Meaning |
 |---|---|
-| `scope` | 대상 원본 리비전과 조사한 매체·파일·코드 경로 |
-| `confirmed` | 실측이나 실행 추적으로 확정한 구조와 근거 참조 |
-| `hypotheses` | 남은 가설, 판정에 필요한 관측, 우선순위 |
-| `memory_map` | 확인된 주소 공간·뱅크·파일 오프셋 변환 |
-| `control_flow` | 필요한 범위의 호출·디스패치·데이터 흐름 |
-| `unknowns` | 완성 경로나 후속 설계를 막는 미지수와 이를 가를 다음 증거 |
+| `scope` | Target source revision and investigated media, files, and code paths |
+| `confirmed` | Structure established by measurement or runtime tracing, with evidence references |
+| `hypotheses` | Remaining hypotheses, distinguishing observations, and priority |
+| `memory_map` | Established address-space, bank, and file-offset conversions |
+| `control_flow` | Calls, dispatch, and data flow needed for the declared scope |
+| `unknowns` | Unknowns blocking completion or design and the next evidence that distinguishes them |
 
-단일 렌더 경로만 확인하면 되는 프로젝트는 전체 호출 그래프를 만들 필요가 없다. 그래프가 필요하면 노드와 엣지의 의미, 가설/확정 상태, 근거 위치를 함께 기록한다.
+A project that needs one render path does not need a complete call graph. When a graph is needed, record node and edge meaning, hypothesis or confirmed state, and evidence location.
 
-### 3.2 텍스트 맵
+### 3.2 Text map
 
-초기 판정에 필요한 표본과 분량 조사 결과를 기계 판독 가능하게 기록한다. 전량을 추출·검증했다고 주장하려면 선언한 분모 전체로 기록 범위를 확장한다. 다음 의미를 구분한다.
+Record samples and volume findings needed for initial decisions in machine-readable form. A complete-extraction claim expands the record to the full declared denominator. Distinguish:
 
-| 필드 | 내용 |
+| Field | Meaning |
 |---|---|
-| `asset_id` | 텍스트 영역이나 테이블의 안정 ID |
-| `source` | 컨테이너·파일·오프셋·크기와 원본 해시 |
-| `boundaries` | 엔트리 경계, 정렬, 종료자, 패딩 |
-| `pointers` | 포인터 테이블 위치, 폭, 기준 주소, 중복·널 의미 |
-| `encoding` | 문자 대응과 확정 근거 |
-| `controls` | 제어코드, 인자 폭, 상태 영향, 가설/확정 구분 |
-| `population` | 대상 종류·소비자별 열거 범위, 해결·제외·미확정 수, 남은 범위와 종료 조건 |
-| `volume` | 측정 단위·값과 산정 근거, 확정값·하한·추정치 구분, 공유·중복 항목의 집계 기준 |
-| `sample` | raw byte와 가역 디코딩 표본 |
-| `roundtrip` | 재조립 결과와 바이트 동일성 판정 |
+| `asset_id` | Stable ID for a text region or table |
+| `source` | Container, file, offset, size, and source hash |
+| `boundaries` | Entry extent, alignment, terminator, and padding |
+| `pointers` | Pointer-table location, width, base, duplicates, and null meaning |
+| `encoding` | Character mapping and evidence |
+| `controls` | Control codes, argument widths, state effects, and hypothesis or confirmed status |
+| `population` | Enumeration by target kind and consumer, resolved/excluded/unresolved counts, remaining range, and stopping condition |
+| `volume` | Measurement unit, value, basis, exact/lower-bound/estimate status, and handling of shared or duplicate members |
+| `sample` | Raw bytes and reversible decoded sample |
+| `roundtrip` | Reassembly result and byte-identity decision |
 
-### 3.3 실현 가능성 평가
+### 3.3 Feasibility assessment
 
-위험 항목마다 `risk_id`, 범위, 관찰 근거, 영향, 가능한 우회안, 현재 판정, 다음 확인을 둔다. 글리프·인코딩·저장 공간·활성 메모리·훅·압축·런타임 자산 경계를 정량화할 수 있으면 측정값과 상한을 함께 기록한다. 최종에는 현재 설계를 진행할지, 조건부로 진행할지, 다시 설계할지를 판단하고 그 판단을 뒤집을 수 있는 남은 미지수를 명시한다.
+For each risk, retain a `risk_id`, scope, observation evidence, impact, possible workaround, current decision, and next check. When glyph, encoding, storage, active memory, hook, compression, or runtime-asset boundaries can be quantified, retain measurements and limits. Conclude whether to proceed, proceed conditionally, or redesign, and identify remaining uncertainty that can overturn the choice.
 
-## 4. PoC 판정 기록
+## 4. PoC decision records
 
-각 PoC 판정은 다른 판정과 섞이지 않는 하나의 기록 항목으로 남긴다. 파일을 나눌지는 기존 기록 구조가 정한다. 선택 가능한 필드 예시는 다음과 같다.
+Keep each PoC decision as one record independent of other decisions. Existing record structure decides file boundaries. Optional fields include:
 
-| 필드 | 내용 |
+| Field | Meaning |
 |---|---|
-| `poc_id` | 전략 문서의 PoC 항목과 연결되는 안정 ID |
-| `trigger` | 완성 범위를 막거나 설계를 크게 바꿀 위험 신호와 이 판정을 앞당긴 이유 |
-| `hypothesis` | 실험이 구분하려는 가정 |
-| `target` | 대표 화면·텍스트·글리프·코드 경로와 선택 근거 |
-| `criteria` | 통과·실패·불명확 기준과 각 결과의 다음 행동 |
-| `procedure` | 재현 가능한 최소 조작과 기준 빌드 |
-| `result` | 실제 관찰, 증거 위치, 판정 |
-| `proved` | 통과 시 본 구현에 반영할 확정 내용 |
-| `not_proved` | 이 실험으로는 일반화할 수 없는 범위 |
-| `discarded` | 기각한 가정과 본 구현에 넣지 않을 임시 산출물 |
-| `next` | 이어서 수행하거나 생략할 검증과 이유 |
+| `poc_id` | Stable ID linked to the strategy PoC |
+| `trigger` | Completion-blocking or design-changing risk and why the decision is early |
+| `hypothesis` | Assumption distinguished by the experiment |
+| `target` | Representative screen, text, glyph, or code path and selection basis |
+| `criteria` | Pass, fail, and unresolved criteria plus next action for each |
+| `procedure` | Minimal reproducible intervention and baseline build |
+| `result` | Observation, evidence location, and decision |
+| `proved` | Established result adopted into implementation after pass |
+| `not_proved` | Scope that the experiment cannot generalize to |
+| `discarded` | Rejected assumptions and temporary artifacts excluded from implementation |
+| `next` | Follow-up or skipped verification with reason |
 
-수동 헥스 편집, 임시 오프셋, 단발 스크립트는 결과 근거로 보존할 수 있지만 반복 빌드 입력으로 표시하지 않는다.
+Manual hex edits, temporary offsets, and one-shot scripts may remain as result evidence but must not be labeled repeated-build inputs.
 
-## 5. 베이크드 텍스트 카탈로그
+## 5. Baked-text catalog
 
-등재 단위는 텍스처 파일이 아니라 텍스트 블록이다. 한 텍스처에 라벨이 여러 개면 각 라벨을 별도 항목으로 둔다. 다음 표는 필요한 의미와 선택 가능한 필드명을 보여 준다.
+Catalog text blocks rather than texture files. When one texture contains several labels, record each label separately.
 
-| 필드 | 내용 |
+| Field | Meaning |
 |---|---|
-| `block_id` | 텍스트 블록의 안정 ID |
-| `source` | 컨테이너 경로·인덱스, 필요한 경우 바이트 시작·크기와 원본 해시 |
-| `bounds` | 픽셀 단위로 실측한 `x`, `y`, `w`, `h` |
-| `format` | 픽셀 인코딩·주소 계산, 팔레트와 구간·셀·타일 구조 가운데 실제 해석에 필요한 값 |
-| `text` | 원문 전사와 확정 번역문 |
-| `style` | 획·색·외곽선·그림자·셀·행 메트릭 |
-| `priority` | 노출 빈도와 중요도에 따른 작업 순서 |
-| `state` | 조사 전, 텍스트 없음, 미확정, 발견, 복원, 조판, 검증의 현재 단계 |
-| `evidence` | 크롭·스크린샷·마스크·클린 플레이트 해시·인게임 검증 참조 |
+| `block_id` | Stable text-block ID |
+| `source` | Container path or index and, when needed, byte start, size, and source hash |
+| `bounds` | Measured pixel `x`, `y`, `w`, and `h` |
+| `format` | Only values needed for actual interpretation: pixel encoding, address calculation, palette, interval, cell, or tile structure |
+| `text` | Source transcription and approved translation |
+| `style` | Stroke, color, outline, shadow, cell, and row metrics |
+| `priority` | Work order based on exposure and importance |
+| `state` | Current stage such as uninvestigated, no text, unresolved, found, restored, laid out, or verified |
+| `evidence` | Crop, screenshot, mask, clean-plate hash, and in-game verification references |
 
-상태명은 프로젝트 언어에 맞춰 바꿀 수 있지만 “조사하지 않음”, “조사했으나 없음”, “미확정”을 서로 다른 값으로 둔다. 바운딩 박스는 복원·조판 입력이자 영역 밖 픽셀 검증 마스크이므로 한 필드에서만 관리한다. 좌표가 백분율로 들어오면 원본 이미지 크기와 함께 저장하거나 픽셀로 정규화한다.
+Projects may rename states, but must distinguish uninvestigated, investigated with no text, and unresolved. Maintain bounding boxes in one field because they drive restoration and layout and also form the out-of-bounds pixel mask. Store percentage coordinates with source image dimensions or normalize them to pixels.
 
-## 6. HITL 관측 요청
+## 6. HITL observation requests
 
-한 요청은 사람이 한 번의 관측 세션으로 답할 수 있는 범위로 자른다. 다음 표는 필요한 의미와 선택 가능한 필드명을 보여 준다.
+One request should fit one human observation session.
 
-| 필드 | 내용 |
+| Field | Meaning |
 |---|---|
-| `request_id` | 안정 ID |
-| `baseline` | 원본·빌드 산출물·실행 환경·설정 식별자 |
-| `setup` | 시작 상태와 짧은 입력·재현 절차 |
-| `trigger` | 브레이크포인트·화면·프레임 등 관측 시점 |
-| `capture` | 읽을 레지스터·메모리·트레이스·스크린샷 |
-| `branches` | 관측 결과별 판정과 다음 행동 |
-| `response` | 실제 값, 캡처 참조, 관측자 메모 |
-| `outcome` | 확정, 기각, 무관, 불명확 중 판정 |
+| `request_id` | Stable ID |
+| `baseline` | Source, build artifact, execution environment, and configuration identity |
+| `setup` | Starting state and short input or reproduction procedure |
+| `trigger` | Breakpoint, screen, frame, or other observation point |
+| `capture` | Registers, memory, trace, or screenshot to read |
+| `branches` | Decision and next action for each possible observation |
+| `response` | Actual values, capture references, and observer notes |
+| `outcome` | Confirmed, rejected, irrelevant, or unresolved |
 
-요청 인덱스에는 ID, 대상 가설, 현재 판정, 응답 위치만 둔다. 본문을 인덱스에 복제하지 않는다.
+An index contains only ID, target hypothesis, current decision, and response location. Do not duplicate request bodies in the index.
 
-## 7. QA 라운드와 이슈
+## 7. QA rounds and issues
 
-### 7.1 QA 라운드
+### 7.1 QA rounds
 
-라운드 기록은 기준 빌드와 검증 범위를 고정하고 이슈·커버리지·종료 판정을 묶는다. 빌드 식별자, 대상 환경과 범위, 자동 검사 결과, 필요한 경로의 커버리지, 연결된 이슈, 종료 판정과 남은 배포 차단 항목을 구분한다.
+A round binds baseline build, verification scope, issues, coverage, and closure. Distinguish build identity, target environments and scope, automated results, required-path coverage, linked issues, closure decision, and remaining distribution blockers.
 
-각 텍스트 표시 영역의 레이아웃 제약은 영역 식별자, 렌더러·박스 범위, 폭 계산 규칙, 줄·페이지 한도, 줄바꿈·페이지 제어의 상태 영향, 위반 심각도를 구분한다. `references/strategy/translation-workflow.md` §4의 원본 사용 범위, 확인된 소비 한도와 채택한 표시 범위를 섞지 않는다. 표현·상호작용 판정에는 `references/strategy/build-and-verify.md` §5를 적용하고, 해당하는 상태 행렬, 시작 상태와 입력 순서, 진행·음성·이벤트의 기준 시점과 허용 오차, 시각 기준선과 비교 조건을 증거로 기록한다. 구체 수치는 대상 게임에서 실측한다.
+For each text display region, record region ID, renderer and box scope, width calculation, line and page limits, state effects of line and page controls, and violation severity. Keep observed source usage, confirmed consumer capacity, and adopted display range distinct under `references/strategy/translation-workflow.md` §4. Apply `references/strategy/build-and-verify.md` §5 to presentation and interaction. Evidence records applicable state matrices, start state and input sequence, reference points and tolerance for progression, voice, and events, and visual baseline plus comparison conditions. Measure concrete values on the target game.
 
-### 7.2 개별 이슈
+### 7.2 Individual issues
 
-다음 표는 필요한 의미와 선택 가능한 필드명을 보여 준다.
-
-| 필드 | 내용 |
+| Field | Meaning |
 |---|---|
-| `issue_id` | 라운드를 넘어도 유지되는 안정 ID |
-| `summary` | 관찰된 증상 중심의 짧은 제목 |
-| `baseline` | 재현한 빌드와 환경 |
-| `reproduction` | 직전 상태, 짧은 입력, 기대 결과와 실제 결과 |
-| `evidence` | 스크린샷·덤프·트레이스 참조 |
-| `hypotheses` | 미확정 원인과 각 판정 실험 |
-| `rejected` | 기각한 가설과 기각 증거 |
-| `mechanism` | 격리로 확정한 결함 입력→최초 잘못된 상태→전파→관측 실패 사슬 |
-| `change` | 확정 결함에 적용한 수정과 영향 범위 |
-| `regression` | 수정 전 실패·수정 후 통과 증거와 추가한 회귀 검사의 위치 |
-| `state` | 미해결, 조사 중, 재확인 필요, 수정 완료, 버그 아님, 범위 밖 |
+| `issue_id` | Stable ID across rounds |
+| `summary` | Short symptom-centered title |
+| `baseline` | Reproduced build and environment |
+| `reproduction` | Prior state, short input, expected result, and observed result |
+| `evidence` | Screenshot, dump, and trace references |
+| `hypotheses` | Unresolved causes and decision experiments |
+| `rejected` | Rejected hypotheses and evidence |
+| `mechanism` | Established faulty input -> first incorrect state -> propagation -> observed failure chain |
+| `change` | Fix to the established defect and impact range |
+| `regression` | Pre-fix failure, post-fix pass, and added regression check |
+| `state` | Open, investigating, recheck needed, fixed, not a bug, or out of scope |
 
-증거 파일의 이름이나 저장 위치가 이슈의 제목·상태를 대신하지 않게 한다. 첫 보고는 최소한 기준선, 재현 맥락, 기대 결과와 실제 결과, 판정에 필요한 증거를 구분한다. 재사용 가능한 시작 상태가 재현 비용을 실질적으로 줄일 때만 함께 연결한다.
+Do not use an evidence filename or location as issue title or state. An initial report distinguishes at least baseline, reproduction context, expected and observed results, and decision evidence. Link reusable start state only when it materially reduces reproduction cost.
 
-## 8. 기록 검증
+## 8. Record validation
 
-기계 판독 기록은 빌드나 전용 검사에서 다음을 확인한다.
+Builds or dedicated checks verify machine-readable records:
 
-- 필수 ID가 비어 있거나 중복되지 않는다.
-- 참조한 프로젝트 상대 경로와 항목 ID가 실제로 있다.
-- 가설과 확정 결론이 같은 필드에 섞이지 않는다.
-- 통과·실패·불명확 판정에는 근거와 다음 행동이 있다.
-- 종료된 이슈에는 재현 기준선과 종료 증거가 있다.
-- 카탈로그의 해결·제외 항목 합이 선언한 분모와 일치하며 미확정 항목이 숨겨지지 않는다.
-- 분량 기록은 확정값·하한·추정치를 구분하고, 미확정 범위가 전체 작업량·완료율에 미치는 영향을 명시한다.
+- Required IDs are present and unique.
+- Referenced project-relative paths and item IDs exist.
+- Hypotheses and confirmed conclusions do not share one field.
+- Pass, fail, and unresolved decisions include evidence and next action.
+- Closed issues include reproduction baseline and closure evidence.
+- Resolved plus excluded catalog members match the declared denominator without hidden unresolved members.
+- Volume records distinguish exact, lower bound, and estimate and state how unresolved scope affects workload and completion.
 
-Markdown만 쓰는 프로젝트에서도 이 의미를 표와 링크로 표현할 수 있다. JSON·YAML·데이터베이스를 쓰면 스키마 검사를 자동화하되, 직렬화 형식 자체를 전략 판정으로 취급하지 않는다.
+A Markdown-only project may express these meanings through tables and links. JSON, YAML, or a database may add schema validation, but serialization itself is not a strategy decision.
