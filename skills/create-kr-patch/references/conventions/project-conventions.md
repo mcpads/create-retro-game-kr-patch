@@ -139,6 +139,8 @@ Final-diff audit must include length changes, appended tails, and truncated rang
 
 ### 5.3 Integration tests
 
+Automate a test only when its expected result follows from an established invariant, data format, or reproduced failure. Assert observable boundary behavior, not incidental line counts, current list sizes, prose wording, or internal call order. A harmless implementation or documentation edit must not require a test change unless the tested contract itself changed.
+
 An integration test runs the primary build from declared source, translation, and configuration inputs through final artifacts. It covers at least:
 
 - build completion and output size, header, checksum, and container validity;

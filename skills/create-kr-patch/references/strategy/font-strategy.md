@@ -71,7 +71,7 @@ When demand must shrink, do not rank candidates by occurrence count alone. Compa
 
 Changes to approved terminology, names, hints, characterization, meaning, or voice require human approval. Other phrasing adjustments follow `references/strategy/translation-workflow.md`.
 
-If a glyph asset change triggers `references/strategy/runtime-assets.md` §1, verify its links as well.
+If a glyph asset change triggers `references/strategy/runtime-assets.md` §1, verify the links in `references/strategy/runtime-assets.md` §2 as well.
 
 ## 4. Glyph sources and representation
 
@@ -108,5 +108,5 @@ Font work is complete only when:
 - Total repertoire and representative runtime working sets pass their corresponding budgets.
 - Transform boundaries pass source samples or a declared semantic-equivalence criterion.
 - Representative sentences and boundary glyphs render correctly on every target path without invading adjacent UI or graphics.
-- Triggered glyph asset changes pass `references/strategy/runtime-assets.md` link assessment.
+- A glyph asset change triggered under `references/strategy/runtime-assets.md` §1 passes the link assessment in `references/strategy/runtime-assets.md` §2.
 - Adopted sources, mappings, structural constants, and evidence remain reproducible build inputs and records.

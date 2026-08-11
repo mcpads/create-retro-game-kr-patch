@@ -101,7 +101,7 @@ An empty region, relocation gap, expanded medium, new file, or source-text stora
 
 Translating one entry does not free all bytes in its range. Shared tails, duplicate pointers, interior entries, and inline literals can keep the range live. Reclaim only a range with established reference completeness. Do not reclaim a scope with unresolved population under `references/strategy/text-extraction.md` §1.4 or source text retained as an approved exception under `references/conventions/translation-artifacts.md` §5.
 
-Growth of file or image size does not prove expansion of address space, buffers, or consumer paths. If a reinserted asset triggers `references/strategy/runtime-assets.md` §1, completion requires that document's link assessment.
+Growth of file or image size does not prove expansion of address space, buffers, or consumer paths. If a reinserted asset triggers `references/strategy/runtime-assets.md` §1, completion requires the link assessment in `references/strategy/runtime-assets.md` §2.
 
 ## 6. Consumer invariants
 

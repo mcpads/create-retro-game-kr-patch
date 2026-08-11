@@ -13,7 +13,7 @@ Reduce uncertainty enough to decide feasibility and the next implementation boun
 7. **Initial volume**: Is the target population exact, a lower bound, an estimate, or unresolved?
 8. **Display budget**: Which values describe observed source usage, and which are confirmed consumer capacity?
 
-Keep independent risks separate: encoding, glyph capacity, name entry, relocation, compression, and other consumer paths may require different evidence. Do not add unrelated battle, sound, or general graphics investigation unless it is a direct prerequisite for localization.
+Treat risks such as encoding space, glyph capacity, name entry, relocation, compression, and distinct consumer paths as conditional when they remain independent of basic visibility. Apply `references/strategy/poc.md` to their proof scope and outcomes, and `references/strategy/graphics-text.md` when distribution text is stored as graphics pixels. Do not add unrelated battle, sound, or general graphics investigation unless it is a direct prerequisite for localization.
 
 ## 2. Follow dependency boundaries instead of a fixed sequence
 
@@ -28,12 +28,12 @@ For each result, ask whether it changes:
 - supported revision or distribution form; or
 - the priority of remaining risks.
 
-If it changes none of these, record it only when it preserves hard-won evidence or resolves a declared denominator.
+Defer investigation that changes none of these. Establish another category's boundary first only when it is a real prerequisite.
 
 ### 2.1 Input and rebuild boundary
 
 - Identify each supported revision with a hash or an equally strong fingerprint.
-- For containers or filesystems, establish an unchanged rebuild round trip before editing.
+- For containers or filesystems, establish an unchanged rebuild round trip under `references/conventions/project-conventions.md` §5.1 before editing.
 - For direct patching, establish expected source bytes and the complete post-change range.
 - Investigate filesystem, track, and sector details only when the build reads or rewrites them.
 - Do not make a release claim while the supported input remains unresolved.
@@ -44,19 +44,21 @@ Byte patterns, search results, statistics, and prior-patch diffs produce candida
 
 Determine pointer width, byte order, base, and coordinate system from the consumer. CPU identity alone does not establish them. An unresolved control token may remain a reversible raw token when its boundary and argument width are known; do not invent semantics.
 
+A candidate address that merely falls within a plausible range does not establish a pointer structure.
+
 ### 2.3 Glyph and render path
 
 - Connect the glyph source to a screen consumer.
-- Replacing an existing glyph in the same format proves that the replacement path can reuse that consumer.
+- When replacing an existing glyph in the same format changes the target screen as predicted, it proves that the replacement path can reuse that consumer.
 - A new encoding, hook, dynamic supplier, or relocation must state the solved constraint and the new consumption conditions it introduces.
 - Derive cell and glyph demand from the target corpus and actual budgets.
-- For a finite display population, measure applicable visible width, rows, pages, and start/end behavior at the consumer or window path. A stored source width or height is evidence of capacity only after establishing that the consumer uses it. Use `references/strategy/translation-workflow.md` §4 to distinguish source usage from confirmed capacity.
+- When source text for a finite display area can be enumerated without added assumptions, measure applicable visible width, rows, pages, and start/end behavior at the consumer or window path, including control tokens and variable insertions. A stored source width or height is evidence of capacity only after establishing that the consumer uses it. Use `references/strategy/translation-workflow.md` §4 to distinguish source usage from confirmed capacity.
 
 ### 2.4 Capacity and runtime assets
 
 Compare capacity with the actual required repertoire, text growth, buffers, and transfers. Do not begin with relocation or dynamic mapping merely because capacity might be insufficient; first establish the limiting resource.
 
-When a change triggers `references/strategy/runtime-assets.md` §1, assess the links in its §2.
+When a change triggers `references/strategy/runtime-assets.md` §1, assess the links in `references/strategy/runtime-assets.md` §2.
 
 ### 2.5 Population and initial volume
 
@@ -65,6 +67,7 @@ Work backward from declared screen and function consumers, selection branches, a
 - Statically enumerate a finite population when possible.
 - Partition it by shared format, selection, load or transform, consumer, and state lifetime.
 - A shared extension, directory, or one successful run does not prove a shared consumer path.
+- Establish membership from references, dispatchers, read code, or validated structure.
 - If static scope remains unresolved, report a lower bound and the unresolved region; narrow exceptions rather than claiming completeness.
 - Use `references/strategy/runtime-assets.md` §2 to distinguish one common runtime link from exceptions.
 - Survey early text volume through `references/strategy/text-extraction.md` §1.5. A representative PoC may precede expensive enumeration when the lower bound and unresolved region are explicit.

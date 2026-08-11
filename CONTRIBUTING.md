@@ -33,7 +33,7 @@
 
 에이전트가 직접 읽는 `SKILL.md`, `references/strategy/`, `references/conventions/`, `references/platforms/`, `references/tips/`는 영어로 쓴다. 규칙의 강도는 `must`·`must not`을 실제 실패 조건에만 쓰고, 판단은 `determine`·`measure`·`verify`, 증거 한계는 `X proves only Y` 또는 `does not imply Z`처럼 명시한다. 원문 문자열·raw byte·화면 표기처럼 대상 증거 자체는 원래 문자를 보존할 수 있다.
 
-사람이 설치·기여·변경 내역을 확인하는 루트 `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`와 플러그인 안내 문구는 자연스러운 한국어를 유지한다. 두 언어의 병렬 사본을 만들지 않고 같은 경로의 현재 문서만 관리한다.
+사람이 설치·기여·변경 내역을 확인하는 루트 `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`는 자연스러운 한국어를 유지한다. 플러그인 메타데이터는 각 호스트의 표시 형식을 따르며, 한국어 설명과 기본 프롬프트는 자연스러운 한국어로 쓴다. 두 언어의 병렬 사본을 만들지 않고 같은 경로의 현재 문서만 관리한다.
 
 각 문장과 표는 다음 중 하나를 수행한다.
 
@@ -48,7 +48,7 @@
 
 본문에는 작성자·날짜·확인일·변경 이력과 이동 흔적을 남기지 않는다. 문서는 현재의 사실을, git은 변경 이력을 보존한다.
 
-문서 이동과 절 번호 변경은 포인터와 `scripts/reference-sections.json`을 함께 갱신한다. 다음 명령으로 파일·앵커·절 제목과 tips 색인 대응을 검사한다.
+문서 이동과 절 번호 변경은 포인터를 함께 갱신한다. 다음 명령으로 파일·앵커·참조 절의 존재와 tips 색인 대응을 검사한다.
 
 ```bash
 python3 scripts/validate_docs.py

@@ -30,7 +30,7 @@ Before modification, establish an unchanged round trip under the equivalence cri
 
 For every state and variant that shares meaning, connect stored asset, load result, and screen consumer. Include sharing and change impact when one asset feeds several screens or one screen composes several assets. An identical display result does not justify omitting the storage-to-load-to-selection link.
 
-When a graphics change meets a trigger in `references/strategy/runtime-assets.md` §1, verify that document's links independently of visual review.
+When a graphics change meets a trigger in `references/strategy/runtime-assets.md` §1, verify the links in `references/strategy/runtime-assets.md` §2 independently of visual review.
 
 ## 4. Completion
 

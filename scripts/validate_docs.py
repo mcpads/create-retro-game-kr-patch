@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import json
 import re
 import sys
 from pathlib import Path
@@ -12,8 +11,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SKILL_ROOT = REPO_ROOT / "skills" / "create-kr-patch"
 TIPS_DIR = SKILL_ROOT / "references" / "tips"
-SECTION_TARGETS = Path(__file__).with_name("reference-sections.json")
-
 REFERENCE_CANDIDATE_RE = re.compile(
     r"references/[^\s`),;:}\]|§<>]*\.md[^\s`),;:}\]|§<>]*"
 )
@@ -113,7 +110,7 @@ def attached_sections(
             break
         attached.append(section)
         cursor = section.end()
-        separator = re.match(r"\s*(?:·|,|와|과|및)\s*", line[cursor:])
+        separator = re.match(r"\s*(?:·|,|와|과|및|and|or)\s*", line[cursor:])
         if separator is None:
             break
         next_cursor = cursor + separator.end()
@@ -230,6 +227,14 @@ def collect_references(
             for section_match in sections:
                 if section_match.start() in claimed_sections:
                     continue
+                if any(
+                    span.end() < section_match.start() for span, _ in reference_spans
+                ):
+                    errors.append(
+                        f"{repo_name(source)}:{line_no}: ambiguous bare section reference "
+                        f"after explicit document reference: §{section_match.group(1)}"
+                    )
+                    continue
                 if current_skill_path is None:
                     errors.append(
                         f"{repo_name(source)}:{line_no}: bare section reference outside skill: "
@@ -245,38 +250,15 @@ def collect_references(
 def validate_section_targets(
     section_uses: set[tuple[str, str]], errors: list[str]
 ) -> None:
-    try:
-        expected = json.loads(SECTION_TARGETS.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        errors.append(f"{repo_name(SECTION_TARGETS)}: cannot load section targets: {exc}")
-        return
-
-    expected_pairs = {
-        (path, section)
-        for path, sections in expected.items()
-        for section in sections
-    }
-    for path, section in sorted(section_uses - expected_pairs):
-        errors.append(f"unregistered section target: {path} §{section}")
-    for path, section in sorted(expected_pairs - section_uses):
-        errors.append(f"unused section target: {path} §{section}")
-
     heading_cache: dict[str, dict[str, str]] = {}
-    for path, sections in expected.items():
+    for path, section in sorted(section_uses):
         target = SKILL_ROOT / path
         if not target.is_file():
-            errors.append(f"{repo_name(SECTION_TARGETS)}: missing target file: {path}")
+            errors.append(f"missing section target file: {path}")
             continue
         headings = heading_cache.setdefault(path, numbered_headings(target, errors))
-        for section, title in sections.items():
-            actual = headings.get(section)
-            if actual is None:
-                errors.append(f"{path}: missing expected section §{section} 「{title}」")
-            elif actual != title:
-                errors.append(
-                    f"{path}: section §{section} changed meaning: "
-                    f"expected 「{title}」, found 「{actual}」"
-                )
+        if section not in headings:
+            errors.append(f"{path}: missing referenced section §{section}")
 
 
 def validate_agent_facing_language(errors: list[str]) -> None:
@@ -288,7 +270,8 @@ def validate_agent_facing_language(errors: list[str]) -> None:
             paths.extend(sorted(target.rglob("*.md")))
     for path in paths:
         for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-            if HANGUL_RE.search(line):
+            prose = CODE_SPAN_RE.sub("", line)
+            if HANGUL_RE.search(prose):
                 errors.append(
                     f"{repo_name(path)}:{line_no}: agent-facing guidance must use English"
                 )

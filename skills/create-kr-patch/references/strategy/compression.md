@@ -71,7 +71,7 @@ If recompressed output exceeds its allocation, compare options against actual ou
 - Can container reserialization preserve untouched data and protected metadata?
 - Does the target consumer provide a verified uncompressed or alternate path?
 
-Bypassing compression introduces new code, storage, load, residency, and consumption conditions. Verify them; do not select a bypass merely because it appears simpler. If the asset change triggers `references/strategy/runtime-assets.md` §1, verify those links as well.
+Bypassing compression introduces new code, storage, load, residency, and consumption conditions. Verify them; do not select a bypass merely because it appears simpler. If the asset change triggers `references/strategy/runtime-assets.md` §1, verify the links in `references/strategy/runtime-assets.md` §2 as well.
 
 ## 6. Completion
 
@@ -83,7 +83,7 @@ Compression work is complete only when every applicable condition is decided:
 - A canonical format, if required, passes B.
 - Recompressed output satisfies target invariants and output limits and passes C.
 - If codec and content competed as explanations for a defect, an unchanged control distinguished them.
-- A triggered runtime-asset change passes the link assessment in `references/strategy/runtime-assets.md`.
+- A runtime-asset change triggered under `references/strategy/runtime-assets.md` §1 passes the link assessment in `references/strategy/runtime-assets.md` §2.
 - Unsupported variants and unresolved fields are preserved or explicitly rejected.
 
 Self round trip, successful boot, or one displayed screen alone does not prove completion.

@@ -108,6 +108,63 @@ class DocumentationValidatorTest(unittest.TestCase):
         self.assertEqual(uses, set())
         self.assertTrue(any("bare section reference" in error for error in errors))
 
+    def test_attaches_sections_joined_by_english_conjunction(self) -> None:
+        uses, _, errors = self.collect_line("`references/strategy/poc.md` §1 and §3")
+        self.assertEqual(
+            uses,
+            {
+                ("references/strategy/poc.md", "1"),
+                ("references/strategy/poc.md", "3"),
+            },
+        )
+        self.assertEqual(errors, [])
+
+    def test_reports_ambiguous_section_after_explicit_reference(self) -> None:
+        uses, _, errors = self.collect_line(
+            "Use `references/strategy/runtime-assets.md` §1, then its §2.",
+            current_skill_path="references/strategy/initial-survey.md",
+        )
+        self.assertEqual(
+            uses,
+            {("references/strategy/runtime-assets.md", "1")},
+        )
+        self.assertTrue(any("bare section reference" in error for error in errors))
+
+    def test_allows_current_section_before_an_explicit_reference(self) -> None:
+        uses, _, errors = self.collect_line(
+            "Apply §3.1, then `references/strategy/runtime-assets.md` §2.",
+            current_skill_path="references/strategy/translation-workflow.md",
+        )
+        self.assertEqual(
+            uses,
+            {
+                ("references/strategy/translation-workflow.md", "3.1"),
+                ("references/strategy/runtime-assets.md", "2"),
+            },
+        )
+        self.assertEqual(errors, [])
+
+    def test_section_target_requires_the_number_not_fixed_heading_wording(self) -> None:
+        with TemporaryDirectory() as directory:
+            skill_root = Path(directory)
+            target = skill_root / "references" / "strategy" / "sample.md"
+            target.parent.mkdir(parents=True)
+            target.write_text("## 1. Current descriptive heading\n", encoding="utf-8")
+            with (
+                patch.object(validate_docs, "SKILL_ROOT", skill_root),
+                patch.object(validate_docs, "repo_name", return_value="sample.md"),
+            ):
+                valid_errors: list[str] = []
+                validate_docs.validate_section_targets(
+                    {("references/strategy/sample.md", "1")}, valid_errors
+                )
+                missing_errors: list[str] = []
+                validate_docs.validate_section_targets(
+                    {("references/strategy/sample.md", "2")}, missing_errors
+                )
+        self.assertEqual(valid_errors, [])
+        self.assertTrue(missing_errors)
+
     def test_reports_nonstandard_tip_heading(self) -> None:
         with TemporaryDirectory() as directory:
             tips = Path(directory)
@@ -214,6 +271,29 @@ class DocumentationValidatorTest(unittest.TestCase):
             ):
                 validate_docs.validate_agent_facing_language(errors)
         self.assertTrue(any("must use English" in error for error in errors))
+
+    def test_allows_source_script_in_core_document_code_span(self) -> None:
+        with TemporaryDirectory() as directory:
+            skill_root = Path(directory)
+            skill_file = skill_root / "SKILL.md"
+            skill_file.write_text("Source evidence: `한글`\n", encoding="utf-8")
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "SKILL_ROOT", skill_root),
+                patch.object(
+                    validate_docs,
+                    "AGENT_ENGLISH_PATHS",
+                    (skill_file,),
+                ),
+                patch.object(validate_docs, "AGENT_ENGLISH_LITERAL_PATHS", ()),
+                patch.object(
+                    validate_docs,
+                    "repo_name",
+                    return_value="skills/create-kr-patch/SKILL.md",
+                ),
+            ):
+                validate_docs.validate_agent_facing_language(errors)
+        self.assertEqual(errors, [])
 
     def test_allows_source_script_only_in_tip_code_spans(self) -> None:
         with TemporaryDirectory() as directory:

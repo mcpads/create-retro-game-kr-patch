@@ -35,7 +35,7 @@ Visibility passes only when:
 - nearby UI and entry or exit behavior remain intact; and
 - the record distinguishes what the test proved from what it did not prove.
 
-Begin with an established font unless letterform design is the uncertainty under test. Create or edit glyphs only for local missing symbols or verified UX requirements. A temporary glyph proves the path, not release-font completion.
+Begin with an established font unless letterform design is the uncertainty under test. Create or edit glyphs only for local missing symbols or verified UX requirements. A temporary glyph proves the path, not release-font completion. Apply `references/strategy/font-strategy.md` §4 to the release-font decision.
 
 ## 4. Representative text end to end
 
@@ -44,8 +44,8 @@ Choose a unit that connects the complete extraction-to-consumption boundary and 
 Use separate units for consumers or risks that do not share the same path. Verify:
 
 - unchanged round trip or the declared semantic-equivalence rule;
-- token and glyph policy;
-- reinsertion extent, references, and container structure;
+- character and control-token preservation or recalculation policies, and glyph mapping;
+- reinsertion length, boundaries, references, and container structure;
 - actual load and consumption; and
 - displayed result plus affected regression paths.
 
@@ -55,18 +55,20 @@ One representative unit does not prove total volume. An unresolved population do
 
 ## 5. Conditional verification
 
-Run a conditional PoC only for a design-changing risk without equivalent static evidence. Examples include:
+Run a conditional PoC only for a design-changing risk without equivalent static evidence.
 
-- separate render or consumer paths;
-- encoding or control-code collisions;
-- stored repertoire or active working-set capacity;
-- growth or relocation;
-- compression or container rebuilding;
-- graphics text;
-- representation or interaction constraints such as windows, states, pages, input, audio, or event synchronization; and
-- user strings that must survive input, storage, and redisplay.
+| Risk | Trigger | Pass criteria |
+|---|---|---|
+| Separate consumers | Target screens may use different glyph, texture, or render paths | Every distribution screen is assigned to an established consumer path and its constraints |
+| Encoding or control collision | New code space or width may collide with parser or control behavior | The target corpus decodes without ambiguity and does not invade non-text or control paths |
+| Stored or active capacity | Stored glyph, texture, RAM, or VRAM supply is near required demand | Declared distribution demand fits supply and remains valid for the required asset lifetime |
+| Growth or relocation | Translation can move boundaries, references, alignment, or following data | The representative change preserves every applicable reference and boundary through load and consumption |
+| Compression or container | Edited data is packed and may change size or representation | Unchanged equivalence and modified container validity both hold, and the target consumer accepts the result |
+| Graphics text | Distribution text is stored as graphics pixels | The representative path passes `references/strategy/graphics-text.md` §4 |
+| Presentation or interaction | Windows, states, pages, input, audio, or event synchronization can change implementation | The representative path passes the applicable criteria in `references/strategy/build-and-verify.md` §5 within its declared proof scope |
+| User strings | Player-created text is stored and consumed again | Input repertoire, storage representation, redisplay, and length conditions work together in distribution scope |
 
-For presentation or interaction, use a representative condition that can change implementation and apply the relevant criteria in `references/strategy/build-and-verify.md` §5. Do not turn every final-QA item into a PoC.
+Do not turn every final-QA item into a PoC. Select only a representative condition that can change implementation.
 
 When a runtime asset change triggers `references/strategy/runtime-assets.md` §1, include unresolved links from `references/strategy/runtime-assets.md` §2 in the pass criteria.
 
