@@ -192,6 +192,67 @@ class DocumentationValidatorTest(unittest.TestCase):
         )
         self.assertTrue(any("tip route mismatch" in error for error in errors))
 
+    def test_reports_hangul_in_agent_facing_guidance(self) -> None:
+        with TemporaryDirectory() as directory:
+            skill_root = Path(directory)
+            skill_file = skill_root / "SKILL.md"
+            skill_file.write_text("# Skill\n\n판정 규칙\n", encoding="utf-8")
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "SKILL_ROOT", skill_root),
+                patch.object(
+                    validate_docs,
+                    "AGENT_ENGLISH_PATHS",
+                    (skill_file,),
+                ),
+                patch.object(validate_docs, "AGENT_ENGLISH_LITERAL_PATHS", ()),
+                patch.object(
+                    validate_docs,
+                    "repo_name",
+                    return_value="skills/create-kr-patch/SKILL.md",
+                ),
+            ):
+                validate_docs.validate_agent_facing_language(errors)
+        self.assertTrue(any("must use English" in error for error in errors))
+
+    def test_allows_source_script_only_in_tip_code_spans(self) -> None:
+        with TemporaryDirectory() as directory:
+            tips = Path(directory)
+            case = tips / "general" / "cases.md"
+            case.parent.mkdir(parents=True)
+            case.write_text("Literal `예` is evidence.\n", encoding="utf-8")
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "AGENT_ENGLISH_PATHS", ()),
+                patch.object(
+                    validate_docs,
+                    "AGENT_ENGLISH_LITERAL_PATHS",
+                    (tips,),
+                ),
+                patch.object(validate_docs, "repo_name", return_value="cases.md"),
+            ):
+                validate_docs.validate_agent_facing_language(errors)
+        self.assertEqual(errors, [])
+
+    def test_reports_hangul_tip_prose_outside_code_spans(self) -> None:
+        with TemporaryDirectory() as directory:
+            tips = Path(directory)
+            case = tips / "general" / "cases.md"
+            case.parent.mkdir(parents=True)
+            case.write_text("한국어 지시 `예`\n", encoding="utf-8")
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "AGENT_ENGLISH_PATHS", ()),
+                patch.object(
+                    validate_docs,
+                    "AGENT_ENGLISH_LITERAL_PATHS",
+                    (tips,),
+                ),
+                patch.object(validate_docs, "repo_name", return_value="cases.md"),
+            ):
+                validate_docs.validate_agent_facing_language(errors)
+        self.assertTrue(any("source-script evidence" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()

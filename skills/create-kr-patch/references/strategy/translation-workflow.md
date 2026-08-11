@@ -51,7 +51,7 @@ Storage order need not equal play or scene order. Build a translator-facing logi
 
 Include speaker, addressee, relationship, and scene evidence when they can change translation. Do not give inferred tone the same confidence as established control signals, screens, or dialogue order. If an inference can change the result, leave it for human judgment and do not promote the unit before resolution.
 
-One speaker rule need not apply across every relationship or scene. When differences change translation, scope approval by speaker-to-addressee relationship and narrative point. The project chooses the representation; §3 owns the approved scope and exceptions.
+One speaker rule need not apply across every relationship or scene. When differences change translation, scope approval by speaker-to-addressee relationship and narrative point. The project chooses the representation; §3 defines the approved scope and exceptions.
 
 ## 3. Approved terminology and voice
 

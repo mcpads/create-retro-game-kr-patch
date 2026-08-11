@@ -36,7 +36,7 @@ When the claim concerns load, upload, initialization, or cache refresh, state cr
 ## 3. Outcomes and next action
 
 - **Pass** — Evidence connects every changed link and the asset remains valid across relevant state transitions. Return this result to the strategy that requested the assessment.
-- **Fail** — Return to the strategy that owns the first broken link. Preserve evidence for preceding links and do not redesign unaffected layers.
+- **Fail** — Return to the strategy governing the first broken link. Preserve evidence for preceding links and do not redesign unaffected layers.
 - **Unresolved** — Record the last established boundary and the first unestablished boundary. If implementation depends on the answer, use `references/strategy/poc.md` to design a diagnostic that distinguishes that first missing link, then return the result to this assessment.
 
 ## 4. Criteria by changed component

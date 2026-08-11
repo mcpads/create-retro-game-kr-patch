@@ -13,7 +13,7 @@ Use these rules to implement patch-strategy invariants and decision criteria as 
 
 ## 1. Responsibility boundaries and a single basis
 
-Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when one location and check already own the responsibility. Separate these roles without giving one fact several update paths:
+Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when one location and check already carry the responsibility. Separate these roles without giving one fact several update paths:
 
 - source inputs to the reproducible build;
 - intermediate and output artifacts regenerable from source;
@@ -22,7 +22,7 @@ Before creating or extending a repository, inspect its current build, tests, doc
 - runtime and QA evidence plus issue records; and
 - externally injected source images and local caches.
 
-Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the records that own them.
+Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
 Investigation experiments and one-off transforms may remain outside the primary build. When repeated builds depend on one, promote it into a maintained component with fixed version, explicit inputs and outputs, propagated failures, and tests. An unpromoted temporary artifact or manual edit must not become the build's only input.
 
@@ -110,7 +110,7 @@ Choose a component that satisfies these conditions in the current environment an
 
 First verify round-trip invariants for containers, encodings, compression, address conversion, and render data. For an unchanged transform such as parse -> serialize, require source-byte identity when the format has one canonical representation. When several serializations are valid, require equivalent game consumption and protected metadata. Declare the applicable equivalence before editing. Other documents that require unchanged round trip use this same criterion.
 
-Declare the denominator owned by the round trip. Rebuilding one asset requires the population sharing its consumer rule. Putting a transform into the common build or claiming general format support requires the full corpus processed by that path. Do not generalize representative samples to the declared denominator; include applicable boundary-risk samples.
+Declare the denominator covered by the round trip. Rebuilding one asset requires the population sharing its consumer rule. Putting a transform into the common build or claiming general format support requires the full corpus processed by that path. Do not generalize representative samples to the declared denominator; include applicable boundary-risk samples.
 
 For inverse pairs such as encode/decode, compress/decompress, and logical/physical address conversion, generate or systematically enumerate boundary, empty, maximum, truncated, and invalid inputs. Invalid input must not emit partial output as success.
 
@@ -133,7 +133,7 @@ Verify all writes belonging to one logical change together. If one fails, apply 
 
 Resolve intentional overlap as one composed write or explicit dependency before application, not by execution order. Every changed output byte must have one decidable writer and reason. An existing tracked image, change manifest, or before/after diff mechanism is equivalent only if it satisfies prior planning, immutable-source verification, single writer, and complete-diff conditions.
 
-When one stage rebuilds a large file, bank, or sector, distinguish writable subranges and protected consumers. Do not broaden the allowed range merely because the stage owns padding or the outer container.
+When one stage rebuilds a large file, bank, or sector, distinguish writable subranges and protected consumers. Do not broaden the allowed range merely because the stage handles padding or the outer container.
 
 Final-diff audit must include length changes, appended tails, and truncated ranges as well as the common source-output extent. Fail unless registered writes and derivation rules explain expected final size and every changed region.
 

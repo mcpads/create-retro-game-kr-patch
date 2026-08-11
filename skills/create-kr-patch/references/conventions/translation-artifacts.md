@@ -80,7 +80,7 @@ This JSON only illustrates required meaning and protected boundaries. Do not mig
 This example also follows the machine-readable I/O requirements in `references/conventions/project-conventions.md` §3.2.
 
 - Keep `table_id` and `entry_id` stable. Empty slots remain part of entry order and count.
-- `raw_hex` and `text` are extractor-owned protected fields. `ko`, `status`, and `notes` are translation-stage fields.
+- `raw_hex` and `text` are protected fields written by the extractor. `ko`, `status`, and `notes` are translation-stage fields.
 - Represent duplicate pointers and undecoded bytes through `flags` or an equivalent project representation that preserves meaning and round trip.
 
 ## 3. Control-code tokens

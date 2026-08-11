@@ -4,7 +4,7 @@ Consult primary references for general Z80, VDP, and mapper specifications as ne
 
 ## 1. Logical addresses and bank identity
 
-A 16-bit logical address does not determine a ROM file location. The slot, bank register, fixed window or RAM mapping, and mapper variant at access time are also required. Make logical-address, bank, and file-offset conversion specification only within an established mapping.
+A 16-bit logical address does not determine a ROM file location. The slot, bank register, fixed window or RAM mapping, and mapper variant at access time are also required. Treat logical-address, bank, and file-offset conversion as specification only within an established mapping.
 
 When a hook changes banks, verify code and data lifetime plus shared interrupt and callback state, then restore the entry bank and interrupt state. No one enable/disable sequence is a global solution.
 

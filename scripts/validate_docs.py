@@ -43,6 +43,14 @@ TIP_STRATEGY_REFERENCE_RE = re.compile(
     r"`(references/strategy/[A-Za-z0-9_.-]+\.md)`"
 )
 TIP_CASE_ROOTS = {"general", "platforms"}
+AGENT_ENGLISH_PATHS = (
+    SKILL_ROOT / "SKILL.md",
+    SKILL_ROOT / "references" / "strategy",
+    SKILL_ROOT / "references" / "conventions",
+    SKILL_ROOT / "references" / "platforms",
+)
+AGENT_ENGLISH_LITERAL_PATHS = (TIPS_DIR,)
+HANGUL_RE = re.compile(r"[\uac00-\ud7a3]")
 TIP_REQUIRED_FIELDS = {
     "Search terms": {"Search terms"},
     "Observed scope": {"Observed scope"},
@@ -271,6 +279,32 @@ def validate_section_targets(
                 )
 
 
+def validate_agent_facing_language(errors: list[str]) -> None:
+    paths: list[Path] = []
+    for target in AGENT_ENGLISH_PATHS:
+        if target.is_file():
+            paths.append(target)
+        elif target.is_dir():
+            paths.extend(sorted(target.rglob("*.md")))
+    for path in paths:
+        for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if HANGUL_RE.search(line):
+                errors.append(
+                    f"{repo_name(path)}:{line_no}: agent-facing guidance must use English"
+                )
+    for target in AGENT_ENGLISH_LITERAL_PATHS:
+        for path in sorted(target.rglob("*.md")):
+            for line_no, line in enumerate(
+                path.read_text(encoding="utf-8").splitlines(), 1
+            ):
+                prose = CODE_SPAN_RE.sub("", line)
+                if HANGUL_RE.search(prose):
+                    errors.append(
+                        f"{repo_name(path)}:{line_no}: agent-facing guidance must use English; "
+                        "preserve source-script evidence only in code spans"
+                    )
+
+
 def validate_tips(errors: list[str]) -> int:
     actual: dict[str, str] = {}
     titles: dict[str, str] = {}
@@ -404,6 +438,7 @@ def main() -> int:
     errors: list[str] = []
     section_uses, explicit_count, section_count = collect_references(errors)
     validate_section_targets(section_uses, errors)
+    validate_agent_facing_language(errors)
     tip_count = validate_tips(errors)
 
     if errors:
