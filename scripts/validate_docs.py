@@ -30,9 +30,25 @@ NUMBERED_HEADING_RE = re.compile(
 HEADING_RE = re.compile(r"^#{1,6}\s+(.+?)\s*$")
 TIP_ID_RE = re.compile(r"^##\s+([A-Z][A-Z0-9]*-\d{3})\s*$")
 TIP_INDEX_RE = re.compile(
-    r"^\|\s*([A-Z][A-Z0-9]*-\d{3})\s*\|.*?"
+    r"^\|\s*([A-Z][A-Z0-9]*-\d{3})\s*\|\s*([^|]+?)\s*\|.*?"
     r"`(references/tips/[A-Za-z0-9_.-]+\.md)#([A-Za-z0-9_-]+)`\s*\|"
 )
+TIP_ROUTE_MAPPING_RE = re.compile(
+    r"^\|\s*([^|`]+?)\s*\|[^|]*\|\s*"
+    r"`(references/strategy/[A-Za-z0-9_.-]+\.md)`\s*\|"
+)
+TIP_FIELD_RE = re.compile(r"^- \*\*([^*:]+):\*\*")
+TIP_STRATEGY_REFERENCE_RE = re.compile(
+    r"`(references/strategy/[A-Za-z0-9_.-]+\.md)`"
+)
+TIP_REQUIRED_FIELDS = {
+    "관측 범위": {"관측 범위"},
+    "문제·선택 맥락": {"사고 맥락", "선택 맥락", "문제 맥락"},
+    "검증 근거": {"결정 실험", "검증 근거"},
+    "확정 결과": {"확정 결과", "확정 결론"},
+    "전이 한계": {"전이 한계"},
+    "관련 판단 기준": {"관련 판단 기준"},
+}
 
 
 def markdown_files() -> list[Path]:
@@ -254,17 +270,23 @@ def validate_section_targets(
 
 def validate_tips(errors: list[str]) -> int:
     actual: dict[str, str] = {}
+    bodies: dict[str, list[str]] = {}
+    locations: dict[str, tuple[Path, int]] = {}
     for path in sorted(TIPS_DIR.glob("*.md")):
         if path.name == "README.md":
             continue
+        current_tip: str | None = None
         for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             if not line.startswith("## "):
+                if current_tip is not None:
+                    bodies[current_tip].append(line)
                 continue
             match = TIP_ID_RE.fullmatch(line)
             if not match:
                 errors.append(
                     f"{repo_name(path)}:{line_no}: invalid tip heading: {line}"
                 )
+                current_tip = None
                 continue
             tip_id = match.group(1)
             if tip_id in actual:
@@ -272,31 +294,86 @@ def validate_tips(errors: list[str]) -> int:
                     f"{repo_name(path)}:{line_no}: duplicate tip ID {tip_id}; "
                     f"first in {actual[tip_id]}"
                 )
+                current_tip = None
             else:
                 actual[tip_id] = path.relative_to(SKILL_ROOT).as_posix()
+                bodies[tip_id] = []
+                locations[tip_id] = (path, line_no)
+                current_tip = tip_id
 
-    indexed: dict[str, tuple[str, str]] = {}
+    indexed: dict[str, tuple[str, str, str]] = {}
+    strategy_labels: dict[str, str] = {}
     index_path = TIPS_DIR / "README.md"
     for line_no, line in enumerate(index_path.read_text(encoding="utf-8").splitlines(), 1):
+        route_match = TIP_ROUTE_MAPPING_RE.match(line)
+        if route_match is not None:
+            label, strategy_reference = route_match.groups()
+            if strategy_reference in strategy_labels:
+                errors.append(
+                    f"{repo_name(index_path)}:{line_no}: duplicate strategy route: "
+                    f"{strategy_reference}"
+                )
+            else:
+                strategy_labels[strategy_reference] = label.strip()
+
         match = TIP_INDEX_RE.match(line)
         if not match:
             continue
-        tip_id, target, anchor = match.groups()
+        tip_id, judgment_area, target, anchor = match.groups()
         if tip_id in indexed:
             errors.append(f"{repo_name(index_path)}:{line_no}: duplicate index ID {tip_id}")
         else:
-            indexed[tip_id] = (target, anchor)
+            indexed[tip_id] = (judgment_area.strip(), target, anchor)
+
+    derived_areas: dict[str, str] = {}
+    for tip_id, body in bodies.items():
+        labels = {
+            match.group(1)
+            for line in body
+            if (match := TIP_FIELD_RE.match(line)) is not None
+        }
+        path, line_no = locations[tip_id]
+        for field, alternatives in TIP_REQUIRED_FIELDS.items():
+            if labels.isdisjoint(alternatives):
+                errors.append(
+                    f"{repo_name(path)}:{line_no}: tip {tip_id} missing required field: "
+                    f"{field}"
+                )
+
+        strategy_references: list[str] = []
+        for line in body:
+            if not line.startswith("- **관련 판단 기준:**"):
+                continue
+            strategy_references.extend(TIP_STRATEGY_REFERENCE_RE.findall(line))
+
+        route_labels: list[str] = []
+        for reference in strategy_references:
+            label = strategy_labels.get(reference)
+            if label is None:
+                errors.append(
+                    f"{repo_name(path)}:{line_no}: tip {tip_id} uses an unregistered "
+                    f"strategy route: {reference}"
+                )
+            elif label not in route_labels:
+                route_labels.append(label)
+        derived_areas[tip_id] = "·".join(route_labels)
 
     for tip_id in sorted(actual.keys() - indexed.keys()):
         errors.append(f"tip missing from index: {tip_id} ({actual[tip_id]})")
     for tip_id in sorted(indexed.keys() - actual.keys()):
         errors.append(f"index points to missing tip: {tip_id}")
     for tip_id in sorted(actual.keys() & indexed.keys()):
-        target, anchor = indexed[tip_id]
+        judgment_area, target, anchor = indexed[tip_id]
         if target != actual[tip_id] or anchor != tip_id.lower():
             errors.append(
                 f"tip index mismatch for {tip_id}: expected "
                 f"{actual[tip_id]}#{tip_id.lower()}, found {target}#{anchor}"
+            )
+        expected_area = derived_areas[tip_id]
+        if judgment_area != expected_area:
+            errors.append(
+                f"tip route mismatch for {tip_id}: expected {expected_area}, "
+                f"found {judgment_area}"
             )
     return len(actual)
 

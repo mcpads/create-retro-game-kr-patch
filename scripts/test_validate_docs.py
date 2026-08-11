@@ -28,6 +28,35 @@ class DocumentationValidatorTest(unittest.TestCase):
                 )
         return section_uses, reference_count, errors
 
+    def validate_tip_fixture(self, body: str, judgment_area: str = "PoC") -> list[str]:
+        with TemporaryDirectory() as directory:
+            skill_root = Path(directory)
+            tips = skill_root / "references" / "tips"
+            tips.mkdir(parents=True)
+            (tips / "README.md").write_text(
+                "| 색인 라벨 | 라우팅 판단 영역 | 문서 |\n"
+                "| PoC | PoC | `references/strategy/poc.md` |\n\n"
+                "| ID | 판단 영역 | 관측 플랫폼 | 발동 조건 | 사례 파일 |\n"
+                f"| GG-999 | {judgment_area} | Game Gear | test | "
+                "`references/tips/gg.md#gg-999` |\n",
+                encoding="utf-8",
+            )
+            (tips / "gg.md").write_text(
+                f"# Game Gear\n\n## GG-999\n\n{body}\n", encoding="utf-8"
+            )
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "SKILL_ROOT", skill_root),
+                patch.object(validate_docs, "TIPS_DIR", tips),
+                patch.object(
+                    validate_docs,
+                    "repo_name",
+                    side_effect=lambda path: path.name,
+                ),
+            ):
+                validate_docs.validate_tips(errors)
+        return errors
+
     def test_accepts_complete_reference_code_spans(self) -> None:
         samples = (
             "`references/strategy/poc.md` §1",
@@ -91,6 +120,38 @@ class DocumentationValidatorTest(unittest.TestCase):
             ):
                 validate_docs.validate_tips(errors)
         self.assertTrue(any("invalid tip heading" in error for error in errors))
+
+    def test_reports_missing_required_tip_field(self) -> None:
+        errors = self.validate_tip_fixture(
+            "\n".join(
+                (
+                    "- **관측 범위:** test",
+                    "- **사고 맥락:** test",
+                    "- **결정 실험:** test",
+                    "- **확정 결론:** test",
+                    "- **관련 판단 기준:** `references/strategy/poc.md`.",
+                )
+            )
+        )
+        self.assertTrue(
+            any("missing required field: 전이 한계" in error for error in errors)
+        )
+
+    def test_reports_tip_route_mismatch(self) -> None:
+        errors = self.validate_tip_fixture(
+            "\n".join(
+                (
+                    "- **관측 범위:** test",
+                    "- **선택 맥락:** test",
+                    "- **검증 근거:** test",
+                    "- **확정 결과:** test",
+                    "- **전이 한계:** test",
+                    "- **관련 판단 기준:** `references/strategy/poc.md`.",
+                )
+            ),
+            judgment_area="초기 조사",
+        )
+        self.assertTrue(any("tip route mismatch" in error for error in errors))
 
 
 if __name__ == "__main__":

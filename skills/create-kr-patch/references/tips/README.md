@@ -23,7 +23,7 @@
 | ID | 판단 영역 | 관측 플랫폼 | 발동 조건 | 사례 파일 |
 |---|---|---|---|---|
 | DC-001 | 추출 | Dreamcast | 포인터 간격으로 자른 항목이 다음 항목과 겹침 | `references/tips/dreamcast.md#dc-001` |
-| DC-002 | 폰트·그래픽·런타임 자산 | Dreamcast·SNES·Game Gear·Saturn | 공유 글리프·타일 슬롯이 다른 라벨·비텍스트 그래픽에서도 소비됨 | `references/tips/dreamcast.md#dc-002` |
+| DC-002 | 폰트·그래픽·런타임 자산·빌드 | Dreamcast·SNES·Game Gear·Saturn | 공유 글리프·타일 슬롯이 다른 라벨·비텍스트 그래픽에서도 소비됨 | `references/tips/dreamcast.md#dc-002` |
 | DC-003 | 디버깅·추출 | Dreamcast | 사람이 붙인 라벨과 실제 표시 데이터가 불일치 | `references/tips/general.md#dc-003` |
 | DC-004 | 재삽입·초기 조사 | Dreamcast·Saturn | 0 채움이나 정적 참조 부재로 고른 공간에서 부팅·진입 중 정지 | `references/tips/general.md#dc-004` |
 | DC-005 | 추출·번역·빌드 | Dreamcast | 번역문이 짧아진 뒤 후반 음성이 점점 일찍 끊김 | `references/tips/dreamcast.md#dc-005` |
@@ -48,7 +48,7 @@
 | SNES-018 | 그래픽·런타임 자산·재삽입 | SNES | 정적 번역 타일맵이 게임의 동적 셀을 마지막에 덮음 | `references/tips/snes.md#snes-018` |
 | SNES-019 | PoC·런타임 자산·폰트 | SNES | 저장·VRAM 바이트는 맞지만 목표 글자가 아닌 타일을 교체 | `references/tips/snes.md#snes-019` |
 | SNES-021 | 번역·재삽입·빌드 | SNES | 일본어 고정 크기의 창에서 한국어 대사가 잘리거나 화면 밖으로 넘침 | `references/tips/snes.md#snes-021` |
-| SNES-022 | 그래픽·런타임 자산·재삽입 | SNES | 정적 분석에서 선택 강조 데이터와 읽기 범위가 원문 길이에 묶임 | `references/tips/snes.md#snes-022` |
+| SNES-022 | 그래픽·런타임 자산·재삽입·빌드 | SNES | 정적 분석에서 선택 강조 데이터와 읽기 범위가 원문 길이에 묶임 | `references/tips/snes.md#snes-022` |
 | SNES-024 | 추출·재삽입·런타임 자산 | SNES | 두 번째 포인터를 바꿨지만 전환 뒤 첫 블록 다음 주소부터 계속 읽음 | `references/tips/snes.md#snes-024` |
 | SATURN-003 | 압축·디버깅 | Saturn | 무변경 원본 재압축도 게임에서 손상 | `references/tips/general.md#saturn-003` |
 | SATURN-004 | 추출·재삽입 | Saturn·SNES·PC-98 | 바이트 모양만으로 참조를 포함·제외해 거짓 참조나 실제 포인터 누락이 생김 | `references/tips/saturn.md#saturn-004` |
@@ -67,7 +67,7 @@
 | PS1-001 | 재삽입·런타임 자산·디버깅 | PlayStation | RAM 재적재 뒤 캐시 두 줄의 원본·패치 명령이 섞임 | `references/tips/ps1.md#ps1-001` |
 | PS1-002 | 추출·재삽입 | PlayStation | 중복 문자열 통합 뒤 다른 포인터 슬롯이 번역되거나 내부 진입 화면에 원문 뒷부분이 남음 | `references/tips/ps1.md#ps1-002` |
 | PS1-003 | 그래픽·폰트·빌드 | PlayStation | 실제 선택 배경에서 소형 라벨의 본문·외곽선 구분이 필요 | `references/tips/ps1.md#ps1-003` |
-| PS1-005 | 폰트·재삽입·런타임 자산 | PlayStation | 한글은 표시되지만 첫 폰트 CD 적재 때 배경 음악이 중단됨 | `references/tips/ps1.md#ps1-005` |
+| PS1-005 | 폰트·재삽입·런타임 자산·빌드 | PlayStation | 한글은 표시되지만 첫 폰트 CD 적재 때 배경 음악이 중단됨 | `references/tips/ps1.md#ps1-005` |
 | NDS-001 | 폰트·런타임 자산 | Nintendo DS | 이름 입력 후보만 바뀌고 선택 후 재표시는 그대로임 | `references/tips/nds.md#nds-001` |
 | NDS-002 | 폰트·디버깅 | Nintendo DS | 폰트 항목을 하나 늘리자 타이틀 전 흰 화면에서 멈춤 | `references/tips/nds.md#nds-002` |
 | NDS-003 | 폰트 | Nintendo DS | 문서의 NFTR 청크명으로 raw byte를 검색하면 실패하고 기존 CMAP은 새 매핑 범위를 이미 덮음 | `references/tips/nds.md#nds-003` |
@@ -75,7 +75,7 @@
 | PCE-001 | 그래픽 | PC Engine CD·SNES | 논리 타일 번호를 물리 타일 좌표로 사용해 화면이 밀리거나 배경이 손상 | `references/tips/pce.md#pce-001` |
 | PCE-002 | 빌드 | PC Engine CD | 사용자 데이터 오프셋으로 원시 섹터 이미지를 패치 | `references/tips/pce.md#pce-002` |
 | PCE-003 | 초기 조사·디버깅 | PC Engine CD | 핸들러의 즉시값을 하위 뱅크 식별자로 해석 | `references/tips/pce.md#pce-003` |
-| PCE-004 | 폰트·재삽입·런타임 자산 | PC Engine CD·PlayStation | 별도 표시 루틴이 필요해 보이나 기존 글리프 변환·업로드 경로가 존재 | `references/tips/pce.md#pce-004` |
+| PCE-004 | 폰트·재삽입·런타임 자산·PoC | PC Engine CD·PlayStation | 별도 표시 루틴이 필요해 보이나 기존 글리프 변환·업로드 경로가 존재 | `references/tips/pce.md#pce-004` |
 | PC98-001 | 폰트 | PC-98 | 표준 디코더 통계로 미사용 선행 바이트 선정 | `references/tips/pc98.md#pc98-001` |
 | PC98-002 | 폰트·빌드 | PC-98 | 생성기와 검증기가 같은 경계식을 공유 | `references/tips/pc98.md#pc98-002` |
 | PC98-003 | 재삽입·빌드 | PC-98 | 개별 NUL 간격으로는 긴 크레딧 문자열을 수용할 수 없음 | `references/tips/pc98.md#pc98-003` |
@@ -88,7 +88,7 @@
 | GG-007 | 번역·추출 | Game Gear·NES | 원본 토큰을 보존했지만 대상 엔진에서 다른 의미로 소비 | `references/tips/gg.md#gg-007` |
 | GG-008 | 재삽입·런타임 자산 | Game Gear | 길이 0인 항목이 실행 중 만들어지는 문자열의 포인터였음 | `references/tips/gg.md#gg-008` |
 | GG-009 | 재삽입·디버깅 | Game Gear | 공유 글리프 훅이 한 호출자의 문자 카운터를 덮음 | `references/tips/gg.md#gg-009` |
-| GG-010 | 추출·번역·빌드 | Game Gear | 넓은 창 기준 검사로 같은 스크립트 영역의 좁은 창 넘침을 놓침 | `references/tips/gg.md#gg-010` |
+| GG-010 | 추출·번역·빌드·재삽입 | Game Gear | 넓은 창 기준 검사로 같은 스크립트 영역의 좁은 창 넘침을 놓침 | `references/tips/gg.md#gg-010` |
 | GG-011 | 디버깅·재삽입·런타임 자산 | Game Gear | 정렬 변경 뒤 한 호출자에서만 이전 타일이 남음 | `references/tips/gg.md#gg-011` |
 | MD-001 | 빌드·추출 | Mega Drive | 번역 뒤 특정 대사에서 진행 정지 | `references/tips/megadrive.md#md-001` |
 | MD-002 | 번역 | Mega Drive | 초기 한국어 번역이 화자 제어 순서를 무시 | `references/tips/general.md#md-002` |
