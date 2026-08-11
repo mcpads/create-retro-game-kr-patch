@@ -1,7 +1,7 @@
 {
   "name": "create-kr-patch",
   "version": "2.0.0-alpha.1",
-  "description": "레트로 게임 한글 패치 제작 전 파이프라인 Agent Skill. ROM/디스크 분석부터 폰트·인코딩 설계, PoC, 추출·번역·재삽입, 빌드, 에뮬레이터 검증까지 다룬다.",
+  "description": "레트로 게임 한글 패치 제작 전 과정을 다루는 Agent Skill. ROM/디스크 분석부터 폰트·인코딩 설계, PoC, 추출·번역·재삽입, 빌드, 에뮬레이터 검증까지 다룬다.",
   "author": {
     "name": "mcpads",
     "email": "psinwoo@gmail.com",

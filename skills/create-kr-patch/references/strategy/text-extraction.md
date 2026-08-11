@@ -48,7 +48,7 @@ Measure by localization kind and consumer scope, distinguishing:
 
 Count shared strings and duplicate references separately as logical translation units and physical storage units. Do not add decoded or searched candidates to confirmed workload before they pass §1.2. Early volume is not completion, and source volume alone does not determine Korean length growth or unique-glyph demand.
 
-A technical PoC or translation of a local scope with a known denominator may precede this decision. Before scaling translation to the whole distribution scope, determine whether each declared target kind can be enumerated and enumerate every possible scope.
+A technical PoC or translation of a local scope with a known denominator may precede this decision. Before scaling translation to the whole distribution scope, determine for each declared target kind whether its population can be exhaustively enumerated, and exhaustively enumerate every population for which that is possible.
 
 If structure prevents exhaustive enumeration, state the established lower bound, unresolved scope, and stopping condition. Do not scale while remaining uncertainty can change workload or technical design. Do not claim exact workload, completion percentage, or complete-corpus demand before establishing the population.
 

@@ -9,7 +9,7 @@
     {
       "name": "create-kr-patch",
       "source": "./",
-      "description": "레트로 게임 한글 패치 제작 전 파이프라인 Agent Skill"
+      "description": "레트로 게임 한글 패치 제작 전 과정을 다루는 Agent Skill"
     }
   ]
 }

@@ -154,7 +154,7 @@ For each text display region, record region ID, renderer and box scope, width ca
 | `rejected` | Rejected hypotheses and evidence |
 | `mechanism` | Established faulty input -> first incorrect state -> propagation -> observed failure chain |
 | `change` | Fix to the established defect and impact range |
-| `regression` | Pre-fix failure, post-fix pass, and added regression check |
+| `regression` | Pre-fix failure, post-fix pass, and a reference to the added regression check |
 | `state` | Open, investigating, recheck needed, fixed, not a bug, or out of scope |
 
 Do not use an evidence filename or location as issue title or state. An initial report distinguishes at least baseline, reproduction context, expected and observed results, and decision evidence. Link reusable start state only when it materially reduces reproduction cost.

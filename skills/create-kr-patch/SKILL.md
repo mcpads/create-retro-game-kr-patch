@@ -31,7 +31,7 @@ For an existing repository, reconstruct the current code, documents, artifacts, 
 | Reinsertion and hooks | `references/strategy/reinsertion.md` | Boundary policies, reference completeness, hooks, space, and consumer invariants |
 | Translation | `references/strategy/translation-workflow.md` | Translation work and agent assignment, context, approved terminology and voice, protected constraints, and high-risk meaning |
 | Build and verification | `references/strategy/build-and-verify.md` | Reproducible artifacts, distribution boundaries, layered verification, and completion |
-| Debugging and issue handling | `references/strategy/debugging.md` | Gameplay routes, target-state access, intervention limits, causes, fixes, and regression evidence |
+| Debugging and issue handling | `references/strategy/debugging.md` | Gameplay routes, target-state access, proof scope of state intervention, causes, fixes, and regression evidence |
 | Graphics text, cross-cutting | `references/strategy/graphics-text.md` | Pixel-text population, protected visual assets, and consumer-path verification |
 | Compression, cross-cutting | `references/strategy/compression.md` | Actual transform boundaries, consumer compatibility, and repacking verification |
 | Runtime asset reachability, cross-cutting | `references/strategy/runtime-assets.md` | Storage, lookup, load or transform, residency, and consumption as one connected claim |
