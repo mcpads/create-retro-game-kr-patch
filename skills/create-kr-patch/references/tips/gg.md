@@ -27,15 +27,6 @@
 - **전이 한계:** 원문과 번역의 페이지 경계가 같고 제어가 페이지 접두부에만 있다는 전수 근거가 있을 때만 성립한다. 중간 제어나 페이지 구조 변경이 있으면 대응을 추정하지 않는다.
 - **관련 판단 기준:** `references/strategy/text-extraction.md` §3.1·§3.3, `references/strategy/translation-workflow.md` §4, `references/conventions/translation-artifacts.md` §3.
 
-## GG-007
-
-- **관측 범위:** Game Gear 마도물어 1의 일본어 원문과 영문 기반 엔진, NES 파로디우스다! 일본어판과 선행 영어 패치의 토큰 의미 차이.
-- **사고 맥락:** Game Gear에서는 특정 변수 토큰이 대상 엔진에서도 같은 의미라고 보고 보존했지만, 대상 엔진은 이를 영문 문자열의 일부로 표시했다. NES에서는 선행 영어 패치의 문장부호 글리프 코드를 일본어판 소비자가 탁점·반탁점 위치 제어로 처리해 한글 타일이 흩어졌다.
-- **결정 실험:** 각 대상의 토큰 처리기와 포인터·글리프 매핑을 원본과 대조했다. Game Gear의 정적 상태 토큰은 문맥에 맞는 한글 고정 문구로 바꾸고, NES의 위치 제어 코드는 글리프 배정에서 예약했다.
-- **확정 결과:** 같은 숫자·토큰 표기나 선행 패치의 글리프 모양은 대상 엔진에서 같은 의미를 보장하지 않았다.
-- **전이 한계:** 고정 문구 치환은 값이 실행 중 상태에 따라 달라지지 않는다고 확인된 범위에만 적용한다. 다른 토큰은 대상 엔진의 처리와 실행 중 값 변화를 다시 확인한다.
-- **관련 판단 기준:** `references/strategy/translation-workflow.md` §3.1·§4, `references/strategy/text-extraction.md` §4.4, `references/conventions/translation-artifacts.md` §3.
-
 ## GG-008
 
 - **관측 범위:** Game Gear 마도물어 A의 문자열 표와 필드 화면의 동적 금액·상태 문자열.

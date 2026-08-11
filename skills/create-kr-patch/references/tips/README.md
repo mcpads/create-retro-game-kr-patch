@@ -4,6 +4,8 @@
 
 현재 판단 영역과 관측한 증상이 발동 조건과 맞는 항목만 선택한다. 사례의 관측 범위와 전이 한계로 새 대상에서 다시 확인할 경계를 정하고, 완료는 사례가 아니라 그 사례의 **관련 판단 기준**이 가리키는 문서로 판정한다.
 
+사례 파일은 처음 관측한 플랫폼 수가 아니라 결론의 적용 범위로 나눈다. 결론을 적용하려면 특정 플랫폼의 저장·실행 규칙이 필요한 사례는 해당 플랫폼 파일에 두고, 그 규칙과 무관하게 판정할 수 있거나 같은 원인이 복수 플랫폼에서 확인된 사례는 `general.md`에 둔다. ID 접두사는 사례를 처음 보존한 출처만 나타낸다.
+
 판단 영역은 사례 본문의 관련 판단 기준이 가리키는 strategy 문서를 등장 순서대로 줄여 쓴 것이며, `SKILL.md` 라우팅 표의 판단 영역과 다음과 같이 대응한다. 시행 규약(`references/conventions/`)은 판단 영역에 넣지 않는다.
 
 | 색인 라벨 | 라우팅 판단 영역 | 문서 |
@@ -23,7 +25,7 @@
 | ID | 판단 영역 | 관측 플랫폼 | 발동 조건 | 사례 파일 |
 |---|---|---|---|---|
 | DC-001 | 추출 | Dreamcast | 포인터 간격으로 자른 항목이 다음 항목과 겹침 | `references/tips/dreamcast.md#dc-001` |
-| DC-002 | 폰트·그래픽·런타임 자산·빌드 | Dreamcast·SNES·Game Gear·Saturn | 공유 글리프·타일 슬롯이 다른 라벨·비텍스트 그래픽에서도 소비됨 | `references/tips/dreamcast.md#dc-002` |
+| DC-002 | 폰트·그래픽·런타임 자산·빌드 | Dreamcast·SNES·Game Gear·Saturn·PlayStation | 공유 글리프·타일 슬롯이 다른 라벨·숫자·비텍스트 그래픽에서도 소비됨 | `references/tips/general.md#dc-002` |
 | DC-003 | 디버깅·추출 | Dreamcast | 사람이 붙인 라벨과 실제 표시 데이터가 불일치 | `references/tips/general.md#dc-003` |
 | DC-004 | 재삽입·초기 조사 | Dreamcast·Saturn | 0 채움이나 정적 참조 부재로 고른 공간에서 부팅·진입 중 정지 | `references/tips/general.md#dc-004` |
 | DC-005 | 추출·번역·빌드 | Dreamcast | 번역문이 짧아진 뒤 후반 음성이 점점 일찍 끊김 | `references/tips/dreamcast.md#dc-005` |
@@ -44,21 +46,22 @@
 | SNES-014 | 재삽입 | SNES | 같은 뱅크 전용 참조와 뱅크 간 참조가 같은 공간을 두고 경쟁 | `references/tips/snes.md#snes-014` |
 | SNES-015 | 폰트 | SNES | 폰트 파싱은 성공했지만 실제 글리프 출력이 비어 있음 | `references/tips/general.md#snes-015` |
 | SNES-016 | 압축·초기 조사·런타임 자산 | SNES | 실행 중 글리프는 알지만 저장된 압축 원본 위치를 찾지 못함 | `references/tips/snes.md#snes-016` |
-| SNES-017 | 재삽입·런타임 자산 | SNES·NES | 보이는 공간을 썼지만 게임이 지우지 않아 다음 화면에 타일이 남음 | `references/tips/snes.md#snes-017` |
+| SNES-017 | 재삽입·런타임 자산 | SNES·NES·Mega Drive | 보이는 여백이나 논리 폭은 맞지만 잔상·인접 UI 손상이 남음 | `references/tips/general.md#snes-017` |
 | SNES-018 | 그래픽·런타임 자산·재삽입 | SNES | 정적 번역 타일맵이 게임의 동적 셀을 마지막에 덮음 | `references/tips/snes.md#snes-018` |
 | SNES-019 | PoC·런타임 자산·폰트 | SNES | 저장·VRAM 바이트는 맞지만 목표 글자가 아닌 타일을 교체 | `references/tips/snes.md#snes-019` |
 | SNES-021 | 번역·재삽입·빌드 | SNES | 일본어 고정 크기의 창에서 한국어 대사가 잘리거나 화면 밖으로 넘침 | `references/tips/snes.md#snes-021` |
 | SNES-022 | 그래픽·런타임 자산·재삽입·빌드 | SNES | 정적 분석에서 선택 강조 데이터와 읽기 범위가 원문 길이에 묶임 | `references/tips/snes.md#snes-022` |
 | SNES-024 | 추출·재삽입·런타임 자산 | SNES | 두 번째 포인터를 바꿨지만 전환 뒤 첫 블록 다음 주소부터 계속 읽음 | `references/tips/snes.md#snes-024` |
+| SNES-025 | 번역·재삽입·런타임 자산·빌드 | SNES | 고정 폭 순환 슬롯의 짧거나 빈 문구 뒤에 이전 내용이 남음 | `references/tips/snes.md#snes-025` |
 | SATURN-003 | 압축·디버깅 | Saturn | 무변경 원본 재압축도 게임에서 손상 | `references/tips/general.md#saturn-003` |
-| SATURN-004 | 추출·재삽입 | Saturn·SNES·PC-98 | 바이트 모양만으로 참조를 포함·제외해 거짓 참조나 실제 포인터 누락이 생김 | `references/tips/saturn.md#saturn-004` |
+| SATURN-004 | 추출·재삽입 | Saturn·SNES·PC-98 | 바이트 모양만으로 참조를 포함·제외해 거짓 참조나 실제 포인터 누락이 생김 | `references/tips/general.md#saturn-004` |
 | SATURN-005 | 그래픽·런타임 자산 | Saturn | 주 폰트를 바꿔도 메뉴 라벨이 남고 메뉴를 열 때 새 VRAM 쓰기가 없음 | `references/tips/general.md#saturn-005` |
 | SATURN-007 | 폰트·번역 | Saturn | 글리프 부족으로 번역 표현을 임시 축약 | `references/tips/general.md#saturn-007` |
-| SATURN-008 | 그래픽·초기 조사·런타임 자산 | Saturn·PlayStation | 저장 길이나 보이는 픽셀만으로는 비트 깊이·시작점·폭·높이·구간 경계 후보가 여러 개임 | `references/tips/saturn.md#saturn-008` |
+| SATURN-008 | 그래픽·초기 조사·런타임 자산 | Saturn·PlayStation | 저장 길이나 보이는 픽셀만으로는 비트 깊이·시작점·폭·높이·구간 경계 후보가 여러 개임 | `references/tips/general.md#saturn-008` |
 | SATURN-009 | 그래픽 | Saturn | 같은 배경의 여러 라벨에서 원문 없는 배경이 필요함 | `references/tips/saturn.md#saturn-009` |
-| SATURN-010 | 재삽입 | Saturn | 최종 파일은 정렬됐지만 중간 구조에서 멈춤 | `references/tips/saturn.md#saturn-010` |
+| SATURN-010 | 재삽입 | Saturn·Mega Drive | 최종 파일은 정렬됐지만 뒤 중간 구조부터 정지·손상 | `references/tips/general.md#saturn-010` |
 | SATURN-012 | 추출·재삽입 | Saturn | 한 번역 항목 안의 하위 문자열을 포인터가 직접 참조 | `references/tips/saturn.md#saturn-012` |
-| SATURN-013 | 추출·재삽입 | Saturn·PlayStation | 고정 슬롯을 패딩·절단한 뒤 정지·빈 페이지·연결 공백·오류 글리프가 생김 | `references/tips/saturn.md#saturn-013` |
+| SATURN-013 | 추출·재삽입 | Saturn·PlayStation | 고정 슬롯을 패딩·절단한 뒤 정지·빈 페이지·연결 공백·오류 글리프가 생김 | `references/tips/general.md#saturn-013` |
 | SATURN-016 | 추출·폰트·디버깅 | Saturn | 초반 글리프 대응은 맞지만 뒤쪽 메시지부터 다른 글자로 해석 | `references/tips/saturn.md#saturn-016` |
 | SATURN-017 | 폰트·런타임 자산 | Saturn | 대체 폰트를 바꿨지만 캐릭터 선택 뒤 실제 화면에는 반영되지 않음 | `references/tips/saturn.md#saturn-017` |
 | SATURN-018 | 압축·재삽입·런타임 자산 | Saturn | 파일 크기는 늘었지만 고정 해제 크기 때문에 끝부분이 적재되지 않음 | `references/tips/saturn.md#saturn-018` |
@@ -72,24 +75,27 @@
 | NDS-002 | 폰트·디버깅 | Nintendo DS | 폰트 항목을 하나 늘리자 타이틀 전 흰 화면에서 멈춤 | `references/tips/nds.md#nds-002` |
 | NDS-003 | 폰트 | Nintendo DS | 문서의 NFTR 청크명으로 raw byte를 검색하면 실패하고 기존 CMAP은 새 매핑 범위를 이미 덮음 | `references/tips/nds.md#nds-003` |
 | NES-001 | 초기 조사·빌드·디버깅 | NES | 선행 패치의 PRG-RAM 사용과 이미지 헤더 선언이 불일치 | `references/tips/general.md#nes-001` |
-| PCE-001 | 그래픽 | PC Engine CD·SNES | 논리 타일 번호를 물리 타일 좌표로 사용해 화면이 밀리거나 배경이 손상 | `references/tips/pce.md#pce-001` |
+| PCE-001 | 그래픽 | PC Engine CD·SNES | 논리 타일 번호를 물리 타일 좌표로 사용해 화면이 밀리거나 배경이 손상 | `references/tips/general.md#pce-001` |
 | PCE-002 | 빌드 | PC Engine CD | 사용자 데이터 오프셋으로 원시 섹터 이미지를 패치 | `references/tips/pce.md#pce-002` |
 | PCE-003 | 초기 조사·디버깅 | PC Engine CD | 핸들러의 즉시값을 하위 뱅크 식별자로 해석 | `references/tips/pce.md#pce-003` |
-| PCE-004 | 폰트·재삽입·런타임 자산·PoC | PC Engine CD·PlayStation | 별도 표시 루틴이 필요해 보이나 기존 글리프 변환·업로드 경로가 존재 | `references/tips/pce.md#pce-004` |
+| PCE-004 | 폰트·재삽입·런타임 자산·PoC | PC Engine CD·PlayStation | 별도 표시 루틴이 필요해 보이나 기존 글리프 변환·업로드 경로가 존재 | `references/tips/general.md#pce-004` |
+| PCE-005 | 그래픽·런타임 자산·빌드 | PC Engine CD | 배경만 고친 타이틀에 원본 스프라이트가 남거나 다른 진입 경로에서 재현됨 | `references/tips/pce.md#pce-005` |
 | PC98-001 | 폰트 | PC-98 | 표준 디코더 통계로 미사용 선행 바이트 선정 | `references/tips/pc98.md#pc98-001` |
 | PC98-002 | 폰트·빌드 | PC-98 | 생성기와 검증기가 같은 경계식을 공유 | `references/tips/pc98.md#pc98-002` |
 | PC98-003 | 재삽입·빌드 | PC-98 | 개별 NUL 간격으로는 긴 크레딧 문자열을 수용할 수 없음 | `references/tips/pc98.md#pc98-003` |
 | PC98-004 | 재삽입·빌드 | PC-98 | 여러 구간을 늘리자 뒤 포인터 위치와 가리키는 주소의 이동이 누락·중복 | `references/tips/pc98.md#pc98-004` |
+| PC98-005 | 추출·재삽입·빌드 | PC-98 | 포인터 없는 앞 문자열을 옮기자 이름이 비거나 이웃 항목으로 바뀜 | `references/tips/pc98.md#pc98-005` |
+| PC98-006 | 번역·추출·재삽입 | PC-98 | 공유 문자열의 소비자 하나만 확인하고 미확인 슬롯까지 다른 의미로 분리 | `references/tips/pc98.md#pc98-006` |
 | GG-001 | 디버깅 | Game Gear | 상점 가격과 후속 대사가 함께 어긋남 | `references/tips/gg.md#gg-001` |
-| GG-002 | 런타임 자산·디버깅 | Game Gear | 이전 VRAM이 남은 저장 상태 때문에 실제 폰트 원본 위치를 기각 | `references/tips/general.md#gg-002` |
+| GG-002 | 런타임 자산·디버깅 | Game Gear·SNES | 저장 상태나 늦은 관측 때문에 일회성 적재·쓰기를 놓쳐 원본 후보를 기각 | `references/tips/general.md#gg-002` |
 | GG-003 | 번역 | Game Gear | 디코더 수정 뒤에도 구 원문 기반 번역이 잔존 | `references/tips/general.md#gg-003` |
 | GG-005 | 재삽입 | Game Gear | 한 뱅크의 여러 포인터 테이블이 문자열 뒷부분을 공유 | `references/tips/gg.md#gg-005` |
 | GG-006 | 추출·번역 | Game Gear | 번역에서 인물 초상 제어가 페이지별로 누락 | `references/tips/gg.md#gg-006` |
-| GG-007 | 번역·추출 | Game Gear·NES | 원본 토큰을 보존했지만 대상 엔진에서 다른 의미로 소비 | `references/tips/gg.md#gg-007` |
+| GG-007 | 번역·추출 | Game Gear·NES | 원본 토큰을 보존했지만 대상 엔진에서 다른 의미로 소비 | `references/tips/general.md#gg-007` |
 | GG-008 | 재삽입·런타임 자산 | Game Gear | 길이 0인 항목이 실행 중 만들어지는 문자열의 포인터였음 | `references/tips/gg.md#gg-008` |
 | GG-009 | 재삽입·디버깅 | Game Gear | 공유 글리프 훅이 한 호출자의 문자 카운터를 덮음 | `references/tips/gg.md#gg-009` |
 | GG-010 | 추출·번역·빌드·재삽입 | Game Gear | 넓은 창 기준 검사로 같은 스크립트 영역의 좁은 창 넘침을 놓침 | `references/tips/gg.md#gg-010` |
 | GG-011 | 디버깅·재삽입·런타임 자산 | Game Gear | 정렬 변경 뒤 한 호출자에서만 이전 타일이 남음 | `references/tips/gg.md#gg-011` |
 | MD-001 | 빌드·추출 | Mega Drive | 번역 뒤 특정 대사에서 진행 정지 | `references/tips/megadrive.md#md-001` |
-| MD-002 | 번역 | Mega Drive | 초기 한국어 번역이 화자 제어 순서를 무시 | `references/tips/general.md#md-002` |
+| MD-002 | 번역 | Mega Drive·PC-98 | 문자열만 보고 번역해 화자 전환이나 실제 표시 역할을 잃음 | `references/tips/general.md#md-002` |
 | MD-003 | 폰트·런타임 자산·디버깅 | Mega Drive | 글리프마다 비슷한 데이터 블록 네 개가 반복됨 | `references/tips/megadrive.md#md-003` |
