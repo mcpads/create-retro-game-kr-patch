@@ -81,7 +81,7 @@ The same byte may mean different things in different engines. A token specificat
 
 ### 3.4 Unresolved tokens
 
-When boundary and argument width are established but meaning is unresolved, assign `forbidden` and preserve opcode, arguments, source order, and position in consumption order as raw representation. Translation must not delete, modify, or move it. Promote the entry for distribution only when changes to surrounding length, placement, and timing are shown not to change the token's consumed result or subsequent state. If that cannot be verified, or boundary or argument width is unresolved, assign no token policy and block the entry from translation and distribution eligibility.
+When boundary and argument width are established but meaning is unresolved, assign the `forbidden` policy in §4.4. Promote the entry for distribution only when changes to surrounding length, placement, and timing are shown not to change the token's consumed result or subsequent state. If that cannot be verified, or boundary or argument width is unresolved, assign no token policy and block the entry from translation and distribution eligibility.
 
 ### 3.5 Detection error assessment
 
@@ -94,7 +94,7 @@ A filter reducing candidate count does not by itself improve accuracy. Assess fa
 
 ### 4.1 Stable identifiers
 
-Each item needs identity and source coordinates that survive translation changes. Display order alone must not identify a reinsertion target. Follow `references/conventions/translation-artifacts.md` for preserved meaning and validation of identity, coordinates, and protected data. The project chooses field names and serialization.
+Each item needs identity and source coordinates that survive translation changes. Display order alone must not identify a reinsertion target. Follow `references/conventions/translation-artifacts.md` for preserved meaning and validation of identity, coordinates, and protected information. The project chooses field names and serialization.
 
 ### 4.2 Source preservation
 

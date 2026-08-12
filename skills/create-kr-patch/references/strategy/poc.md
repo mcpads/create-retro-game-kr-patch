@@ -1,6 +1,6 @@
 # Proof of concept
 
-Use a PoC to resolve uncertainty that can change deployability before dependent implementation. Prioritize a condition whose failure would block completion or force redesign. Reuse equivalent evidence from the same revision and conditions. Compare cost only among tests that preserve the same condition, prerequisites, and proof scope.
+Use a PoC to resolve uncertainty that can change distribution feasibility before dependent implementation. Prioritize a condition whose failure would block completion or force redesign. Reuse equivalent evidence from the same revision and conditions. Compare cost only among tests that preserve the same condition, prerequisites, and proof scope.
 
 ## 1. Role and entry conditions
 
@@ -82,4 +82,4 @@ Do not run a separate conditional test when the risk is absent or equivalent sta
 
 Record risk, representativeness, prior criteria, evidence, proved and unproved claims, rejected choices, and next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
 
-Adopt a successful PoC into the primary build from immutable source and combine it with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5, but components must not remain isolated. Component success becomes project success only after the integrated build passes `references/strategy/build-and-verify.md` §1.
+Adopt a successful PoC into the primary build from immutable source and combine it with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5, but components must not remain isolated. Component success becomes project success only after the primary build passes `references/strategy/build-and-verify.md` §1.

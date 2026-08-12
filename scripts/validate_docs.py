@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
+from typing import NamedTuple
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +49,28 @@ AGENT_ENGLISH_PATHS = (
 )
 AGENT_ENGLISH_LITERAL_PATHS = (TIPS_DIR,)
 HANGUL_RE = re.compile(r"[\uac00-\ud7a3]")
+
+
+class ReservedTerm(NamedTuple):
+    """A term one document owns, which other prose must not reuse for a general activity."""
+
+    term: re.Pattern[str]
+    qualifier: re.Pattern[str]
+    owner: str
+    message: str
+
+
+RESERVED_TERMS = (
+    ReservedTerm(
+        term=re.compile(r"\bHITL\b"),
+        qualifier=re.compile(r"\bHITL observations?\b"),
+        owner="references/conventions/project-records.md",
+        message=(
+            'HITL names the observation-request record format; use "human review" for '
+            "the activity, or name the record and cite its owning document"
+        ),
+    ),
+)
 TIP_REQUIRED_FIELDS = {
     "Search terms": {"Search terms"},
     "Observed scope": {"Observed scope"},
@@ -261,31 +284,55 @@ def validate_section_targets(
             errors.append(f"{path}: missing referenced section §{section}")
 
 
-def validate_agent_facing_language(errors: list[str]) -> None:
+def markdown_targets(targets: tuple[Path, ...]) -> list[Path]:
     paths: list[Path] = []
-    for target in AGENT_ENGLISH_PATHS:
+    for target in targets:
         if target.is_file():
             paths.append(target)
         elif target.is_dir():
             paths.extend(sorted(target.rglob("*.md")))
-    for path in paths:
+    return paths
+
+
+def validate_agent_facing_language(errors: list[str]) -> None:
+    for path in markdown_targets(AGENT_ENGLISH_PATHS):
         for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             prose = CODE_SPAN_RE.sub("", line)
             if HANGUL_RE.search(prose):
                 errors.append(
                     f"{repo_name(path)}:{line_no}: agent-facing guidance must use English"
                 )
-    for target in AGENT_ENGLISH_LITERAL_PATHS:
-        for path in sorted(target.rglob("*.md")):
-            for line_no, line in enumerate(
-                path.read_text(encoding="utf-8").splitlines(), 1
-            ):
-                prose = CODE_SPAN_RE.sub("", line)
-                if HANGUL_RE.search(prose):
-                    errors.append(
-                        f"{repo_name(path)}:{line_no}: agent-facing guidance must use English; "
-                        "preserve source-script evidence only in code spans"
-                    )
+    for path in markdown_targets(AGENT_ENGLISH_LITERAL_PATHS):
+        for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            prose = CODE_SPAN_RE.sub("", line)
+            if HANGUL_RE.search(prose):
+                errors.append(
+                    f"{repo_name(path)}:{line_no}: agent-facing guidance must use English; "
+                    "preserve source-script evidence only in code spans"
+                )
+
+
+def validate_reserved_terms(errors: list[str], paths: list[Path] | None = None) -> int:
+    """Reject a reserved term used outside its owning document without naming the record."""
+    if paths is None:
+        paths = markdown_targets(AGENT_ENGLISH_PATHS + AGENT_ENGLISH_LITERAL_PATHS)
+    checked = 0
+    for path in paths:
+        name = repo_name(path)
+        for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            prose = CODE_SPAN_RE.sub("", line)
+            for reserved in RESERVED_TERMS:
+                if not reserved.term.search(prose):
+                    continue
+                checked += 1
+                if name == reserved.owner:
+                    continue
+                if reserved.qualifier.search(prose):
+                    continue
+                if reserved.owner in line:
+                    continue
+                errors.append(f"{name}:{line_no}: {reserved.message}")
+    return checked
 
 
 def validate_tips(errors: list[str]) -> int:
@@ -422,6 +469,7 @@ def main() -> int:
     section_uses, explicit_count, section_count = collect_references(errors)
     validate_section_targets(section_uses, errors)
     validate_agent_facing_language(errors)
+    reserved_count = validate_reserved_terms(errors)
     tip_count = validate_tips(errors)
 
     if errors:
@@ -433,7 +481,8 @@ def main() -> int:
     print(
         "documentation validation passed: "
         f"references={explicit_count}, section_refs={section_count}, "
-        f"section_targets={len(section_uses)}, tips={tip_count}"
+        f"section_targets={len(section_uses)}, reserved_terms={reserved_count}, "
+        f"tips={tip_count}"
     )
     return 0
 

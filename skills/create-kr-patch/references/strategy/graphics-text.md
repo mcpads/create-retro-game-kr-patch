@@ -41,7 +41,7 @@ Mark the graphics-text scope complete only when every condition below holds:
 - The build reproduces protected-pixel, palette, container, and unchanged-round-trip checks.
 - Translated regions follow approved layout and visual criteria, remain readable without clipping against the real background and palette, and preserve every required state distinction.
 - Every target state and variant is assigned to a confirmed consumer path.
-- Static population coverage and runtime evidence establish each changed asset's storage → load → selection → display path under `references/strategy/runtime-assets.md` §2.
+- The link assessment in `references/strategy/runtime-assets.md` §2 passes for every changed asset, supported by static population coverage and runtime evidence.
 - Representative unchanged consumer paths preserve baseline behavior.
 
-The scope remains **incomplete** while any denominator item, background or protected region, shared-asset path, or real consumer remains unresolved. If text is visible only through an external substitute or appears outside the file population, locate the missing storage or composition layer. Exclude an incomplete item from release eligibility or resolve its cause.
+The scope remains **incomplete** while any denominator item, background or protected region, shared-asset path, or real consumer remains unresolved. If text is visible only through an external substitute or appears outside the file population, locate the missing storage or composition layer. Exclude an incomplete item from distribution eligibility or resolve its cause.

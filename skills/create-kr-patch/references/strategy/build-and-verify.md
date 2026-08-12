@@ -10,7 +10,7 @@ The build and distribution path must satisfy all of these conditions:
 - Rebuild from an immutable source and declared inputs. Never use a previously patched image as the input to the next build.
 - Reproduce every final change from build inputs. A change discovered manually must enter the build with its source, applicability, expected original state, and output rule.
 - When editing extracted assets, preserve stable entry identity, separate editable values from protected values, and retain undecoded data reversibly. Follow `references/conventions/project-conventions.md` §5.1 for unchanged reassembly equivalence.
-- Produce the patched image and distribution artifact from the same verification graph. Applying the distribution artifact must reproduce the build target.
+- Produce the patched image and distribution artifact from the same verification graph. Applying the distribution artifact must reproduce the target image.
 
 The primary build must combine every adopted translation, glyph, mapping, reinsertion, code, and container change into one result made from the immutable source. Successful component checks or PoC artifacts do not prove integration. The combined result must pass its declared static and runtime criteria. A development build may preserve source text or exclude ineligible translation assets under `references/conventions/translation-artifacts.md` §5, but every adopted technical change must still enter the same build. Attribute post-integration evidence to that exact result.
 
@@ -25,7 +25,7 @@ Every write from the source to the target image must satisfy the final-write ver
 Adopt a distribution format only when the project can prove that it:
 
 - distinguishes the supported source revision, size, and header, track, or sector representation before application;
-- compares the applied result with the build target;
+- compares the applied result with the target image;
 - represents file growth, final image size, and the required write set without loss;
 - identifies each input and application order for multi-track or multi-artifact releases; and
 - fixes a reproducible user application path and distribution conditions.
@@ -49,13 +49,13 @@ Make an integrity field a build responsibility only after establishing its consu
 
 Successful boot or tolerance in one execution environment does not prove structural or sector integrity.
 
-Build and application entry points must enforce the same source-identification rules. A mismatch must prevent output. The applied result must also match the build target.
+Build and application entry points must enforce the same source-identification rules. A mismatch must prevent output. The applied result must also match the target image.
 
 ## 4. Runtime verification
 
 Set runtime scope from the consumer paths touched by the change and from the distribution claims. Do not turn asset count into an equal number of runtime trials. Use `references/strategy/runtime-assets.md` §2 to determine which items share a proved link and which exceptions require separate execution.
 
-If the route to a target state is unknown, or state intervention could reduce reproduction cost, establish the route and the intervention's proof scope through `references/strategy/debugging.md` first.
+If the route to a target state is unknown, or state intervention could reduce reproduction cost, establish the route and the intervention's proof scope through `references/strategy/debugging.md` §2.1 first.
 
 - The development environment must expose observations that distinguish the current failure layer. Do not use absence of an event as negative evidence until the observation method's address, event, and input interpretation are known to cover the real consumer path.
 - When claiming support for a console, medium, loader, or execution environment, verify the final candidate on that target path. Add a second environment when tolerance or implementation-specific behavior in the first environment is a current risk. Implementations that are not independent do not count as independent evidence.
@@ -64,7 +64,7 @@ If the route to a target state is unknown, or state intervention could reduce re
 
 Bind every runtime result and reusable state or input recording to the exact target image and environment that produced it. Recreate the path on a new build unless byte identity or equivalent consumption at the relevant boundary has been established.
 
-Turn a repeated, objectively decidable regression into a reproducible runtime check. When the required observation is unavailable or the final semantic or visual judgment is not mechanically decidable, retain an explicit HITL review instead of reporting automated success.
+Turn a repeated, objectively decidable regression into a reproducible runtime check. When the required observation is unavailable or the final semantic or visual judgment is not mechanically decidable, retain an explicit human review instead of reporting automated success.
 
 ## 5. Text, presentation, and interaction QA
 
@@ -73,7 +73,7 @@ Judge final text, presentation, and interaction changes on their actual consumer
 - Translation review and the build must use the same constraint model.
 - Include automatic wrapping, control-token state transitions, and worst-case variable insertion when they affect the consumed result.
 - Judge dialogue, menus, and name entry separately when they use different consumers.
-- A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling or human readability to warnings or HITL review.
+- A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling or human readability to warnings or human review.
 - Judge glyphs and baked graphics text against the visual completion criteria in `references/strategy/font-strategy.md` §4 and `references/strategy/graphics-text.md` §4, using real backgrounds, palettes, and states.
 - When a window or frame changes size or position, verify actual anchors, clipping, screen bounds, and overlap with portraits, cursors, and adjacent UI.
 - When a change touches state-specific assets or placement, verify the distinctions and transitions among applicable default, focused, selected, and disabled states. Verify affected navigation, confirm, and cancel event, repeat, state-transition, and result behavior against the target model.
@@ -84,7 +84,7 @@ Source character counts, line breaks, and observed maxima describe source usage,
 
 ## 6. Issue closure and release readiness
 
-Close a defect only when the same reproduction passes on the fix and the affected branches, shared state, and representative previously working paths pass regression. A decision that behavior is original or out of scope needs evidence distinguishing it from the defect. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7 and diagnose causes through `references/strategy/debugging.md`.
+Close a defect through the fix completion conditions in `references/strategy/debugging.md` §1, and close one as original or out-of-scope behavior through `references/strategy/debugging.md` §6. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7.
 
 Incomplete human review of the declared translation scope does not block development builds or technical verification. A release candidate must satisfy all of these conditions:
 
@@ -92,5 +92,5 @@ Incomplete human review of the declared translation scope does not block develop
 - The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, with unresolved and completed areas distinguished.
 - Every declared automated build, application, and runtime check passes.
 - No known critical defect remains, and the scope and effect of unresolved items inform the release decision.
-- Every declared HITL review is complete.
+- Every declared human review is complete.
 - Applying the distribution artifact reproduces the verified target image.

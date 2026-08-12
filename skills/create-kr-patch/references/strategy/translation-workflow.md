@@ -55,7 +55,7 @@ One speaker rule need not apply across every relationship or scene. When differe
 
 ## 3. Approved terminology and voice
 
-Manage reusable decisions such as names, system terms, recurring expressions, and speaker voice in one approved basis. Distinguish decision, applicability, evidence, and review state, following `references/conventions/translation-artifacts.md`.
+Manage reusable decisions such as names, system terms, recurring expressions, and speaker voice in one approved basis. Distinguish decision, applicability, evidence, and review state, following `references/conventions/translation-artifacts.md` §1.1.
 
 - Writers and reviewers use the same approved basis and must not adopt silent local variants.
 - Split applicability when one source term refers to different targets, speakers, or scenes; do not create unexplained variants for the same target.
@@ -115,6 +115,8 @@ When translated output exceeds observed source usage, do not shorten it automati
 
 Do not merge mechanically decidable violations with semantic judgment. Semantic or human approval cannot replace protected-information, state, encoding, or consumer checks, and passing mechanical checks cannot replace semantic review.
 
+### 5.1 What automation may decide
+
 | Class | Subject | Role of automation |
 |---|---|---|
 | Established constraint | Protected fields and tokens; encoding and glyph mapping; confirmed width, height, row, page, and slot limits; approved wording with one unambiguous applicability and output | Withhold distribution eligibility and block release-candidate builds on violation |
@@ -123,11 +125,15 @@ Do not merge mechanically decidable violations with semantic judgment. Semantic 
 
 Observed source maxima are not established consumer constraints by themselves. Dictionary presence does not prove correctness or error. Unresolved heuristic findings may remain review candidates; detection alone is not a confirmed defect and must not decide fitness automatically.
 
+### 5.2 Batch transformation of translated prose
+
 An automated check may identify translation-defect candidates and affected scope. A batch transformation based on such a rule may edit translations only after a human explicitly approves the rule, baseline, scope, and expected impact. Any change to them requires renewed approval. Approval of the transformation does not grant distribution eligibility; results must pass current source, context, terminology, voice, protected-information, and consumer checks. Send exceptions and high-impact semantics to unit-level translation and review. Serialization, protected-information checks, and states derived from pass criteria do not require this approval when they do not change translation meaning.
+
+### 5.3 High-impact semantic judgment
 
 Judge semantic impact by whether an error would materially change player understanding, choice, progression, relationships, or authorial intent, not by a fixed ranking of quality categories. Record options and evidence for conflicts in source interpretation, new wording, adapted wordplay or cultural elements, and uncertain speaker or relationship. Human approval is required. One unresolved high-impact judgment blocks the affected unit from distribution eligibility.
 
-### Timing of human review for the complete distribution scope
+### 5.4 Timing of human review for the complete distribution scope
 
 The first-draft corpus is an input for measuring representation demand. Complete-scope human review must finish before release-candidate judgment, but should begin only after the integrated development build establishes that:
 
@@ -139,7 +145,7 @@ Check mapping and coverage mechanically across the complete corpus and runtime i
 
 Human decisions needed earlier for terminology, voice, or high-impact source interpretation may proceed. If glyph reduction changes meaning or voice, obtain approval at that point. Limit early review to necessary decisions. If later review introduces new glyph or state-specific demand, return the affected scope to glyph-budget and consumer-path assessment.
 
-### Conditional flow for an LLM first draft
+### 5.5 Conditional flow for an LLM first draft
 
 When an LLM first draft made under §3.1 is considered for distribution eligibility, apply this decision chain:
 

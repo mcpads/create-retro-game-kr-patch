@@ -21,7 +21,7 @@ A reproduction must identify enough input, state, route, and observation to dist
 
 Before an experiment, state which outcomes promote or reject each hypothesis. Narrow the question if no possible result would reduce the current choices.
 
-### Reaching a target state and intervening in state
+### 2.1 Reaching a target state and intervening in state
 
 First define the question, target state, and prerequisites that must remain real. When controls, progression, branches, or acquisition conditions are unknown, consult manuals, guides, walkthroughs, play videos, or cheat references to narrow candidate routes. Check the region, revision, and prerequisites described by each source, then reverify them on the target build. Reuse an already verified route under the same baseline and conditions. External material proposes entry routes and input sequences; it does not prove target state or code path.
 
@@ -31,7 +31,7 @@ Before editing state or forcing a routine call, use static and dynamic evidence 
 
 An intervened state proves only the prerequisites preserved after intervention and the consumption that follows the target state. If caller selection, acquisition conditions, branch or event state, saves, loads, or other transitions are under test, use normal play or a verified caller path. Record investigative interventions but keep them out of patch content and reproducible build inputs.
 
-### Isolating a changed factor
+### 2.2 Isolating a changed factor
 
 Use removal or addition as causal evidence only when the suspected change can be toggled independently.
 
@@ -53,7 +53,7 @@ Cause confirmation must connect:
 faulty input, instruction, or rule -> first incorrect state -> propagation and lifetime -> observed failure
 ```
 
-A screen, log line, crash location, or last writer may be only the end of the chain. Find the first divergence along storage -> lookup -> load/transform -> residency -> consumption from `references/strategy/runtime-assets.md`, then explain why the fix breaks that causal path.
+A screen, log line, crash location, or last writer may be only the end of the chain. Find the first divergence along storage → lookup → load or transform → residency → consumption from `references/strategy/runtime-assets.md`, then explain why the fix breaks that causal path.
 
 Identical symptom names do not imply identical causes. Rank candidates by how well they explain current observations and the chain, then choose the lowest-cost experiment among those that distinguish the same hypotheses.
 
@@ -68,7 +68,7 @@ Collect only values and events that distinguish current hypotheses. The observat
 
 Use `references/strategy/build-and-verify.md` §4 to set the verification scope for console, medium, loader, and execution-environment claims.
 
-When mechanical evidence cannot decide and HITL is required, ask for an observation whose possible answers distinguish hypotheses and next actions. If the response has no discriminating power, do not confirm a conclusion; narrow the requested observation and return it to the original causal chain. Automate a human-observed pattern only when the same input permits an objective result.
+When mechanical evidence cannot decide, request a HITL observation under `references/conventions/project-records.md` §6, and require that its possible answers distinguish hypotheses and next actions. If the response has no discriminating power, do not confirm a conclusion; narrow the requested observation and return it to the original causal chain. Automate a human-observed pattern only when the same input permits an objective result.
 
 ## 5. Fix and regression
 
@@ -77,13 +77,13 @@ Limit a fix to the established defect and necessary impact range. Do not mix unr
 After the fix, rerun the original reproduction and retain regression checks proportional to impact and recurrence risk:
 
 - Make calculable length, range, and mapping invariants build checks.
-- Keep state or lifetime defects visible only at runtime as repeatable scenarios or explicit HITL review.
+- Keep state or lifetime defects visible only at runtime as repeatable scenarios or explicit human review.
 - Bind preserved saved states and input recordings to compatible builds and environments.
 - Recheck paths sharing state resources, branches touched by the fix, and representative previously working paths.
 
 Do not expand one issue's regression scope to every game feature.
 
-## 6. Completion
+## 6. Issue closure
 
 To close an issue as original behavior, reproduce the same scene and input on a supported source build when possible. If that is impossible, record the comparison scope and remaining uncertainty. Similar appearance in another environment does not establish identical behavior.
 

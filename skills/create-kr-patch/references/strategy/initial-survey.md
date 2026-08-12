@@ -17,7 +17,7 @@ Treat risks such as encoding space, glyph capacity, name entry, relocation, comp
 
 ## 2. Follow dependency boundaries instead of a fixed sequence
 
-The categories below are not mandatory stages. Begin from storage or consumption according to available evidence. Work on the unresolved completion-critical condition, not merely the easiest local success.
+Media, logical files or blocks, code consumers, fonts, and text structure are possible investigation categories, not a required sequence. Begin from storage or consumption according to available evidence. Work on the unresolved completion-critical condition, not merely the easiest local success.
 
 For each result, ask whether it changes:
 
@@ -32,7 +32,7 @@ Defer investigation that changes none of these. Establish another category's bou
 
 ### 2.1 Input and rebuild boundary
 
-- Identify each supported revision with a hash or an equally strong fingerprint.
+- Identify each supported revision with a hash and the structural fingerprints the build requires.
 - For containers or filesystems, establish an unchanged rebuild round trip under `references/conventions/project-conventions.md` §5.1 before editing.
 - For direct patching, establish expected source bytes and the complete post-change range.
 - Investigate filesystem, track, and sector details only when the build reads or rewrites them.
@@ -52,7 +52,7 @@ A candidate address that merely falls within a plausible range does not establis
 - When replacing an existing glyph in the same format changes the target screen as predicted, it proves that the replacement path can reuse that consumer.
 - A new encoding, hook, dynamic supplier, or relocation must state the solved constraint and the new consumption conditions it introduces.
 - Derive cell and glyph demand from the target corpus and actual budgets.
-- When source text for a finite display area can be enumerated without added assumptions, measure applicable visible width, rows, pages, and start/end behavior at the consumer or window path, including control tokens and variable insertions. A stored source width or height is evidence of capacity only after establishing that the consumer uses it. Use `references/strategy/translation-workflow.md` §4 to distinguish source usage from confirmed capacity.
+- When source text for a finite display area can be enumerated without added assumptions, measure applicable visible width, rows, pages, and start/end behavior at the consumer or window path, including control tokens and variable insertions. A stored source width or height is evidence of capacity only after establishing that the consumer uses it. Use `references/strategy/translation-workflow.md` §4 to distinguish observed source usage from confirmed consumer capacity.
 
 ### 2.4 Capacity and runtime assets
 
@@ -115,7 +115,7 @@ The initial survey is complete when:
 2. A representative target has a reversible storage and consumer interpretation.
 3. Initial volume is labeled exact, lower bound, estimate, or unresolved.
 4. Required PoCs are distinguished from conditional PoCs, and skipped tests cite equivalent evidence.
-5. Each unresolved completion-critical condition has a next diagnostic or workaround.
+5. Every unresolved risk has a next diagnostic or workaround.
 6. No high-impact risk remains without a diagnostic or viable design branch.
 
 Produce:

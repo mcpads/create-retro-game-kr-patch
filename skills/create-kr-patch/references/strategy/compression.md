@@ -52,9 +52,9 @@ A proves agreement between the project's own implementations only; it does not p
 - compare the expected decompressed bytes with output from the target consumer or the independent evidence established in §2; and
 - treat post-decompression load or display as supporting evidence for consumption, not as a replacement for output correctness.
 
-### Unchanged control for observed defects
+### 4.1 Unchanged control for observed defects
 
-When a recompressed asset fails and codec behavior must be separated from content changes, recompress unchanged source-decompressed bytes with the same compressor and feed them through the same consumer path. This applies the change isolation in `references/strategy/debugging.md` §2 and must satisfy its isolation conditions.
+When a recompressed asset fails and codec behavior must be separated from content changes, recompress unchanged source-decompressed bytes with the same compressor and feed them through the same consumer path. This applies the change isolation in `references/strategy/debugging.md` §2.2 and must satisfy its isolation conditions.
 
 - Failure of the unchanged recompression keeps a semantic mismatch between compressor and target decompressor as a cause candidate.
 - Success of the unchanged recompression with failure only after editing moves attention to edited boundaries, output limits, placement, and downstream consumption.

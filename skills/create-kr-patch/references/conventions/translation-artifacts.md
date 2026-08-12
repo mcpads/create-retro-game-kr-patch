@@ -1,6 +1,6 @@
 # Translation asset conventions
 
-Preserve source text, review state, reversible control codes, and build eligibility required by translation strategy through the meanings and checks below. Retain an existing schema or work-management system that provides equivalent meaning and validation, including its serialization, directories, and field names.
+Preserve source text, review state, reversible control codes, and build-input eligibility required by translation strategy through the meanings and checks below. Retain an existing schema or work-management system that provides equivalent meaning and validation, including its serialization, directories, and field names.
 
 ## Contents
 
@@ -32,7 +32,7 @@ Translation made while evaluating another model or agent must identify evaluatio
 
 Immediately before merge or reinsertion, compare source identity and raw bytes against supported source or the current extraction baseline regenerated from it, not merely against metadata copied among batches. A mismatch identifies output from an older baseline; do not merge until its impact has been assessed.
 
-### Approved terminology and voice decisions
+### 1.1 Approved terminology and voice decisions
 
 The approved basis for terms, repeated expressions, and voice must distinguish a stable decision ID, source referent or situation, approved output, applicability by title, revision, scene, speaker relationship, and narrative point, evidence and transfer limit, and approved, unresolved, or conflicting state. Because one source term may have scope-specific decisions, do not use the source string as a globally unique key. When new evidence changes a decision, retain enough lineage to identify affected batches requiring revalidation; do not silently overwrite it. The project chooses file count, table structure, and field names.
 
@@ -108,7 +108,7 @@ Work management must distinguish at least these meanings. Names are examples:
 
 The existing project chooses representation. When file-level and entry-level states coexist, validate agreement and derive one from the other when possible.
 
-`references/strategy/translation-workflow.md` §5 defines the boundary between established checks and language heuristics. Heuristics may generate human-review candidates but must not decide translation fitness from detection alone.
+`references/strategy/translation-workflow.md` §5.1 defines the boundary between established checks and language heuristics. Heuristics may generate human-review candidates but must not decide translation fitness from detection alone.
 
 ## 5. Build-input eligibility
 

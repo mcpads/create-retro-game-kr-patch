@@ -1,6 +1,6 @@
 # Font strategy
 
-Determine the target revision's code-to-glyph mapping, stored repertoire, state-specific active working sets, representation, and verification criteria. Do not assume a font product, conversion tool, cell size, or cache implementation. Investigate constraints that can change the design, and keep distinct budgets separate.
+Determine the target revision's code-to-glyph mapping, total repertoire, state-specific active working sets, representation, and verification criteria. Do not assume a font product, conversion tool, cell size, or cache implementation. Investigate constraints that can change the design, and keep distinct budgets separate.
 
 ## 1. Conditions to establish
 
@@ -9,7 +9,7 @@ Investigate an answer when it can change a later choice:
 - Which dialogue, UI, battle, and graphics consumers share a code table and glyph provider?
 - Which characters are required by the distribution corpus and runtime insertion values?
 - How does a stored code reach glyph selection and pixel consumption?
-- What limits the complete stored repertoire, and what separately limits glyphs active in one state?
+- What limits the total repertoire, and what separately limits glyphs active in one state?
 - Which cell, bit depth, layout, palette, and clearing range does the real consumer require?
 - Can the adopted glyph source and transform inputs be reproduced and distributed?
 
@@ -37,8 +37,8 @@ For a fixed supported revision, treat exhaustively verified code sets and mappin
 
 ### 2.2 Precomposed and compositional Hangul
 
-- Consider precomposed glyphs when the complete repertoire fits and the existing one-code-to-one-glyph path can consume it.
-- Consider composition when the complete repertoire cannot fit, supply cannot be expanded, and an additional composition, placement, and clearing path can be verified.
+- Consider precomposed glyphs when the total repertoire fits and the existing one-code-to-one-glyph path can consume it.
+- Consider composition when the total repertoire cannot fit, supply cannot be expanded, and an additional composition, placement, and clearing path can be verified.
 - An existing composition or dynamic glyph path is only a candidate. Verify its input range and state lifetime before applying it to Hangul.
 
 Neither representation guarantees readability in a small cell or layout fitness. Judge the target output.
@@ -84,7 +84,7 @@ Font names, stated uses or sizes, and previews only narrow candidates. Distingui
 Adoption requires:
 
 - Every required glyph exists, and actual ink remains within the cell and clearing range.
-- Samples include continuous translated sentences, dense Hangul forms, and the spaces, punctuation, digits, and Latin characters used on the path. On the real background and palette they retain contrast and readability, align baseline, line height, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
+- Samples include continuous translated sentences, syllables carrying final consonants, compound vowels, and high stroke density, and the spaces, punctuation, digits, and Latin characters used on the path. On the real background and palette they retain contrast and readability, align baseline, line height, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
 - Every required fill, outline, shadow, highlight, or gloss layer retains its intended role in consumed output.
 - The exact source version and license permit distribution of derivatives and any required source files.
 - Fixed inputs and transform rules reproduce the same game data.

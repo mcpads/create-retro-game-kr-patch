@@ -101,7 +101,7 @@ Do not disguise multiple revisions, runtime-generated data, or unresolved struct
 
 ## 5. Reinsertion policy data
 
-Keep per-entry policy in build data separate from translator-edited prose. If translation assets reference it, use a stable entry key and treat the policy as protected data.
+Keep per-entry policy in build data separate from translator-edited prose. If translation assets reference it, use a stable entry key and treat the policy as protected information.
 
 The representation must preserve these meanings; field names are examples:
 
