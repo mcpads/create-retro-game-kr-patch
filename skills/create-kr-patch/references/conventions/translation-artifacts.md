@@ -92,7 +92,7 @@ Represent control codes in human-editable source and translated text as tokens r
 - undecoded code: `{op27:0B}`
 - undecoded raw byte with established boundary: `{raw:XX}`
 
-Token syntax must be bijective with byte sequences. Define escaping for literal syntax collisions. `references/strategy/text-extraction.md` §4.4 determines preserve, move, recompute, translate-to-target-meaning, and forbidden policies. Build-input checks compare token set, order, parameters, and transformed output according to the applied policy. Do not require one-to-one position for every token. Projects may rename tokens and punctuation while preserving reversibility and verification.
+Token syntax must be bijective with byte sequences. Define escaping for literal syntax collisions. `references/strategy/text-extraction.md` §4.4 determines each token's policy. Build-input checks compare token set, order, parameters, and transformed output according to the applied policy. Do not require one-to-one position for every token. Projects may rename tokens and punctuation while preserving reversibility and verification.
 
 ## 4. Progress-state meaning
 

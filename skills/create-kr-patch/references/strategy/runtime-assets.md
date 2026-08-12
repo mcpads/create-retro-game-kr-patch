@@ -28,6 +28,7 @@ At every changed boundary, determine:
 2. Does the real read path select that object and pass the verified load or transform result to the next memory boundary?
 3. Does the delivered asset have the required capacity and lifetime, including after relevant state transitions, until consumption?
 4. Does every required consumer read the asset with the same format, encoding, and index rules, and can the result be connected through RAM, VRAM, or final output?
+5. Does the load leave concurrent audio, input, and display state intact?
 
 Boot success, matching bytes inside an image, or one apparently correct screen does not establish the complete changed link. Limit every claim to the changed boundaries, consumer paths, and state transitions that can alter asset lifetime.
 

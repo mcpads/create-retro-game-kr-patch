@@ -95,7 +95,7 @@ When a term, voice decision, or source interpretation changes across batches, re
 
 Separate translatable content from structure that must remain. Translation must not change source-baseline values such as raw bytes, identifiers, pointer evidence, and boundary information.
 
-Assign control-token policies from actual consumption: preserve, move within layout, recompute, translate to target meaning, or forbid editing. A token that changes meaning or execution, such as termination, event, or variable insertion, includes order and arguments in its preservation rule. Preserve an unresolved-meaning token in forbidden raw form only when boundary and argument width are established. Otherwise block the unit from translation and distribution eligibility. Apply `references/conventions/translation-artifacts.md` §3 to representation and `references/strategy/text-extraction.md` §4.4 to reversibility and policy.
+Assign each control token a policy from actual consumption. A token that changes meaning or execution, such as termination, event, or variable insertion, includes order and arguments in its preservation rule. Preserve an unresolved-meaning token in forbidden raw form only when boundary and argument width are established. Otherwise block the unit from translation and distribution eligibility. Apply `references/conventions/translation-artifacts.md` §3 to representation and `references/strategy/text-extraction.md` §4.4 to reversibility and policy.
 
 Line, page, and wait tokens may move for Korean readability, page rhythm, and display constraints only after their consumer meaning and valid positions are established. Require equivalent state transitions under the token policy. Judge window, portrait, selection, input, voice, and event tokens by their own policies and verify changes through `references/strategy/build-and-verify.md` §5.
 
@@ -156,7 +156,7 @@ LLM first draft -> independent second LLM review -> options and evidence to a hu
 
 The second review must not assume the first draft's conclusion. In a separate review context, compare source, approved basis, speaker and scene evidence, and protected and consumer constraints again. When meaning, wording, or voice has alternatives, present options, evidence, impact, and a recommendation instead of silently overwriting the draft. Agreement between two generations does not approve quality. Human approval remains final, and affected units remain ineligible until then.
 
-Independence means a review that does not take the first draft's reasoning or conclusion as the answer. It does not require a specific model, service, or execution mechanism. This flow triggers only when a project chooses an LLM first draft.
+Independence means a review that does not take the first draft's reasoning or conclusion as the answer. It does not require a specific model, service, or execution mechanism.
 
 ## 6. Distribution eligibility
 
@@ -166,7 +166,8 @@ Promote only a scope satisfying all of these conditions:
 2. Applicable terminology and voice match the approved basis.
 3. Protected tokens and actual consumer constraints pass.
 4. High-impact semantic judgments are resolved with required human approval.
-5. If an LLM produced the first draft, it received independent second LLM review and human-facing options and evidence.
+5. The first draft received independent second review with human-facing options and evidence.
+6. The entry passes the build-input checks in `references/conventions/translation-artifacts.md` §5.
 
 An ineligible translation may be used only as an explicitly non-distribution development, technical, or PoC input. Output from a model or agent that failed §3.1 evaluation is not eligible for this exception. Such use neither grants distribution eligibility nor bypasses the conditions above; follow `references/conventions/translation-artifacts.md` §5 for identification and protection.
 
