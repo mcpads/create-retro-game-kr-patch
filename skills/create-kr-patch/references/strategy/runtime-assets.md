@@ -2,7 +2,7 @@
 
 Determine whether a font, script, graphic, mapping table, or compressed block is used by connecting **storage → lookup → load or transform → residency → consumption**.
 
-Choose asset formats, placement, loader implementations, and verification tools for the target project. Apply only the internal-validity criteria in §4 that correspond to changed stages. This document determines whether each stage's output becomes the next stage's input.
+Choose asset formats, placement, loader implementations, and verification tools for the target project. Use §4 to route each changed component to the document that owns its criteria. This document determines whether each stage's output becomes the next stage's input.
 
 ## 1. Trigger conditions
 
@@ -18,7 +18,7 @@ A separate link assessment is unnecessary for a same-size replacement only when 
 
 ## 2. Link assessment
 
-`Storage → lookup → load or transform → residency → consumption` is a dependency model, not a required implementation sequence. Directly mapped assets may combine stages, and some assets have no transform. Exclude an inapplicable stage only with evidence. Reuse prior evidence only when it covers the same supported revision, asset identity, consumer path, and state lifetime, and the current change does not alter that link. One trace may establish several links.
+`Storage → lookup → load or transform → residency → consumption` is a dependency model, not a required implementation sequence. Directly mapped assets may combine stages, and some assets have no transform. Exclude an inapplicable stage only with evidence. Reuse prior evidence only when it passes `references/strategy/poc.md` §2, asset identity and state lifetime match, and the current change does not alter that link. One trace may establish several links.
 
 Do not make runtime sample count equal file or item count. For a population enumerated through `references/strategy/initial-survey.md` §2.5, assess together only items that have static evidence for the same selection rule and link. A representative runtime sample proves that the shared link operates; static coverage must still establish which other items use it. Produce separate runtime evidence when links differ or static analysis cannot distinguish them. Add boundary items when size, format, metadata, or state transition can change consumption even within one link class.
 
@@ -28,7 +28,7 @@ At every changed boundary, determine:
 2. Does the real read path select that object and pass the verified load or transform result to the next memory boundary?
 3. Does the delivered asset have the required capacity and lifetime, including after relevant state transitions, until consumption?
 4. Does every required consumer read the asset with the same format, encoding, and index rules, and can the result be connected through RAM, VRAM, or final output?
-5. Does the load leave concurrent audio, input, and display state intact?
+5. Does a new or changed load leave concurrent audio, input, and display state intact?
 
 Boot success, matching bytes inside an image, or one apparently correct screen does not establish the complete changed link. Limit every claim to the changed boundaries, consumer paths, and state transitions that can alter asset lifetime.
 

@@ -39,7 +39,7 @@ Growth or relocation fails for a scope if any required condition cannot be updat
 
 ## 2. Reference completeness and coordinates
 
-Use `references/strategy/initial-survey.md` §3.1 to decide when an approved catalog or structural parser becomes repeated-build specification and when heuristic search remains only an audit.
+Use `references/strategy/text-extraction.md` §1.3 to decide when an approved catalog or structural parser becomes repeated-build specification and when heuristic search remains only an audit.
 
 Each reference must distinguish at least:
 
@@ -122,6 +122,7 @@ If the presence of an invariant is unresolved, return to consumer investigation 
 Reinsertion is complete only when all of these hold:
 
 - Every entry has an established policy under §1, with no overflow and no unresolved entry.
-- Relocated output passes every check in §3.
+- Every changed reference passes §2, and relocated output passes every check in §3.
+- A chosen code hook passes §4.
 - Adopted space passes §5, and a change that triggers `references/strategy/runtime-assets.md` §1 passes the link assessment in `references/strategy/runtime-assets.md` §2.
 - Every invariant present on the target path passes §6.

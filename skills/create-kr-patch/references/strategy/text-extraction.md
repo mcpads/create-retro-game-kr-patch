@@ -21,7 +21,7 @@ One statistic, standard decode, search hit, or visual resemblance does not estab
 
 ### 1.3 Reference population
 
-For a fixed supported revision, an exhaustively reviewed catalog of pointers, indexes, and script references is explicit specification. Repeated builds must verify and consume its count, locations, and expected bytes. Parse inputs whose count and boundaries follow completely from established structure within the declared scope. Use heuristic searches to discover candidates and audit omissions, never to adopt results automatically.
+For a fixed supported revision, an exhaustively reviewed catalog of pointers, indexes, and script references is explicit specification. Repeated builds must verify and consume its count, locations, and expected bytes. Parse inputs whose count and boundaries follow completely from established structure within the declared text scope. Use heuristic searches to discover candidates and audit omissions, never to adopt results automatically.
 
 Establish reference width, endianness, base, bank, and segment from the real consumer, not platform convention. Do not use file order, pointer sorting, or the next reference as a boundary unless the consumer guarantees it. Preserve duplicate pointers, shared tails, and interior-string entries.
 
@@ -37,7 +37,7 @@ Do not merge unresolved into excluded. If the denominator is not established, re
 
 ### 1.5 Volume survey before scaling translation
 
-A technical PoC on a representative unit is different from a volume decision for distribution scope. When a static asset list or an established parser, table, or reference boundary can enumerate the declared scope without new assumptions, enumerate the full scope at that point. Do not make manual accumulation after each newly observed screen or file the default way to establish a denominator.
+A technical PoC on a representative unit is different from a volume decision for distribution scope. When a static asset list or an established parser, table, or reference boundary can enumerate the declared text scope without new assumptions, enumerate the full scope at that point. Do not make manual accumulation after each newly observed screen or file the default way to establish a denominator.
 
 Measure by localization kind and consumer scope, distinguishing:
 

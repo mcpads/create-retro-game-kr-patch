@@ -4,7 +4,7 @@ Before runtime verification, distinguish the target state, routes to that state,
 
 ## 1. Completion conditions
 
-A defect fix is complete only when:
+A defect fix is complete only when all of these hold:
 
 - the baseline input, build, runtime state, symptom, and pass/fail observation are repeatable;
 - direct observations, cause hypotheses, and rejected conclusions remain distinct;

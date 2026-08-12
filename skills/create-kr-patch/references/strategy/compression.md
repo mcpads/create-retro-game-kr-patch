@@ -6,10 +6,7 @@ Apply these trigger conditions and verification criteria when modifying compress
 
 Use this strategy when the target loader or consumer transforms stored input into another byte stream and that output is linked to actual consumption. Do not establish a separate compression path when the transform boundary is unresolved or compression does not affect the current decision.
 
-Declare the supported denominator when this strategy applies:
-
-- Declare the denominator under `references/conventions/project-conventions.md` §5.1.
-- Preserve unsupported variants unchanged or reject them explicitly.
+When this strategy applies, declare the supported denominator under `references/conventions/project-conventions.md` §5.1. Preserve unsupported variants unchanged or reject them explicitly.
 
 ## 2. Consumer format interpretation
 

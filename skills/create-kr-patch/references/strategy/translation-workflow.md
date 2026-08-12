@@ -11,13 +11,13 @@ Translation eligibility and distribution eligibility are separate.
 
 Define the eligibility unit at the real build-selection boundary. Do not expand one unresolved item to an unrelated scope or silently include it in a selected range. A defect found in review or runtime QA revokes eligibility for affected units and returns them to the relevant decision.
 
-Human review of the declared translation scope is a release-candidate condition, not a blocker for technical development. Preserve source text for incomplete units or mark them as development inputs under `references/conventions/translation-artifacts.md` §5. Any input selected by a development build must still preserve protected information and established structural and consumer constraints.
+Human review of the declared localization scope is a release-candidate condition, not a blocker for technical development. Preserve source text for incomplete units or mark them as development inputs under `references/conventions/translation-artifacts.md` §5. Any input selected by a development build must still preserve protected information and established structural and consumer constraints.
 
 Declare the completion denominator from confirmed translation targets and evidenced exclusions. A count difference between new extraction and existing assets is a candidate change, not a missing-translation count until additions, removals, duplicates, and non-text are distinguished.
 
 Before scaling translation to the full distribution scope, pass the volume survey in `references/strategy/text-extraction.md` §1.5. Do not generalize earlier local results into total workload, completion, or complete-corpus demand.
 
-Apply `references/conventions/translation-artifacts.md` to asset states and protected information, and `references/strategy/build-and-verify.md` §1 to common build inputs.
+Apply `references/conventions/translation-artifacts.md` to asset states and protected information, and `references/strategy/build-and-verify.md` §1 to primary build inputs.
 
 ## 2. Establishing context
 
@@ -68,7 +68,7 @@ Automation may flag candidates against approved decisions but cannot approve a n
 
 ### 3.1 Translation work and agent assignment
 
-Split work at boundaries that preserve context. The current translation agent must either draft free prose directly or divide it among subagents within the same workflow. Give each subagent the complete baseline and context below and independently review its result. Do not outsource the full first draft to an unverified model or agent solely for volume, speed, or cost.
+Split work at boundaries that preserve context. The current translation agent must either draft free prose directly or divide it among subagents within the same workflow. Give each subagent the complete baseline and context below and review each subagent result yourself. Do not outsource the full first draft to an unverified model or agent solely for volume, speed, or cost.
 
 Before assigning substantial drafting to another model or agent, have that model or agent translate representative target samples and high-impact sentences under the same context, terminology, and voice conditions as production. A human evaluates accuracy, retained context and voice, and correction burden, then approves the assigned scope. Include dialogue, UI, sentences with names, context-sensitive sentences, and items with protected tokens or display constraints. Do not generate the full corpus under the label of evaluation, and do not replace human evaluation with an average score or agreement among models.
 
@@ -125,9 +125,9 @@ Do not merge mechanically decidable violations with semantic judgment. Semantic 
 
 Observed source maxima are not established consumer constraints by themselves. Dictionary presence does not prove correctness or error. Unresolved heuristic findings may remain review candidates; detection alone is not a confirmed defect and must not decide fitness automatically.
 
-### 5.2 Batch transformation of translated prose
+### 5.2 Rule-based bulk transformation of translated prose
 
-An automated check may identify translation-defect candidates and affected scope. A batch transformation based on such a rule may edit translations only after a human explicitly approves the rule, baseline, scope, and expected impact. Any change to them requires renewed approval. Approval of the transformation does not grant distribution eligibility; results must pass current source, context, terminology, voice, protected-information, and consumer checks. Send exceptions and high-impact semantics to unit-level translation and review. Serialization, protected-information checks, and states derived from pass criteria do not require this approval when they do not change translation meaning.
+An automated check may identify translation-defect candidates and affected scope. A batch transformation based on such a rule may edit translations only after a human explicitly approves the rule, the pre-transformation text, scope, and expected impact. Any change to them requires renewed approval. Approval of the transformation does not grant distribution eligibility; results must pass current source, context, terminology, voice, protected-information, and consumer checks. Send exceptions and high-impact semantics to unit-level translation and review. Serialization, protected-information checks, and states derived from pass criteria do not require this approval when they do not change translation meaning.
 
 ### 5.3 High-impact semantic judgment
 
@@ -145,12 +145,12 @@ Check mapping and coverage mechanically across the complete corpus and runtime i
 
 Human decisions needed earlier for terminology, voice, or high-impact source interpretation may proceed. If glyph reduction changes meaning or voice, obtain approval at that point. Limit early review to necessary decisions. If later review introduces new glyph or state-specific demand, return the affected scope to glyph-budget and consumer-path assessment.
 
-### 5.5 Conditional flow for an LLM first draft
+### 5.5 Second review of a first draft
 
-When an LLM first draft made under §3.1 is considered for distribution eligibility, apply this decision chain:
+When a first draft made under §3.1 is considered for distribution eligibility, apply this decision chain:
 
 ```text
-LLM first draft -> independent second LLM review -> options and evidence to a human -> human approval
+First draft -> independent second review -> options and evidence to a human -> human approval
                          \-> mechanical violations return to the applicable verification step
 ```
 

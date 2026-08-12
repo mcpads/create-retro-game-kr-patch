@@ -24,7 +24,7 @@ Before creating or extending a repository, inspect its current build, tests, doc
 
 Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
-Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then with fixed version, explicit inputs and outputs, propagated failures, and tests. Until promoted it must not run in the build or supply any build input.
+Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then with fixed version, explicit inputs and outputs, propagated failures, and tests. Until promoted it must not run in the build; its output enters only under §6.2.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to investigation, PoC, and QA records.
 
@@ -110,7 +110,7 @@ Choose a component that satisfies these conditions in the current environment an
 
 First verify round-trip invariants for containers, encodings, compression, address conversion, and render data. For an unchanged transform such as parse -> serialize, require source-byte identity when the format has one canonical representation. When several serializations are valid, require equivalent game consumption and protected metadata. Declare the applicable equivalence before editing. Other documents that require unchanged round trip use this same criterion.
 
-Declare the denominator covered by the round trip. Rebuilding one asset requires the population sharing its consumer rule. Putting a transform into the common build or claiming general format support requires the full corpus processed by that path. Do not generalize representative samples to the declared denominator; include applicable boundary-risk samples.
+Declare the denominator covered by the round trip. Rebuilding one asset requires the population sharing its consumer rule. Putting a transform into the primary build or claiming general format support requires the full corpus processed by that path. Do not generalize representative samples to the declared denominator; include applicable boundary-risk samples.
 
 For inverse pairs such as encode/decode, compress/decompress, and logical/physical address conversion, generate or systematically enumerate boundary, empty, maximum, truncated, and invalid inputs. Invalid input must not emit partial output as success.
 

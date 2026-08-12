@@ -1,6 +1,6 @@
 # Project record conventions
 
-Record initial surveys, PoCs, graphics catalogs, HITL observations, and QA issues with evidence, decision, and next action kept distinct. Retain an equivalent existing record system. Field and state names below are optional examples; paths, serialization, and tools are not fixed.
+Record initial surveys, PoCs, graphics-text catalogs, HITL observations, and QA issues with evidence, decision, and next action kept distinct. Retain an equivalent existing record system. Field and state names below are optional examples; paths, serialization, and tools are not fixed.
 
 Preserve source and translated text, control codes, and review states under `references/conventions/translation-artifacts.md`. Follow `references/conventions/project-conventions.md` for repository layout and source or derived assets.
 
@@ -10,7 +10,7 @@ Preserve source and translated text, control codes, and review states under `ref
 2. Record placement
 3. Initial survey records
 4. PoC decision records
-5. Baked-text catalog
+5. Graphics-text catalog
 6. HITL observation requests
 7. QA rounds and issues
 8. Record validation
@@ -52,7 +52,7 @@ Keep only currently verified structure in the main record and separate it from a
 | `confirmed` | Structure established by measurement or runtime tracing, with evidence references |
 | `hypotheses` | Remaining hypotheses, distinguishing observations, and priority |
 | `memory_map` | Established address-space, bank, and file-offset conversions |
-| `control_flow` | Calls, dispatch, and data flow needed for the declared scope |
+| `control_flow` | Calls, dispatch, and data flow needed for the declared investigation scope |
 | `unknowns` | Unknowns blocking completion or design and the next evidence that distinguishes them |
 
 A project that needs one render path does not need a complete call graph. When a graph is needed, record node and edge meaning, hypothesis or confirmed state, and evidence location.
@@ -85,7 +85,7 @@ Keep each PoC decision as one record independent of other decisions. Existing re
 | Example field | Meaning |
 |---|---|
 | `poc_id` | Stable ID linked to the strategy PoC |
-| `trigger` | Completion-blocking or design-changing risk and why the decision is early |
+| `risk_trigger` | Completion-critical or design-changing risk and why the decision is early |
 | `hypothesis` | Assumption distinguished by the experiment |
 | `target` | Representative screen, text, glyph, or code path and selection basis |
 | `criteria` | Pass, fail, and unresolved criteria plus next action for each |
@@ -98,7 +98,7 @@ Keep each PoC decision as one record independent of other decisions. Existing re
 
 Manual hex edits, temporary offsets, and one-shot scripts may remain as result evidence but must not be labeled repeated-build inputs.
 
-## 5. Baked-text catalog
+## 5. Graphics-text catalog
 
 Catalog text blocks rather than texture files. When one texture contains several labels, record each label separately.
 
@@ -111,7 +111,7 @@ Catalog text blocks rather than texture files. When one texture contains several
 | `text` | Source transcription and approved translation |
 | `style` | Stroke, color, outline, shadow, cell, and row metrics |
 | `priority` | Work order based on exposure and importance |
-| `state` | Current stage such as uninvestigated, no text, unresolved, found, restored, laid out, or verified |
+| `catalog_state` | Current stage such as uninvestigated, no text, unresolved, found, restored, laid out, or verified |
 | `evidence` | Crop, screenshot, mask, clean-plate hash, and in-game verification references |
 
 Projects may rename states, but must distinguish uninvestigated, investigated with no text, and unresolved. Maintain bounding boxes in one field because they drive restoration and layout and also form the out-of-bounds pixel mask. Store percentage coordinates with source image dimensions or normalize them to pixels.
@@ -123,9 +123,9 @@ One request should fit one human observation session.
 | Example field | Meaning |
 |---|---|
 | `request_id` | Stable ID |
-| `baseline` | Source, build artifact, execution environment, and configuration identity |
+| `reproduction_baseline` | Source, build artifact, execution environment, and configuration identity |
 | `setup` | Starting state and short input or reproduction procedure |
-| `trigger` | Breakpoint, screen, frame, or other observation point |
+| `observation_point` | Breakpoint, screen, frame, or other observation point |
 | `capture` | Registers, memory, trace, or screenshot to read |
 | `branches` | Decision and next action for each possible observation |
 | `response` | Actual values, capture references, and observer notes |
@@ -155,7 +155,7 @@ For each text display region, record region ID, renderer and box scope, width ca
 | `mechanism` | Established faulty input -> first incorrect state -> propagation -> observed failure chain |
 | `change` | Fix to the established defect and impact range |
 | `regression` | Pre-fix failure, post-fix pass, and a reference to the added regression check |
-| `state` | Open, investigating, recheck needed, fixed, not a bug, or out of scope |
+| `issue_state` | Open, investigating, recheck needed, fixed, not a bug, or out of scope |
 
 Do not use an evidence filename or location as issue title or state. An initial report distinguishes at least baseline, reproduction context, expected and observed results, and decision evidence. Link reusable start state only when it materially reduces reproduction cost.
 
@@ -168,7 +168,7 @@ Builds or dedicated checks verify machine-readable records:
 - Hypotheses and confirmed conclusions do not share one field.
 - Pass, fail, and unresolved decisions include evidence and next action.
 - Closed issues include reproduction baseline and closure evidence.
-- Resolved plus excluded catalog members match the declared denominator without hidden unresolved members.
+- Resolved plus excluded graphics-text catalog members match the declared denominator without hidden unresolved members.
 - Volume records distinguish exact, lower bound, and estimate and state how unresolved scope affects workload and completion.
 
 A Markdown-only project may express these meanings through tables and links. JSON, YAML, or a database may add schema validation, but serialization itself is not a strategy decision.

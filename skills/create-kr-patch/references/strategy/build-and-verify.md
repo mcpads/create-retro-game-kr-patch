@@ -34,7 +34,7 @@ When file size or extent changes, choose in-place editing, partial relocation, f
 
 - boot and game loaders read the new locations, sizes, and alignments;
 - duplicate references and metadata at filesystem, container, and game layers identify the same targets;
-- untouched tracks, sectors, files, and intentionally irregular source structures remain unchanged outside the declared scope; and
+- untouched tracks, sectors, files, and intentionally irregular source structures remain unchanged outside the declared write scope; and
 - reparsed structures are valid and the real loader consumes the new assets.
 
 Failure to establish every reference for a partial relocation does not justify a full rebuild. If no candidate path can produce this evidence, the image change remains incomplete; return to the declared completion scope.
@@ -86,7 +86,7 @@ Source character counts, line breaks, and observed maxima describe source usage,
 
 Close a defect through the fix completion conditions in `references/strategy/debugging.md` §1, and close one as original or out-of-scope behavior through `references/strategy/debugging.md` §6. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7.
 
-Incomplete human review of the declared translation scope does not block development builds or technical verification. A release candidate must satisfy all of these conditions:
+Incomplete human review of the declared localization scope does not block development builds or technical verification. A release candidate must satisfy all of these conditions:
 
 - Every declared change is regenerated from immutable source and approved inputs through the primary build, and component checks plus runtime evidence pass together on that exact result.
 - The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, with unresolved and completed areas distinguished.

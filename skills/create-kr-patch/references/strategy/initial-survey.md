@@ -115,8 +115,7 @@ The initial survey is complete when all of these hold:
 2. A representative target has a reversible storage and consumer interpretation.
 3. Initial volume is labeled exact, lower bound, estimate, or unresolved.
 4. Required PoCs are distinguished from conditional PoCs, and skipped tests cite equivalent evidence.
-5. Every unresolved risk has a next diagnostic or workaround.
-6. No high-impact risk remains without a diagnostic or viable design branch.
+5. Every unresolved risk has a next diagnostic, workaround, or viable design branch.
 
 Produce:
 
@@ -124,4 +123,4 @@ Produce:
 - a text and asset map including volume status; and
 - a proceed/risk table mapping unresolved conditions to next evidence.
 
-Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions. Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Reopen the declared scope only when the boundary's own options are exhausted or its established cause recurred; record which options were rejected and the evidence that closed them. Apply platform constraints only from the applicable platform document and target evidence.
+Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions. Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Reopen the declared completion scope only when the boundary's own options are exhausted or its established cause recurred; record which options were rejected and the evidence that closed them. Content left outside a narrowed scope requires an approved exception under `references/conventions/translation-artifacts.md` §5. Apply platform constraints only from the applicable platform document and target evidence.

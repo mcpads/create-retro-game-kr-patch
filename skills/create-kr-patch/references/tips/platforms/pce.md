@@ -8,4 +8,4 @@
 - **Evidence:** Tracing the output routine together with MPR state showed no internal MPR change and resolved the callee to the System Card BIOS area currently mapped there. The X value was overwritten immediately after the call and did not propagate into later bank selection.
 - **Established result:** The X constant was a BIOS task-scheduler argument, not a lower-bank or subscript identifier.
 - **Transfer limit:** Trace MPR state and the actual consumer separately for every other entry point and indirect path.
-- **Related criteria:** `references/strategy/initial-survey.md` §2.2·§3, `references/strategy/debugging.md` §2·§4, `references/platforms/pce.md` §1.
+- **Related criteria:** `references/strategy/initial-survey.md` §2.2·§3, `references/strategy/debugging.md` §2.2·§4, `references/platforms/pce.md` §1.

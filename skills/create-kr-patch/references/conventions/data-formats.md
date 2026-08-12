@@ -68,7 +68,7 @@ Record byte boundaries and argument widths even when meaning remains unclear. Us
 
 ## 4. Pointer catalogs
 
-When an exhaustively verified pointer population for a fixed source revision is represented as a catalog, it must allow every pointer in source coordinates to be rewritten in target coordinates. Apply the promotion conditions in `references/strategy/initial-survey.md` §3.1. The catalog must recover at least:
+When an exhaustively verified pointer population for a fixed source revision is represented as a catalog, it must allow every pointer recorded in source coordinates to be rewritten for the rebuilt image. Apply the promotion conditions in `references/strategy/initial-survey.md` §3.1. The catalog must recover at least:
 
 - source storage location of the pointer bytes;
 - width, endianness, and address basis such as file, RAM, bank, or table relative;

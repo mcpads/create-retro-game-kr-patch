@@ -28,7 +28,7 @@
 - **Decisive test:** The segment's tile indices were decoded directly from the binary and their assembly order was retraced.
 - **Established result:** A label attached during extraction was not source-text evidence. The tile data actually consumed by the screen corrected the mislabeled entry.
 - **Transfer limit:** A removal test cannot isolate a labeling error if it also changes the input data or assembly order.
-- **Related criteria:** `references/strategy/debugging.md` §2·§6, `references/strategy/text-extraction.md`.
+- **Related criteria:** `references/strategy/debugging.md` §2.2·§6, `references/strategy/text-extraction.md` §1.2·§4.2.
 
 ## Zero-filled space is not proven free
 
@@ -38,7 +38,7 @@
 - **Decisive test:** The first invalid instruction exposed overwritten conversion code and constants. Restoring them and relocating the connected tables with all references fixed clean boot and gameplay. Saturn candidates were tested with isolated trap builds along the same play path; non-execution was recorded only for the observed path.
 - **Established result:** Zero fill and lack of static references did not prove free space. Observed execution proved use, while non-execution in a limited run did not prove global non-use.
 - **Transfer limit:** Any unobserved mode, path, or later section limits the corresponding code- or data-space claim.
-- **Related criteria:** `references/strategy/reinsertion.md` §5, `references/strategy/initial-survey.md`, `references/conventions/project-conventions.md` §5.2.
+- **Related criteria:** `references/strategy/reinsertion.md` §4·§5, `references/strategy/initial-survey.md` §2.5·§3, `references/strategy/debugging.md` §6, `references/conventions/project-conventions.md` §5.2.
 
 ## Shorter dialogue can change voice timing
 
@@ -48,7 +48,7 @@
 - **Evidence:** Disassembly showed that bytes after the transition control were not consumed. Controlled wait-value changes altered both visible pacing and voice cutoff in scene-level runtime tests.
 - **Established result:** Timing on this path depended on wait frames and per-line glyph display time, not serialized byte length. Unconsumed tail padding was removed and only missing display time was restored.
 - **Transfer limit:** Measure wait structure, line layout, and the actual voice boundary separately for every scene.
-- **Related criteria:** `references/strategy/text-extraction.md` §3.1·§3.2, `references/strategy/translation-workflow.md` §4, `references/strategy/build-and-verify.md` §4.
+- **Related criteria:** `references/strategy/text-extraction.md` §3.1·§3.2, `references/strategy/translation-workflow.md` §4, `references/strategy/build-and-verify.md` §5.
 
 ## Generated layouts invalidate stale fixed writes
 
@@ -78,7 +78,7 @@
 - **Evidence:** Distinctive probes were inserted across broad ranges of all three sheets. Runtime display selected the 32-pixel sheet, and independent decoding showed that the same character occupied different slots in different sizes.
 - **Established result:** The observed dialogue used a 32-pixel fixed-cell 4bpp font, and code-to-glyph slots were not shared across sizes.
 - **Transfer limit:** Prove the active font and that sheet's code-to-glyph mapping separately for every other screen.
-- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md`, `references/strategy/poc.md`.
+- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md` §2, `references/strategy/poc.md` §3·§5.
 
 ## Final display-buffer tracing corrected coordinate assumptions
 
@@ -88,7 +88,7 @@
 - **Decisive test:** Changes were traced backward from the work buffer to the VRAM transfer, and each window's tile base was compared with the original initialization table. Separating the shared-window and normal-window base values fixed both price placement and dialogue order.
 - **Established result:** The wrong base selected before drawing the window, not the final price write, caused both symptoms.
 - **Transfer limit:** Reconfirm slot placement and per-window base selection for every other UI.
-- **Related criteria:** `references/platforms/gg.md` §4, `references/strategy/debugging.md` §4.
+- **Related criteria:** `references/platforms/gg.md` §4, `references/strategy/debugging.md` §3·§4.
 
 ## Late observation can miss one-time asset uploads
 
@@ -98,7 +98,7 @@
 - **Decisive test:** Observation started before boot or scene entry, and the modified stored source was followed through loading and transfer to its consumer.
 - **Established result:** A save state or late breakpoint did not prove the absence of a one-time load or write that had already occurred.
 - **Transfer limit:** Start before the relevant load or write when a screen reuses cache or VRAM. Use save states only to reproduce later consumer behavior.
-- **Related criteria:** `references/strategy/runtime-assets.md` §2, `references/strategy/debugging.md` §2.
+- **Related criteria:** `references/strategy/runtime-assets.md` §2, `references/strategy/debugging.md` §2.1·§4.
 
 ## Decoder correction left stale-source translations
 
@@ -108,7 +108,7 @@
 - **Decisive test:** ROM frequency and context, runtime samples, and another source version established the punctuation. Every Korean asterisk position was then audited, retranslated where affected, and cross-reviewed.
 - **Established result:** Correcting an upstream decoder did not repair translations already authored from its wrong output; the affected translation set required its own source comparison.
 - **Transfer limit:** Do not infer the impact from a character search alone. Compare stable source identities with the changed decoding rule and audit the full affected range.
-- **Related criteria:** `references/conventions/translation-artifacts.md` §1·§5, `references/strategy/translation-workflow.md` §3.1.
+- **Related criteria:** `references/conventions/translation-artifacts.md` §1·§5, `references/strategy/translation-workflow.md` §3.1, `references/conventions/data-formats.md` §2.
 
 ## Shared string tails constrain allocation
 
@@ -138,7 +138,7 @@
 - **Decisive test:** Each target token handler, pointer mapping, glyph mapping, and runtime value was compared with its source. Only confirmed static values became localized text, while position-control codes remained reserved from glyph allocation.
 - **Established result:** Matching numeric tokens or glyph shapes in a prior patch did not establish matching semantics in the target engine.
 - **Transfer limit:** Before preserving or replacing a token, re-establish its meaning and runtime variability in the target consumer.
-- **Related criteria:** `references/strategy/translation-workflow.md` §3.1·§4, `references/strategy/text-extraction.md` §4.4, `references/conventions/translation-artifacts.md` §3.
+- **Related criteria:** `references/strategy/translation-workflow.md` §3.1·§4, `references/strategy/text-extraction.md` §3.3·§4.4, `references/conventions/translation-artifacts.md` §3, `references/strategy/initial-survey.md` §4.
 
 ## Zero-length entries may point to runtime text
 
@@ -188,7 +188,7 @@
 - **Decisive test:** Control tokens were compared exhaustively per entry. Missing termination was classified as progression-critical, while adjacent split structure was inspected before accepting a warning.
 - **Established result:** Real termination loss caused progression failure; token movement caused by an established adjacent-entry split did not.
 - **Transfer limit:** Equal token sets do not prove equal order, arguments, or runtime meaning.
-- **Related criteria:** `references/strategy/build-and-verify.md` §5, `references/strategy/text-extraction.md` §2.
+- **Related criteria:** `references/strategy/build-and-verify.md` §5, `references/strategy/text-extraction.md` §3.1·§4.4, `references/conventions/translation-artifacts.md` §3.
 
 ## String-only context misidentified speaker and display role
 
@@ -208,7 +208,7 @@
 - **Evidence:** Consumer disassembly showed that the low two bits of the X coordinate selected one of four copies. The generator therefore produced glyphs shifted by 0, 1, 2, and 3 pixels.
 - **Established result:** The repeated blocks were pre-shifted copies for variable-width alignment states.
 - **Transfer limit:** Trace the copy-selection expression, composition method, and coordinate unit again to derive the required shifts for another renderer.
-- **Related criteria:** `references/strategy/font-strategy.md` §4, `references/strategy/runtime-assets.md`, `references/strategy/debugging.md`.
+- **Related criteria:** `references/strategy/font-strategy.md` §4·§5, `references/strategy/runtime-assets.md` §2.
 
 ## Input glyphs and result glyphs may use different assets
 
@@ -228,7 +228,7 @@
 - **Evidence:** Code order and MES expansion were separated. Builds differing by one internal entry changed the initialization result even without changing the candidate grid. A build that kept physical file size but restored the header and entry layout of a booting control reached the title again.
 - **Established result:** Failure followed internal entry structure even when file size stayed equal; physical container growth alone did not explain this build set.
 - **Transfer limit:** Separate physical size, entry count, metadata, and data placement with controlled builds. Treat initialization and actual consumption of the added assets as separate claims.
-- **Related criteria:** `references/strategy/font-strategy.md` §3.2, `references/strategy/debugging.md` §2·§3.
+- **Related criteria:** `references/strategy/runtime-assets.md` §1·§2, `references/strategy/reinsertion.md` §1.2, `references/strategy/debugging.md` §2.2·§3.
 
 ## Image header mismatch hid required runtime memory
 
@@ -238,7 +238,7 @@
 - **Decisive test:** After tracing the first control-flow departure, only the PRG-RAM declaration in the analysis copy was corrected. The same play path then continued.
 - **Established result:** The header correction was necessary for studying that prior-patch copy, not evidence that a patch built from the Japanese original should change its header.
 - **Transfer limit:** Correcting the declaration isolates this cause only; it does not validate the prior patch as a whole or authorize changing the actual patch input.
-- **Related criteria:** `references/strategy/initial-survey.md` §2·§3, `references/strategy/build-and-verify.md` §2, `references/strategy/debugging.md` §2.
+- **Related criteria:** `references/strategy/initial-survey.md` §2.1·§3·§4, `references/strategy/build-and-verify.md` §1·§2, `references/strategy/debugging.md` §2.2.
 
 ## Standard-decoder rejection does not prove free code space
 
@@ -248,7 +248,7 @@
 - **Decisive test:** Every parser-reachable two-byte pair in the source was counted, game-specific pairs were reserved, and the Hangul encoder was checked never to emit them.
 - **Established result:** `0xEB` was not free code space because the game consumed non-CP932 pairs under that lead byte.
 - **Transfer limit:** This result covers direct two-byte codes only. Budget escape forms of other lengths separately.
-- **Related criteria:** `references/strategy/font-strategy.md` §2, `references/platforms/pc98.md` §5.
+- **Related criteria:** `references/strategy/font-strategy.md` §2.1, `references/strategy/text-extraction.md` §2, `references/platforms/pc98.md` §5.
 
 ## Shared boundary logic let generator errors pass validation
 
@@ -258,7 +258,7 @@
 - **Evidence:** Visible markers were assigned to all 94 cells and displayed through a repeatable battle-message path. Exhaustive odd- and even-row checks corrected the `0x5F→0x7E` and `0x60→0x80` boundary and added independent forbidden-value checks.
 - **Established result:** Independent boundary enumeration and real consumer display found a defect hidden by two components sharing one formula.
 - **Transfer limit:** Do not establish an encoding boundary from generator-validator agreement when they share logic. Independently test forbidden and boundary values and compare them with the real consumer.
-- **Related criteria:** `references/strategy/font-strategy.md` §2·§4, `references/strategy/build-and-verify.md` §4·§5.
+- **Related criteria:** `references/strategy/font-strategy.md` §2·§4, `references/strategy/build-and-verify.md` §4·§5, `references/conventions/project-conventions.md` §5.1.
 
 ## String pools can provide capacity beyond local gaps
 
@@ -268,7 +268,7 @@
 - **Evidence:** Every valid pointer target and update site was linked. Strings were repacked inside the established region, pointers were updated, overlay size and following code were preserved, and display plus next-entry progress were verified.
 - **Established result:** The whole region, rather than each original gap, could provide capacity because its complete reference model preserved independent entry points.
 - **Transfer limit:** Use pooled capacity only after establishing every entry pointer, empty sentinel, pointer width, and following structure boundary.
-- **Related criteria:** `references/strategy/reinsertion.md` §1.2·§2·§3, `references/strategy/build-and-verify.md` §3·§4.
+- **Related criteria:** `references/strategy/reinsertion.md` §1.2·§2·§3·§5, `references/strategy/build-and-verify.md` §3·§4.
 
 ## Original-coordinate planning prevented multi-insertion drift
 
@@ -278,7 +278,7 @@
 - **Evidence:** Every change was planned in original coordinates and growing ranges were applied in descending original-offset order. Storage-site and target deltas were calculated separately; directory and following structures were assigned their final positions once. Structural re-audit, disk readback, visible output, branches, and RAM pointers checked the combined result.
 - **Established result:** Original-coordinate planning, reverse application, and separate site-versus-target shifts moved each position-dependent structure exactly once.
 - **Transfer limit:** Use reverse application only for an established set of original-coordinate variable ranges and following structures. Re-enumerate references, interior entry points, structure addresses, fixed constants, and load capacity on new input.
-- **Related criteria:** `references/strategy/reinsertion.md` §1.2·§2·§3, `references/strategy/build-and-verify.md` §3·§4.
+- **Related criteria:** `references/strategy/reinsertion.md` §1.2·§2·§3, `references/strategy/build-and-verify.md` §3·§4, `references/conventions/project-conventions.md` §5.2.
 
 ## Pointerless strings may be fixed-position data
 
@@ -298,7 +298,7 @@
 - **Decisive test:** The accompanying name table and runtime display were compared. A translation valid for the confirmed scope remained shared, and splitting was deferred until the unknown consumer demonstrated a conflict.
 - **Established result:** Identifying one consumer of a shared string did not establish the meaning of the other consumers.
 - **Transfer limit:** Do not split sharing from semantic possibility alone. If a real conflict later requires a split, bind the evidence to the exact slot and alias set.
-- **Related criteria:** `references/strategy/translation-workflow.md` §2.4·§3.1, `references/strategy/text-extraction.md` §1.3, `references/strategy/reinsertion.md` §2.
+- **Related criteria:** `references/strategy/translation-workflow.md` §2.1·§2.3·§3, `references/strategy/text-extraction.md` §1.3, `references/strategy/reinsertion.md` §2, `references/conventions/translation-artifacts.md` §1.1.
 
 ## Logical tile indices are not physical coordinates
 
@@ -318,7 +318,7 @@
 - **Decisive test:** A unique original byte sequence was located in extracted user data, pregap was calculated from CUE INDEX values, and the coordinate difference matched that calculation before only the affected sectors were rewritten.
 - **Established result:** Converting the prior user-data offset into the target track's raw-sector coordinates aligned both the source bytes and pregap difference.
 - **Transfer limit:** Recalculate the conversion from the target image's sector representation and track origin.
-- **Related criteria:** `references/platforms/pce.md` §4, `references/strategy/build-and-verify.md` §2.
+- **Related criteria:** `references/platforms/pce.md` §4, `references/strategy/build-and-verify.md` §2·§3.
 
 ## Existing glyph upload paths avoided a new renderer
 
@@ -328,7 +328,7 @@
 - **Evidence:** Only the provider boundary was replaced with a compatible source while the original downstream path remained. Hangul and existing characters were displayed together.
 - **Established result:** Both consumers could reuse the original conversion and upload path by replacing only the glyph-provider interface.
 - **Transfer limit:** Recheck provider ABI, bit layout, buffer lifetime, cache identity, and downstream conversion for every caller.
-- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/reinsertion.md`, `references/strategy/runtime-assets.md`, `references/strategy/poc.md`.
+- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/reinsertion.md` §4, `references/strategy/runtime-assets.md` §2, `references/strategy/poc.md` §3·§5.
 
 ## Translated screens may have multiple visual layers
 
@@ -348,7 +348,7 @@
 - **Evidence:** Extraction preserved original pointer-slot IDs and reinsertion prioritized them. Interior pointers were recalculated from corresponding complete control-block boundaries in source and translation, then checked with synthetic data for every entry path.
 - **Established result:** Deduplication could not replace stable source pointer identities, and interior targets had to follow preserved structure rather than original byte distance.
 - **Transfer limit:** This works only when the same structural boundary can be identified in both source and translation.
-- **Related criteria:** `references/strategy/text-extraction.md` §1.3·§4.1·§4.2, `references/strategy/reinsertion.md` §1.2·§2·§3.
+- **Related criteria:** `references/strategy/text-extraction.md` §1.3·§4.1·§4.2, `references/strategy/reinsertion.md` §1.2·§2·§3, `references/conventions/data-formats.md` §4.
 
 ## Small-label contrast changed across UI states
 
@@ -368,7 +368,7 @@
 - **Evidence:** Music still stopped in a build that added CD-command completion and mode restoration around the first font load.
 - **Established result:** Glyph display and preservation of audio during the first CD load were separate claims. The former was proven; an audio-safe load path was not.
 - **Transfer limit:** For every new runtime load, verify concurrent audio, input, and display state in addition to the asset's visible result.
-- **Related criteria:** `references/strategy/reinsertion.md`, `references/strategy/runtime-assets.md`, `references/strategy/build-and-verify.md`.
+- **Related criteria:** `references/strategy/reinsertion.md` §5, `references/strategy/runtime-assets.md` §2, `references/strategy/build-and-verify.md` §4·§5, `references/platforms/ps1.md` §5.
 
 ## Self round-trips do not prove compressor compatibility
 
@@ -378,7 +378,7 @@
 - **Decisive test:** Unmodified decompressed Japanese data was recompressed and reproduced the defect in the game while still passing the custom round-trip, isolating a semantic difference from the game decompressor.
 - **Established result:** The compressor matched against not-yet-produced zero-filled output, while the game safely referenced only completed output. Restricting distance to produced bytes restored compatibility.
 - **Transfer limit:** A self round-trip does not prove target-consumer compatibility. Test an unmodified recompressed asset in the real consumer.
-- **Related criteria:** `references/strategy/compression.md` §4, `references/strategy/debugging.md` §2.
+- **Related criteria:** `references/strategy/compression.md` §4.1, `references/strategy/initial-survey.md` §3, `references/strategy/debugging.md` §2.2.
 
 ## Byte-pattern pointer scans produced false and missed references
 
@@ -408,7 +408,7 @@
 - **Decisive test:** Occurrence count and actual reduction in unique glyph demand were calculated separately, then each candidate's meaning and voice loss were reviewed.
 - **Established result:** High spelling loss was reverted. Only natural alternatives that truly reduced unique-glyph demand remained, with original intent and required glyphs recorded.
 - **Transfer limit:** First determine whether supply can grow. A wording reduction requires human review of corpus-wide glyph savings and semantic loss.
-- **Related criteria:** `references/strategy/font-strategy.md` §3.2, `references/strategy/translation-workflow.md` §4, `references/conventions/project-records.md`.
+- **Related criteria:** `references/strategy/font-strategy.md` §3.2, `references/strategy/translation-workflow.md` §4·§5.3·§5.4, `references/conventions/translation-artifacts.md` §1.1.
 
 ## Coupled geometry parameters disambiguated graphics assets
 
@@ -418,7 +418,7 @@
 - **Evidence:** Row byte count, full-image continuity, repeated block structure, palette distribution, and neighboring asset boundaries were compared, and only established regions were re-encoded.
 - **Established result:** Stored length and a plausible partial rendering did not establish bit depth, dimensions, or boundaries.
 - **Transfer limit:** Select discriminating evidence again for each asset and do not apply one region's interpretation to the whole file.
-- **Related criteria:** `references/strategy/graphics-text.md` §1·§2·§3, `references/strategy/initial-survey.md` §2, `references/strategy/runtime-assets.md` §2.
+- **Related criteria:** `references/strategy/graphics-text.md` §1·§2·§3, `references/strategy/initial-survey.md` §2.2, `references/strategy/runtime-assets.md` §2.
 
 ## Aligned variants reconstructed clean backgrounds
 
@@ -448,7 +448,7 @@
 - **Evidence:** Source and translation were split at the same delimiters and component counts were compared. Fixed slots were padded per component and direct pointers were recalculated from each component's original start and individual movement.
 - **Established result:** Length and pointer correction had to use the sub-strings consumed by the game, not the enclosing translation record.
 - **Transfer limit:** Apply this correspondence only when delimiter, component count, and consumption structure are preserved. Reject or handle separately when they cannot be matched.
-- **Related criteria:** `references/strategy/text-extraction.md` §3.1·§3.3, `references/strategy/reinsertion.md` §1.1·§1.2·§2.
+- **Related criteria:** `references/strategy/text-extraction.md` §1.3·§4.1·§4.2, `references/strategy/reinsertion.md` §1.1·§1.2·§2, `references/conventions/data-formats.md` §4.
 
 ## Incorrect fixed-slot padding and truncation broke consumers
 
@@ -458,7 +458,7 @@
 - **Evidence:** Valid space tokens, trailing control groups, terminators, and concatenation behavior were established per string path. Padding position varied accordingly, and overlength input preserved character and control-token boundaries.
 - **Established result:** Slot size alone did not determine tail handling; behavior depended on how the consumer read trailing controls and bytes after termination.
 - **Transfer limit:** Re-establish valid space, control extent, odd-byte behavior, and post-terminator reads for every path. Truncation is allowed only for a separately approved wording reduction.
-- **Related criteria:** `references/strategy/text-extraction.md`, `references/strategy/reinsertion.md` §1.1·§6, `references/conventions/data-formats.md` §5.
+- **Related criteria:** `references/strategy/text-extraction.md` §3.1·§4.4, `references/strategy/reinsertion.md` §1.1·§6, `references/conventions/data-formats.md` §5.
 
 ## A glyph mapping may be range-local
 
@@ -468,7 +468,7 @@
 - **Evidence:** The glyph pool exceeded the number of globally found codes, the same code selected different glyphs by range, the global map rendered broken messages, and runtime consumers read different contiguous glyph regions.
 - **Established result:** A single file-wide map was rejected. No global extraction or reinsertion map was adopted while the range-switch rule remained unknown.
 - **Transfer limit:** Map and transform only ranges whose switch rule and consumer index calculation are established.
-- **Related criteria:** `references/strategy/text-extraction.md`, `references/strategy/font-strategy.md` §2, `references/strategy/debugging.md`.
+- **Related criteria:** `references/strategy/text-extraction.md` §2, `references/strategy/font-strategy.md` §2, `references/strategy/debugging.md` §2.2.
 
 ## State changes may reload a different font asset
 
@@ -508,7 +508,7 @@
 - **Decisive test:** The hit's instruction, call path, source, destination, and current buffer role were connected. It was a post-choice decompression copy and separate from the choice consumer.
 - **Established result:** An address read did not prove that the bytes were read as text; RAM reuse produced a false semantic signal.
 - **Transfer limit:** Treat a read breakpoint as consumption evidence only when execution phase, call path, buffer role, and decoded result are connected.
-- **Related criteria:** `references/strategy/debugging.md` §2·§4, `references/strategy/compression.md` §3·§4, `references/strategy/runtime-assets.md` §2.
+- **Related criteria:** `references/strategy/debugging.md` §2.2·§3·§4, `references/strategy/compression.md` §2·§3, `references/strategy/runtime-assets.md` §2.
 
 ## Incomplete-token truncation consumed terminators
 
@@ -528,7 +528,7 @@
 - **Decisive test:** The consumer's two-byte read and advance were confirmed. Serializing every token as a word and rejecting controls at odd positions removed the alignment failure.
 - **Established result:** Token width followed the consumer's read unit, not the visible character format.
 - **Transfer limit:** The use of a 65816 CPU does not by itself establish a two-byte text unit.
-- **Related criteria:** `references/strategy/text-extraction.md` §2.
+- **Related criteria:** `references/strategy/text-extraction.md` §2, `references/strategy/initial-survey.md` §2.2, `references/platforms/snes.md` §5.
 
 ## Later original writes overwrote replacements
 
@@ -548,7 +548,7 @@
 - **Decisive test:** A build with only the suspected hook removed still failed. Following the DMA source then showed that the Korean font occupied WRAM used by the game.
 - **Established result:** The actual cause was a WRAM collision, not the suspected hook.
 - **Transfer limit:** Removing a suspect is a valid rejection test only when the removal does not change other relevant paths.
-- **Related criteria:** `references/strategy/debugging.md` §2.
+- **Related criteria:** `references/strategy/debugging.md` §2.2.
 
 ## Rare paths may depend on table-tail entries
 
@@ -558,7 +558,7 @@
 - **Decisive test:** The failing branch's actual load path was disassembled and compared with the source constants, pointer count, and first text address.
 - **Established result:** Restoring the complete fixed table and correcting the first text address repaired the branch.
 - **Transfer limit:** Do not assume that story branch count equals consumer-path count.
-- **Related criteria:** `references/strategy/build-and-verify.md` §4.
+- **Related criteria:** `references/strategy/build-and-verify.md` §4, `references/strategy/text-extraction.md` §1.3, `references/strategy/reinsertion.md` §3, `references/strategy/initial-survey.md` §3.1, `references/conventions/data-formats.md` §4.
 
 ## Terminators may be multi-byte stateful sequences
 
@@ -568,7 +568,7 @@
 - **Decisive test:** Following the consumer separated `00 00` termination, `00 FF` button wait, and lone `FF` character data. The affected range was then re-extracted.
 - **Established result:** Testing only the first byte of a control sequence caused the extraction error.
 - **Transfer limit:** Derive the complete terminator sequence and parser state for every other consumer.
-- **Related criteria:** `references/strategy/text-extraction.md` §2.
+- **Related criteria:** `references/strategy/text-extraction.md` §3.1.
 
 ## Post-decompression patches reused downstream transfers
 
@@ -608,7 +608,7 @@
 - **Evidence:** Bitmap tables, effectively empty outlines, representative glyph dimensions, and the total empty-glyph count were inspected. An outline-based font through the same path returned pixels.
 - **Established result:** Successful font parsing did not prove usable glyph output; representative dimensions and empty-glyph counts blocked the bad asset.
 - **Transfer limit:** Repeat the representative-glyph check when font structure, code points, rasterizer, or raster path changes.
-- **Related criteria:** `references/strategy/font-strategy.md` §4·§6, `references/conventions/project-conventions.md` §4·§5.3.
+- **Related criteria:** `references/strategy/font-strategy.md` §3.2·§4·§6, `references/conventions/project-conventions.md` §4·§5.3.
 
 ## Runtime samples can locate compressed source assets
 
@@ -618,7 +618,7 @@
 - **Evidence:** Candidate ROM positions were decompressed with the verified format and bounded output. Results containing multiple live glyph tiles were rendered and compared byte-for-byte with WRAM samples.
 - **Established result:** Reverse-searching verified decompression outputs with several runtime glyph samples located the compressed source and internal glyph layout.
 - **Transfer limit:** Confirm a candidate only when the compression format and output bound are known and multiple live samples plus final display agree.
-- **Related criteria:** `references/strategy/compression.md` §2·§3, `references/strategy/initial-survey.md` §2, `references/strategy/runtime-assets.md` §2.
+- **Related criteria:** `references/strategy/compression.md` §2·§3, `references/strategy/initial-survey.md` §2.2·§2.5, `references/strategy/runtime-assets.md` §2, `references/strategy/debugging.md` §4.
 
 ## Layout limits include physical writes and clear lifetime
 
@@ -628,7 +628,7 @@
 - **Evidence:** Written cells and cells cleared or overwritten by later states were traced separately. Logical advance and physical footprint were measured independently, and reused regions were either fully cleared or kept within the original update area.
 - **Established result:** The usable layout limit was the physical write footprint together with later clear and overwrite lifetime, not visible space alone.
 - **Transfer limit:** Confirm terminators, physical footprint, and following state transitions before removing padding, extending rows, or placing labels.
-- **Related criteria:** `references/strategy/reinsertion.md` §4·§6, `references/strategy/runtime-assets.md` §2.
+- **Related criteria:** `references/strategy/reinsertion.md` §4·§6, `references/strategy/runtime-assets.md` §2, `references/strategy/translation-workflow.md` §4, `references/strategy/build-and-verify.md` §5.
 
 ## Static overlays overwrote runtime-updated cells
 
@@ -678,7 +678,7 @@
 - **Decisive test:** Pointer initialization, increment, and reuse were traced across the transition. Placing both new blocks contiguously and updating both references preserved menu entry, value changes, and return.
 - **Established result:** A table entry's existence did not prove that the consumer reread it during the transition.
 - **Transfer limit:** Re-derive table rereads and object-pointer lifetime for every other entry path. Require contiguous placement only for the proven path.
-- **Related criteria:** `references/strategy/text-extraction.md` §3.3, `references/strategy/reinsertion.md` §2·§6, `references/strategy/runtime-assets.md` §2.
+- **Related criteria:** `references/strategy/text-extraction.md` §1.3, `references/strategy/reinsertion.md` §2·§6, `references/strategy/runtime-assets.md` §2.
 
 ## Reused slots retain unwritten data
 

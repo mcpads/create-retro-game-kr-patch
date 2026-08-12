@@ -8,7 +8,7 @@
 - **Decisive test:** Tracing the tilemap writer showed that horizontal indexing converted character code `N` to `N×2` and `N×2+1`. One visible glyph was a 2x2 arrangement of that left-right pair; address-only experiments had omitted this transform.
 - **Established result:** This path required both the `N→N×2, N×2+1` transform and the 2x2 tile arrangement, not only the glyph data address.
 - **Transfer limit:** Derive the code-to-tile transform again for every other renderer.
-- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md` §2.
+- **Related criteria:** `references/strategy/font-strategy.md` §4·§5, `references/strategy/runtime-assets.md` §2, `references/platforms/snes.md` §3.
 
 ## NMI graphics hooks leaked across screen states
 
@@ -18,7 +18,7 @@
 - **Decisive test:** The new signal was removed. The NMI consumer instead checked the current screen mode, BG1 tilemap base, and original tilemap pattern together. A counterexample screen that matched only the global state was excluded, and the overwrite then ran only on the intended screen.
 - **Established result:** State already consumed by NMI was sufficient to identify this screen without introducing a separate cross-phase flag.
 - **Transfer limit:** Revalidate that the chosen screen mode, tilemap base, and original pattern uniquely identify every other target screen at consumption time.
-- **Related criteria:** `references/strategy/reinsertion.md` §4, `references/strategy/debugging.md` §2.
+- **Related criteria:** `references/strategy/reinsertion.md` §4, `references/strategy/debugging.md` §2.2, `references/strategy/runtime-assets.md` §2, `references/strategy/build-and-verify.md` §4, `references/platforms/snes.md` §1.
 
 ## One-time OBJ uploads ignored later WRAM patches
 
@@ -28,4 +28,4 @@
 - **Evidence:** The OBJ VRAM load order and last writer were traced. A ROM-to-OBJ-VRAM DMA ran while display output was stopped. The shop hook sampled its input state before the decompressor clobbered it and transferred only after the last relevant LZ call, excluding the NPC path.
 - **Established result:** Preloaded text whose original OAM layout and attributes had to remain intact was changed by replacing only its pixel tiles in OBJ VRAM after the final relevant load.
 - **Transfer limit:** Validate OBJ tile transfer separately from OAM layout. Recheck display-off timing, DMA restoration, destination, palette, last writer, and trigger conditions for every other screen.
-- **Related criteria:** `references/strategy/runtime-assets.md` §2, `references/strategy/graphics-text.md` §3, `references/strategy/reinsertion.md` §4.
+- **Related criteria:** `references/strategy/runtime-assets.md` §2, `references/strategy/graphics-text.md` §3, `references/strategy/reinsertion.md` §4, `references/platforms/snes.md` §3·§4.

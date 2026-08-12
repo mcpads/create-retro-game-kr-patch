@@ -13,7 +13,7 @@ Investigate an answer when it can change a later choice:
 - Which cell, bit depth, layout, palette, and clearing range does the real consumer require?
 - Can the adopted glyph source and transform inputs be reproduced and distributed?
 
-Read the applicable `references/platforms/` document for hardware or media facts that change a branch. Use a conditional test from `references/strategy/poc.md` when pixel reachability or capacity remains design-critical and unresolved.
+Read the applicable `references/platforms/` document for hardware or media facts that change a branch. Use a conditional test from `references/strategy/poc.md` when pixel reachability or capacity remains design-changing and unresolved.
 
 ## 2. Character-code-to-glyph mapping
 
@@ -62,7 +62,7 @@ Before finalizing corpus demand, establish distribution scope and unresolved reg
 
 1. Count required glyphs across the complete distribution corpus and actual runtime insertion values. An unfinished translation sample is a risk signal, not a final bound.
 2. Measure code-space, storage, mapping, and active-slot limits from target consumers and record each value's applicability.
-3. Fail the build on an unmapped character, a required glyph that rasterizes empty, or applicable budget overflow, and report the missing set and limiting resource.
+3. Fail the build on an unmapped character, a required glyph that rasterizes empty, or applicable budget overflow. Report the missing set, and the limiting resource for an overflow.
 4. Count non-glyph resources, unused slots, or source glyphs eliminated by complete translation as supply only after excluding every reference and state. State whether this expands total repertoire or active working set.
 5. If total repertoire is insufficient, establish the exact bottleneck and determine whether supply can expand. Vocabulary reduction or character substitution requires human approval when it changes meaning or voice.
 6. If the active budget is smaller than a state's working set, prove that load, replacement, pinning, and release preserve every glyph throughout its consumption lifetime. Otherwise the dynamic design fails.
@@ -90,7 +90,7 @@ Adoption requires all of these:
 - Fixed inputs and transform rules reproduce the same game data.
 - Output satisfies the consumer's layout, bit depth, palette, and subtile ordering.
 
-Reusing source presentation may minimize impact but is not mandatory. If cell, bit depth, layout, or bytes per glyph change, update and verify every address calculation, transfer length, index, clearing, and layout rule that consumes them. If stored and active representations differ, establish the transform boundary and buffer lifetime separately.
+Reusing the game's existing glyph presentation may minimize impact but is not mandatory. If cell, bit depth, layout, or bytes per glyph change, update and verify every address calculation, transfer length, index, clearing, and layout rule that consumes them. If stored and active representations differ, establish the transform boundary and buffer lifetime separately.
 
 ## 5. Multiple render paths
 

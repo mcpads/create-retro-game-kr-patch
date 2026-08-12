@@ -36,7 +36,7 @@ Immediately before merge or reinsertion, compare source identity and raw bytes a
 
 The approved basis for terms, repeated expressions, and voice must distinguish a stable decision ID, source referent or situation, approved output, applicability by title, revision, scene, speaker relationship, and narrative point, evidence and transfer limit, and approved, unresolved, or conflicting state. Because one source term may have scope-specific decisions, do not use the source string as a globally unique key. When new evidence changes a decision, retain enough lineage to identify affected batches requiring revalidation; do not silently overwrite it. The project chooses file count, table structure, and field names.
 
-## 2. Optional JSON profile
+## 2. Illustrative JSON example
 
 This JSON only illustrates required meaning and protected boundaries. Do not migrate an equivalent existing structure to this form.
 
@@ -104,7 +104,7 @@ Work management must distinguish at least these meanings. Names are examples:
 | `in_progress` | Translation or correction underway | Entry translation and established-constraint checks pass |
 | `needs_review` | Cross-review required | Applicable independent review, review of selected language-heuristic candidates, and resolution of established-constraint failures |
 | `needs_human_review` | Human judgment required | Human decision and approval with evidence |
-| `complete` | Distribution-eligible after established checks and required human approval | Regress when a defect is found |
+| `distribution_eligible` | Established checks and required human approval have passed | Regress when a defect is found |
 
 The existing project chooses representation. When file-level and entry-level states coexist, validate agreement and derive one from the other when possible.
 
@@ -112,7 +112,7 @@ The existing project chooses representation. When file-level and entry-level sta
 
 ## 5. Build-input eligibility
 
-Builds distinguish development or PoC input policy from release-candidate input policy. Development may continue before review of the declared translation scope is complete.
+Builds distinguish development or PoC input policy from release-candidate input policy. Development may continue before review of the declared localization scope is complete.
 
 - A **development or PoC build** may explicitly select an ineligible translation produced under `references/strategy/translation-workflow.md` §3.1, but must mark the artifact non-distribution. It must preserve extraction-baseline source text for unselected ineligible entries or fail. It must not mix ineligible translations silently or select output from a model or agent that failed evaluation.
 - A **release-candidate build** consumes only eligible translations within declared localization scope. Source branding, symbols, or other content intentionally left outside scope require approved exceptions.
@@ -128,4 +128,4 @@ Distribution eligibility includes at least:
 
 A failed check or new evidence revokes eligibility and returns the unit to the required review state. The decision, not a state name or storage location, determines build input.
 
-When merging parallel or sequential batches, verify that each batch's extraction, context, terminology, and voice baselines and protected fields match current approved baselines and that stable IDs have no omissions, duplicates, or conflicts. Revalidate affected output after a baseline change. Conflicting translation, state, or evidence for one entry must remain for explicit review rather than being resolved by input order or last-writer-wins.
+When merging parallel or sequential batches, verify that each batch's extraction, context, terminology, and voice baselines and protected fields match current approved baselines and that stable IDs have no omissions, duplicates, or conflicts. Revalidate affected output after an extraction-baseline change. Conflicting translation, state, or evidence for one entry must remain for explicit review rather than being resolved by input order or last-writer-wins.

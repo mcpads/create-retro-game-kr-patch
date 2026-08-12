@@ -28,7 +28,7 @@ Reuse evidence only when revision, renderer, consumer, preconditions, and proof 
 
 Choose a representative primary renderer, not merely the earliest reachable screen. Test separate consumers when their equivalence is unresolved. A composited screenshot, external subtitle, or overlay does not prove in-game consumption.
 
-Visibility passes only when:
+Visibility passes only when all of these hold:
 
 - the intended glyph appears at the intended position and shape;
 - target storage, load, selection, and display are connected;
@@ -39,7 +39,7 @@ Begin with an established font unless letterform design is the uncertainty under
 
 ## 4. Representative text end to end
 
-Choose a unit that connects the complete extraction-to-consumption boundary and includes the hardest applicable established constraint: length, control tokens, pointers, compression, padding, or another design-critical boundary. A short string that bypasses the hard condition is not representative. Identify the hardest constraint as the one nearest its established limit or without a workaround, not the one easiest to sample. If that is unresolved, establish it before choosing the unit.
+Choose a unit that connects the complete extraction-to-consumption boundary and includes the hardest applicable established constraint: length, control tokens, pointers, compression, padding, or another design-changing boundary. A short string that bypasses the hard condition is not representative. Identify the hardest constraint as the one nearest its established limit or without a workaround, not the one easiest to sample. If that is unresolved, establish it before choosing the unit.
 
 Use separate units for consumers or risks that do not share the same path. Verify:
 
@@ -76,7 +76,7 @@ Do not run a separate conditional test when the risk is absent or equivalent sta
 
 ## 6. Outcomes and integration
 
-- **Pass** applies only to the declared scope.
+- **Pass** applies only to the declared proof scope.
 - **Fail** blocks dependent implementation until the assumption or design changes.
 - **Unresolved** is not pass. Split the first unproved boundary, then return to the original condition.
 
