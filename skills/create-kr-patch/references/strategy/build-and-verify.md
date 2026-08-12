@@ -37,7 +37,7 @@ When file size or extent changes, choose in-place editing, partial relocation, f
 - untouched tracks, sectors, files, and intentionally irregular source structures remain unchanged outside the declared scope; and
 - reparsed structures are valid and the real loader consumes the new assets.
 
-Failure to establish every reference for a partial relocation does not justify a full rebuild. If no candidate path can produce this evidence, the image change remains incomplete.
+Failure to establish every reference for a partial relocation does not justify a full rebuild. If no candidate path can produce this evidence, the image change remains incomplete; return to the declared completion scope.
 
 ## 3. Integrity verification
 

@@ -46,7 +46,7 @@ The project chooses serialization and placement from its structure, review metho
 
 Keep only currently verified structure in the main record and separate it from a chronological experiment log. This table shows required meanings and optional field names:
 
-| Field | Meaning |
+| Example field | Meaning |
 |---|---|
 | `scope` | Target source revision and investigated media, files, and code paths |
 | `confirmed` | Structure established by measurement or runtime tracing, with evidence references |
@@ -61,7 +61,7 @@ A project that needs one render path does not need a complete call graph. When a
 
 Record samples and volume findings needed for initial decisions in machine-readable form. A complete-extraction claim expands the record to the full declared denominator. Distinguish:
 
-| Field | Meaning |
+| Example field | Meaning |
 |---|---|
 | `asset_id` | Stable ID for a text region or table |
 | `source` | Container, file, offset, size, and source hash |
@@ -82,7 +82,7 @@ For each risk, retain a `risk_id`, scope, observation evidence, impact, possible
 
 Keep each PoC decision as one record independent of other decisions. Existing record structure decides file boundaries. Optional fields include:
 
-| Field | Meaning |
+| Example field | Meaning |
 |---|---|
 | `poc_id` | Stable ID linked to the strategy PoC |
 | `trigger` | Completion-blocking or design-changing risk and why the decision is early |
@@ -102,7 +102,7 @@ Manual hex edits, temporary offsets, and one-shot scripts may remain as result e
 
 Catalog text blocks rather than texture files. When one texture contains several labels, record each label separately.
 
-| Field | Meaning |
+| Example field | Meaning |
 |---|---|
 | `block_id` | Stable text-block ID |
 | `source` | Container path or index and, when needed, byte start, size, and source hash |
@@ -120,7 +120,7 @@ Projects may rename states, but must distinguish uninvestigated, investigated wi
 
 One request should fit one human observation session.
 
-| Field | Meaning |
+| Example field | Meaning |
 |---|---|
 | `request_id` | Stable ID |
 | `baseline` | Source, build artifact, execution environment, and configuration identity |
@@ -143,7 +143,7 @@ For each text display region, record region ID, renderer and box scope, width ca
 
 ### 7.2 Individual issues
 
-| Field | Meaning |
+| Example field | Meaning |
 |---|---|
 | `issue_id` | Stable ID across rounds |
 | `summary` | Short symptom-centered title |
