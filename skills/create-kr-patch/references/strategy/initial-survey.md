@@ -109,7 +109,7 @@ Once the target's own storage -> consumer -> screen path supplies sufficient evi
 
 ## 5. Completion
 
-The initial survey is complete when:
+The initial survey is complete when all of these hold:
 
 1. Supported input and modification or rebuild boundaries are identified.
 2. A representative target has a reversible storage and consumer interpretation.

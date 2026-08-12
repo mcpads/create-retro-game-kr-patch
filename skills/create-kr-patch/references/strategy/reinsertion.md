@@ -116,3 +116,12 @@ Apply only invariants present on the target path:
 - **User strings**: If Hangul input is supported, input repertoire, stored encoding and length, and redisplay use the same rules. Otherwise state that it is out of scope.
 
 If the presence of an invariant is unresolved, return to consumer investigation rather than treating it as passed.
+
+## 7. Completion
+
+Reinsertion is complete only when all of these hold:
+
+- Every entry has an established policy under §1, with no overflow and no unresolved entry.
+- Relocated output passes every check in §3.
+- Adopted space passes §5, and a change that triggers `references/strategy/runtime-assets.md` §1 passes the link assessment in `references/strategy/runtime-assets.md` §2.
+- Every invariant present on the target path passes §6.

@@ -16,7 +16,7 @@ The primary build must combine every adopted translation, glyph, mapping, reinse
 
 When one supported revision and every member of a finite population have been established, use verified locations, expected bytes, and reference catalogs as the specification for that revision and reject mismatches. Derive addresses, sizes, and checksums that depend on translation length, glyph count, or placement from the build result. Do not silently promote new heuristic candidates into the specification during repeated builds (`references/strategy/initial-survey.md` §3.1).
 
-Turn every established criterion affected by the change into a build check. Do not produce a verified artifact when an applicable encoding, glyph or space budget, layout, length, pointer, compression, or container invariant fails. A change that triggers `references/strategy/runtime-assets.md` §1 must pass both static storage/reference/capacity checks and runtime load/residency/consumption checks.
+Turn every mechanically decidable criterion affected by the change into a build check. Do not produce a verified artifact when an applicable encoding, glyph or space budget, layout, length, pointer, compression, or container invariant fails. A change that triggers `references/strategy/runtime-assets.md` §1 must pass both static storage/reference/capacity checks and runtime load/residency/consumption checks.
 
 Every write from the source to the target image must satisfy the final-write verification rules in `references/conventions/project-conventions.md` §5.2. A failed write check must prevent artifact production.
 
@@ -73,7 +73,7 @@ Judge final text, presentation, and interaction changes on their actual consumer
 - Translation review and the build must use the same constraint model.
 - Include automatic wrapping, control-token state transitions, and worst-case variable insertion when they affect the consumed result.
 - Judge dialogue, menus, and name entry separately when they use different consumers.
-- A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling or human readability to warnings or human review.
+- A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling to warnings or human review.
 - Judge glyphs and baked graphics text against the visual completion criteria in `references/strategy/font-strategy.md` §4 and `references/strategy/graphics-text.md` §4, using real backgrounds, palettes, and states.
 - When a window or frame changes size or position, verify actual anchors, clipping, screen bounds, and overlap with portraits, cursors, and adjacent UI.
 - When a change touches state-specific assets or placement, verify the distinctions and transitions among applicable default, focused, selected, and disabled states. Verify affected navigation, confirm, and cancel event, repeat, state-transition, and result behavior against the target model.

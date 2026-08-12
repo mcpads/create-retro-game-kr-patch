@@ -81,7 +81,7 @@ Author or correct glyphs only after an established font supplies the main charac
 
 Font names, stated uses or sizes, and previews only narrow candidates. Distinguish functional failures such as missing glyphs, empty output, clipping, and spacing errors from aesthetic preferences such as stroke impression or mood. Require fill, outline, shadow, highlight, or gloss only when they are part of the approved visual target or necessary for readability or state distinction on the real consumer path. Do not make one source style or effect a global default.
 
-Adoption requires:
+Adoption requires all of these:
 
 - Every required glyph exists, and actual ink remains within the cell and clearing range.
 - Samples include continuous translated sentences, syllables carrying final consonants, compound vowels, and high stroke density, and the spaces, punctuation, digits, and Latin characters used on the path. On the real background and palette they retain contrast and readability, align baseline, line height, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
@@ -102,7 +102,7 @@ Keep revision-specific structural constants such as addresses, banks, and code b
 
 ## 6. Completion
 
-Font work is complete only when:
+Font work is complete only when all of these hold:
 
 - Every required character in the distribution scope maps through an approved mapping for each target consumer, with zero unmapped characters.
 - Total repertoire and representative runtime working sets pass their corresponding budgets.

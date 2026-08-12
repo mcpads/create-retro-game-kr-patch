@@ -142,7 +142,7 @@ Repeated fill, decode failure, or zero current search hits does not prove non-te
 
 ## 7. Completion
 
-Text extraction is complete only when:
+Text extraction is complete only when all of these hold:
 
 - Every member of the declared population is counted under §1.4 with zero unresolved items.
 - Scaling to full distribution scope has passed the volume survey in §1.5.
