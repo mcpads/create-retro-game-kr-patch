@@ -8,7 +8,7 @@
 - **Decisive test:** Tracing the tilemap writer showed that horizontal indexing converted character code `N` to `N×2` and `N×2+1`. One visible glyph was a 2x2 arrangement of that left-right pair; address-only experiments had omitted this transform.
 - **Established result:** This path required both the `N→N×2, N×2+1` transform and the 2x2 tile arrangement, not only the glyph data address.
 - **Transfer limit:** Derive the code-to-tile transform again for every other renderer.
-- **Related criteria:** `references/strategy/font-strategy.md`, `references/strategy/runtime-assets.md` §2.
+- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md` §2.
 
 ## NMI graphics hooks leaked across screen states
 

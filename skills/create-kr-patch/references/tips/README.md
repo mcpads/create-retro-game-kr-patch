@@ -10,7 +10,7 @@ Headings state the reusable conclusion directly. **Search terms** provide sympto
 
 ## Judgment areas
 
-The labels below correspond to the strategy documents routed from `SKILL.md`. Convention documents may appear in a case's related criteria but do not add a judgment area.
+The labels below correspond to the strategy documents routed from `SKILL.md`. Convention and platform documents may appear in a case's related criteria but do not add a judgment area.
 
 | Index label | Strategy document |
 |---|---|
@@ -66,7 +66,7 @@ The labels below correspond to the strategy documents routed from `SKILL.md`. Co
 | Translated screens may have multiple visual layers | Graphics text / Runtime assets / Build and verification | Japanese text remains after replacing the background layer | PC Engine CD | `references/tips/general/cases.md#translated-screens-may-have-multiple-visual-layers` |
 | Duplicate text does not imply interchangeable pointers | Text extraction / Reinsertion and hooks | Deduplication changes another pointer slot or leaves an interior suffix | PlayStation | `references/tips/general/cases.md#duplicate-text-does-not-imply-interchangeable-pointers` |
 | Small-label contrast changed across UI states | Graphics text / Fonts and encoding / Build and verification | A compact label needs readable fill and outline in selected states | PlayStation | `references/tips/general/cases.md#small-label-contrast-changed-across-ui-states` |
-| Visible text does not exclude runtime side effects | Fonts and encoding / Reinsertion and hooks / Runtime assets / Build and verification | Hangul displays but the first asset load interrupts audio or another subsystem | PlayStation | `references/tips/general/cases.md#visible-text-does-not-exclude-runtime-side-effects` |
+| Visible text does not exclude runtime side effects | Reinsertion and hooks / Runtime assets / Build and verification | Hangul displays but the first asset load interrupts audio or another subsystem | PlayStation | `references/tips/general/cases.md#visible-text-does-not-exclude-runtime-side-effects` |
 | Self round-trips do not prove compressor compatibility | Compression / Debugging | Recompressing untouched original data still breaks in the game | Saturn | `references/tips/general/cases.md#self-round-trips-do-not-prove-compressor-compatibility` |
 | Byte-pattern pointer scans produced false and missed references | Text extraction / Reinsertion and hooks | Byte-pattern scans produce false references or miss real ones | Saturn / SNES / PC-98 | `references/tips/general/cases.md#byte-pattern-pointer-scans-produced-false-and-missed-references` |
 | Unchanged labels may come from preloaded graphics | Graphics text / Runtime assets | Main-font changes do not affect a label and no new write occurs on entry | Saturn | `references/tips/general/cases.md#unchanged-labels-may-come-from-preloaded-graphics` |

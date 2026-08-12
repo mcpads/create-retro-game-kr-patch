@@ -78,7 +78,7 @@
 - **Evidence:** Distinctive probes were inserted across broad ranges of all three sheets. Runtime display selected the 32-pixel sheet, and independent decoding showed that the same character occupied different slots in different sizes.
 - **Established result:** The observed dialogue used a 32-pixel fixed-cell 4bpp font, and code-to-glyph slots were not shared across sizes.
 - **Transfer limit:** Prove the active font and that sheet's code-to-glyph mapping separately for every other screen.
-- **Related criteria:** `references/strategy/font-strategy.md`, `references/strategy/runtime-assets.md`, `references/strategy/poc.md`.
+- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md`, `references/strategy/poc.md`.
 
 ## Final display-buffer tracing corrected coordinate assumptions
 
@@ -208,7 +208,7 @@
 - **Evidence:** Consumer disassembly showed that the low two bits of the X coordinate selected one of four copies. The generator therefore produced glyphs shifted by 0, 1, 2, and 3 pixels.
 - **Established result:** The repeated blocks were pre-shifted copies for variable-width alignment states.
 - **Transfer limit:** Trace the copy-selection expression, composition method, and coordinate unit again to derive the required shifts for another renderer.
-- **Related criteria:** `references/strategy/font-strategy.md`, `references/strategy/runtime-assets.md`, `references/strategy/debugging.md`.
+- **Related criteria:** `references/strategy/font-strategy.md` §4, `references/strategy/runtime-assets.md`, `references/strategy/debugging.md`.
 
 ## Input glyphs and result glyphs may use different assets
 
@@ -328,7 +328,7 @@
 - **Evidence:** Only the provider boundary was replaced with a compatible source while the original downstream path remained. Hangul and existing characters were displayed together.
 - **Established result:** Both consumers could reuse the original conversion and upload path by replacing only the glyph-provider interface.
 - **Transfer limit:** Recheck provider ABI, bit layout, buffer lifetime, cache identity, and downstream conversion for every caller.
-- **Related criteria:** `references/strategy/font-strategy.md`, `references/strategy/reinsertion.md`, `references/strategy/runtime-assets.md`, `references/strategy/poc.md`.
+- **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/reinsertion.md`, `references/strategy/runtime-assets.md`, `references/strategy/poc.md`.
 
 ## Translated screens may have multiple visual layers
 
@@ -368,7 +368,7 @@
 - **Evidence:** Music still stopped in a build that added CD-command completion and mode restoration around the first font load.
 - **Established result:** Glyph display and preservation of audio during the first CD load were separate claims. The former was proven; an audio-safe load path was not.
 - **Transfer limit:** For every new runtime load, verify concurrent audio, input, and display state in addition to the asset's visible result.
-- **Related criteria:** `references/strategy/font-strategy.md`, `references/strategy/reinsertion.md`, `references/strategy/runtime-assets.md`, `references/strategy/build-and-verify.md`.
+- **Related criteria:** `references/strategy/reinsertion.md`, `references/strategy/runtime-assets.md`, `references/strategy/build-and-verify.md`.
 
 ## Self round-trips do not prove compressor compatibility
 
@@ -468,7 +468,7 @@
 - **Evidence:** The glyph pool exceeded the number of globally found codes, the same code selected different glyphs by range, the global map rendered broken messages, and runtime consumers read different contiguous glyph regions.
 - **Established result:** A single file-wide map was rejected. No global extraction or reinsertion map was adopted while the range-switch rule remained unknown.
 - **Transfer limit:** Map and transform only ranges whose switch rule and consumer index calculation are established.
-- **Related criteria:** `references/strategy/text-extraction.md`, `references/strategy/font-strategy.md`, `references/strategy/debugging.md`.
+- **Related criteria:** `references/strategy/text-extraction.md`, `references/strategy/font-strategy.md` §2, `references/strategy/debugging.md`.
 
 ## State changes may reload a different font asset
 

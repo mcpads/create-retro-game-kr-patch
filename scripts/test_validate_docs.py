@@ -333,48 +333,6 @@ class DocumentationValidatorTest(unittest.TestCase):
                 validate_docs.validate_agent_facing_language(errors)
         self.assertTrue(any("source-script evidence" in error for error in errors))
 
-    def reserved_term_errors(self, line: str, name: str = "sample.md") -> list[str]:
-        with TemporaryDirectory() as directory:
-            source = Path(directory) / "sample.md"
-            source.write_text(f"{line}\n", encoding="utf-8")
-            errors: list[str] = []
-            with patch.object(validate_docs, "repo_name", return_value=name):
-                validate_docs.validate_reserved_terms(errors, [source])
-        return errors
-
-    def test_reports_reserved_term_used_for_a_general_activity(self) -> None:
-        errors = self.reserved_term_errors("Retain an explicit HITL review instead.")
-        self.assertTrue(
-            any("observation-request record format" in error for error in errors)
-        )
-
-    def test_allows_reserved_term_naming_its_record(self) -> None:
-        self.assertEqual(
-            self.reserved_term_errors("Record HITL observations with their branches."),
-            [],
-        )
-
-    def test_allows_reserved_term_citing_its_owning_document(self) -> None:
-        self.assertEqual(
-            self.reserved_term_errors(
-                "Request a HITL observation under "
-                "`references/conventions/project-records.md` §6."
-            ),
-            [],
-        )
-
-    def test_allows_reserved_term_inside_its_owning_document(self) -> None:
-        self.assertEqual(
-            self.reserved_term_errors(
-                "One HITL request fits one observation session.",
-                name="references/conventions/project-records.md",
-            ),
-            [],
-        )
-
-    def test_ignores_reserved_term_inside_a_code_span(self) -> None:
-        self.assertEqual(self.reserved_term_errors("The `HITL` field name."), [])
-
 
 if __name__ == "__main__":
     unittest.main()

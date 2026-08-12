@@ -27,7 +27,7 @@ codex plugin marketplace add mcpads/create-retro-game-kr-patch --ref main
 codex plugin add create-kr-patch@kr-patch
 ```
 
-## 릴리스 채널과 `next` 소식
+## 릴리스 채널과 채널 전환
 
 - `main`: 최신 안정 릴리스 채널. 검증을 마치고 정식 버전으로 확정된 변경만 반영한다.
 - `next`: 다음 안정 릴리스를 준비하며 계속 갱신되는 프리릴리스 채널. alpha·beta·rc를 먼저 사용해 보고 피드백하려는 사용자를 위한 채널이며, 정식 릴리스 전에는 호환성과 문서 구조가 바뀔 수 있다.
@@ -54,7 +54,7 @@ codex plugin add create-kr-patch@kr-patch
 
 안정판으로 돌아갈 때는 같은 순서에서 `next`를 `main`으로 바꾼다. 같은 채널을 업데이트할 때도 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 재설치한다. Claude Code는 reload 뒤, Codex는 새 스레드에서 선택한 버전을 적용한다.
 
-설치 후 한글화·한글 패치 관련 요청을 하면 Agent Skill이 자동으로 발동한다. 트리거 키워드: `한글화`, `한글 패치`, `KR patch`, `ROM 번역` 등.
+설치 후 레트로 게임의 한글 패치 작업을 요청하면 Agent Skill이 발동한다. ROM·디스크 분석, 폰트·인코딩 설계, 스크립트 추출·재삽입, 빌드·에뮬레이터 검증처럼 이 스킬이 다루는 일을 말하면 되고, 새 조사와 기존 프로젝트의 후속 작업 모두에 해당한다.
 
 ## 구조
 
@@ -67,7 +67,9 @@ skills/
       strategy/          # 판단 영역별 기준과 검증 방법
       conventions/       # 저장소 역할·데이터·기록 시행 규약
       platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 9종
-      tips/              # 판단 영역·조건으로 선택하는 검증된 국소 사례
+      tips/
+        general/         # 플랫폼 규칙 없이 적용되는 검증된 사례
+        platforms/       # 그 플랫폼 규칙이 있어야 성립하는 사례
 ```
 
 `SKILL.md`는 현재 판단을 관련 문서로 연결하고 전체 작업의 불변식을 제시한다. 에이전트는 현재 판단에 맞는 `references/strategy/`와 필요한 시행 규약·플랫폼 제약을 적용하고, 관측 증상과 맞는 `references/tips/` 사례만 전이 한계를 확인해 참고한다.
