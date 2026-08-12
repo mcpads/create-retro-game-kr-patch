@@ -122,7 +122,7 @@ Distribution eligibility includes at least:
 - protected fields match the extraction baseline;
 - no missing translation, unapproved residual source character, or unknown state remains;
 - token boundaries and argument widths are established so `references/strategy/text-extraction.md` §4.4 policies apply;
-- control-code tokens parse and satisfy the applied preserve, move, recompute, or translate-to-target-meaning policy;
+- control-code tokens parse and satisfy the policy assigned under `references/strategy/text-extraction.md` §4.4;
 - glyph coverage and length or layout under confirmed consumer constraints pass; and
 - human decisions retain their decision and evidence.
 

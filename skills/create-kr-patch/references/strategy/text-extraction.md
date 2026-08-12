@@ -116,7 +116,7 @@ Assign each token a policy from consumer meaning:
 | `translate` | Source and target consumers use different opcode or index meanings | Map to a verified equivalent token, or replace with an approved literal only after proving the value static; fail if dynamic value or execution effect is lost |
 | `forbidden` | Boundary and argument width are established, but meaning is unresolved or editing is disallowed | Preserve raw opcode, arguments, source order, and consumption-order position; fail on edits or moves, and block distribution if surrounding changes cannot be shown harmless |
 
-Do not force every token to remain at the same byte position, and do not let a layout engine move every token freely. Encoder and validator must consume the same policy definition.
+Neither pin all tokens to their source byte positions nor let a layout engine move tokens freely. The policy assigned to each token decides. Encoder and validator must consume the same policy definition.
 
 ## 5. Round trip and completeness
 
