@@ -89,8 +89,8 @@ Close a defect through the fix completion conditions in `references/strategy/deb
 Incomplete human review of the declared localization scope does not block development builds, technical verification, or a pre-release test build that collects it under `references/conventions/translation-artifacts.md` §5. A release candidate must satisfy all of these conditions:
 
 - Every declared change is regenerated from immutable source and approved inputs through the primary build, and component checks plus runtime evidence pass together on that exact result.
-- The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, with zero unresolved members and evidence for every exclusion.
+- The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, which record zero unresolved members and evidence for every exclusion.
 - Every declared automated build, application, and runtime check passes.
 - No known critical defect remains, and every accepted limitation is recorded with its scope and effect.
-- Human review declared for the complete localization scope is complete under `references/strategy/translation-workflow.md` §5.4.
+- Human review of the complete localization scope is complete under `references/strategy/translation-workflow.md` §5.4.
 - Applying the distribution artifact reproduces the verified target image.

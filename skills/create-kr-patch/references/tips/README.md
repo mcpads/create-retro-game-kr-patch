@@ -6,7 +6,7 @@ Select only a case whose judgment area and symptom match the current problem. Us
 
 Case placement follows the conclusion's applicability, not the platform where it was first observed. `general/` contains conclusions that can be tested without adopting one platform's storage or execution rules. `platforms/` contains cases whose conclusion depends on those rules. A platform named in a general case records the evidence boundary; it is not a routing condition.
 
-Headings state the reusable conclusion directly. **Search terms** provide symptom, data-structure, and technical aliases for retrieval; they are not additional claims. Literal source or target strings remain unchanged when they are evidence. Search the index first. If its wording does not match, search the tips tree by the observed symptom or technical term, then read only the matching case section.
+Headings state the reusable conclusion directly. **Search terms** provide symptom, data-structure, and technical aliases for retrieval; they are not additional claims. Literal source or target strings remain unchanged when they are evidence. Search the index first. If its wording does not match, search the tips tree by the reproduced symptom or technical term, then read only the matching case section.
 
 ## Judgment areas
 
