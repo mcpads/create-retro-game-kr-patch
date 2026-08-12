@@ -112,7 +112,7 @@ Apply only invariants present on the target path:
 - **Padding and alignment**: Write only established consumable positions and values; do not invade trailing tokens or following fields.
 - **Layout and clearing**: Drawing and clearing extents match every expanded or reduced state without covering adjacent UI or graphics. No stale pixels or tiles remain after page or window transitions, exit, or re-entry.
 - **Shared state**: Identify every writer and transition, and assign initialization, update, and release responsibility.
-- **Encoding coverage**: An unmapped character fails the build; never omit or replace it silently.
+- **Encoding coverage**: An unmapped character fails the build; never omit or replace it silently. A development build follows `references/conventions/translation-artifacts.md` §5.
 - **User strings**: If Hangul input is supported, input repertoire, stored encoding and length, and redisplay use the same rules. Otherwise state that it is out of scope.
 
 If the presence of an invariant is unresolved, return to consumer investigation rather than treating it as passed.

@@ -62,7 +62,7 @@ Read a platform document only when a hardware, medium, address-space, or renderi
 
 For an unlisted platform, establish only the constraints that can change the current decision.
 
-Whenever the judgment area or observed symptom changes, compare it with `Read when` in `references/tips/README.md`. Re-establish the selected case's `Transfer limit` in the current target. Determine completion from its `Related criteria`, never from resemblance to the case.
+Whenever the judgment area or a reproduced symptom changes, compare it with `Read when` in `references/tips/README.md`. Re-establish the selected case's `Transfer limit` in the current target. Determine completion from its `Related criteria`, never from resemblance to the case.
 
 ## Decision flow
 
