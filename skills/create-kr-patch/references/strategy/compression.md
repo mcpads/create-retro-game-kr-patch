@@ -8,8 +8,7 @@ Use this strategy when the target loader or consumer transforms stored input int
 
 Declare the supported denominator when this strategy applies:
 
-- For one recompressed asset, verify the population that shares its consumer rules.
-- For a compressor in the common build path or a claim of general format support, verify the complete corpus processed by that path.
+- Declare the denominator under `references/conventions/project-conventions.md` §5.1.
 - Preserve unsupported variants unchanged or reject them explicitly.
 
 ## 2. Consumer format interpretation

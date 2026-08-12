@@ -39,7 +39,7 @@ Growth or relocation fails for a scope if any required condition cannot be updat
 
 ## 2. Reference completeness and coordinates
 
-Use `references/strategy/text-extraction.md` §1.3 to decide when an approved catalog or structural parser becomes repeated-build specification and when heuristic search remains only an audit.
+Use `references/strategy/initial-survey.md` §3.1 to decide when an approved catalog or structural parser becomes repeated-build specification and when heuristic search remains only an audit.
 
 Each reference must distinguish at least:
 
