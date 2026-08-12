@@ -63,7 +63,7 @@ An encoding name labels a candidate; it does not establish actual interpretation
 
 A standard-like encoding may include game-specific external characters, reserved codes, and control tokens. Decoder failure does not make a value unused or invalid. Successful standard decoding does not prove that the game consumes the value with that meaning.
 
-Separate mappings by renderer, file, or state when code tables differ. Merge them only after every consumer and source round trip satisfies one mapping. Apply `references/strategy/font-strategy.md` §2 when reusing code space for Hangul.
+Separate mappings by renderer, file, or state when code tables differ. Merge them only after every consumer and source round trip satisfies one mapping. Apply `references/strategy/font-strategy.md` §2.1 when reusing code space for Hangul.
 
 ## 3. Control tokens
 

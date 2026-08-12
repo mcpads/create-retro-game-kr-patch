@@ -24,7 +24,7 @@ Before creating or extending a repository, inspect its current build, tests, doc
 
 Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
-Investigation experiments and one-off transforms may remain outside the primary build. When repeated builds depend on one, promote it into a maintained component with fixed version, explicit inputs and outputs, propagated failures, and tests. An unpromoted temporary artifact or manual edit must not become the build's only input.
+Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then with fixed version, explicit inputs and outputs, propagated failures, and tests. Until promoted it must not run in the build or supply any build input.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to investigation, PoC, and QA records.
 
@@ -147,6 +147,8 @@ An integration test runs the primary build from declared source, translation, an
 - translation protected information, glyph coverage, length and layout, and pointer ranges;
 - identity between the built target and the result of applying the distribution artifact to source; and
 - the link between static checks and separate runtime verification required by changed paths.
+
+A test may show that a build gate exists; it must not be the gate. Every criterion that `references/strategy/build-and-verify.md` §1 requires the build to fail on must fail inside the build whether or not a test runs.
 
 When source media is unavailable, report source-dependent checks as explicitly not run and continue schema, translation, and unit checks that do not require it. Never report a partial run as complete success. Use `references/strategy/build-and-verify.md` for runtime criteria and `references/conventions/project-records.md` for evidence semantics.
 
