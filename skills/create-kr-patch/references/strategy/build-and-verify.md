@@ -64,7 +64,7 @@ If the route to a target state is unknown, or state intervention could reduce re
 
 Bind every runtime result and reusable state or input recording to the exact target image and environment that produced it. Recreate the path on a new build unless byte identity or equivalent consumption at the relevant boundary has been established.
 
-Turn a repeated, objectively decidable regression into a reproducible runtime check. When the required observation is unavailable or the final semantic or visual judgment is not mechanically decidable, retain an explicit human review instead of reporting automated success.
+Turn a repeated, objectively decidable regression into a reproducible runtime check. When the final semantic or visual judgment is not mechanically decidable, retain an explicit human review instead of reporting automated success. An unavailable observation is not that case: establish it through `references/strategy/debugging.md` §2.1, or report the check as not run.
 
 ## 5. Text, presentation, and interaction QA
 

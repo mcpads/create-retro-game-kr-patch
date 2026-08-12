@@ -77,7 +77,7 @@ Limit a fix to the established defect and necessary impact range. Do not mix unr
 After the fix, rerun the original reproduction and retain regression checks proportional to impact and recurrence risk:
 
 - Make calculable length, range, and mapping invariants build checks.
-- Keep state or lifetime defects visible only at runtime as repeatable scenarios or explicit human review.
+- Keep state or lifetime defects visible only at runtime as repeatable scenarios. Use human review only where the pass condition itself is not mechanically decidable.
 - Bind preserved saved states and input recordings to compatible builds and environments.
 - Recheck paths sharing state resources, branches touched by the fix, and representative previously working paths.
 
