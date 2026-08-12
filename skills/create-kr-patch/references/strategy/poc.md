@@ -22,7 +22,7 @@ If no outcome reduces those choices, split out a narrower diagnostic. Do not shr
 
 These scopes are independent. Visibility proves pixels through a declared data path. Representative end to end proves one declared unit. Encoding budgets, relocation, compression, and other consumers need separate criteria when they can still change the design.
 
-Reuse evidence only when revision, renderer or consumer, preconditions, and proof scope match, and the current change does not alter identity, links, or consumption. Otherwise prove equivalence or rerun the relevant test.
+Reuse evidence only when revision, renderer, consumer, preconditions, and proof scope match, and the current change does not alter identity, links, or consumption. Otherwise prove equivalence or rerun the relevant test.
 
 ## 3. Visibility verification
 
