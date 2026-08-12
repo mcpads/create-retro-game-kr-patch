@@ -12,7 +12,7 @@ The build and distribution path must satisfy all of these conditions:
 - When editing extracted assets, preserve stable entry identity, separate editable values from protected values, and retain undecoded data reversibly. Follow `references/conventions/project-conventions.md` §5.1 for unchanged reassembly equivalence.
 - Produce the patched image and distribution artifact from the same verification graph. Applying the distribution artifact must reproduce the target image.
 
-The primary build must combine every adopted translation, glyph, mapping, reinsertion, code, and container change into one result made from the immutable source. Successful component checks or PoC artifacts do not prove integration. The combined result must pass its declared static and runtime criteria. A development build follows the input policy in `references/conventions/translation-artifacts.md` §5, but every adopted technical change must still enter the same build. Attribute post-integration evidence to that exact result.
+The primary build must combine every adopted translation, glyph, mapping, reinsertion, code, and container change into one result made from the immutable source. Successful component checks or PoC artifacts do not prove integration. The combined result must pass its declared static and runtime criteria. A development build follows the input policy in `references/conventions/translation-artifacts.md` §5, but every adopted technical change must still enter the same build. Keep it producible: runtime verification and `references/strategy/debugging.md` §2.1 diagnosis consume it. Attribute post-integration evidence to that exact result.
 
 When one supported revision and every member of a finite population have been established, use verified locations, expected bytes, and reference catalogs as the specification for that revision and reject mismatches. Derive addresses, sizes, and checksums that depend on translation length, glyph count, or placement from the build result. Do not silently promote new heuristic candidates into the specification during repeated builds (`references/strategy/initial-survey.md` §3.1).
 
@@ -86,7 +86,7 @@ Source character counts, line breaks, and observed maxima describe source usage,
 
 Close a defect through the fix completion conditions in `references/strategy/debugging.md` §1, and close one as original or out-of-scope behavior through `references/strategy/debugging.md` §6. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7.
 
-Incomplete human review of the declared localization scope does not block development builds or technical verification. A release candidate must satisfy all of these conditions:
+Incomplete human review of the declared localization scope does not block development builds, technical verification, or a pre-release test build that collects it. A release candidate must satisfy all of these conditions:
 
 - Every declared change is regenerated from immutable source and approved inputs through the primary build, and component checks plus runtime evidence pass together on that exact result.
 - The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, with unresolved and completed areas distinguished.

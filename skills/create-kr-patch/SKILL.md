@@ -78,13 +78,13 @@ Whenever the judgment area or observed symptom changes, compare it with `Read wh
 
 ### Blocking invariants
 
-A violation here produces no artifact: the build fails, or the result does not qualify as a release candidate. Resolve it before continuing any dependent work.
+A violation here stops the release path, and stops the build unless the invariant names a development exception. Every such exception is declared and recorded; none is taken silently. Resolve it before continuing any dependent work.
 
-- **Principle zero: a player usually plays once.** A release requires zero known critical defects. Crashes and progression blocks qualify, but so do broken glyphs, misleading hints or item names, and collapsed terminology or character voice. A mistranslation can cause progression failure, wrong choices, or false character interpretation.
+- **Principle zero: a player usually plays once.** A release requires zero known critical defects; a pre-release test build under `references/conventions/translation-artifacts.md` §5 discloses them instead. Crashes and progression blocks qualify, but so do broken glyphs, misleading hints or item names, and collapsed terminology or character voice. A mistranslation can cause progression failure, wrong choices, or false character interpretation.
 - **Never commit source ROM or disc images, or unauthorized third-party assets.** Follow `references/conventions/project-conventions.md` §6 for permitted assets and source identification.
 - **Make every final change verifiable before applying it.** Starting from an immutable source, identify the producer and allowed range of each change. Fail the build on overlapping writers, protected-range writes, or unexplained final differences. Follow `references/conventions/project-conventions.md` §5.2.
 - **Require human approval before any rule-based bulk transformation of translated prose.** Do not apply detection results until a human has reviewed the transformation rule, the pre-transformation text, scope, and expected impact. Let `references/strategy/translation-workflow.md` §5.2 determine exceptions.
-- **Fail the build on any unmapped character.** Never skip a character whose glyph or encoding is missing.
+- **Never silently skip or substitute a character whose glyph or encoding is missing.** An unmapped character fails the build. A development build proceeds only with the unmapped set declared under `references/conventions/translation-artifacts.md` §5, and never becomes a release candidate.
 
 ### Judgment invariants
 

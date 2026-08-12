@@ -62,7 +62,7 @@ Before finalizing corpus demand, establish distribution scope and unresolved reg
 
 1. Count required glyphs across the complete distribution corpus and actual runtime insertion values. An unfinished translation sample is a risk signal, not a final bound.
 2. Measure code-space, storage, mapping, and active-slot limits from target consumers and record each value's applicability.
-3. Fail the build on an unmapped character, a required glyph that rasterizes empty, or applicable budget overflow. Report the missing set, and the limiting resource for an overflow.
+3. Fail the build on an unmapped character, a required glyph that rasterizes empty, or applicable budget overflow. Report the missing set, and the limiting resource for an overflow. A development build follows `references/conventions/translation-artifacts.md` §5.
 4. Count non-glyph resources, unused slots, or source glyphs eliminated by complete translation as supply only after excluding every reference and state. State whether this expands total repertoire or active working set.
 5. If total repertoire is insufficient, establish the exact bottleneck and determine whether supply can expand. Vocabulary reduction or character substitution requires human approval when it changes meaning or voice.
 6. If the active budget is smaller than a state's working set, prove that load, replacement, pinning, and release preserve every glyph throughout its consumption lifetime. Otherwise the dynamic design fails.
