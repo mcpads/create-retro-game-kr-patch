@@ -30,9 +30,9 @@ Apply `references/conventions/translation-artifacts.md` to translation meaning a
 
 ## 2. Primary build path and code boundary
 
-### 2.1 One primary pipeline
+### 2.1 One primary path
 
-Extraction, transformation, reinsertion, and patch generation must rerun from source through one documented primary path. External components may participate, but the path must fix their adopted version, input, output, options, failure conditions, and output verification. A secondary path must not modify the same artifact independently or inherit an untracked manual result.
+Extraction, transformation, reinsertion, and patch generation must rerun from source through one documented primary path. A primary build is one run of that path producing artifacts. External components may participate, but the path must fix their adopted version, input, output, options, failure conditions, and output verification. A secondary path must not modify the same artifact independently or inherit an untracked manual result.
 
 The primary path must:
 

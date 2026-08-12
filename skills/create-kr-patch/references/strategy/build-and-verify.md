@@ -80,7 +80,7 @@ Judge final text, presentation, and interaction changes on their actual consumer
 - When a change touches text progression or synchronization, verify applicable page, wait, scroll, auto-advance, skip, voice, and event timing within the declared tolerance.
 - For a changed display extent, verify the layout and clearing criteria in `references/strategy/reinsertion.md` §6 across transition, exit, and re-entry. Page or progression changes must not introduce empty pages or unintended early or duplicate advancement.
 
-Source character counts, line breaks, and observed maxima describe source usage, not confirmed consumer capacity. Judge the release result from Korean encoded output and the actual consumer conditions.
+Judge the release result from Korean encoded output and the actual consumer conditions, distinguishing observed source usage from confirmed capacity through `references/strategy/translation-workflow.md` §4.
 
 ## 6. Issue closure and release readiness
 

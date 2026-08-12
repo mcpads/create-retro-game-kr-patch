@@ -72,8 +72,6 @@ Do not turn every final-QA item into a PoC. Select only a representative conditi
 
 When a runtime asset change triggers `references/strategy/runtime-assets.md` §1, include unresolved links from `references/strategy/runtime-assets.md` §2 in the pass criteria.
 
-Do not run a separate conditional test when the risk is absent or equivalent static evidence already decides it.
-
 ## 6. Outcomes and integration
 
 - **Pass** applies only to the declared proof scope.

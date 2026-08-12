@@ -34,7 +34,7 @@ When a graphics change meets a trigger in `references/strategy/runtime-assets.md
 
 ## 4. Completion
 
-Mark the graphics-text scope complete only when every condition below holds:
+The graphics-text scope is complete only when all of these hold:
 
 - Every item in the declared denominator is resolved or excluded, with zero unresolved items.
 - For assets not directly defined by a header or consumer, pixel encoding, address calculation, and boundaries explain the editable region; all uninterpreted regions remain unchanged.
@@ -42,6 +42,6 @@ Mark the graphics-text scope complete only when every condition below holds:
 - Translated regions follow approved layout and visual criteria, remain readable without clipping against the real background and palette, and preserve every required state distinction.
 - Every target state and variant is assigned to a confirmed consumer path.
 - The link assessment in `references/strategy/runtime-assets.md` §2 passes for every changed asset, supported by static population coverage and runtime evidence.
-- Representative unchanged consumer paths preserve baseline behavior.
+- Representative unchanged consumer paths preserve their original behavior.
 
-The scope remains **incomplete** while any denominator item, background or protected region, shared-asset path, or real consumer remains unresolved. If text is visible only through an external substitute or appears outside the file population, locate the missing storage or composition layer. Exclude an incomplete item from distribution eligibility or resolve its cause.
+If text is visible only through an external substitute or appears outside the file population, locate the missing storage or composition layer. Exclude an incomplete item from distribution eligibility or resolve its cause.

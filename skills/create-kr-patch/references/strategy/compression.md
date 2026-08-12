@@ -71,7 +71,7 @@ Bypassing compression introduces new code, storage, load, residency, and consump
 
 ## 6. Completion
 
-Compression work is complete only when every applicable condition is decided:
+Compression work is complete only when all applicable conditions hold:
 
 - The target consumer established the format variant and boundaries.
 - Every source stream in the declared denominator decompresses correctly.

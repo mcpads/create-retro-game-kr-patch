@@ -64,12 +64,12 @@ Before finalizing corpus demand, establish distribution scope and unresolved reg
 2. Measure code-space, storage, mapping, and active-slot limits from target consumers and record each value's applicability.
 3. Fail the build on an unmapped character, a required glyph that rasterizes empty, or applicable budget overflow. Report the missing set, and the limiting resource for an overflow. A development build follows `references/conventions/translation-artifacts.md` §5.
 4. Count non-glyph resources, unused slots, or source glyphs eliminated by complete translation as supply only after excluding every reference and state. State whether this expands total repertoire or active working set.
-5. If total repertoire is insufficient, establish the exact bottleneck and determine whether supply can expand. Vocabulary reduction or character substitution requires human approval when it changes meaning or voice.
+5. If total repertoire is insufficient, establish the exact bottleneck and determine whether supply can expand. Vocabulary reduction or character substitution requires human approval when it changes approved terminology, names, hints, characterization, meaning, or voice.
 6. If the active budget is smaller than a state's working set, prove that load, replacement, pinning, and release preserve every glyph throughout its consumption lifetime. Otherwise the dynamic design fails.
 
 When demand must shrink, do not rank candidates by occurrence count alone. Compare the unique-glyph delta, distribution by scene, speaker, and function, available synonymous phrasing using existing glyphs, and effects on approved terminology, names, hints, and characterization. Replacing many occurrences of one glyph saves one slot; introducing another glyph may save none.
 
-Changes to approved terminology, names, hints, characterization, meaning, or voice require human approval. Other phrasing adjustments follow `references/strategy/translation-workflow.md`.
+Other phrasing adjustments follow `references/strategy/translation-workflow.md`.
 
 If a glyph asset change triggers `references/strategy/runtime-assets.md` §1, verify the links in `references/strategy/runtime-assets.md` §2 as well.
 
@@ -84,7 +84,8 @@ Font names, stated uses or sizes, and previews only narrow candidates. Distingui
 Adoption requires all of these:
 
 - Every required glyph exists, and actual ink remains within the cell and clearing range.
-- Samples include continuous translated sentences, syllables carrying final consonants, compound vowels, and high stroke density, and the spaces, punctuation, digits, and Latin characters used on the path. On the real background and palette they retain contrast and readability, align baseline, line height, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
+- Samples include continuous translated sentences, syllables carrying final consonants, compound vowels, and high stroke density, and the spaces, punctuation, digits, and Latin characters used on the path.
+- On the real background and palette those samples retain contrast and readability, align baseline, line height, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
 - Every required fill, outline, shadow, highlight, or gloss layer retains its intended role in consumed output.
 - The exact source version and license permit distribution of derivatives and any required source files.
 - Fixed inputs and transform rules reproduce the same game data.
@@ -96,7 +97,7 @@ Reusing the game's existing glyph presentation may minimize impact but is not ma
 
 When dialogue, UI, name entry, or graphics paths use different providers or representation rules, determine code table, glyph source, cell, and budgets per path. Do not generalize one path's PoC to the whole game.
 
-Use one explicit input when several paths truly share presentation parameters. Split target profiles only when parameters differ and one setting would overwrite another or make build and review output disagree. The project chooses profile serialization and override mechanisms, but unknown targets, values, and omissions must fail.
+Use one explicit input when several paths truly share presentation parameters. Split font render profiles only when parameters differ and one setting would overwrite another or make build and review output disagree. Record profile meanings under `references/conventions/data-formats.md` §6.
 
 Keep revision-specific structural constants such as addresses, banks, and code boundaries separate from presentation tuning. Preserve those constants as explicit specification with expected bytes.
 

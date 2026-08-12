@@ -76,7 +76,7 @@ An evaluation applies only to the sampled text and conditions. Reevaluate affect
 
 Parallel drafting or review requires established decision context and independent review per unit. Split the corpus if it cannot satisfy those requirements as one unit; do not split it merely to create batches when it can. Do not cut scene, speaker, or functional context, or make batches so large that a reviewer loses the relationships needed for judgment.
 
-Draft free prose from context. Rule-based automation may organize batches, serialize data, and run checks. It must not generate or choose translated prose except for fixed phrases whose applicability and output are already approved.
+Draft free prose from context. Rule-based automation has the same limits: it may generate or choose prose only for fixed phrases whose applicability and output are already approved.
 
 Provide writers and reviewers with one baseline containing:
 

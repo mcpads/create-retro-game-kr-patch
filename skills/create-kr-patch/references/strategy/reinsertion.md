@@ -67,7 +67,7 @@ Relocated output must be checked mechanically for all of these conditions:
 
 Do not auto-correct a failed check by selecting another pointer candidate or padding policy. Correct the structure model or leave the scope incomplete.
 
-When one logical change writes several payloads, pointers, or hook sites, verify the complete write set atomically under `references/conventions/project-conventions.md` §5.2. Apply none of it if any write fails.
+When one logical change writes several payloads, pointers, or hook sites, verify the complete write set atomically under `references/conventions/project-conventions.md` §5.2.
 
 ## 4. Code hooks
 

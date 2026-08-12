@@ -28,7 +28,7 @@ For each result, ask whether it changes:
 - supported revision or distribution form; or
 - the priority of remaining risks.
 
-Defer investigation that changes none of these. Establish another category's boundary first only when it is a real prerequisite.
+Defer investigation that changes none of these. Establish another category's boundary first only when it is a real prerequisite. Apply platform constraints only from the applicable platform document and target evidence.
 
 ### 2.1 Input and rebuild boundary
 
@@ -123,4 +123,6 @@ Produce:
 - a text and asset map including volume status; and
 - a proceed/risk table mapping unresolved conditions to next evidence.
 
-Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions. Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Reopen the declared completion scope only when the boundary's own options are exhausted or its established cause recurred; record which options were rejected and the evidence that closed them. Content left outside a narrowed scope requires an approved exception under `references/conventions/translation-artifacts.md` §5. Apply platform constraints only from the applicable platform document and target evidence.
+Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions.
+
+Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Reopen the declared completion scope only when the boundary's own options are exhausted or its established cause recurred; record which options were rejected and the evidence that closed them. Content left outside a narrowed scope requires an approved exception under `references/conventions/translation-artifacts.md` §5.

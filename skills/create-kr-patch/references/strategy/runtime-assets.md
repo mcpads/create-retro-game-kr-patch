@@ -18,7 +18,7 @@ A separate link assessment is unnecessary for a same-size replacement only when 
 
 ## 2. Link assessment
 
-`Storage → lookup → load or transform → residency → consumption` is a dependency model, not a required implementation sequence. Directly mapped assets may combine stages, and some assets have no transform. Exclude an inapplicable stage only with evidence. Reuse prior evidence only when it passes `references/strategy/poc.md` §2, asset identity and state lifetime match, and the current change does not alter that link. One trace may establish several links.
+That chain is a dependency model, not a required implementation sequence. Directly mapped assets may combine stages, and some assets have no transform. Exclude an inapplicable stage only with evidence. Reuse prior evidence only when it passes `references/strategy/poc.md` §2, asset identity and state lifetime match, and the current change does not alter that link. One trace may establish several links.
 
 Do not make runtime sample count equal file or item count. For a population enumerated through `references/strategy/initial-survey.md` §2.5, assess together only items that have static evidence for the same selection rule and link. A representative runtime sample proves that the shared link operates; static coverage must still establish which other items use it. Produce separate runtime evidence when links differ or static analysis cannot distinguish them. Add boundary items when size, format, metadata, or state transition can change consumption even within one link class.
 

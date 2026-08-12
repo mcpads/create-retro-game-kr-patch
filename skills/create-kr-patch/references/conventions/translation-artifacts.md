@@ -26,7 +26,7 @@ Source bytes, source text, structural information, and link identities in a tran
 
 Apply `references/conventions/data-formats.md` to character mappings, raw control-code specifications, pointer catalogs, and reinsertion policy. A translation asset may link to them by stable ID and source identity or preserve protected information inside an established integrated artifact. Edit each value in only one location.
 
-`references/strategy/translation-workflow.md` §3.1 determines agent translation and review-batch inputs. Preserve the protected values and baseline versions provided to a batch so merge can compare them with the current baseline. Even when a batch copy displays these values, maintain each baseline in one location and never overwrite protected fields from an agent response.
+`references/strategy/translation-workflow.md` §3.1 determines agent translation and review-batch inputs. Preserve the protected values and extraction-baseline versions provided to a batch so merge can compare them with the current extraction baseline. Even when a batch copy displays these values, maintain each baseline in one location and never overwrite protected fields from an agent response.
 
 Translation made while evaluating another model or agent must identify evaluation scope, conditions, and provenance. A human-approved sample may enter work in progress only while source baseline, protected information, context, terminology, and voice match the evaluation. Evaluation does not complete review or grant distribution eligibility. Output that failed evaluation must not become build-selected translation.
 
