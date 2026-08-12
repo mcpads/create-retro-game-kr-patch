@@ -86,7 +86,7 @@ Judge the release result from Korean encoded output and the actual consumer cond
 
 Close a defect through the fix completion conditions in `references/strategy/debugging.md` §1, and close one as original or out-of-scope behavior through `references/strategy/debugging.md` §6. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7.
 
-Incomplete human review of the declared localization scope does not block development builds, technical verification, or a pre-release test build that collects it. A release candidate must satisfy all of these conditions:
+Incomplete human review of the declared localization scope does not block development builds, technical verification, or a pre-release test build that collects it under `references/conventions/translation-artifacts.md` §5. A release candidate must satisfy all of these conditions:
 
 - Every declared change is regenerated from immutable source and approved inputs through the primary build, and component checks plus runtime evidence pass together on that exact result.
 - The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, and every unresolved member lies outside that scope under an approved exception.
