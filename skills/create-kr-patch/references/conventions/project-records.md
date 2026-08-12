@@ -24,6 +24,7 @@ Regardless of format, distinguish:
 - **Observation and interpretation**: Separate direct observation, unverified hypothesis, and conclusion established through isolation.
 - **Evidence location**: Link hashes, dumps, screenshots, traces, disassembly, and reproduction steps needed to reassess a decision.
 - **Decision**: Distinguish pass, fail, and unresolved; retain both criteria and observed result.
+- **Human approval**: Where a decision requires it, identify the approving human, the exact scope and version approved, and the change that invalidates it.
 - **Next action**: On failure identify the rejected assumption; when unresolved identify the observation that distinguishes the original condition; on pass identify promoted knowledge or the next step.
 - **State intervention**: For a target state created by a cheat, state edit, or forced routine call, identify exact baseline, pre-intervention state, edited target and value or call conditions and arguments, bypassed play and code path, post-intervention state, and proved and unproved scope. Do not mix intervention with patch changes or evidence of normal-play reachability.
 

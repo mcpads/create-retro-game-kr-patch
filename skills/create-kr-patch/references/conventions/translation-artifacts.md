@@ -116,7 +116,7 @@ Builds distinguish development or PoC input policy from release-candidate input 
 
 - A **development or PoC build** may explicitly select an ineligible translation produced under `references/strategy/translation-workflow.md` §3.1, but must carry a non-distribution marker its own build verifies. It must preserve extraction-baseline source text for unselected ineligible entries or fail. It must not mix ineligible translations silently or select output from a model or agent that failed evaluation. It may proceed with unmapped characters only when the unmapped set is declared and recorded with the artifact.
 - A **pre-release test build** may be distributed to identified testers to obtain the human review a release candidate requires. It states which parts of the declared localization scope it covers, which remain unresolved, and every known critical defect. Reports return units to the states in §4 and establish no eligibility by themselves.
-- A **release-candidate build** consumes only eligible translations within declared localization scope. Source branding, symbols, or other content intentionally left outside scope require approved exceptions.
+- A **release-candidate build** consumes only eligible translations within declared localization scope. Content intentionally left outside that scope, such as source branding or symbols, requires an approved exception recording the content, the reason, and the approving human. The build consumes that record and fails on unlisted content.
 
 Distribution eligibility includes at least:
 

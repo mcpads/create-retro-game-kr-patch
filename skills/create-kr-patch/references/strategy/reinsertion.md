@@ -58,7 +58,7 @@ When a move crosses a bank, segment, or pointer-width boundary, update every hig
 
 Relocated output must be checked mechanically for all of these conditions:
 
-- Every reference in the approved denominator resolves, with no unexpected reference form.
+- Every reference in the approved catalog resolves, with no unexpected reference form.
 - Every new value fits its representation width, alignment, and valid address range.
 - Every reference targets a declared structure boundary consumable by its reader.
 - Unmoved values and protected regions do not change without justification.
