@@ -39,7 +39,7 @@ Begin with an established font unless letterform design is the uncertainty under
 
 ## 4. Representative text end to end
 
-Choose a unit that connects the complete extraction-to-consumption boundary and includes the hardest applicable established constraint: length, control tokens, pointers, compression, padding, or another design-critical boundary. A short string that bypasses the hard condition is not representative.
+Choose a unit that connects the complete extraction-to-consumption boundary and includes the hardest applicable established constraint: length, control tokens, pointers, compression, padding, or another design-critical boundary. A short string that bypasses the hard condition is not representative. Identify the hardest constraint as the one nearest its established limit or without a workaround, not the one easiest to sample. If that is unresolved, establish it before choosing the unit.
 
 Use separate units for consumers or risks that do not share the same path. Verify:
 

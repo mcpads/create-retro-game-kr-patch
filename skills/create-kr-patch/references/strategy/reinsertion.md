@@ -12,7 +12,7 @@ Reinsertion is not merely writing translated bytes. It must preserve the consume
 | Data and lookup changes cannot satisfy consumption | Consider a code hook | Hook ABI, source effects, return, and installation prerequisites |
 | No condition is established | Policy unresolved | Return to a completion-changing question and choose the least costly equivalent evidence |
 
-Policies may differ by entry or region in one file. Bind each policy to an established boundary model and stable key. Fail on overflow or unresolved entries. Apply the representation rules in `references/conventions/data-formats.md` §5.
+Policies may differ by entry or region in one file. When entries share a bank, extent, buffer, or slot pool, size every entry in that pool before adopting the first policy; entries that individually fit can exhaust the pool together. Bind each policy to an established boundary model and stable key. Fail on overflow or unresolved entries. Apply the representation rules in `references/conventions/data-formats.md` §5.
 
 ### 1.1 Fixed slots
 
