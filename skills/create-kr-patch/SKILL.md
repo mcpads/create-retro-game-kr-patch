@@ -30,7 +30,7 @@ For an existing repository, reconstruct the current code, documents, artifacts, 
 | PoC | `references/strategy/poc.md` | Whether a PoC is needed and what visibility, representative end to end, or conditional proof must establish |
 | Reinsertion and hooks | `references/strategy/reinsertion.md` | Boundary policies, reference completeness, hooks, space, and consumer invariants |
 | Translation | `references/strategy/translation-workflow.md` | Translation work and agent assignment, context, approved terminology and voice, protected constraints, and high-risk meaning |
-| Build and verification | `references/strategy/build-and-verify.md` | Reproducible artifacts, distribution boundaries, layered verification, and completion |
+| Build and verification | `references/strategy/build-and-verify.md` | Reproducible artifacts, distribution boundaries, integrity and runtime verification, text and interaction QA, and release readiness |
 | Debugging and issue handling | `references/strategy/debugging.md` | Gameplay routes, target-state access, proof scope of state intervention, causes, fixes, and regression evidence |
 | Graphics text, cross-cutting | `references/strategy/graphics-text.md` | Pixel-text population, protected visual assets, and consumer-path verification |
 | Compression, cross-cutting | `references/strategy/compression.md` | Actual transform boundaries, consumer compatibility, and repacking verification |
@@ -40,7 +40,7 @@ Apply the relevant conventions when designing or validating artifacts, interchan
 
 | Scope | Document | Use it for |
 |---|---|---|
-| Project implementation, cross-cutting | `references/conventions/project-conventions.md` | Build boundaries, machine-code verification, round-trip equivalence and denominator, final-write verification, external-component reproduction, and source assets |
+| Project implementation, cross-cutting | `references/conventions/project-conventions.md` | Build boundaries, machine-code verification, round-trip equivalence and denominator, final-write verification, test policy, external-component reproduction, and source assets |
 | Translation artifacts | `references/conventions/translation-artifacts.md` | Source preservation, control tokens, review states, and build-input eligibility |
 | Project records | `references/conventions/project-records.md` | Survey, PoC, graphics catalog, HITL, QA evidence, and decision records |
 | Analysis and build data | `references/conventions/data-formats.md` | Character maps, controls, pointers, translation links, reinsertion policies, and font configuration meanings |
@@ -67,11 +67,11 @@ Whenever the judgment area or observed symptom changes, compare it with `Read wh
 
 - Define the intended completion scope and every condition that must hold within it.
 - Investigate unresolved conditions that would make completion impossible or force a major redesign before optimizing lower-risk work. Compare cost only between evidence that resolves the same condition while preserving the same prerequisite state and proof scope.
-- Investigate independent boundaries in parallel. When new evidence overturns a decision, return only the affected claims to their causal boundary.
+- Investigate independent boundaries in parallel. When new evidence overturns a decision, return the affected claims to their causal boundary and reassess what depended on them.
 - A representative PoC may run alongside population survey. Before scaling translation to the full distribution scope, determine population and volume through `references/strategy/text-extraction.md` §1.5, then determine glyph demand and supply through `references/strategy/translation-workflow.md` §5.4 and `references/strategy/font-strategy.md` §3.
 - Do not grow a finite file or asset population one runtime observation at a time. Enumerate and partition it by consumer path through `references/strategy/initial-survey.md` §2.5, then limit runtime claims through `references/strategy/runtime-assets.md` §2.
 - For finite display areas, distinguish observed source usage, confirmed consumer capacity, and the adopted display range through `references/strategy/translation-workflow.md` §4. Expand supply before reducing meaning; require human approval for any meaning or voice loss.
-- Verify changed artifacts through the real build and consumer path. Fix a defect at the first boundary where the value diverges.
+- Verify changed artifacts through the real build and consumer path. Fix a defect at the first boundary where the value diverges. Return to the declared completion scope instead when every policy its owning document offers has been rejected with evidence, or when the same boundary fails again after its established cause was addressed. Narrow the scope or change the design; do not continue local attempts.
 
 ## Core invariants
 
