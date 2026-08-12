@@ -5,7 +5,8 @@ description: >-
   including ROM or disc analysis, text-engine reverse engineering, Hangul fonts
   and custom encodings, script extraction and reinsertion, code hooks, patch
   builds, and emulator verification. Apply it to both new investigations and
-  follow-up work in existing Korean-patch projects.
+  follow-up work in existing Korean-patch projects. 레트로 게임 한글화·한글패치·한글
+  패치·ROM 번역의 신규 조사와 기존 프로젝트 후속 작업에 사용한다.
 ---
 
 # Create a Korean patch for a retro game

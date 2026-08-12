@@ -333,6 +333,28 @@ class DocumentationValidatorTest(unittest.TestCase):
                 validate_docs.validate_agent_facing_language(errors)
         self.assertTrue(any("source-script evidence" in error for error in errors))
 
+    def agent_language_errors(self, text: str) -> list[str]:
+        with TemporaryDirectory() as directory:
+            source = Path(directory) / "SKILL.md"
+            source.write_text(text, encoding="utf-8")
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "AGENT_ENGLISH_PATHS", (source,)),
+                patch.object(validate_docs, "AGENT_ENGLISH_LITERAL_PATHS", ()),
+                patch.object(validate_docs, "repo_name", return_value="SKILL.md"),
+            ):
+                validate_docs.validate_agent_facing_language(errors)
+        return errors
+
+    def test_allows_trigger_text_in_frontmatter(self) -> None:
+        text = "---\ndescription: Use for patches. 한글 패치에 사용한다.\n---\n\nEnglish body.\n"
+        self.assertEqual(self.agent_language_errors(text), [])
+
+    def test_reports_hangul_in_body_after_frontmatter(self) -> None:
+        text = "---\ndescription: Use for patches.\n---\n\n한국어 지시.\n"
+        errors = self.agent_language_errors(text)
+        self.assertTrue(any("SKILL.md:5" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()

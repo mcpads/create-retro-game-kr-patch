@@ -272,9 +272,18 @@ def markdown_targets(targets: tuple[Path, ...]) -> list[Path]:
     return paths
 
 
+def body_lines(path: Path) -> list[tuple[int, str]]:
+    """Skip leading frontmatter, which carries trigger text rather than guidance."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    if not lines or lines[0].strip() != "---":
+        return list(enumerate(lines, 1))
+    end = next((i for i, l in enumerate(lines[1:], 1) if l.strip() == "---"), 0)
+    return list(enumerate(lines[end + 1 :], end + 2))
+
+
 def validate_agent_facing_language(errors: list[str]) -> None:
     for path in markdown_targets(AGENT_ENGLISH_PATHS):
-        for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        for line_no, line in body_lines(path):
             prose = CODE_SPAN_RE.sub("", line)
             if HANGUL_RE.search(prose):
                 errors.append(

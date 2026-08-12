@@ -7,11 +7,11 @@ ROM·디스크 분석, 텍스트 엔진 역공학, 한글 폰트·인코딩 설�
 
 ## 지원 플랫폼
 
-SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS의 조건부 플랫폼 제약을 제공한다. 목록에 없는 플랫폼도 strategy의 판정 기준을 적용하고, 현재 분기를 바꾸는 플랫폼 제약을 새로 확인해 확장할 수 있다.
+SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS는 플랫폼 문서를 따로 둔다. 목록에 없는 플랫폼에도 쓸 수 있다.
 
 ## 프로젝트 템플릿
 
-새 한글 패치 저장소를 시작할 때는 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)을 사용할 수 있다. 이 스킬이 조사·판정 방법을 제공한다면, 템플릿은 플랫폼과 구현 언어를 고정하지 않은 반복 빌드와 안전한 쓰기 검증의 시작점을 제공한다.
+새 한글 패치 저장소를 시작할 때는 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)을 사용할 수 있다. 이 스킬이 조사하고 판정하는 방법을 맡는다면, 템플릿은 어디서부터 빌드하고 검증할지를 잡아 준다. 플랫폼과 구현 언어는 고정하지 않는다.
 
 ## 설치 — Claude Code 세션
 
@@ -54,7 +54,7 @@ codex plugin add create-kr-patch@kr-patch
 
 안정판으로 돌아갈 때는 같은 순서에서 `next`를 `main`으로 바꾼다. 같은 채널을 업데이트할 때도 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 재설치한다. Claude Code는 reload 뒤, Codex는 새 스레드에서 선택한 버전을 적용한다.
 
-설치 후 레트로 게임의 한글 패치 작업을 요청하면 Agent Skill이 발동한다. ROM·디스크 분석, 폰트·인코딩 설계, 스크립트 추출·재삽입, 빌드·에뮬레이터 검증처럼 이 스킬이 다루는 일을 말하면 되고, 새 조사와 기존 프로젝트의 후속 작업 모두에 해당한다.
+설치 후 레트로 게임을 한글화하겠다고 요청하면 Agent Skill이 발동한다. `한글화`, `한글패치`, `ROM 번역` 어느 쪽으로 말해도 되고, 새로 조사를 시작할 때도 기존 프로젝트를 이어 갈 때도 같다.
 
 ## 구조
 
@@ -72,7 +72,7 @@ skills/
         platforms/       # 그 플랫폼 규칙이 있어야 성립하는 사례
 ```
 
-`SKILL.md`는 현재 판단을 관련 문서로 연결하고 전체 작업의 불변식을 제시한다. 에이전트는 현재 판단에 맞는 `references/strategy/`와 필요한 시행 규약·플랫폼 제약을 적용하고, 관측 증상과 맞는 `references/tips/` 사례만 전이 한계를 확인해 참고한다.
+`SKILL.md`가 진입점이다. 지금 하려는 일에 맞는 문서로 연결하고, 전 영역에 걸친 불변식을 담는다.
 
 ## 기여
 
