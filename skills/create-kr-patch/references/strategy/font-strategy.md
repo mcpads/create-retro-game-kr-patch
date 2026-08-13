@@ -38,7 +38,7 @@ For a fixed supported revision, treat exhaustively verified code sets and mappin
 ### 2.2 Precomposed and compositional Hangul
 
 - Consider precomposed glyphs when the total repertoire fits and the existing one-code-to-one-glyph path can consume it.
-- Consider composition when the total repertoire cannot fit, supply cannot be expanded, and an additional composition, placement, and clearing path can be verified.
+- Consider composition when the total repertoire cannot fit, supply cannot be expanded, and an additional jamo composition, placement, and clearing path can be verified.
 - An existing composition or dynamic glyph path is only a candidate. Verify its input range and state lifetime before applying it to Hangul.
 
 Neither representation guarantees readability in a small cell or layout fitness. Judge the target output.

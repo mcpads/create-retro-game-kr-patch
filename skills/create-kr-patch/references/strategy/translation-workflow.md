@@ -99,7 +99,7 @@ Assign each control token a policy from actual consumption. A token that changes
 
 Line, page, and wait tokens may move for Korean readability, page rhythm, and display constraints only after their consumer meaning and valid positions are established. Require equivalent state transitions under the token policy. Judge window, portrait, selection, input, voice, and event tokens by their own policies and verify changes through `references/strategy/build-and-verify.md` §5.
 
-Derive length, width, rows, slots, encoding, and insertion combinations from the real consumer, not language-wide defaults. Do not disguise a technical constraint violation as poor translation or resolve it automatically through semantic shortening. Choose among phrasing adjustment, established line or page controls, progression changes, and capacity changes according to the cause and effect.
+Derive length, width, rows, slots, encoding, and insertion combinations from the real consumer, not language-wide defaults. A template that inserts a variable before a Korean particle makes the particle form depend on the inserted value's final consonant. Establish whether the consumer can select the form, whether per-value strings can be precomputed, or whether phrasing must avoid the dependency; one fixed form fails for part of the value population. Do not disguise a technical constraint violation as poor translation or resolve it automatically through semantic shortening. Choose among phrasing adjustment, established line or page controls, progression changes, and capacity changes according to the cause and effect.
 
 For a finite display area, distinguish:
 
