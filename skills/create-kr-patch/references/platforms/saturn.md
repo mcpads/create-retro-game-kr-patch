@@ -8,7 +8,7 @@ Which SH-2 and task execute target code is game-specific. When moving an instruc
 
 ## 2. Separate VDP1 and VDP2 consumers
 
-VDP1 command and texture paths and VDP2 pattern and name-table paths have different asset, address, palette, clipping, and lifetime conditions. Do not generalize one renderer's Hangul PoC to another renderer, menu, battle, or graphics text.
+VDP1 command and texture paths differ from VDP2 pattern and name-table paths in their asset, address, palette, clipping, and lifetime conditions. Do not generalize one renderer's Hangul PoC to another renderer, menu, battle, or graphics text.
 
 Determine VDP2 character, palette, and flip meaning and active VRAM budget from current pattern-name data size, PNCN supplementary mode, color depth, character size, and plane configuration. Do not use theoretical total capacity or one fixed bit width as every screen's glyph limit.
 

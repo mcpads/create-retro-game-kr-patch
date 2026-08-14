@@ -1,6 +1,6 @@
 # Debugging and issue resolution
 
-Before runtime verification, distinguish the target state, routes to that state, and the proof scope of each route. A QA defect closes only after reproduction, causal diagnosis, correction, and regression verification. Choose debuggers, emulators, and observation order from the current hypotheses and environment. Record evidence, decisions, and next actions under `references/conventions/project-records.md`; judge release readiness through `references/strategy/build-and-verify.md`.
+Before runtime verification, distinguish the target state, routes to that state, and the proof scope of each route. A QA defect may be closed only after reproduction, causal diagnosis, correction, and regression verification. Choose debuggers, emulators, and observation order from the current hypotheses and environment. Record evidence, decisions, and next actions under `references/conventions/project-records.md`; judge release readiness through `references/strategy/build-and-verify.md`.
 
 ## 1. Completion conditions
 
@@ -11,7 +11,7 @@ A defect fix is complete only when all of these hold:
 - discriminating evidence narrows the defect boundary;
 - the first incorrect state and its propagation to the symptom are explained;
 - the same reproduction passes after changing only the established defect; and
-- affected adjacent paths and representative previously working paths pass regression.
+- affected adjacent paths and representative previously working paths pass regression checks.
 
 Disappearance of a symptom does not establish a cause unless the change's effect on the causal chain is explained.
 
@@ -25,7 +25,7 @@ Before an experiment, state which outcomes promote or reject each hypothesis. Na
 
 First define the question, target state, and prerequisites that must remain real. When controls, progression, branches, or acquisition conditions are unknown, consult manuals, guides, walkthroughs, play videos, or cheat references to narrow candidate routes. Check the region, revision, and prerequisites described by each source, then reverify them on the target build. Reuse an already verified route under the same baseline and conditions. External material proposes entry routes and input sequences; it does not prove target state or code path.
 
-Among routes that preserve the required prerequisites, choose the one with the lowest reproduction cost. Candidates include normal play, compatible saved states or input recordings, in-game entry points, verified cheats or state edits, and verified calls to state-transition routines. Do not repeat slow or unstable play merely because it has less intervention. Do not skip prerequisites merely because intervention is faster.
+Among routes that preserve the required prerequisites, choose the one with the lowest reproduction cost. Candidates include normal play, compatible saved states or input recordings, in-game entry points, verified cheats or state edits, and verified calls to state-transition routines. Do not repeat slow or unstable play merely because it involves less intervention. Do not skip prerequisites merely because intervention is faster.
 
 Before editing state or forcing a routine call, use static and dynamic evidence to establish the target or routine's entry conditions, arguments, call context, side effects, and return state. A plausible address or one desired result does not establish a valid intervention.
 
@@ -53,7 +53,7 @@ Cause confirmation must connect:
 faulty input, instruction, or rule -> first incorrect state -> propagation and lifetime -> observed failure
 ```
 
-A screen, log line, crash location, or last writer may be only the end of the chain. Find the first divergence along storage → lookup → load or transform → residency → consumption from `references/strategy/runtime-assets.md`, then explain why the fix breaks that causal path.
+A screen, log line, crash location, or last writer may be only the end of the chain. Find the first divergence along the storage → lookup → load or transform → residency → consumption chain from `references/strategy/runtime-assets.md`, then explain why the fix breaks that causal path.
 
 Identical symptom names do not imply identical causes. Rank candidates by how well they explain current observations and the chain, then choose the lowest-cost experiment among those that distinguish the same hypotheses.
 
@@ -77,7 +77,7 @@ Limit a fix to the established defect and necessary impact range. Do not mix unr
 After the fix, rerun the original reproduction and retain regression checks proportional to impact and recurrence risk:
 
 - Make calculable length, range, and mapping invariants build checks.
-- Keep state or lifetime defects visible only at runtime as repeatable scenarios. Use human review only where the pass condition itself is not mechanically decidable.
+- Preserve state or lifetime defects that are visible only at runtime as repeatable scenarios. Use human review only where the pass condition itself is not mechanically decidable.
 - Bind preserved saved states and input recordings to compatible builds and environments.
 - Recheck paths sharing state resources, branches touched by the fix, and representative previously working paths.
 

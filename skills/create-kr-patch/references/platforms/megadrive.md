@@ -10,7 +10,7 @@ When moving code, verify source instruction boundaries, PC-relative operands, br
 
 ## 2. ROM mapping and expansion
 
-Direct CPU-address to file-offset mapping applies only within an established mapper-free range. Growing a file or changing header size representation does not expose the new ROM range to the CPU, hardware, or loader.
+Direct CPU-address-to-file-offset mapping applies only within an established mapper-free range. Growing a file or changing header size representation does not expose the new ROM range to the CPU, hardware, or loader.
 
 When using expanded space, verify mapper selection, header and checksum consumption, SRAM and peripheral mappings, and final-size support on distribution targets.
 

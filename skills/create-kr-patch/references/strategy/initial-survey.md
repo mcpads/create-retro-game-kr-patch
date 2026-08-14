@@ -105,7 +105,7 @@ Use a prior patch by:
 - recording checksum, application order, license, and incompatibilities when it enters the build lineage; and
 - remeasuring every width, repertoire, slot, and representation constraint for the current target.
 
-Once the target's own storage -> consumer -> screen path supplies sufficient evidence, use that path as the implementation basis. Do not require a fixed count of prior examples before transitioning. Retain prior patches only as coverage or failure candidates within their verified range.
+Once the target's own storage -> consumer -> screen path supplies sufficient evidence, use that path as the implementation basis. Do not require a fixed count of prior examples before transitioning. Retain prior patches only as candidates for coverage or failure analysis within their verified range.
 
 ## 5. Completion
 
@@ -125,4 +125,4 @@ Produce:
 
 Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions.
 
-Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Reopen the declared completion scope only when the boundary's own options are exhausted or its established cause recurred; record which options were rejected and the evidence that closed them. Content left outside a narrowed scope requires an approved exception under `references/conventions/translation-artifacts.md` §5.
+Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Reopen the declared completion scope only when the boundary's own options are exhausted or its established cause recurs; record which options were rejected and the evidence that closed them. Content left outside a narrowed scope requires an approved exception under `references/conventions/translation-artifacts.md` §5.

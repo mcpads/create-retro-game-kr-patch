@@ -4,7 +4,7 @@ Determine the target revision's code-to-glyph mapping, total repertoire, state-s
 
 ## 1. Conditions to establish
 
-Investigate an answer when it can change a later choice:
+Investigate a question only when its answer can change a later choice:
 
 - Which dialogue, UI, battle, and graphics consumers share a code table and glyph provider?
 - Which characters are required by the distribution corpus and runtime insertion values?
@@ -79,13 +79,13 @@ Do not set a global font family, cell size, bit depth, or transform. Unless evid
 
 Author or correct glyphs only after an established font supplies the main character set, and only for local missing symbols or glyphs that still fail an established UX requirement such as readability or state distinction. If the adopted font lacks `…`, add that symbol rather than redrawing Hangul. Consider a complete custom font only when limited additions cannot cover the distribution scope and an established UX requirement justifies the larger design.
 
-Font names, stated uses or sizes, and previews only narrow candidates. Distinguish functional failures such as missing glyphs, empty output, clipping, and spacing errors from aesthetic preferences such as stroke impression or mood. Require fill, outline, shadow, highlight, or gloss only when they are part of the approved visual target or necessary for readability or state distinction on the real consumer path. Do not make one source style or effect a global default.
+Font names, stated use or size labels, and previews only narrow the candidates. Distinguish functional failures such as missing glyphs, empty output, clipping, and spacing errors from aesthetic preferences such as stroke impression or mood. Require fill, outline, shadow, highlight, or gloss only when they are part of the approved visual target or necessary for readability or state distinction on the real consumer path. Do not make one source style or effect a global default.
 
 Adoption requires all of these:
 
 - Every required glyph exists, and actual ink remains within the cell and clearing range.
 - Samples include continuous translated sentences, syllables carrying final consonants, compound vowels, and high stroke density, and the spaces, punctuation, digits, and Latin characters used on the path.
-- On the real background and palette those samples retain contrast and readability, align baseline, line height, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
+- On the real background and palette, those samples retain contrast and readability, maintain consistent baselines, line heights, and spacing, avoid clipping at cell, window, and screen bounds, and do not overlap adjacent UI.
 - Every required fill, outline, shadow, highlight, or gloss layer retains its intended role in consumed output.
 - The exact source version and license permit distribution of derivatives and any required source files.
 - Fixed inputs and transform rules reproduce the same game data.
@@ -107,7 +107,7 @@ Font work is complete only when all of these hold:
 
 - Every required character in the distribution scope maps through an approved mapping for each target consumer, with zero unmapped characters.
 - Total repertoire and representative runtime working sets pass their corresponding budgets.
-- Transform boundaries pass source samples or a declared semantic-equivalence criterion.
+- Transform boundaries pass verification against source samples or a declared semantic-equivalence criterion.
 - Representative sentences and boundary glyphs render correctly on every target path without invading adjacent UI or graphics.
 - A glyph asset change triggered under `references/strategy/runtime-assets.md` §1 passes the link assessment in `references/strategy/runtime-assets.md` §2.
 - Adopted sources, mappings, structural constants, and evidence remain reproducible build inputs and records.

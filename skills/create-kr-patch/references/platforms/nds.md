@@ -8,7 +8,7 @@ ARM9 and ARM7 images have separate load ranges. Which CPU handles text, fonts, o
 
 Converting a runtime address to ROM location requires the current image's ROM extent, load extent, and transform state. Linear mapping applies only inside an uncompressed static image. Identify an overlay by overlay entry, file ID, FAT extent, and current load state; do not patch by RAM address alone when another overlay reuses it.
 
-When compression, relocation, or initialization exists, do not compare stored overlay bytes directly with executed bytes. If the stored overlay grows or moves, verify file ID, FAT extent, stored size, and loader read buffer. If decompressed runtime address or size, BSS, or static initializer changes, verify overlay entries, adjacent RAM, and initialization consumers separately. Stored file-size change does not imply changed runtime placement.
+When compression, relocation, or initialization exists, do not compare stored overlay bytes directly with executed bytes. If the stored overlay grows or moves, verify file ID, FAT extent, stored size, and loader read buffer. If the decompressed runtime address or size, BSS bounds, or static initializers change, verify overlay entries, adjacent RAM, and initialization consumers separately. A change in stored file size does not imply a change in runtime placement.
 
 ## 2. Filenames and the actual loader
 
@@ -24,6 +24,6 @@ When changing VRAM mapping, transfer timing, or cache slots, verify concurrent c
 
 ## 4. Secure-area and banner boundaries
 
-The complete secure area, encrypted prefix within it, markers, and CRC ranges are different concepts. Only when modifying this region, determine whether the input is encrypted or decrypted and which representation the distribution path requires. Do not re-encrypt or normalize an untouched secure area.
+The complete secure area, encrypted prefix within it, markers, and CRC ranges are different concepts. Determine whether the input is encrypted or decrypted, and which representation the distribution path requires, only when modifying this region. Do not re-encrypt or normalize an untouched secure area.
 
-A banner may be absent, and Korean title slots and CRC ranges depend on banner version. If a version increase is required, update and verify complete length, version-specific fields and CRC ranges, following ROM data, and the target loader, not only the version word. Do not impose a banner upgrade on builds that do not modify it.
+A banner may be absent, and Korean title slots and CRC ranges depend on the banner version. If a version increase is required, update and verify the complete banner length, version-specific fields and CRC ranges, any ROM data that follows the banner, and the target loader, not only the version word. Do not impose a banner upgrade on builds that do not modify it.

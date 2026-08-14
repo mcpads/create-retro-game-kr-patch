@@ -1,6 +1,6 @@
 # Data conventions for analysis and builds
 
-Machine-readable data exchanged among text extraction, translation, reinsertion, and font building must preserve the meanings and pass criteria required by strategy. When the project already has an equivalent format and validation, retain its serialization and field names. Human-tracked decisions such as text maps, PoCs, HITL, and QA follow `references/conventions/project-records.md`.
+Machine-readable data exchanged among text extraction, translation, reinsertion, and font building must preserve the meanings and satisfy the pass criteria defined by strategy. When the project already has an equivalent format and validation, retain its serialization and field names. Human-tracked decisions such as text maps, PoCs, HITL, and QA follow `references/conventions/project-records.md`.
 
 ## Contents
 
@@ -20,7 +20,7 @@ Apply the single-basis and machine-readable I/O requirements in `references/conv
 - Serialize offsets, addresses, and byte strings with visible radix and width for human review.
 - Represent a population exhaustively established on fixed source input as exact constants or a catalog. The build must not adopt heuristic rediscovery silently. A difference from the established population indicates the source revision or specification must be reassessed. Use `references/strategy/initial-survey.md` §3.1 to decide which values are fixed and which derive from output.
 
-The JSON below is an optional illustration of field meaning. Retain another structure or serialization that provides the same meaning and checks. Apply `references/conventions/translation-artifacts.md` to translator-edited source text, translation, state, tokens, and approvals. Link analysis data and translation assets by stable ID and source identity. Maintain character mappings, pointers, and reinsertion policies in one analysis/build-data location each.
+The JSON below is an optional illustration of field meaning. Retain another structure or serialization that provides the same meaning and checks. Apply `references/conventions/translation-artifacts.md` to translator-edited source text, translation, state, tokens, and approvals. Link analysis data and translation assets by stable ID and source identity. Maintain character mappings, pointers, and reinsertion policies, each in a single analysis/build-data location.
 
 ## 2. Character mapping tables
 
@@ -39,11 +39,11 @@ FF00=[END]
 - Do not guess a character for an undecoded byte. Investigation output may expose a raw form such as `<XX>`. `references/strategy/text-extraction.md` §3.4 decides when editable translation assets may retain a reversible raw token.
 - When the table changes, re-extract and review differences instead of manually changing protected fields in existing translation assets.
 
-An implementation without `.tbl` must still share one mapping definition between decode and encode and represent many-to-one mappings, one-to-many mappings, and undecoded bytes without loss.
+An implementation that does not use `.tbl` must still share one mapping definition between decode and encode and represent many-to-one mappings, one-to-many mappings, and undecoded bytes without loss.
 
 ## 3. Control-code specifications
 
-Keep one control-code specification consumed by both extractor and reinsertor. It must express at least:
+Keep one control-code specification consumed by both the extractor and the reinsertion tool. It must express at least:
 
 - code bytes or identifying pattern;
 - argument count and each argument's width, endianness, and preservation rule;

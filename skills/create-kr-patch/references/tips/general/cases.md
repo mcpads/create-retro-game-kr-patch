@@ -35,8 +35,8 @@
 - **Search terms:** false free space, zero-filled region, no static references, indirect call, first boot crash
 - **Observed scope:** Candidate insertion regions in a Dreamcast label table and Saturn executable code.
 - **Failure context:** A zero-filled Dreamcast range with no patch overlap and a Saturn function with no direct calls or value references were treated as unused. The first failed on a clean boot; the second was called indirectly during dungeon entry.
-- **Decisive test:** The first invalid instruction exposed overwritten conversion code and constants. Restoring them and relocating the connected tables with all references fixed clean boot and gameplay. Saturn candidates were tested with isolated trap builds along the same play path; non-execution was recorded only for the observed path.
-- **Established result:** Zero fill and lack of static references did not prove free space. Observed execution proved use, while non-execution in a limited run did not prove global non-use.
+- **Decisive test:** The first invalid instruction exposed overwritten conversion code and constants. After they were restored and the connected tables were relocated with all references fixed, the title booted cleanly and gameplay proceeded. Saturn candidates were tested with isolated trap builds along the same play path; non-execution was recorded only for the observed path.
+- **Established result:** Zero-filled data and lack of static references did not prove free space. Observed execution proved use, while non-execution in a limited run did not prove global non-use.
 - **Transfer limit:** Any unobserved mode, path, or later section limits the corresponding code- or data-space claim.
 - **Related criteria:** `references/strategy/reinsertion.md` §4·§5, `references/strategy/initial-survey.md` §2.5·§3, `references/strategy/debugging.md` §6, `references/conventions/project-conventions.md` §5.2.
 
@@ -93,7 +93,7 @@
 ## Late observation can miss one-time asset uploads
 
 - **Search terms:** late breakpoint, save state, one-time VRAM upload, missed producer, cached asset
-- **Observed scope:** A scene-initial VRAM upload on Game Gear and a scrolling banner written once at scene start on SNES.
+- **Observed scope:** A VRAM upload performed during scene initialization on Game Gear and a scrolling banner written once at scene start on SNES.
 - **Failure context:** A save state retaining old VRAM or a breakpoint armed after the screen appeared was used to reject the real source candidate and write path. In both cases the load or write had already finished.
 - **Decisive test:** Observation started before boot or scene entry, and the modified stored source was followed through loading and transfer to its consumer.
 - **Established result:** A save state or late breakpoint did not prove the absence of a one-time load or write that had already occurred.
@@ -155,7 +155,7 @@
 - **Search terms:** shared hook, caller-saved register, Z80 B register, loop counter corruption, graphics plane state
 - **Observed scope:** A glyph-expansion hook shared by two Game Gear text loops.
 - **Failure context:** The hook used `B` as a temporary prefix index. That worked for one caller, but another used `B` as its per-line character counter, so return changed the loop into a wraparound and prevented screen transfer.
-- **Decisive test:** Every caller of the shared routine was compared to separate entry and return register meanings. Preserving `B` and normalizing each caller's graphics-plane state restored glyph expansion and transfer on dialogue and field paths.
+- **Decisive test:** Entry and return register meanings were compared across every caller of the shared routine. Preserving `B` and normalizing each caller's graphics-plane state restored glyph expansion and transfer on dialogue and field paths.
 - **Established result:** The shared hook worked only after preserving the second caller's character counter and the plane state expected by each path.
 - **Transfer limit:** Adopt a shared hook only after accounting for every observed caller's inputs, outputs, and original behavior. Re-derive preserved registers per path.
 - **Related criteria:** `references/strategy/reinsertion.md` §4, `references/strategy/debugging.md` §3·§5.
@@ -165,7 +165,7 @@
 - **Search terms:** dialogue width, window tag, page break, narrow window, line reflow, portrait state
 - **Observed scope:** A measured 7x3 dialogue window and an untagged page-transition control in the Game Gear release of Madou Monogatari 2.
 - **Failure context:** Assuming one wide window for a script region missed a narrow window in the same region. A 13-tile line overflowed the actual 7-column window, while a width-only checker also rejected text that could be reflowed or moved to the next page.
-- **Evidence:** Source pages were compared with the visible columns and the narrow-window overflow was reproduced. Current rows, word-reflow rows, and minimum syllable rows were compared to separate wording changes from page moves. Continuous play confirmed that the control cleared the current window, opened the next page, and preserved the first character.
+- **Evidence:** Source pages were compared with the visible columns and the narrow-window overflow was reproduced. The current row count, the row count after word reflow, and the minimum row count allowed by syllable-level wrapping were compared so that wording changes could be distinguished from moving text to another page. Continuous play confirmed that the control cleared the current window, opened the next page, and preserved the first character.
 - **Established result:** The active window tag, not the containing script region, determined capacity. Width and row count had to be evaluated together, with confirmed page transitions available for text that could not fit.
 - **Transfer limit:** Before adding a page, verify that the control preserves portrait, window, input, and event state on that path.
 - **Related criteria:** `references/strategy/text-extraction.md` §4.4, `references/strategy/translation-workflow.md` §4, `references/strategy/build-and-verify.md` §5, `references/strategy/reinsertion.md` §6.
@@ -176,7 +176,7 @@
 - **Observed scope:** A Game Gear battle window shared by a bottom-aligned critical-hit message and the preceding spell name.
 - **Failure context:** After Korean alignment moved the standard message row, one critical-message caller failed to clear the window and left part of the previous spell name. Clearing all dialogue or changing the shared clear routine did not match the caller-local omission.
 - **Decisive test:** Stale tiles were observed at the failure point and compared with normal messages drawn after a clear. Callers lacking a clear were enumerated, and only the failing caller was redirected through an existing clear-capable path.
-- **Established result:** The residue came from caller-specific cleanup responsibility, not a global shortage of clearing.
+- **Established result:** The residue came from caller-specific cleanup responsibility, not a defect in the shared clearing logic.
 - **Transfer limit:** Before redirecting a path, verify each caller's prior clear, coordinates, alignment, and semantic role, then regress the unaffected callers too.
 - **Related criteria:** `references/strategy/debugging.md` §3·§5, `references/strategy/reinsertion.md` §4·§6, `references/strategy/runtime-assets.md` §2.
 
@@ -234,7 +234,7 @@
 
 - **Search terms:** PRG-RAM header mismatch, prior patch, unmapped execution, analysis copy, iNES declaration
 - **Observed scope:** An analysis copy of a prior English patch for the NES release of Parodius Da!.
-- **Failure context:** The prior patch stored and read expanded data in PRG-RAM while its image header declared no PRG-RAM. After normal progress it executed an unmapped value and left valid control flow.
+- **Failure context:** The prior patch stored and read expanded data in PRG-RAM while its image header declared no PRG-RAM. After normal progress, execution jumped to an unmapped value and departed from valid control flow.
 - **Decisive test:** After tracing the first control-flow departure, only the PRG-RAM declaration in the analysis copy was corrected. The same play path then continued.
 - **Established result:** The header correction was necessary for studying that prior-patch copy, not evidence that a patch built from the Japanese original should change its header.
 - **Transfer limit:** Correcting the declaration isolates this cause only; it does not validate the prior patch as a whole or authorize changing the actual patch input.
@@ -245,9 +245,9 @@
 - **Search terms:** CP932 decoder rejection, custom Shift_JIS, unused lead byte, code-space collision, 0xEB
 - **Observed scope:** A game-specific Shift_JIS-like consumer in the PC-98 Madou Monogatari titles.
 - **Failure context:** Statistics limited to byte pairs accepted by standard CP932 classified lead byte `0xEB` as unused, while the source contained game-specific pairs rejected by the standard decoder.
-- **Decisive test:** Every parser-reachable two-byte pair in the source was counted, game-specific pairs were reserved, and the Hangul encoder was checked never to emit them.
+- **Decisive test:** Every parser-reachable two-byte pair in the source was counted, game-specific pairs were reserved, and the Hangul encoder was verified not to emit them.
 - **Established result:** `0xEB` was not free code space because the game consumed non-CP932 pairs under that lead byte.
-- **Transfer limit:** This result covers direct two-byte codes only. Budget escape forms of other lengths separately.
+- **Transfer limit:** This result covers direct two-byte codes only. Evaluate the code-space budget for escape forms of other lengths separately.
 - **Related criteria:** `references/strategy/font-strategy.md` §2.1, `references/strategy/text-extraction.md` §2, `references/platforms/pc98.md` §5.
 
 ## Shared boundary logic let generator errors pass validation
@@ -255,7 +255,7 @@
 - **Search terms:** shared generator bug, shared validator formula, JIS boundary, Shift_JIS 0x7F, exhaustive glyph display
 - **Observed scope:** JIS-to-Shift_JIS conversion for extension glyphs and exhaustive display of rows `0x75` and `0x76` in three PC-98 titles.
 - **Failure context:** An odd-row boundary formula mapped cell `0x5F` to forbidden trail byte `0x7F`. The glyph generator and validator shared the same error, so agreement between them did not expose it.
-- **Evidence:** Visible markers were assigned to all 94 cells and displayed through a repeatable battle-message path. Exhaustive odd- and even-row checks corrected the `0x5F→0x7E` and `0x60→0x80` boundary and added independent forbidden-value checks.
+- **Evidence:** Visible markers were assigned to all 94 cells and displayed through a repeatable battle-message path. Exhaustive odd- and even-row checks established the correct `0x5F→0x7E` and `0x60→0x80` boundary and added independent forbidden-value checks.
 - **Established result:** Independent boundary enumeration and real consumer display found a defect hidden by two components sharing one formula.
 - **Transfer limit:** Do not establish an encoding boundary from generator-validator agreement when they share logic. Independently test forbidden and boundary values and compare them with the real consumer.
 - **Related criteria:** `references/strategy/font-strategy.md` §2·§4, `references/strategy/build-and-verify.md` §4·§5, `references/conventions/project-conventions.md` §5.1.
@@ -297,7 +297,7 @@
 - **Failure context:** The known slot's meaning was used to break sharing and assign a different translation to the still-unknown slot, despite no evidence of a semantic difference.
 - **Decisive test:** The accompanying name table and runtime display were compared. A translation valid for the confirmed scope remained shared, and splitting was deferred until the unknown consumer demonstrated a conflict.
 - **Established result:** Identifying one consumer of a shared string did not establish the meaning of the other consumers.
-- **Transfer limit:** Do not split sharing from semantic possibility alone. If a real conflict later requires a split, bind the evidence to the exact slot and alias set.
+- **Transfer limit:** Do not split shared entries based on semantic possibility alone. If a real conflict later requires a split, bind the evidence to the exact slot and alias set.
 - **Related criteria:** `references/strategy/translation-workflow.md` §2.1·§2.3·§3, `references/strategy/text-extraction.md` §1.3, `references/strategy/reinsertion.md` §2, `references/conventions/translation-artifacts.md` §1.1.
 
 ## Logical tile indices are not physical coordinates
@@ -316,7 +316,7 @@
 - **Observed scope:** User-data and raw-sector representations of a PC Engine CD image.
 - **Failure context:** A prior graphics offset used a pregap-free 2048-byte user-data ISO, while the build input was a 2352-byte Mode 1 BIN with pregap. Mixing those coordinate systems targeted another sector.
 - **Decisive test:** A unique original byte sequence was located in extracted user data, pregap was calculated from CUE INDEX values, and the coordinate difference matched that calculation before only the affected sectors were rewritten.
-- **Established result:** Converting the prior user-data offset into the target track's raw-sector coordinates aligned both the source bytes and pregap difference.
+- **Established result:** Converting the prior user-data offset into the target track's raw-sector coordinates aligned the source bytes and accounted for the pregap difference.
 - **Transfer limit:** Recalculate the conversion from the target image's sector representation and track origin.
 - **Related criteria:** `references/platforms/pce.md` §4, `references/strategy/build-and-verify.md` §2·§3.
 
@@ -376,7 +376,7 @@
 - **Observed scope:** CNX v2-compressed battle assets in a Saturn title.
 - **Failure context:** Battle animation broke even though the changed file was isolated and the custom compressor-decompressor round-trip passed.
 - **Decisive test:** Unmodified decompressed Japanese data was recompressed and reproduced the defect in the game while still passing the custom round-trip, isolating a semantic difference from the game decompressor.
-- **Established result:** The compressor matched against not-yet-produced zero-filled output, while the game safely referenced only completed output. Restricting distance to produced bytes restored compatibility.
+- **Established result:** The compressor created matches against zero-filled output positions that had not yet been produced, while the game safely referenced only completed output. Restricting distance to produced bytes restored compatibility.
 - **Transfer limit:** A self round-trip does not prove target-consumer compatibility. Test an unmodified recompressed asset in the real consumer.
 - **Related criteria:** `references/strategy/compression.md` §4.1, `references/strategy/initial-survey.md` §3, `references/strategy/debugging.md` §2.2.
 
@@ -406,7 +406,7 @@
 - **Observed scope:** Translation wording changed because of a limited glyph supply in a Saturn title.
 - **Failure context:** Technical substitutions such as `부숴` to `부셔` entered translation data and could become indistinguishable from editorial intent.
 - **Decisive test:** Occurrence count and actual reduction in unique glyph demand were calculated separately, then each candidate's meaning and voice loss were reviewed.
-- **Established result:** High spelling loss was reverted. Only natural alternatives that truly reduced unique-glyph demand remained, with original intent and required glyphs recorded.
+- **Established result:** Changes with substantial spelling distortion were reverted. Only natural alternatives that truly reduced unique-glyph demand remained, with original intent and required glyphs recorded.
 - **Transfer limit:** First determine whether supply can grow. A wording reduction requires human review of corpus-wide glyph savings and semantic loss.
 - **Related criteria:** `references/strategy/font-strategy.md` §3.2, `references/strategy/translation-workflow.md` §4·§5.3·§5.4, `references/conventions/translation-artifacts.md` §1.1.
 
@@ -433,7 +433,7 @@
 ## Internal structures can have independent alignment
 
 - **Search terms:** internal alignment, subheader boundary, final file aligned, later page corrupt, pointer table, padding
-- **Observed scope:** Internal structures after Saturn text and subheaders connecting multiple Mega Drive pages.
+- **Observed scope:** Internal structures following text in a Saturn title, and subheaders connecting multiple pages in a Mega Drive title.
 - **Failure context:** The final file was aligned, but changed preceding data moved pointer tables, controls, or subheaders off the boundaries required by their consumers. Early content worked while later structures stopped or decoded corrupt metadata.
 - **Decisive test:** Every consumed structure start was checked independently and padded after the preceding data as required.
 - **Established result:** Alignment applied to each directly consumed internal structure, not only the final file end.
@@ -447,7 +447,7 @@
 - **Failure context:** Applying one total length delta to several names made earlier growth clip later names or move an interior pointer into another name.
 - **Evidence:** Source and translation were split at the same delimiters and component counts were compared. Fixed slots were padded per component and direct pointers were recalculated from each component's original start and individual movement.
 - **Established result:** Length and pointer correction had to use the sub-strings consumed by the game, not the enclosing translation record.
-- **Transfer limit:** Apply this correspondence only when delimiter, component count, and consumption structure are preserved. Reject or handle separately when they cannot be matched.
+- **Transfer limit:** Apply this correspondence only when delimiter, component count, and consumption structure are preserved. Reject the grouped record or handle it separately when they cannot be matched.
 - **Related criteria:** `references/strategy/text-extraction.md` §1.3·§4.1·§4.2, `references/strategy/reinsertion.md` §1.1·§1.2·§2, `references/conventions/data-formats.md` §4.
 
 ## Incorrect fixed-slot padding and truncation broke consumers
@@ -535,7 +535,7 @@
 - **Search terms:** later original write, overwritten translation, last writer, VRAM collision, subtitle, logo
 - **Observed scope:** A layered SNES logo and PC Engine CD subtitles overwritten by later original writes.
 - **Failure context:** Korean pixels were written before later source fragments or while an automatic transfer to the same region remained active.
-- **Decisive test:** Every write to the affected VRAM range was traced. Applying the replacement after the final transfer, or suppressing only the continuously colliding transfer, preserved both the Korean asset and unrelated screen updates.
+- **Decisive test:** Every write to the affected VRAM range was traced. Applying the replacement after the final transfer, or suppressing only the transfer that continually overwrote it, preserved both the Korean asset and unrelated screen updates.
 - **Established result:** Adding a replacement write did not remove later original writers; the intervention had to follow the last write or isolate the confirmed collision.
 - **Transfer limit:** Re-derive address, timing, and display lifetime for each scene, and do not disable unrelated original updates.
 - **Related criteria:** `references/strategy/runtime-assets.md` §2, `references/strategy/reinsertion.md` §4.
@@ -576,7 +576,7 @@
 - **Observed scope:** Several compressed UI assets in an SNES title.
 - **Decision context:** Only part of each decompressed asset needed replacement, and preserving the game's existing transfer path avoided introducing a new compressor or DMA path.
 - **Evidence:** Each decompression call was connected to its input identity, bounded WRAM output, and downstream DMA destination. Full replacements used verified decompressed results; partial replacements changed only the required WRAM region after original decompression. Entry and re-entry were tested on multiple screens.
-- **Established result:** Replacing the required region immediately after original decompression allowed the existing DMA path to carry the modified asset.
+- **Established result:** Replacing the required region immediately after the original decompression allowed the existing DMA path to carry the modified asset.
 - **Transfer limit:** Intervene only where input identity, output bound, call state, downstream consumer, and last writer are all connected.
 - **Related criteria:** `references/strategy/compression.md` §5, `references/strategy/runtime-assets.md` §2, `references/strategy/reinsertion.md` §4.
 
@@ -585,7 +585,7 @@
 - **Search terms:** composite canvas, tile seams, outline, gradient, shine, render then split
 - **Observed scope:** Multi-tile labels whose outline, background, gradient, or highlight crossed physical tile boundaries.
 - **Decision context:** Rendering each tile independently broke continuous visual effects at tile seams.
-- **Evidence:** The complete label was composed as one canvas, then split according to the verified tile, subtile, palette, storage, and transfer order. Multiple entry screens preserved the seams and effects.
+- **Evidence:** The complete label was composed as one canvas, then split according to the verified tile, subtile, palette, storage, and transfer order. Tests on multiple entry screens confirmed that the seams and effects remained intact.
 - **Established result:** Rendering the full label before splitting it produced continuous cross-tile effects.
 - **Transfer limit:** Re-derive canvas coordinates, protected regions, and storage order for each asset.
 - **Related criteria:** `references/strategy/graphics-text.md` §2·§3·§4, `references/strategy/runtime-assets.md` §2, `references/strategy/build-and-verify.md` §5.
@@ -606,7 +606,7 @@
 - **Observed scope:** A bitmap-embedded font whose outline path returned empty Hangul rasters.
 - **Failure context:** File parsing succeeded, but representative Hangul glyphs rasterized to `0×0`, allowing the build to emit empty font pages.
 - **Evidence:** Bitmap tables, effectively empty outlines, representative glyph dimensions, and the total empty-glyph count were inspected. An outline-based font through the same path returned pixels.
-- **Established result:** Successful font parsing did not prove usable glyph output; representative dimensions and empty-glyph counts blocked the bad asset.
+- **Established result:** Successful font parsing did not prove usable glyph output; representative dimensions and empty-glyph counts caused the bad asset to be rejected.
 - **Transfer limit:** Repeat the representative-glyph check when font structure, code points, rasterizer, or raster path changes.
 - **Related criteria:** `references/strategy/font-strategy.md` §3.2·§4·§6, `references/conventions/project-conventions.md` §4·§5.3.
 
@@ -626,7 +626,7 @@
 - **Observed scope:** Dialogue, ending, and map-label regions whose physical writes outlived their logical text.
 - **Failure context:** Placement used visible blank space or cursor advance as the limit. Old tiles remained, physical cells reached adjacent UI, or later states did not clear the covered background.
 - **Evidence:** Written cells and cells cleared or overwritten by later states were traced separately. Logical advance and physical footprint were measured independently, and reused regions were either fully cleared or kept within the original update area.
-- **Established result:** The usable layout limit was the physical write footprint together with later clear and overwrite lifetime, not visible space alone.
+- **Established result:** The usable layout limit depended on both the physical write footprint and the lifetime over which later states cleared or overwrote it, not on visible space alone.
 - **Transfer limit:** Confirm terminators, physical footprint, and following state transitions before removing padding, extending rows, or placing labels.
 - **Related criteria:** `references/strategy/reinsertion.md` §4·§6, `references/strategy/runtime-assets.md` §2, `references/strategy/translation-workflow.md` §4, `references/strategy/build-and-verify.md` §5.
 
@@ -645,7 +645,7 @@
 - **Search terms:** false Hangul PoC, bytes reach VRAM, wrong tile, legibility, reachability versus visibility
 - **Observed scope:** An early graphics-tile PoC and a later dialogue-font PoC in the same SNES project.
 - **Failure context:** Patched bytes matched VRAM, but the changed tile was decoration or blank space and did not form legible Hangul.
-- **Evidence:** Enlarged runtime images disproved the first interpretation. A later 16×16 dialogue path connected storage, load, transformation, and display and showed several legible Hangul glyphs together in the dialogue box.
+- **Evidence:** Magnified runtime captures disproved the first interpretation. A later 16×16 dialogue path connected storage, load, transformation, and display and showed several legible Hangul glyphs together in the dialogue box.
 - **Established result:** The first experiment proved asset reachability only; the later experiment proved both reachability and visible Hangul.
 - **Transfer limit:** Storage and VRAM byte agreement does not prove the intended glyph or its legibility.
 - **Related criteria:** `references/strategy/poc.md` §3, `references/strategy/runtime-assets.md` §2, `references/strategy/font-strategy.md` §6.
@@ -654,8 +654,8 @@
 
 - **Search terms:** dialogue box width, dialogue box height, visible glyph count, control tokens, line count, screen boundary
 - **Observed scope:** Dynamic battle-dialogue window sizing for Korean text.
-- **Failure context:** A Japanese fixed size overflowed on longer or multi-line Korean, while serialized byte or token counts also overestimated visible width by counting controls and line changes.
-- **Evidence:** Korean text was tokenized like the consumer. Controls were excluded from width, line changes determined row count, and the resulting window was independently clamped to the actual screen boundary. Runtime battle scenes confirmed both window and text.
+- **Failure context:** Longer or multiline Korean text overflowed a fixed-size window designed for Japanese text, while serialized byte or token counts also overestimated visible width by counting controls and line changes.
+- **Evidence:** Korean text was tokenized like the consumer. Controls were excluded from width, line changes determined row count, and the resulting window was independently clamped to the actual screen boundary. Tests in runtime battle scenes confirmed both the window size and text layout.
 - **Established result:** Maximum visible width and line count determined content size, while the screen edge remained a separate placement limit.
 - **Transfer limit:** Re-measure token semantics, coordinate system, and visible boundary for every other window consumer.
 - **Related criteria:** `references/strategy/translation-workflow.md` §4, `references/strategy/reinsertion.md` §6, `references/strategy/build-and-verify.md` §4·§5.
@@ -685,7 +685,7 @@
 - **Search terms:** ring buffer residue, fixed-width slot, blank trailing slot, partial write, scrolling banner
 - **Observed scope:** A horizontally scrolling ending banner that reused fixed-width slots.
 - **Failure context:** Overlong text clipped or overlapped the next slot, while short or empty trailing slots left previous content in unwritten cells.
-- **Decisive test:** Slot width and count were derived from the consumer, every text and blank slot was filled to the exact width, and the final slots were observed through reuse.
+- **Decisive test:** Slot width and count were derived from the consumer, every slot containing text and every blank slot was written to the exact width, and the final slots were observed through reuse.
 - **Established result:** The reused buffer did not clear unwritten cells; blank slots and unused cells required explicit space data.
 - **Transfer limit:** Re-derive slot width, count, reuse order, and clearing behavior for each consumer. Do not transfer the numeric limits.
 - **Related criteria:** `references/strategy/translation-workflow.md` §4, `references/strategy/reinsertion.md` §4·§6, `references/strategy/runtime-assets.md` §2, `references/strategy/build-and-verify.md` §5.

@@ -1,6 +1,6 @@
 # Text extraction strategy
 
-Establish the consumable text population in distribution scope and preserve source codes, control tokens, boundaries, and references in a form that supports reinsertion. Choose discovery techniques and analysis tools for the target; judge completion by the criteria below.
+Establish the consumable text population within the distribution scope and preserve source codes, control tokens, boundaries, and references in a form that supports reinsertion. Choose discovery techniques and analysis tools for the target; judge completion by the criteria below.
 
 ## 1. Population and reference model
 
@@ -63,7 +63,7 @@ An encoding name labels a candidate; it does not establish actual interpretation
 
 A standard-like encoding may include game-specific external characters, reserved codes, and control tokens. Decoder failure does not make a value unused or invalid. Successful standard decoding does not prove that the game consumes the value with that meaning.
 
-Separate mappings by renderer, file, or state when code tables differ. Merge them only after every consumer and source round trip satisfies one mapping. Apply `references/strategy/font-strategy.md` §2.1 when reusing code space for Hangul.
+Separate mappings by renderer, file, or state when code tables differ. Merge them only after every consumer and source round trip satisfies the same mapping. Apply `references/strategy/font-strategy.md` §2.1 when reusing code space for Hangul.
 
 ## 3. Control tokens
 
@@ -88,7 +88,7 @@ When boundary and argument width are established but meaning is unresolved, assi
 - **False positive**: A text or reference candidate is not consumed or is interpreted as another structure.
 - **False negative**: Consumable text or a reference is missing from the extraction denominator.
 
-A filter reducing candidate count does not by itself improve accuracy. Assess false positives and false negatives separately against an approved catalog, a structurally exhaustive scope, runtime consumption scope, or an independent extraction. A filter that silently discards unresolved candidates cannot satisfy completion.
+A filter reducing candidate count does not by itself improve accuracy. Assess false positives and false negatives separately against an approved catalog, a structurally exhaustive scope, the runtime consumption scope, or an independent extraction. A filter that silently discards unresolved candidates cannot satisfy completion.
 
 ## 4. Extraction artifact requirements
 
@@ -116,7 +116,7 @@ Assign each token a policy from consumer meaning:
 | `translate` | Source and target consumers use different opcode or index meanings | Map to a verified equivalent token, or replace with an approved literal only after proving the value static; fail if dynamic value or execution effect is lost |
 | `forbidden` | Boundary and argument width are established, but meaning is unresolved or editing is disallowed | Preserve raw opcode, arguments, source order, and consumption-order position; fail on edits or moves, and block distribution if surrounding changes cannot be shown harmless |
 
-Neither pin all tokens to their source byte positions nor let a layout engine move tokens freely. The policy assigned to each token decides. Encoder and validator must consume the same policy definition.
+Do not pin all tokens to their source byte positions or let a layout engine move them freely. The policy assigned to each token decides. Encoder and validator must consume the same policy definition.
 
 ## 5. Round trip and completeness
 

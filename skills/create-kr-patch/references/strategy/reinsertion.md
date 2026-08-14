@@ -10,7 +10,7 @@ Reinsertion is not merely writing translated bytes. It must preserve the consume
 | Every moved reference and following position-dependent structure can be updated | Grow in place | Reference completeness, alignment, size, and load |
 | Every consumer can represent and reach a new location | Full relocation | Address representation, loader, buffer, and lifetime |
 | Data and lookup changes cannot satisfy consumption | Consider a code hook | Hook ABI, source effects, return, and installation prerequisites |
-| No condition is established | Policy unresolved | Return to a completion-changing question and choose the least costly equivalent evidence |
+| No condition is established | Policy unresolved | Return to a question that can change the completion decision and choose the least costly equivalent evidence |
 
 Policies may differ by entry or region in one file. When entries share a bank, extent, buffer, or slot pool, size every entry in that pool before adopting the first policy; entries that individually fit can exhaust the pool together. Bind each policy to an established boundary model and stable key. Fail on overflow or unresolved entries. Apply the representation rules in `references/conventions/data-formats.md` §5.
 
@@ -27,7 +27,7 @@ Overflow must fail the build and require an approved shortening or another polic
 
 ### 1.2 Growth and relocation
 
-Before growing or moving text, establish more than direct pointers:
+Before growing or moving text, establish all relevant structures, not just direct pointers:
 
 - pointer storage, target address, base, width, endianness, and bank representation;
 - references into strings, shared tails, and duplicate references;
@@ -81,13 +81,13 @@ A hook must specify and verify:
 - preservation or intentional modification of bank, segment, interrupt, and other entry state; and
 - code paths that initialize, update, and release shared state.
 
-Derive saved CPU state and interrupt handling from state read after return and from the effects of overwritten instructions.
+Determine the required saved CPU state and interrupt handling from the effects of the overwritten instructions and the state that callers read after the hook returns.
 
 When generating or relocating more than a fixed short instruction sequence, or claiming reference completeness, apply the assemble-then-disassemble verification in `references/conventions/project-conventions.md` §2.3. Do not pass an unsupported instruction as arbitrary bytes or data.
 
 Write a hook only after identifying the target revision and checking expected bytes plus instruction boundaries at the installation site. Derive branch displacement, literal addresses, and code or data ends from final placement.
 
-Repeated fill or apparently unreachable space is not evidence of free space. Do not use it until direct and indirect entry, reads, writes, copy-source use, and runtime generation have been excluded for the declared denominator.
+Repeated fill or apparently unreachable space is not evidence of free space. Do not use it until direct and indirect entry points, reads, writes, copy-source use, and runtime generation have been excluded for the declared denominator.
 
 ## 5. Space and runtime reachability
 

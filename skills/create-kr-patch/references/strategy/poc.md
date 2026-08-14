@@ -17,10 +17,10 @@ If no outcome reduces those choices, split out a narrower diagnostic. Do not shr
 | Scope | Trigger | Question |
 |---|---|---|
 | Visibility | No equivalent runtime proof exists for the target revision and renderer | Can intended glyph pixels reach the screen through the actual path? |
-| Representative end to end | No evidence connects extraction, transformation, reinsertion, and consumption for a representative unit, and scaling first would create large rework | Does one representative unit survive the complete path? |
-| Conditional | A specific unresolved risk can change the design and has no static pass or rejection | Does the target condition hold under its real constraints? |
+| Representative end-to-end path | No evidence connects extraction, transformation, reinsertion, and consumption for a representative unit, and scaling first would create large rework | Does one representative unit survive the complete path? |
+| Conditional | A specific unresolved risk can change the design and cannot be passed or rejected using static evidence | Does the target condition hold under its real constraints? |
 
-These scopes are independent. Visibility proves pixels through a declared data path. Representative end to end proves one declared unit. Encoding budgets, relocation, compression, and other consumers need separate criteria when they can still change the design.
+These scopes are independent. Visibility proves pixels through a declared data path. A representative end-to-end path proves one declared unit. Encoding budgets, relocation, compression, and other consumers need separate criteria when they can still change the design.
 
 Reuse evidence only when revision, renderer, consumer, preconditions, and proof scope match, and the current change does not alter identity, links, or consumption. Otherwise prove equivalence or rerun the relevant test.
 
@@ -37,7 +37,7 @@ Visibility passes only when all of these hold:
 
 Begin with an established font unless letterform design is the uncertainty under test. Create or edit glyphs only for local missing symbols or verified UX requirements. A temporary glyph proves the path, not release-font completion. Apply `references/strategy/font-strategy.md` §4 to the release-font decision.
 
-## 4. Representative text end to end
+## 4. Representative end-to-end text path
 
 Choose a unit that connects the complete extraction-to-consumption boundary and includes the hardest applicable established constraint: length, control tokens, pointers, compression, padding, or another design-changing boundary. A short string that bypasses the hard condition is not representative. Identify the hardest constraint as the one nearest its established limit or without a workaround, not the one easiest to sample. If that is unresolved, establish it before choosing the unit.
 
@@ -66,7 +66,7 @@ Run a conditional PoC only for a design-changing risk without equivalent static 
 | Compression or container | Edited data is packed and may change size or representation | Unchanged equivalence and modified container validity both hold, and the target consumer accepts the result |
 | Graphics text | Distribution text is stored as graphics pixels | The representative path passes `references/strategy/graphics-text.md` §4 |
 | Presentation or interaction | Windows, states, pages, input, audio, or event synchronization can change implementation | The representative path passes the applicable criteria in `references/strategy/build-and-verify.md` §5 within its declared proof scope |
-| User strings | Player-created text is stored and consumed again | Input repertoire, storage representation, redisplay, and length conditions work together in distribution scope |
+| User strings | Player-created text is stored and consumed again | Input repertoire, storage representation, redisplay, and length conditions work together within the distribution scope |
 
 Do not turn every final-QA item into a PoC. Select only a representative condition that can change implementation.
 
@@ -78,6 +78,6 @@ When a runtime asset change triggers `references/strategy/runtime-assets.md` §1
 - **Fail** blocks dependent implementation until the assumption or design changes.
 - **Unresolved** is not pass. Split the first unproved boundary, then return to the original condition.
 
-Record risk, representativeness, prior criteria, evidence, proved and unproved claims, rejected choices, and next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
+Record risk, representativeness, predefined criteria, evidence, proved and unproved claims, rejected choices, and next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
 
 Adopt a successful PoC into the primary build from immutable source and combine it with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5, but components must not remain isolated. Component success becomes project success only after the primary build passes `references/strategy/build-and-verify.md` §1.

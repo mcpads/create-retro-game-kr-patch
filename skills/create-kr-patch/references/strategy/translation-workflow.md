@@ -1,13 +1,13 @@
 # Translation workflow
 
-Judge translation and distribution eligibility by separating established context and approved decisions, protected information and consumer constraints, and semantic issues that require human judgment. Promote each state only when its evidence is satisfied.
+Judge translation and distribution eligibility by separating established context and approved decisions, protected information and consumer constraints, and semantic issues that require human judgment. Advance a unit to the next state only when the corresponding evidence requirements are satisfied.
 
 ## 1. States and eligibility
 
 Translation eligibility and distribution eligibility are separate.
 
 - **Translation-eligible** means the scene, speaker, and functional context needed to determine meaning is established, and the applicable approved terminology and voice decisions are identified. Do not fill unresolved context by guesswork.
-- **Distribution-eligible** additionally means protected information and actual consumer constraints pass, and every high-impact semantic decision is resolved and approved.
+- **Distribution-eligible** additionally means checks on protected information and actual consumer constraints pass, and every high-impact semantic decision is resolved and approved.
 
 Define the eligibility unit at the real build-selection boundary. Do not expand one unresolved item to an unrelated scope or silently include it in a selected range. A defect found in review or runtime QA revokes eligibility for affected units and returns them to the relevant decision.
 
@@ -15,13 +15,13 @@ Human review of the declared localization scope is a release-candidate condition
 
 Declare the completion denominator from confirmed translation targets and evidenced exclusions. A count difference between new extraction and existing assets is a candidate change, not a missing-translation count until additions, removals, duplicates, and non-text are distinguished.
 
-Before scaling translation to the full distribution scope, pass the volume survey in `references/strategy/text-extraction.md` §1.5. Do not generalize earlier local results into total workload, completion, or complete-corpus demand.
+Before scaling translation to the full distribution scope, complete the volume survey in `references/strategy/text-extraction.md` §1.5. Do not generalize earlier local results into total workload, completion, or complete-corpus demand.
 
 Apply `references/conventions/translation-artifacts.md` to asset states and protected information, and `references/strategy/build-and-verify.md` §1 to primary build inputs.
 
 ## 2. Establishing context
 
-Context links extracted text to actual scenes, screens, and functions and narrows interpretations. Work may begin on a scope with an established denominator before complete extraction of the entire distribution, but the translated unit's denominator and consumer context must be known.
+Context links extracted text to actual scenes, screens, and functions and narrows interpretations. Work may begin within a scope with an established denominator before complete extraction of the entire distribution, but the translated unit's denominator and consumer context must be known.
 
 ### 2.1 Context decision
 
@@ -33,7 +33,7 @@ When narrative, route, or relationship information outside the local unit can ch
 
 ### 2.2 Evidence scope
 
-Use source extraction and actual consumed scenes as the baseline. Consult external sources when they can decide unresolved meaning, order, speaker, or terminology scope. Do not search every source category ceremonially after the question is already decided.
+Use source extraction and the scenes in which the game actually consumes the text as the baseline. Consult external sources when they can decide unresolved meaning, order, speaker, or terminology scope. Do not search every source category ceremonially after the question is already decided.
 
 - Primary sources such as official manuals, sites, and guides may establish setting, names, and functions. Official Korean or other localizations are candidates for established wording; verify title, revision, region, and series continuity.
 - Guides and walkthroughs may reconstruct scene order, branches, characters, and system functions. They are not source text for exact wording or speaker intent.
@@ -41,27 +41,27 @@ Use source extraction and actual consumed scenes as the baseline. Consult extern
 
 If external sources do not resolve the question, return to corpus reading, route execution, extraction, or reverse engineering. Finding a source does not approve an interpretation whose applicability is unknown.
 
-When new evidence overturns context, correct the current decision and reassess affected eligibility. Do not preserve a rejected interpretation beside current fact as if both remained valid.
+When new evidence invalidates the established context, correct the current decision and reassess affected eligibility. Do not preserve a rejected interpretation alongside current facts as if both remained valid.
 
 ### 2.3 Logical order and storage order
 
-Storage order need not equal play or scene order. Build a translator-facing logical view around scene, screen, and speaker relations when required for meaning, but do not turn that reordering into a changed extraction baseline or physical layout. Identical source text need not receive identical translation when consumer scene or speaker differs.
+Storage order need not equal play or scene order. Build a translator-facing logical view around scene, screen, and speaker relations when required for meaning, but do not turn that reordering into a changed extraction baseline or physical layout. Identical source text need not receive identical translation when the consumer scene or speaker differs.
 
 ### 2.4 Speaker and voice context
 
 Include speaker, addressee, relationship, and scene evidence when they can change translation. Do not give inferred tone the same confidence as established control signals, screens, or dialogue order. If an inference can change the result, leave it for human judgment and do not promote the unit before resolution.
 
-One speaker rule need not apply across every relationship or scene. When differences change translation, scope approval by speaker-to-addressee relationship and narrative point. The project chooses the representation; §3 defines the approved scope and exceptions.
+A single rule for a speaker need not apply across every relationship or scene. When differences change translation, scope each approval by the speaker-to-addressee relationship and narrative point. The project chooses the representation; §3 defines the approved scope and exceptions.
 
 ## 3. Approved terminology and voice
 
-Manage reusable decisions such as names, system terms, recurring expressions, and speaker voice in one approved basis. Distinguish decision, applicability, evidence, and review state, following `references/conventions/translation-artifacts.md` §1.1.
+Manage reusable decisions such as names, system terms, recurring expressions, and speaker voice in a single approved basis. Distinguish decision, applicability, evidence, and review state, following `references/conventions/translation-artifacts.md` §1.1.
 
 - Writers and reviewers use the same approved basis and must not adopt silent local variants.
-- Split applicability when one source term refers to different targets, speakers, or scenes; do not create unexplained variants for the same target.
-- A new term, source conflict, or voice exception that can change output blocks affected eligibility until approval.
+- Define separate scopes when one source term refers to different targets, speakers, or scenes; do not create unexplained variants for the same target.
+- A new term, source conflict, or voice exception that can change output blocks the affected units from eligibility until approval.
 - Series and prior-localization choices remain candidates until approved for this title and context.
-- Before approving names, places, items, or system terms, check applicable official Korean wording or formally inherited wording from another edition or title. Adopt it only where source meaning and continuity match.
+- Before approving names, places, items, or system terms, check applicable official Korean wording or wording explicitly inherited from another edition or title. Adopt it only where source meaning and continuity match.
 - Do not impose one source ranking or style priority on every project. Declare authority for the target and translation goal.
 
 Automation may flag candidates against approved decisions but cannot approve a new wording or resolve a conflict. It may decide a violation only when applicability and allowed output are unambiguous. Word presence, inflection, omission, and adaptation in free prose require semantic review.
@@ -70,11 +70,11 @@ Automation may flag candidates against approved decisions but cannot approve a n
 
 Split work at boundaries that preserve context. The current translation agent must either draft free prose directly or divide it among subagents within the same workflow. Give each subagent the complete baseline and context below and review each subagent result yourself. Do not outsource the full first draft to an unverified model or agent solely for volume, speed, or cost.
 
-Before assigning substantial drafting to another model or agent, have that model or agent translate representative target samples and high-impact sentences under the same context, terminology, and voice conditions as production. A human evaluates accuracy, retained context and voice, and correction burden, then approves the assigned scope. Include dialogue, UI, sentences with names, context-sensitive sentences, and items with protected tokens or display constraints. Do not generate the full corpus under the label of evaluation, and do not replace human evaluation with an average score or agreement among models.
+Before assigning substantial drafting to another model or agent, have that model or agent translate representative target samples and high-impact sentences under the same context, terminology, and voice conditions as production. A human evaluates accuracy, preservation of context and voice, and correction burden, then approves the assigned scope. Include dialogue, UI, sentences with names, context-sensitive sentences, and items with protected tokens or display constraints. Do not generate the full corpus under the label of evaluation, and do not replace human evaluation with an average score or agreement among models.
 
-An evaluation applies only to the sampled text and conditions. Reevaluate affected scope when the model or agent, supplied context, terminology, or voice basis changes. A human-evaluated sample may remain as a working draft under the same baseline, but evaluation does not complete review or grant distribution eligibility. A failed model or agent may still organize batches, serialize data, and inspect protected information; it must not draft or choose free prose.
+An evaluation applies only to the sampled text and conditions. Reevaluate the affected scope when the model or agent, supplied context, terminology, or voice basis changes. A human-evaluated sample may remain as a working draft under the same baseline, but evaluation does not complete review or grant distribution eligibility. A failed model or agent may still organize batches, serialize data, and inspect protected information; it must not draft or choose free prose.
 
-Parallel drafting or review requires established decision context and independent review per unit. Split the corpus if it cannot satisfy those requirements as one unit; do not split it merely to create batches when it can. Do not cut scene, speaker, or functional context, or make batches so large that a reviewer loses the relationships needed for judgment.
+Parallel drafting or review requires established decision context and independent review per unit. Split the corpus if it cannot satisfy those requirements as one unit; do not split it merely to create batches when it can satisfy them as one unit. Do not cut scene, speaker, or functional context, or make batches so large that a reviewer loses the relationships needed for judgment.
 
 Draft free prose from context. Rule-based automation has the same limits: it may generate or choose prose only for fixed phrases whose applicability and output are already approved.
 
@@ -87,7 +87,7 @@ Provide writers and reviewers with one baseline containing:
 - approved terminology and voice with applicability; and
 - actual length, layout, encoding, and other consumer constraints.
 
-Agent output may change translated text, rationale, questions, and proposal state. It must not recreate or normalize source identity, raw bytes, or protected tokens. A batch is a logical translation unit; it does not redefine source entry boundaries, order, or physical placement.
+Agent output may change translated text, rationale, questions, and proposal status. It must not recreate or normalize source identity, raw bytes, or protected tokens. A batch is a logical translation unit; it does not redefine source entry boundaries, order, or physical placement.
 
 When a term, voice decision, or source interpretation changes across batches, revalidate earlier affected batches against the same approved basis. Merge parallel results only when stable IDs and baselines match. Never resolve conflicts in entries, terminology, or protected information by last-writer-wins. Apply the state and protected-field semantics in `references/conventions/translation-artifacts.md`.
 
@@ -95,15 +95,15 @@ When a term, voice decision, or source interpretation changes across batches, re
 
 Separate translatable content from structure that must remain. Translation must not change source-baseline values such as raw bytes, identifiers, pointer evidence, and boundary information.
 
-Assign each control token a policy from actual consumption. A token that changes meaning or execution, such as termination, event, or variable insertion, includes order and arguments in its preservation rule. Preserve an unresolved-meaning token in forbidden raw form only when boundary and argument width are established. Otherwise block the unit from translation and distribution eligibility. Apply `references/conventions/translation-artifacts.md` §3 to representation and `references/strategy/text-extraction.md` §4.4 to reversibility and policy.
+Assign each control token a policy from actual consumption. For a token that changes meaning or execution, such as termination, event, or variable insertion, its preservation rule must cover order and arguments. Preserve an unresolved-meaning token in forbidden raw form only when boundary and argument width are established. Otherwise block the unit from translation and distribution eligibility. Apply `references/conventions/translation-artifacts.md` §3 to representation and `references/strategy/text-extraction.md` §4.4 to reversibility and policy.
 
 Line, page, and wait tokens may move for Korean readability, page rhythm, and display constraints only after their consumer meaning and valid positions are established. Require equivalent state transitions under the token policy. Judge window, portrait, selection, input, voice, and event tokens by their own policies and verify changes through `references/strategy/build-and-verify.md` §5.
 
-Derive length, width, rows, slots, encoding, and insertion combinations from the real consumer, not language-wide defaults. A template that inserts a variable before a Korean particle makes the particle form depend on the inserted value's final consonant. Establish whether the consumer can select the form, whether per-value strings can be precomputed, or whether phrasing must avoid the dependency; one fixed form fails for part of the value population. Do not disguise a technical constraint violation as poor translation or resolve it automatically through semantic shortening. Choose among phrasing adjustment, established line or page controls, progression changes, and capacity changes according to the cause and effect.
+Derive length, width, rows, slots, encoding, and variable-insertion combinations from the real consumer, not language-wide defaults. A template that inserts a variable before a Korean particle makes the particle form depend on the inserted value's final consonant. Establish whether the consumer can select the form, whether per-value strings can be precomputed, or whether phrasing must avoid the dependency; one fixed form fails for part of the value population. Do not disguise a technical constraint violation as poor translation or resolve it automatically through semantic shortening. Choose among phrasing adjustment, established line or page controls, progression changes, and capacity changes according to the cause and effect.
 
 For a finite display area, distinguish:
 
-- **Observed source usage**: maxima observed across source visible width, rows, pages, and placement.
+- **Observed source usage**: maximum visible width, row and page counts, and placement observed in the source.
 - **Confirmed consumer capacity**: limits established by connecting stored width, height, or coordinates to consumer calculations.
 - **Adopted display range**: the range selected for the Korean patch.
 
@@ -119,7 +119,7 @@ Do not merge mechanically decidable violations with semantic judgment. Semantic 
 
 | Class | Subject | Role of automation |
 |---|---|---|
-| Established constraint | Protected fields and tokens; encoding and glyph mapping; confirmed width, height, row, page, and slot limits; approved wording with one unambiguous applicability and output | Withhold distribution eligibility and block release-candidate builds on violation |
+| Established constraint | Protected fields and tokens; encoding and glyph mapping; confirmed width, height, row, page, and slot limits; approved wording whose applicability and required output are both unambiguous | Withhold distribution eligibility and block release-candidate builds on violation |
 | Language heuristic | Dictionary presence, frequency, spelling and spacing, repeated phrases, LLM scores | Produce candidates with evidence and affected scope for human review; do not edit prose or decide fitness |
 | Semantic judgment | Contextual meaning, naturalness, voice and relationship, adaptation, names, and wordplay | Produce options and evidence in independent review; a human decides |
 
@@ -127,15 +127,15 @@ Observed source maxima are not established consumer constraints by themselves. D
 
 ### 5.2 Rule-based bulk transformation of translated prose
 
-An automated check may identify translation-defect candidates and affected scope. A batch transformation based on such a rule may edit translations only after a human explicitly approves the rule, the pre-transformation text, scope, and expected impact. Any change to them requires renewed approval. Approval of the transformation does not grant distribution eligibility; results must pass current source, context, terminology, voice, protected-information, and consumer checks. Send exceptions and high-impact semantics to unit-level translation and review. Serialization, protected-information checks, and states derived from pass criteria do not require this approval when they do not change translation meaning.
+An automated check may identify translation-defect candidates and affected scope. A batch transformation based on such a rule may edit translations only after a human explicitly approves the rule, the pre-transformation text, scope, and expected impact. Any change to them requires renewed approval. Approval of the transformation does not grant distribution eligibility; results must pass current source, context, terminology, voice, protected-information, and consumer checks. Route exceptions and high-impact semantic decisions to unit-level translation and review. Serialization, protected-information checks, and states derived from pass criteria do not require this approval when they do not change translation meaning.
 
 ### 5.3 High-impact semantic judgment
 
-Judge semantic impact by whether an error would materially change player understanding, choice, progression, relationships, or authorial intent, not by a fixed ranking of quality categories. Record options and evidence for conflicts in source interpretation, new wording, adapted wordplay or cultural elements, and uncertain speaker or relationship. Human approval is required. One unresolved high-impact judgment blocks the affected unit from distribution eligibility.
+Judge semantic impact by whether an error would materially change player understanding, choice, progression, relationships, or authorial intent, not by a fixed ranking of quality categories. Record options and evidence for conflicts in source interpretation, new wording, adapted wordplay or cultural elements, and uncertain speaker identity or relationships. Human approval is required. One unresolved high-impact judgment blocks the affected unit from distribution eligibility.
 
 ### 5.4 Timing of human review for the complete distribution scope
 
-The first-draft corpus is an input for measuring representation demand. Complete-scope human review must finish before release-candidate judgment, but should begin only after the integrated development build establishes that:
+The first-draft corpus is an input for measuring representation demand. Human review of the complete distribution scope must finish before release-candidate judgment, but should begin only after the integrated development build establishes that:
 
 - unique glyphs from the corpus and runtime insertions fit and can be supplied under the total-repertoire and active-working-set budgets in `references/strategy/font-strategy.md` §3;
 - that supply reaches target render paths through `references/strategy/runtime-assets.md` §2 or equivalent evidence; and
@@ -154,7 +154,7 @@ First draft -> independent second review -> options and evidence to a human -> h
                          \-> mechanical violations return to the applicable verification step
 ```
 
-The second review must not assume the first draft's conclusion. In a separate review context, compare source, approved basis, speaker and scene evidence, and protected and consumer constraints again. When meaning, wording, or voice has alternatives, present options, evidence, impact, and a recommendation instead of silently overwriting the draft. Agreement between two generations does not approve quality. Human approval remains final, and affected units remain ineligible until then.
+The second review must not assume the first draft's conclusion. In a separate review context, compare source, approved basis, speaker and scene evidence, and protected and consumer constraints again. When meaning, wording, or voice has alternatives, present options, evidence, impact, and a recommendation instead of silently overwriting the draft. Agreement between two generations does not constitute approval of quality. Human approval remains final, and affected units remain ineligible until then.
 
 Independence means a review that does not take the first draft's reasoning or conclusion as the answer. It does not require a specific model, service, or execution mechanism.
 
@@ -166,9 +166,9 @@ Promote only a scope satisfying all of these conditions:
 2. Applicable terminology and voice match the approved basis.
 3. Protected tokens and actual consumer constraints pass.
 4. High-impact semantic judgments are resolved with required human approval.
-5. The first draft received independent second review with human-facing options and evidence.
+5. The first draft received an independent second review with human-facing options and evidence.
 6. The entry passes the build-input checks in `references/conventions/translation-artifacts.md` §5.
 
-An ineligible translation may be used only as an explicitly non-distribution development, technical, or PoC input. Output from a model or agent that failed §3.1 evaluation is not eligible for this exception. Such use neither grants distribution eligibility nor bypasses the conditions above; follow `references/conventions/translation-artifacts.md` §5 for identification and protection.
+An ineligible translation may be used only as an explicitly non-distributable input for development, technical verification, or a PoC. Output from a model or agent that failed §3.1 evaluation is not eligible for this exception. Such use neither grants distribution eligibility nor bypasses the conditions above; follow `references/conventions/translation-artifacts.md` §5 for identification and protection.
 
 Return failed units to context research, terminology and voice approval, protected or consumer-constraint resolution, or semantic judgment according to the failed condition. Do not collapse these states into one generic "translation complete" label.

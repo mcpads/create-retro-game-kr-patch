@@ -27,7 +27,7 @@ At every changed boundary, determine:
 1. Do the built asset's identity, location, and size refer to the same object as the runtime lookup metadata?
 2. Does the real read path select that object and pass the verified load or transform result to the next memory boundary?
 3. Does the delivered asset have the required capacity and lifetime, including after relevant state transitions, until consumption?
-4. Does every required consumer read the asset with the same format, encoding, and index rules, and can the result be connected through RAM, VRAM, or final output?
+4. Does every required consumer read the asset with the same format, encoding, and index rules, and can the path through RAM or VRAM be connected to the final output?
 5. Does a new or changed load leave concurrent audio, input, and display state intact?
 
 Boot success, matching bytes inside an image, or one apparently correct screen does not establish the complete changed link. Limit every claim to the changed boundaries, consumer paths, and state transitions that can alter asset lifetime.
@@ -38,7 +38,7 @@ When the claim concerns load, upload, initialization, or cache refresh, state cr
 
 - **Pass** — Evidence connects every changed link and the asset remains valid across relevant state transitions. Return this result to the strategy that requested the assessment.
 - **Fail** — Return to the strategy governing the first broken link. Preserve evidence for preceding links and do not redesign unaffected layers.
-- **Unresolved** — Record the last established boundary and the first unestablished boundary. If implementation depends on the answer, use `references/strategy/poc.md` to design a diagnostic that distinguishes that first missing link, then return the result to this assessment.
+- **Unresolved** — Record the last established boundary and the first boundary not yet established. If implementation depends on the answer, use `references/strategy/poc.md` to design a diagnostic that distinguishes that first missing link, then return the result to this assessment.
 
 ## 4. Criteria by changed component
 

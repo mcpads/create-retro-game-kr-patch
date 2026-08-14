@@ -4,9 +4,9 @@ Consult primary references for general HuC6280, VDC, and CD-ROM² specifications
 
 ## 1. MPR and address identity
 
-A logical address does not determine a ROM, RAM, or file location. The MPR state at access time and the medium's physical layout are also required; CD-loaded code and buffers additionally require the loader's sector or file to RAM relationship.
+A logical address does not determine a ROM, RAM, or file location. The MPR state at access time and the medium's physical layout are also required; CD-loaded code and buffers additionally require the relationship between a sector or file and its RAM destination.
 
-When a pointer stores only a logical address, current MPR and base are part of the specification. A bank-changing hook must verify interrupt and callback shared pages, code and data lifetime, and return mapping. Do not represent current mapping as a constant before identifying the executing overlay.
+When a pointer stores only a logical address, the current MPR state and base address are part of the specification. A bank-changing hook must verify interrupt and callback shared pages, code and data lifetime, and return mapping. Do not represent current mapping as a constant before identifying the executing overlay.
 
 ## 2. Stored glyphs and VDC consumption
 

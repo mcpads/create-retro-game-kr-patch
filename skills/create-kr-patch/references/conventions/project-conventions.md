@@ -1,6 +1,6 @@
 # Project conventions
 
-Use these rules to implement patch-strategy invariants and decision criteria as project structure, interfaces, and verification. Inspect the existing repository and toolchain first and retain an equivalent mechanism when present. Choose directories, commands, languages, libraries, and products for the current project and environment. Read the applicable `references/platforms/` document for platform constraints.
+Use these rules to translate patch-strategy invariants and decision criteria into project structure, interfaces, and verification. Inspect the existing repository and toolchain first and retain an equivalent mechanism when present. Choose directories, commands, languages, libraries, and products for the current project and environment. Read the applicable `references/platforms/` document for platform constraints.
 
 ## Contents
 
@@ -13,7 +13,7 @@ Use these rules to implement patch-strategy invariants and decision criteria as 
 
 ## 1. Responsibility boundaries and a single basis
 
-Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when one location and check already carry the responsibility. Separate these roles without giving one fact several update paths:
+Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when that responsibility already has an owning location and check. Separate these roles without giving one fact several update paths:
 
 - source inputs to the reproducible build;
 - intermediate and output artifacts regenerable from source;
@@ -24,7 +24,7 @@ Before creating or extending a repository, inspect its current build, tests, doc
 
 Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
-Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then with fixed version, explicit inputs and outputs, propagated failures, and tests. Until promoted it must not run in the build; its output enters only under §6.2.
+Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then only with a pinned version, explicit inputs and outputs, propagated failures, and tests. Until promoted it must not run in the build; its output enters only under §6.2.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to investigation, PoC, and QA records.
 
@@ -47,7 +47,7 @@ An existing project may retain several components or languages when they already
 
 A reusable unit must describe inputs, outputs, and invariants without target-game facts. Keep target-specific revision, encoding table, pointer addresses, hook locations, and similar facts in the target implementation rather than embedding them in reusable CPU, container, address, or graphics components.
 
-The same test vectors and consumed result must survive extraction into a reusable component. Reuse potential or component count alone does not justify a shared layer or a changed boundary.
+Preserve the same test vectors and consumer-visible result when extracting a reusable component. Reuse potential or component count alone does not justify a shared layer or a changed boundary.
 
 ### 2.3 Machine-code generation and interpretation verification
 
@@ -57,7 +57,7 @@ When a patch generates or moves more than a fixed short instruction sequence, or
 - Reject out-of-profile opcodes and modes, reserved values, and truncated instructions rather than treating them as data or success.
 - After final placement, disassemble generated ranges again and verify instruction boundaries, operands, branch targets, delay slots, literal pools, and return paths.
 - When moving source instructions, compare original effects and live-state invariants at the new location.
-- A completeness claim for references or calls must report declared entry points, bank, overlay, and mode scope plus uninterpreted regions.
+- A completeness claim for references or calls must report the declared entry points, the scope of banks, overlays, and modes, and any uninterpreted regions.
 
 The denominator for ISA support is every valid instruction and mode in the declared profile. The denominator for code-analysis completeness is the declared code region. Do not merge them. Report literals, embedded data, and canonical aliases separately. Do not absorb out-of-profile values as instructions or equivalent opcodes. Excluding an optional extension requires evidence that it does not appear in generated, moved, or analyzed scope; encountering it must fail and require a revised profile and verification range.
 

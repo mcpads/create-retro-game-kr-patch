@@ -73,7 +73,7 @@ Bypassing compression introduces new code, storage, load, residency, and consump
 
 Compression work is complete only when all applicable conditions hold:
 
-- The target consumer established the format variant and boundaries.
+- The format variant and boundaries are established from the target consumer.
 - Every source stream in the declared denominator decompresses correctly.
 - Every recompressed item passes A.
 - A canonical format, if required, passes B.

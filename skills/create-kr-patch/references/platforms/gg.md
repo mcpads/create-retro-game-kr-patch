@@ -18,15 +18,15 @@ VRAM and CRAM are consumed through VDP port I/O rather than ordinary memory writ
 
 Current VDP registers, scroll, and display state determine the relationship between internal name tables and the LCD viewport. Do not use one fixed row or column offset or theoretical tile count as every screen's coordinate or font budget.
 
-Determine from the path before and after transfer whether a stored glyph is the final VDP tile representation or an intermediate RAM form.
+Trace the path before and after transfer to determine whether a stored glyph is the final VDP tile representation or an intermediate RAM form.
 
 ## 4. From storage to screen consumption
 
-A VDP port transfer is the final hardware upload or write boundary. It may differ from the writer that produced the value and from asset load time. Verify separately whether the write is consumed by the actual name table, sprite, and viewport. When using font data in a new bank or new VRAM slots, judge the link assessment in `references/strategy/runtime-assets.md` §2 and state-specific working sets through `references/strategy/font-strategy.md` §3.
+A VDP port transfer is the final hardware upload or write boundary. It may be performed by a different writer than the one that produced the value, and it may occur at a different time from the asset load. Verify separately whether the write is consumed by the actual name table, sprite, and viewport. When using font data in a new bank or new VRAM slots, perform the link assessment in `references/strategy/runtime-assets.md` §2 and evaluate state-specific working sets through `references/strategy/font-strategy.md` §3.
 
 ## 5. Text and code space
 
-Establish encoding, token width, and pointer rules from each game's consumers. For a new prefix or pair, count as available code space only the actually accepted set after excluding source characters, controls, terminators, and meanings in separate renderers.
+Establish encoding, token width, and pointer rules from each game's consumers. For a new prefix or pair, count only the values actually accepted by the consumer as available code space after excluding source characters, controls, terminators, and values assigned meanings by separate renderers.
 
 ## 6. Code intervention and space
 

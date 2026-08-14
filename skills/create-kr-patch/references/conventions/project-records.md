@@ -1,6 +1,6 @@
 # Project record conventions
 
-Record initial surveys, PoCs, graphics-text catalogs, HITL observations, and QA issues with evidence, decision, and next action kept distinct. Retain an equivalent existing record system. Field and state names below are optional examples; paths, serialization, and tools are not fixed.
+Record initial surveys, PoCs, graphics-text catalogs, HITL observations, and QA issues while keeping evidence, decisions, and next actions distinct. Retain an equivalent existing record system. Field and state names below are optional examples; paths, serialization, and tools are not fixed.
 
 Preserve source and translated text, control codes, and review states under `references/conventions/translation-artifacts.md`. Follow `references/conventions/project-conventions.md` for repository layout and source or derived assets.
 
@@ -25,7 +25,7 @@ Regardless of format, distinguish:
 - **Evidence location**: Link hashes, dumps, screenshots, traces, disassembly, and reproduction steps needed to reassess a decision.
 - **Decision**: Distinguish pass, fail, and unresolved; retain both criteria and observed result.
 - **Human approval**: Where a decision requires it, identify the approving human, the exact scope and version approved, and the change that invalidates it.
-- **Next action**: On failure identify the rejected assumption; when unresolved identify the observation that distinguishes the original condition; on pass identify promoted knowledge or the next step.
+- **Next action**: On failure identify the rejected assumption; when unresolved identify the observation that distinguishes the current possibilities; on pass identify promoted knowledge or the next step.
 - **State intervention**: For a target state created by a cheat, state edit, or forced routine call, identify exact baseline, pre-intervention state, edited target and value or call conditions and arguments, bypassed play and code path, post-intervention state, and proved and unproved scope. Do not mix intervention with patch changes or evidence of normal-play reachability.
 
 Collection entries need stable IDs that survive reorder and file moves. Do not use address, offset, or filename alone as identity; separate logical ID from current physical location. Refer to one owning record by ID or project-relative path instead of copying the same fact.
@@ -140,7 +140,7 @@ An index contains only ID, target hypothesis, current decision, and response loc
 
 A round binds baseline build, verification scope, issues, coverage, and closure. Distinguish build identity, target environments and scope, automated results, required-path coverage, linked issues, closure decision, and remaining distribution blockers.
 
-For each text display region, record region ID, renderer and box scope, width calculation, line and page limits, state effects of line and page controls, and violation severity. Keep observed source usage, confirmed consumer capacity, and adopted display range distinct under `references/strategy/translation-workflow.md` §4. Apply `references/strategy/build-and-verify.md` §5 to presentation and interaction. Evidence records applicable state matrices, start state and input sequence, reference points and tolerance for progression, voice, and events, and visual baseline plus comparison conditions. Measure concrete values on the target game.
+For each text display region, record region ID, renderer and box scope, width calculation, line and page limits, state effects of line and page controls, and violation severity. Keep observed source usage, confirmed consumer capacity, and adopted display range distinct under `references/strategy/translation-workflow.md` §4. Apply `references/strategy/build-and-verify.md` §5 to presentation and interaction. For the applicable states, record the state matrix, starting state and input sequence, reference points and tolerances for progression, voice, and events, and the visual baseline and comparison conditions. Measure concrete values on the target game.
 
 ### 7.2 Individual issues
 

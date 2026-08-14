@@ -39,7 +39,7 @@ The graphics-text scope is complete only when all of these hold:
 - Every item in the declared denominator is resolved or excluded, with zero unresolved items.
 - For assets not directly defined by a header or consumer, pixel encoding, address calculation, and boundaries explain the editable region; all uninterpreted regions remain unchanged.
 - The build reproduces protected-pixel, palette, container, and unchanged-round-trip checks.
-- Translated regions follow approved layout and visual criteria, remain readable without clipping against the real background and palette, and preserve every required state distinction.
+- Translated regions follow approved layout and visual criteria, remain readable against the real background and palette without clipping, and preserve every required state distinction.
 - Every target state and variant is assigned to a confirmed consumer path.
 - The link assessment in `references/strategy/runtime-assets.md` §2 passes for every changed asset, supported by static population coverage and runtime evidence.
 - Representative unchanged consumer paths preserve their original behavior.

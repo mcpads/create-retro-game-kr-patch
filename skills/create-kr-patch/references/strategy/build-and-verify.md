@@ -76,7 +76,7 @@ Judge final text, presentation, and interaction changes on their actual consumer
 - A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling to warnings or human review.
 - Judge glyphs and baked graphics text against the visual completion criteria in `references/strategy/font-strategy.md` §4 and `references/strategy/graphics-text.md` §4, using real backgrounds, palettes, and states.
 - When a window or frame changes size or position, verify actual anchors, clipping, screen bounds, and overlap with portraits, cursors, and adjacent UI.
-- When a change touches state-specific assets or placement, verify the distinctions and transitions among applicable default, focused, selected, and disabled states. Verify affected navigation, confirm, and cancel event, repeat, state-transition, and result behavior against the target model.
+- When a change touches state-specific assets or placement, verify the distinctions and transitions among applicable default, focused, selected, and disabled states. Verify affected navigation, confirm and cancel events, repeat behavior, state transitions, and results against the target model.
 - When a change touches text progression or synchronization, verify applicable page, wait, scroll, auto-advance, skip, voice, and event timing within the declared tolerance.
 - For a changed display extent, verify the layout and clearing criteria in `references/strategy/reinsertion.md` §6 across transition, exit, and re-entry. Page or progression changes must not introduce empty pages or unintended early or duplicate advancement.
 
@@ -84,7 +84,7 @@ Judge the release result from Korean encoded output and the actual consumer cond
 
 ## 6. Issue closure and release readiness
 
-Close a defect through the fix completion conditions in `references/strategy/debugging.md` §1, and close one as original or out-of-scope behavior through `references/strategy/debugging.md` §6. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7.
+Close a defect as fixed through the completion conditions in `references/strategy/debugging.md` §1. Close an issue as original or out-of-scope behavior through `references/strategy/debugging.md` §6. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7.
 
 Incomplete human review of the declared localization scope does not block development builds, technical verification, or a pre-release test build that collects it under `references/conventions/translation-artifacts.md` §5. A release candidate must satisfy all of these conditions:
 

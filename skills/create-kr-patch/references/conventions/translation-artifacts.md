@@ -34,7 +34,7 @@ Immediately before merge or reinsertion, compare source identity and raw bytes a
 
 ### 1.1 Approved terminology and voice decisions
 
-The approved basis for terms, repeated expressions, and voice must distinguish a stable decision ID, source referent or situation, approved output, applicability by title, revision, scene, speaker relationship, and narrative point, evidence and transfer limit, and approved, unresolved, or conflicting state. Because one source term may have scope-specific decisions, do not use the source string as a globally unique key. When new evidence changes a decision, retain enough lineage to identify affected batches requiring revalidation; do not silently overwrite it. The project chooses file count, table structure, and field names.
+The approved basis for terms, repeated expressions, and voice must record a stable decision ID; the source referent or situation; the approved output; applicability by title, revision, scene, speaker relationship, and narrative point; evidence and transfer limit; and an approved, unresolved, or conflicting state. Because one source term may have scope-specific decisions, do not use the source string as a globally unique key. When new evidence changes a decision, retain enough lineage to identify affected batches requiring revalidation; do not silently overwrite it. The project chooses file count, table structure, and field names.
 
 ## 2. Illustrative JSON example
 
@@ -81,7 +81,7 @@ This example also follows the machine-readable I/O requirements in `references/c
 
 - Keep `table_id` and `entry_id` stable. Empty slots remain part of entry order and count.
 - `raw_hex` and `text` are protected fields written by the extractor. `ko`, `status`, and `notes` are translation-stage fields.
-- Represent duplicate pointers and undecoded bytes through `flags` or an equivalent project representation that preserves meaning and round trip.
+- Represent duplicate pointers and undecoded bytes using `flags` or an equivalent project representation that preserves meaning and round-trip fidelity.
 
 ## 3. Control-code tokens
 
@@ -125,7 +125,7 @@ Distribution eligibility includes at least:
 - token boundaries and argument widths are established so `references/strategy/text-extraction.md` §4.4 policies apply;
 - control-code tokens parse and satisfy the policy assigned under `references/strategy/text-extraction.md` §4.4;
 - glyph coverage and length or layout under confirmed consumer constraints pass; and
-- human decisions retain their decision and evidence.
+- the decision and supporting evidence for each human judgment are retained.
 
 A failed check or new evidence revokes eligibility and returns the unit to the required review state. The decision, not a state name or storage location, determines build input.
 

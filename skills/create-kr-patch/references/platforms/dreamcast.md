@@ -20,9 +20,9 @@ Do not assume conversion to CDI or another container preserves source GDI track 
 
 ## 3. Texture and glyph consumption
 
-Do not approve a texture encoder from magic, extension, or decoded image alone. Establish pixel format, layout, palette, and size rules read by the target descriptor and upload path. If representation is not canonical, declare equivalence for decoded pixels, protected metadata, and consumer meaning.
+Do not approve a texture encoder from a file signature, extension, or decoded image alone. Establish pixel format, layout, palette, and size rules read by the target descriptor and upload path. If representation is not canonical, declare equivalence for decoded pixels, protected metadata, and consumer meaning.
 
-The same label may use different textures or slots across state, screen, and 2D or 3D renderer. Do not generalize one atlas result to every font or UI path. Apply `references/strategy/runtime-assets.md` when adding, growing, or moving an asset.
+The same label may use different textures or slots across different states, screens, and 2D or 3D renderers. Do not generalize one atlas result to every font or UI path. Apply `references/strategy/runtime-assets.md` when adding, growing, or moving an asset.
 
 ## 4. Text and references
 
