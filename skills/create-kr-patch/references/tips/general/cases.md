@@ -53,7 +53,7 @@
 ## Generated layouts invalidate stale fixed writes
 
 - **Search terms:** overlapping writes, stale fixed offset, literal pool corruption, generated layout, write ownership
-- **Observed scope:** Generated option-title engine code and its literal pool in the Dreamcast release of Puyo Puyo~n.
+- **Observed scope:** Generated code and its literal pool in the Dreamcast release of Puyo Puyo~n.
 - **Failure context:** After layout became generator-controlled, a leftover fixed-address write still overwrote the literal pool at its new location.
 - **Evidence:** The generated ranges and manual writes were compared in the final binary and shown to modify the same bytes.
 - **Established result:** Removing the obsolete direct write and leaving one generator responsible for the range eliminated the literal-pool corruption.
@@ -73,10 +73,10 @@
 ## Font filenames do not identify the active font
 
 - **Search terms:** wrong active font, multiple font sizes, font filename, glyph sheet probe, code-to-glyph mismatch
-- **Observed scope:** One story-dialogue screen and three font sizes in the Dreamcast release of Sakura Wars 2.
+- **Observed scope:** One story-dialogue screen and multiple font sizes in the Dreamcast release of Sakura Wars 2.
 - **Failure context:** A prior small-font experiment and filenames were used to assume that story dialogue used the same font. Slot numbers derived from one size were also transferred to another.
-- **Evidence:** Distinctive probes were inserted across broad ranges of all three sheets. Runtime display selected the 32-pixel sheet, and independent decoding showed that the same character occupied different slots in different sizes.
-- **Established result:** The observed dialogue used a 32-pixel fixed-cell 4bpp font, and code-to-glyph slots were not shared across sizes.
+- **Evidence:** Distinctive probes were inserted across each candidate sheet. Runtime display selected a different sheet from the earlier experiment, and independent decoding showed that the same character occupied different slots between sizes.
+- **Established result:** The active dialogue font and its code-to-glyph mapping had to be established independently; mappings were not shared across font sizes.
 - **Transfer limit:** Prove the active font and that sheet's code-to-glyph mapping separately for every other screen.
 - **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md` §2, `references/strategy/poc.md` §3·§5.
 
@@ -163,9 +163,9 @@
 ## Layout limits vary by window state
 
 - **Search terms:** dialogue width, window tag, page break, narrow window, line reflow, portrait state
-- **Observed scope:** A measured 7x3 dialogue window and an untagged page-transition control in the Game Gear release of Madou Monogatari 2.
-- **Failure context:** Assuming one wide window for a script region missed a narrow window in the same region. A 13-tile line overflowed the actual 7-column window, while a width-only checker also rejected text that could be reflowed or moved to the next page.
-- **Evidence:** Source pages were compared with the visible columns and the narrow-window overflow was reproduced. The current row count, the row count after word reflow, and the minimum row count allowed by syllable-level wrapping were compared so that wording changes could be distinguished from moving text to another page. Continuous play confirmed that the control cleared the current window, opened the next page, and preserved the first character.
+- **Observed scope:** A narrow dialogue state and a page-transition control in the Game Gear release of Madou Monogatari 2.
+- **Failure context:** Assuming one wide window for a script region missed a narrower state in the same region, while a width-only checker also rejected text that could be reflowed or moved to the next page.
+- **Evidence:** Source pages were compared with the active window geometry and the overflow was reproduced. Width and row usage were checked after reflow, and continuous play confirmed that the control cleared the window, opened the next page, and preserved the first character.
 - **Established result:** The active window tag, not the containing script region, determined capacity. Width and row count had to be evaluated together, with confirmed page transitions available for text that could not fit.
 - **Transfer limit:** Before adding a page, verify that the control preserves portrait, window, input, and event state on that path.
 - **Related criteria:** `references/strategy/text-extraction.md` §4.4, `references/strategy/translation-workflow.md` §4, `references/strategy/build-and-verify.md` §5, `references/strategy/reinsertion.md` §6.
@@ -215,7 +215,7 @@
 - **Search terms:** name-entry candidates, result glyph mismatch, BNCG, MES font, NFTR no effect, multiple render paths
 - **Observed scope:** Name-entry candidates and post-selection name rendering in revision 0 of the Japanese Nintendo DS release of Dragon Quest IX.
 - **Failure context:** Replacing an `い` glyph in the apparent NFTR did not change the screen. It was easy to assume that the candidate grid and selected-name display shared one font because they belonged to the same UI.
-- **Evidence:** A BNCG-only build changed only the candidates. Changing both BNCG and the matching MES slot made the candidate, input field, header name, confirmation screen, battle UI, field tag, and main menu agree.
+- **Evidence:** A BNCG-only build changed only the candidate grid. Changing both BNCG and the matching MES slot made the grid, editing and confirmation displays, and later name displays agree.
 - **Established result:** The candidate grid came from pre-rendered BNCG graphics, while the selected name came from MES glyphs. Both consumers had to change for one logical character slot.
 - **Transfer limit:** Trace candidate and result supply paths separately for every screen. An NFTR that has no effect on one path remains a candidate elsewhere.
 - **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md` §2.
@@ -253,9 +253,9 @@
 ## Shared boundary logic let generator errors pass validation
 
 - **Search terms:** shared generator bug, shared validator formula, JIS boundary, Shift_JIS 0x7F, exhaustive glyph display
-- **Observed scope:** JIS-to-Shift_JIS conversion for extension glyphs and exhaustive display of rows `0x75` and `0x76` in three PC-98 titles.
+- **Observed scope:** JIS-to-Shift_JIS conversion at an extension-row boundary in PC-98 titles.
 - **Failure context:** An odd-row boundary formula mapped cell `0x5F` to forbidden trail byte `0x7F`. The glyph generator and validator shared the same error, so agreement between them did not expose it.
-- **Evidence:** Visible markers were assigned to all 94 cells and displayed through a repeatable battle-message path. Exhaustive odd- and even-row checks established the correct `0x5F→0x7E` and `0x60→0x80` boundary and added independent forbidden-value checks.
+- **Evidence:** Independent enumeration of both row parities and runtime markers at the boundary established the required skip from `0x7E` to `0x80` and added a separate forbidden-value check.
 - **Established result:** Independent boundary enumeration and real consumer display found a defect hidden by two components sharing one formula.
 - **Transfer limit:** Do not establish an encoding boundary from generator-validator agreement when they share logic. Independently test forbidden and boundary values and compare them with the real consumer.
 - **Related criteria:** `references/strategy/font-strategy.md` §2·§4, `references/strategy/build-and-verify.md` §4·§5, `references/conventions/project-conventions.md` §5.1.
@@ -263,7 +263,7 @@
 ## String pools can provide capacity beyond local gaps
 
 - **Search terms:** pooled string region, long credits, NUL gaps, pointer table, relocation capacity, empty-entry sentinel
-- **Observed scope:** Ending credits and a word pointer table containing empty-entry values in three PC-98 titles.
+- **Observed scope:** Ending credits and a word pointer table containing empty-entry values in PC-98 titles.
 - **Failure context:** Treating every NUL gap as an independent fixed slot could not fit longer Korean credits, while the consumer actually entered each string through the pointer table.
 - **Evidence:** Every valid pointer target and update site was linked. Strings were repacked inside the established region, pointers were updated, overlay size and following code were preserved, and display plus next-entry progress were verified.
 - **Established result:** The whole region, rather than each original gap, could provide capacity because its complete reference model preserved independent entry points.
@@ -275,7 +275,7 @@
 - **Search terms:** multiple growing regions, original-coordinate plan, reverse-order insertion, pointer-site shift, pointer-target shift
 - **Observed scope:** Multiple expanded data ranges followed by pointers, directories, and structure addresses in PC-98 game files.
 - **Failure context:** Changes safe in isolation could miss or duplicate corrections when later edits used already-shifted positions, or when pointer storage sites and pointer targets received the same accumulated delta.
-- **Evidence:** Every change was planned in original coordinates and growing ranges were applied in descending original-offset order. Storage-site and target deltas were calculated separately; directory and following structures were assigned their final positions once. Structural re-audit, disk readback, visible output, branches, and RAM pointers checked the combined result.
+- **Evidence:** Every change was planned in original coordinates and growing ranges were applied in descending original-offset order. Storage-site and target deltas were calculated separately, and following structures were assigned their final positions once. Static and runtime checks then covered the combined artifact.
 - **Established result:** Original-coordinate planning, reverse application, and separate site-versus-target shifts moved each position-dependent structure exactly once.
 - **Transfer limit:** Use reverse application only for an established set of original-coordinate variable ranges and following structures. Re-enumerate references, interior entry points, structure addresses, fixed constants, and load capacity on new input.
 - **Related criteria:** `references/strategy/reinsertion.md` §1.2·§2·§3, `references/strategy/build-and-verify.md` §3·§4, `references/conventions/project-conventions.md` §5.2.
@@ -463,7 +463,7 @@
 ## A glyph mapping may be range-local
 
 - **Search terms:** false global glyph map, range-local mapping, first-occurrence order, later text corrupt, unknown mapping switch
-- **Observed scope:** Message text and a built-in 16x16 4bpp glyph pool in a Saturn title.
+- **Observed scope:** Message text and a built-in glyph pool in a Saturn title.
 - **Failure context:** Early samples suggested first-occurrence glyph order, so each new code across the file was assigned the next global glyph slot. Later kanji messages decoded incorrectly.
 - **Evidence:** The glyph pool exceeded the number of globally found codes, the same code selected different glyphs by range, the global map rendered broken messages, and runtime consumers read different contiguous glyph regions.
 - **Established result:** A single file-wide map was rejected. No global extraction or reinsertion map was adopted while the range-switch rule remained unknown.
@@ -645,7 +645,7 @@
 - **Search terms:** false Hangul PoC, bytes reach VRAM, wrong tile, legibility, reachability versus visibility
 - **Observed scope:** An early graphics-tile PoC and a later dialogue-font PoC in the same SNES project.
 - **Failure context:** Patched bytes matched VRAM, but the changed tile was decoration or blank space and did not form legible Hangul.
-- **Evidence:** Magnified runtime captures disproved the first interpretation. A later 16×16 dialogue path connected storage, load, transformation, and display and showed several legible Hangul glyphs together in the dialogue box.
+- **Evidence:** Magnified runtime captures disproved the first interpretation. A later dialogue path connected storage, load, transformation, and display and rendered legible Hangul in the dialogue box.
 - **Established result:** The first experiment proved asset reachability only; the later experiment proved both reachability and visible Hangul.
 - **Transfer limit:** Storage and VRAM byte agreement does not prove the intended glyph or its legibility.
 - **Related criteria:** `references/strategy/poc.md` §3, `references/strategy/runtime-assets.md` §2, `references/strategy/font-strategy.md` §6.
@@ -689,3 +689,53 @@
 - **Established result:** The reused buffer did not clear unwritten cells; blank slots and unused cells required explicit space data.
 - **Transfer limit:** Re-derive slot width, count, reuse order, and clearing behavior for each consumer. Do not transfer the numeric limits.
 - **Related criteria:** `references/strategy/translation-workflow.md` §4, `references/strategy/reinsertion.md` §4·§6, `references/strategy/runtime-assets.md` §2, `references/strategy/build-and-verify.md` §5.
+
+## Composed name input needs one identity across editing, storage, and reuse
+
+- **Search terms:** Hangul name input, composition state, committed name record, save reload, dynamic name glyph, redisplay mismatch
+- **Observed scope:** Hangul name entry in the Japanese Game Boy Color release of Arle no Bouken, limited to a declared repertoire.
+- **Failure context:** A smaller fixed candidate table could prove selection and one dialogue, but it could not provide the adopted repertoire or establish that later consumers and saved records used the same syllable identity.
+- **Evidence:** Editing state, the committed record, dialogue rendering, save data, title continuation, and field redisplay were bound to one identity. The declared repertoire was checked against both a reference model and the generated implementation; representative controller input then survived save, power cycle, and reload.
+- **Established result:** Name support required one validated identity from input state through the committed record and every redisplay and persistence boundary, while static exhaustive coverage and representative runtime evidence remained separate claims.
+- **Transfer limit:** Re-derive candidate order, edit stages, record structure, supported repertoire, save format, and every consumer. A same-process power cycle does not prove fresh-process persistence, and representative names do not provide human visual approval of the complete repertoire.
+- **Related criteria:** `references/strategy/name-entry.md` §2·§4·§6, `references/strategy/font-strategy.md` §3, `references/strategy/runtime-assets.md` §2, `references/strategy/build-and-verify.md` §4·§5.
+
+## Residual correction turned composition into exact glyph compression
+
+- **Search terms:** compositional Hangul compression, residual rows, XOR correction, exact glyph reconstruction, finished-font bank budget
+- **Observed scope:** Runtime reconstruction of name glyphs for a finite Hangul repertoire in the Japanese Game Boy Color release of Arle no Bouken.
+- **Decision context:** Storing every finished glyph exceeded the chosen bank budget, while exposing a rough component-only result would have reduced the approved visual target.
+- **Evidence:** Common initial-medial and final components were combined, and only differing rows received sparse XOR corrections. An independent decoder and the generated target implementation reproduced every declared finished glyph exactly and rejected undeclared combinations.
+- **Established result:** Composition served as a compression basis rather than the visible font style; bounded residual data restored the tracked finished glyphs exactly within the measured bank.
+- **Transfer limit:** Recompute component classes, residual population, serialized indexes, code size, and output equivalence for the target font and cell. The measured savings and source-font choice do not transfer to another repertoire or renderer.
+- **Related criteria:** `references/strategy/font-strategy.md` §2.2·§4, `references/strategy/name-entry.md` §5, `references/strategy/build-and-verify.md` §1.
+
+## Retained display slots define glyph co-residency across transitions
+
+- **Search terms:** stale line buffer, glyph codebook transition, retained glyph set, retained tile code, dynamic font page
+- **Observed scope:** Dynamic dialogue pages and dialogue-to-menu transitions in the Japanese NES release of Fire Emblem.
+- **Failure context:** Individual pages and a static integrated image fit their glyph budgets, but the next record left prior line slots visible while selecting a new codebook, so retained tile codes changed meaning.
+- **Evidence:** Writer and clear paths showed that record initialization retained prior line buffers. Requiring every glyph in the record to coexist was unnecessarily large; requiring only glyphs still present in retained slots fit. Runtime then exposed a separate loss of the completed page during the following menu state.
+- **Established result:** The required working set and code assignment were defined by observed transitions, retained physical slots, dynamic insertions, and release timing, not by isolated page demand or an unconditional union of all records.
+- **Transfer limit:** Enumerate writers, clears, visible transitions, inserted values, and codebook changes for the target. Re-derive which slots persist and require one compatible mapping only for their proven shared lifetime.
+- **Related criteria:** `references/strategy/font-strategy.md` §3, `references/strategy/runtime-assets.md` §2, `references/strategy/reinsertion.md` §6, `references/strategy/build-and-verify.md` §4·§5.
+
+## Manual layout decisions must precede faithful static previews
+
+- **Search terms:** inferred dialogue layout, static preview approval, explicit page ranges, presentation evidence
+- **Observed scope:** Dialogue translation review for the Japanese PlayStation release of Puyo Puyo Box.
+- **Failure context:** Automatic wrapping and inferred line proportions produced plausible images before actual window, page, line, and control placement had been decided, risking approval of a layout that was not derived from the game.
+- **Evidence:** The review path rejected inferred previews, kept wording selection separate, and required explicit ordered text ranges tied to the chosen text, controls, and geometry before static reproduction. Static previews, runtime reached through intervention, and natural runtime remained distinct evidence.
+- **Established result:** A static preview became faithful evidence only after layout was an explicit input; it did not itself decide layout, approve wording, or prove runtime consumption.
+- **Transfer limit:** Use automatic layout when a complete deterministic consumer model establishes it. Otherwise require the target's actual geometry and the necessary human layout decision, and revalidate downstream evidence whenever text, controls, or geometry changes.
+- **Related criteria:** `references/strategy/translation-workflow.md` §5.6, `references/strategy/build-and-verify.md` §5, `references/conventions/project-records.md` §7.2.
+
+## Relocated call-like controls need an explicit resume target
+
+- **Search terms:** call-like text control, return address, relocated continuation, physical successor, resume target
+- **Observed scope:** Text continuations using call and return controls in the Japanese Sega Saturn release of Waku Waku Puyo Puyo Dungeon.
+- **Failure context:** Relocating a continuation preserved its terminal control bytes but changed the physical byte immediately after the call-like control, so return resumed at the wrong content.
+- **Decisive test:** Consumer analysis showed that the control saved the token-following address before jumping to a shared block. The relocated path restored that resume meaning explicitly, and a real source entry verified the return path rather than only terminal-byte equality.
+- **Established result:** Control-token preservation was insufficient because physical placement participated in control flow; relocation had to preserve or explicitly reconstruct the original resume meaning.
+- **Transfer limit:** Re-derive call depth, pushed address, target base, return operation, physical adjacency, and nested continuation behavior. Do not treat every branch-like token as a call or reuse the observed control values.
+- **Related criteria:** `references/strategy/text-extraction.md` §4.4, `references/strategy/reinsertion.md` §1.2·§3, `references/strategy/build-and-verify.md` §5.

@@ -27,6 +27,7 @@ For an existing repository, reconstruct the current code, documents, artifacts, 
 |---|---|---|
 | Initial survey | `references/strategy/initial-survey.md` | Completion-critical conditions, real dependency boundaries, initial volume, unresolved populations, and revision-specific facts |
 | Fonts and encoding | `references/strategy/font-strategy.md` | Code-to-glyph mapping, total repertoire, active working set, representation, and runtime reachability |
+| Name entry and user strings | `references/strategy/name-entry.md` | Input repertoire, editing state, committed records, glyph supply, redisplay consumers, and persistence |
 | Text extraction | `references/strategy/text-extraction.md` | Population and volume, consumer-defined boundaries and tokens, reversible artifacts, and round trips |
 | PoC | `references/strategy/poc.md` | Whether a PoC is needed and what a visibility proof, representative end-to-end path, or conditional proof must establish |
 | Reinsertion and hooks | `references/strategy/reinsertion.md` | Boundary policies, reference completeness, hooks, space, and consumer invariants |
@@ -58,17 +59,19 @@ Read a platform document only when a constraint involving hardware, the medium, 
 | PC Engine and CD-ROM² | `references/platforms/pce.md` |
 | PC-98 | `references/platforms/pc98.md` |
 | Game Gear | `references/platforms/gg.md` |
+| Game Boy and Game Boy Color | `references/platforms/gb.md` |
+| NES and Famicom | `references/platforms/nes.md` |
 | Nintendo DS | `references/platforms/nds.md` |
 
 For an unlisted platform, establish only the constraints that can change the current decision.
 
-Whenever the judgment area or a reproduced symptom changes, compare it against the `Read when` entries in `references/tips/README.md`. Re-establish the selected case's `Transfer limit` in the current target. Determine completion from its `Related criteria`, never from resemblance to the case.
+When a reproduced symptom or judgment area may match prior evidence, search `references/tips/README.md` by symptom, structure, or technical term and read only the relevant cases. Re-establish a selected case's `Transfer limit` in the current target. Determine completion from its `Related criteria`, never from resemblance to the case. Absence of a matching case does not delay evidence available from the target itself.
 
 ## Decision flow
 
 - Define the intended completion scope and every condition that must hold within it.
 - Investigate unresolved conditions that would make completion impossible or force a major redesign before optimizing lower-risk work. Compare cost only between evidence that resolves the same condition while preserving the same prerequisite state and proof scope.
-- Investigate independent boundaries in parallel. When new evidence overturns a decision, return the affected claims to their causal boundary and reassess what depended on them.
+- Treat independent boundaries as separable. Investigate them in parallel when that improves the available evidence or reduces delay, provided their evidence baselines remain distinct. When new evidence overturns a decision, return the affected claims to their causal boundary and reassess what depended on them.
 - A representative PoC may run alongside a population survey. Before scaling translation to the full distribution scope, determine population and volume through `references/strategy/text-extraction.md` §1.5. Determine glyph demand and supply from the first-draft corpus through `references/strategy/translation-workflow.md` §5.4 and `references/strategy/font-strategy.md` §3.
 - Do not grow a finite file or asset population one runtime observation at a time. Enumerate and partition it by consumer path through `references/strategy/initial-survey.md` §2.5, then limit runtime claims through `references/strategy/runtime-assets.md` §2. When the same change must be repeated across that population, size it against the whole population before adopting the first instance; `references/strategy/reinsertion.md` §1 owns shared banks, extents, buffers, and slot pools.
 - For finite display areas, distinguish observed source usage, confirmed consumer capacity, and the adopted display range through `references/strategy/translation-workflow.md` §4. Expand supply before reducing meaning; require human approval for any meaning or voice loss.
@@ -95,7 +98,7 @@ These determine how every other decision is made. Apply them in every judgment a
 - **Assign the first draft of free prose to the current agent or to subagents that share the same evidence baseline and context.** Use another model or agent only for a scope that a human has approved after evaluating representative samples from the real target. Volume, speed, or cost does not justify an unverified translator. See `references/strategy/translation-workflow.md` §3.1.
 - **Reserve final judgment of free prose for humans.** Automated checks and language heuristics may identify candidates and impact, but they do not replace translation review. Automation may reject only violations with human-approved scope and thresholds, or violations with a determinate truth value such as protected information and proven consumer constraints. Human review of the declared localization scope is a release-candidate requirement; development continues under `references/conventions/translation-artifacts.md` §5. See `references/strategy/translation-workflow.md` §5.1 and §5.4.
 - **Call a human for matters of preference, not technical difficulty.** A judgment that depends on taste, such as meaning, voice, naturalness, adaptation, or presentation, belongs to a human. Technical obstacles remain the agent's responsibility: establish the missing observation through `references/strategy/debugging.md` §2.1, or report the check as not run. Volume, time, or an unavailable tool does not turn a technical problem into a human decision.
-- **Preserve every completion condition within the unit intended to prove it.** Such a unit includes all boundaries that must hold together and the hardest established constraint. If diagnosis uses smaller units, return the result to the original completion condition before accepting it. See `references/strategy/poc.md` §4.
+- **Relate local evidence to the completion condition it informs.** Use smaller units when they provide the most discriminating evidence, but state what the result establishes and what remains unresolved. When adoption or completion is at issue, make clear whether the cumulative primary build includes it. A local pass may guide the next investigation; it must not silently narrow the declared scope or become evidence for a condition it did not test. See `references/strategy/poc.md` §4 and §6.
 - **Require evidence for one complete path.** Do not add component-level successes and call the sum complete. Verify every declared change together in one build produced from the immutable source and approved inputs through the primary build path. Mark only populations, boundaries, and consumer rules with established coverage as complete. Partial success that leaves a completion-critical condition unresolved is not evidence for that condition.
 - **Treat prior structures and numbers as hypotheses.** Do not transfer script formats, pointer rules, control codes, free-space amounts, or capacity figures before they are verified on the target revision through the actual consumer, even across the same platform, developer, or series.
 - **Supply the main character set from an established, verifiable font.** Do not draw the body font merely for PoC convenience. Limit custom glyph work to local omissions or established UX needs. See `references/strategy/font-strategy.md` §4.

@@ -133,9 +133,11 @@ An automated check may identify translation-defect candidates and affected scope
 
 Judge semantic impact by whether an error would materially change player understanding, choice, progression, relationships, or authorial intent, not by a fixed ranking of quality categories. Record options and evidence for conflicts in source interpretation, new wording, adapted wordplay or cultural elements, and uncertain speaker identity or relationships. Human approval is required. One unresolved high-impact judgment blocks the affected unit from distribution eligibility.
 
-### 5.4 Timing of human review for the complete distribution scope
+### 5.4 Invalidation boundary for complete-scope human review
 
-The first-draft corpus is an input for measuring representation demand. Human review of the complete distribution scope must finish before release-candidate judgment, but should begin only after the integrated development build establishes that:
+The first-draft corpus is an input for measuring representation demand. Human review of the complete distribution scope must finish before release-candidate judgment. Before investing in review whose result depends on final glyph supply, render reachability, or layout, determine whether unresolved technical work can invalidate it. Delay only the affected review scope; independent wording, terminology, voice, or source-interpretation decisions may proceed when their evidence is stable.
+
+For review that depends on those technical conditions, establish that:
 
 - unique glyphs from the corpus and runtime insertions fit and can be supplied under the total-repertoire and active-working-set budgets in `references/strategy/font-strategy.md` §3;
 - that supply reaches target render paths through `references/strategy/runtime-assets.md` §2 or equivalent evidence; and
@@ -143,7 +145,7 @@ The first-draft corpus is an input for measuring representation demand. Human re
 
 Check mapping and coverage mechanically across the complete corpus and runtime insertions. Judge distinct consumer paths with representative runtime evidence or existing equivalent evidence. One-glyph PoC or partial sample does not prove complete-corpus capacity. When a design fails, change supply, loading, or mapping and reverify the same demand and paths.
 
-Human decisions needed earlier for terminology, voice, or high-impact source interpretation may proceed. If glyph reduction changes meaning or voice, obtain approval at that point. Limit early review to necessary decisions. If later review introduces new glyph or state-specific demand, return the affected scope to glyph-budget and consumer-path assessment.
+Human decisions about terminology, voice, or high-impact source interpretation may proceed whenever their evidence is stable. If glyph reduction changes meaning or voice, obtain approval at that point. If later review introduces new glyph or state-specific demand, return only the affected scope to glyph-budget and consumer-path assessment.
 
 ### 5.5 Second review of a first draft
 
@@ -157,6 +159,25 @@ First draft -> independent second review -> options and evidence to a human -> h
 The second review must not assume the first draft's conclusion. In a separate review context, compare source, approved basis, speaker and scene evidence, and protected and consumer constraints again. When meaning, wording, or voice has alternatives, present options, evidence, impact, and a recommendation instead of silently overwriting the draft. Agreement between two generations does not constitute approval of quality. Human approval remains final, and affected units remain ineligible until then.
 
 Independence means a review that does not take the first draft's reasoning or conclusion as the answer. It does not require a specific model, service, or execution mechanism.
+
+### 5.6 Separate wording, layout, presentation, and runtime decisions
+
+Do not use one approval state for decisions with different evidence and invalidation rules. When layout or presentation requires human judgment, distinguish at least:
+
+- **Wording selection**: the human-approved translated expression.
+- **Explicit layout**: the selected text assigned to established windows, pages, lines, and control positions.
+- **Mechanical validation**: protected information, terminology, glyph, encoding, control, and established geometry checks.
+- **Presentation approval**: a human judgment of the exact text and layout shown by identified evidence.
+- **Runtime verification**: the exact build consumed the text through the actual renderer under recorded execution conditions.
+- **Build eligibility**: all required upstream decisions and checks for the selected build input remain valid.
+
+A correct screen does not approve meaning, and approved wording does not establish layout or runtime consumption. Automatic layout is acceptable only when established consumer rules determine the result. If geometry or page assignment remains unresolved, do not generate an inferred preview and present it for approval.
+
+Bind each layout to identities for the selected text, source text and control topology, and established geometry. Bind presentation approval to that layout and the exact evidence. An upstream change invalidates its dependent decisions without erasing independent decisions that remain applicable. For example, a layout change invalidates presentation approval but need not invalidate unchanged wording; a text change requires layout and downstream evidence to be reassessed.
+
+Label evidence by what produced it. Static reproduction uses established assets, geometry, and explicit layout but does not prove emulator execution or runtime residency. Intervened runtime uses the game's consumer after a recorded state or call intervention but does not prove the bypassed natural route. Natural runtime reaches the target through the declared play path on the exact build but does not prove unobserved branches.
+
+Record these decisions and evidence bindings through `references/conventions/project-records.md` §7.2. Human approval remains required only where meaning or presentation depends on judgment; mechanically derived layout and runtime facts remain technical checks.
 
 ## 6. Distribution eligibility
 

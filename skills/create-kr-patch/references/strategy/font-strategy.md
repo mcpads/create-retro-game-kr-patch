@@ -37,11 +37,13 @@ For a fixed supported revision, treat exhaustively verified code sets and mappin
 
 ### 2.2 Precomposed and compositional Hangul
 
-- Consider precomposed glyphs when the total repertoire fits and the existing one-code-to-one-glyph path can consume it.
-- Consider composition when the total repertoire cannot fit, supply cannot be expanded, and an additional jamo composition, placement, and clearing path can be verified.
-- An existing composition or dynamic glyph path is only a candidate. Verify its input range and state lifetime before applying it to Hangul.
+- Consider a fixed precomposed representation when the target can accommodate its code, storage, active-slot, and consumer-path requirements.
+- Consider composition or a hybrid representation when the target can accommodate its component storage, mapping, runtime generation, clearing, and lifetime requirements.
+- Treat an existing composition or dynamic glyph path as one candidate. Verify its input range, state lifetime, and output before adopting it.
 
-Neither representation guarantees readability in a small cell or layout fitness. Judge the target output.
+No representation guarantees readability, layout fitness, or lower total cost. Compare candidates against the measured repertoire, storage, active working set, runtime work, and visual target.
+
+When a representation compresses an established finished font, define the supported output and verify every glyph against the declared pixel or visual equivalence. Verify serialized data with an independent decoder. Apply `references/strategy/name-entry.md` §5 when the representation serves player-created text.
 
 ## 3. Total repertoire and active working set
 
@@ -50,7 +52,7 @@ Neither representation guarantees readability in a small cell or layout fitness.
 | Budget | Compared population | Typical constraints |
 |---|---|---|
 | **Total repertoire** | Every unique glyph required by the distribution corpus and runtime inputs | Code space, on-media storage, persistent mapping and catalog representation |
-| **Active working set** | Glyphs that must coexist during one screen, scene, or frame interval | Active RAM or VRAM, texture slots, index representation, transfer and replacement timing |
+| **Active working set** | Glyphs that must coexist throughout their proven consumption lifetime, including transitions across which slots remain live | Active RAM or VRAM, texture slots, index representation, transfer and replacement timing |
 
 Only a design that keeps every glyph in fixed one-to-one slots may use the smaller budget as a global glyph limit. With verified dynamic loading or remapping, compare the complete corpus with the total-repertoire budget and each runtime state with the active budget separately.
 
@@ -66,6 +68,8 @@ Before finalizing corpus demand, establish distribution scope and unresolved reg
 4. Count non-glyph resources, unused slots, or source glyphs eliminated by complete translation as supply only after excluding every reference and state. State whether this expands total repertoire or active working set.
 5. If total repertoire is insufficient, establish the exact bottleneck and determine whether supply can expand. Vocabulary reduction or character substitution requires human approval when it changes approved terminology, names, hints, characterization, meaning, or voice.
 6. If the active budget is smaller than a state's working set, prove that load, replacement, pinning, and release preserve every glyph throughout its consumption lifetime. Otherwise the dynamic design fails.
+
+For player-created text, total demand includes the complete allowed input set rather than only the translated corpus. Apply `references/strategy/name-entry.md` §1 and §5 to membership, stored identity, composition, and later consumer demand.
 
 When demand must shrink, do not rank candidates by occurrence count alone. Compare the unique-glyph delta, distribution by scene, speaker, and function, available synonymous phrasing using existing glyphs, and effects on approved terminology, names, hints, and characterization. Replacing many occurrences of one glyph saves one slot; introducing another glyph may save none.
 

@@ -16,6 +16,7 @@ The labels below correspond to the strategy documents routed from `SKILL.md`. Co
 |---|---|
 | Initial survey | `references/strategy/initial-survey.md` |
 | Fonts and encoding | `references/strategy/font-strategy.md` |
+| Name entry and user strings | `references/strategy/name-entry.md` |
 | Text extraction | `references/strategy/text-extraction.md` |
 | PoC | `references/strategy/poc.md` |
 | Reinsertion and hooks | `references/strategy/reinsertion.md` |
@@ -99,6 +100,11 @@ The labels below correspond to the strategy documents routed from `SKILL.md`. Co
 | Selection highlighting depended on data and consumer range | Graphics text / Runtime assets / Reinsertion and hooks / Build and verification | Highlighting covers only the source-length prefix of a translated row | SNES | `references/tips/general/cases.md#selection-highlighting-depended-on-data-and-consumer-range` |
 | Pointer tables may not be reread between states | Text extraction / Reinsertion and hooks / Runtime assets | Changing a second table entry has no effect after a transition | SNES | `references/tips/general/cases.md#pointer-tables-may-not-be-reread-between-states` |
 | Reused slots retain unwritten data | Translation / Reinsertion and hooks / Runtime assets / Build and verification | Short or empty entries leave old cells in a scrolling buffer | SNES | `references/tips/general/cases.md#reused-slots-retain-unwritten-data` |
+| Composed name input needs one identity across editing, storage, and reuse | Name entry and user strings / Fonts and encoding / Runtime assets / Build and verification | Name selection works, but committed or reloaded names differ in later consumers | Game Boy Color | `references/tips/general/cases.md#composed-name-input-needs-one-identity-across-editing-storage-and-reuse` |
+| Residual correction turned composition into exact glyph compression | Fonts and encoding / Name entry and user strings / Build and verification | Component composition fits storage but must reproduce a finished font exactly | Game Boy Color | `references/tips/general/cases.md#residual-correction-turned-composition-into-exact-glyph-compression` |
+| Retained display slots define glyph co-residency across transitions | Fonts and encoding / Runtime assets / Reinsertion and hooks / Build and verification | Each page fits alone, but old lines corrupt after the next record or menu transition | NES | `references/tips/general/cases.md#retained-display-slots-define-glyph-co-residency-across-transitions` |
+| Manual layout decisions must precede faithful static previews | Translation / Build and verification | A plausible preview exists before page, line, and window placement are established | PlayStation | `references/tips/general/cases.md#manual-layout-decisions-must-precede-faithful-static-previews` |
+| Relocated call-like controls need an explicit resume target | Text extraction / Reinsertion and hooks / Build and verification | A relocated continuation keeps its control bytes but returns to the wrong content | Saturn | `references/tips/general/cases.md#relocated-call-like-controls-need-an-explicit-resume-target` |
 
 ## Platform-specific cases
 

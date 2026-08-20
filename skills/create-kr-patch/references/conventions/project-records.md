@@ -24,6 +24,7 @@ Regardless of format, distinguish:
 - **Observation and interpretation**: Separate direct observation, unverified hypothesis, and conclusion established through isolation.
 - **Evidence location**: Link hashes, dumps, screenshots, traces, disassembly, and reproduction steps needed to reassess a decision.
 - **Decision**: Distinguish pass, fail, and unresolved; retain both criteria and observed result.
+- **Claim relation**: When a local result could be mistaken for broader completion, keep visible which larger decision or completion condition it informs, whether the current cumulative build incorporates it, and which relevant conditions remain unresolved. Projects may express this in their existing status vocabulary.
 - **Human approval**: Where a decision requires it, identify the approving human, the exact scope and version approved, and the change that invalidates it.
 - **Next action**: On failure identify the rejected assumption; when unresolved identify the observation that distinguishes the current possibilities; on pass identify promoted knowledge or the next step.
 - **State intervention**: For a target state created by a cheat, state edit, or forced routine call, identify exact baseline, pre-intervention state, edited target and value or call conditions and arguments, bypassed play and code path, post-intervention state, and proved and unproved scope. Do not mix intervention with patch changes or evidence of normal-play reachability.
@@ -92,8 +93,9 @@ Keep each PoC decision as one record independent of other decisions. Existing re
 | `criteria` | Pass, fail, and unresolved criteria plus next action for each |
 | `procedure` | Minimal reproducible intervention and baseline build |
 | `result` | Observation, evidence location, and decision |
-| `proved` | Established result adopted into implementation after pass |
+| `proved` | Claim established within the experiment's declared proof scope |
 | `not_proved` | Scope that the experiment cannot generalize to |
+| `claim_relation` | Larger decision affected, relationship to the current cumulative build, and remaining conditions |
 | `discarded` | Rejected assumptions and temporary artifacts excluded from implementation |
 | `next` | Follow-up or skipped verification with reason |
 
@@ -142,7 +144,27 @@ A round binds baseline build, verification scope, issues, coverage, and closure.
 
 For each text display region, record region ID, renderer and box scope, width calculation, line and page limits, state effects of line and page controls, and violation severity. Keep observed source usage, confirmed consumer capacity, and adopted display range distinct under `references/strategy/translation-workflow.md` §4. Apply `references/strategy/build-and-verify.md` §5 to presentation and interaction. For the applicable states, record the state matrix, starting state and input sequence, reference points and tolerances for progression, voice, and events, and the visual baseline and comparison conditions. Measure concrete values on the target game.
 
-### 7.2 Individual issues
+### 7.2 Translation, layout, and presentation review
+
+When a project reviews translated presentation, keep wording, layout, mechanical checks, presentation judgment, runtime evidence, and build eligibility as separate facts under `references/strategy/translation-workflow.md` §5.6. Preserve an equivalent existing record system; optional meanings include:
+
+| Example field | Meaning |
+|---|---|
+| `unit_id` | Stable translation or display unit |
+| `wording_basis` | Selected text identity, approval scope, approver, and the baseline that would invalidate it |
+| `layout_basis` | Selected-text hash, source-text and control-topology identities, geometry identity, and explicit ordered window, page, and line assignment |
+| `mechanical_result` | Protected, terminology, glyph, encoding, control, and geometry results from the owning checks |
+| `evidence_class` | Static reproduction, intervened runtime, or natural runtime |
+| `evidence_identity` | Exact build, layout, environment, intervention when applicable, capture or trace identity, and content hash |
+| `presentation_decision` | Approved, revision required, or evidence insufficient, with human rationale when judgment is required |
+| `runtime_result` | Consumer path, reached state, observed output, proved scope, and unproved scope |
+| `eligibility` | Derived build-input decision and the failed upstream condition when ineligible |
+
+A browser selection, screenshot, local cache, or mutable preview path is not the approval record. Store the decision in the project's versioned source of truth and retain derivative evidence outside the repository when required by rights, size, or environment constraints, while keeping its identity and reproduction conditions in the record.
+
+Do not label static reproduction as in-game or runtime evidence. Do not create a static reproduction from inferred line or page assignment when the target requires unresolved human layout. When automatic layout follows a complete deterministic consumer model, record that model and its mechanical result rather than fabricating a human layout decision.
+
+### 7.3 Individual issues
 
 | Example field | Meaning |
 |---|---|

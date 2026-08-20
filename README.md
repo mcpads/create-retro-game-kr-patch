@@ -7,7 +7,7 @@ ROM·디스크 분석, 텍스트 엔진 역공학, 한글 폰트·인코딩 설�
 
 ## 지원 플랫폼
 
-SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS는 플랫폼 문서를 따로 둔다. 목록에 없는 플랫폼에도 쓸 수 있다.
+Game Boy·Game Boy Color, NES·Famicom, SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS는 플랫폼 문서를 따로 둔다. 목록에 없는 플랫폼에도 쓸 수 있다.
 
 ## 프로젝트 템플릿
 
@@ -66,7 +66,7 @@ skills/
     references/
       strategy/          # 판단 영역별 기준과 검증 방법
       conventions/       # 저장소 역할·데이터·기록 시행 규약
-      platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 9종
+      platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 11종
       tips/
         general/         # 플랫폼 규칙 없이 적용되는 검증된 사례
         platforms/       # 그 플랫폼 규칙이 있어야 성립하는 사례

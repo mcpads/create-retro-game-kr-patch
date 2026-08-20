@@ -14,6 +14,8 @@ The build and distribution path must satisfy all of these conditions:
 
 The primary build must combine every adopted translation, glyph, mapping, reinsertion, code, and container change into one result made from the immutable source. Successful component checks or PoC artifacts do not prove integration. The combined result must pass its declared static and runtime criteria. A development build follows the input policy in `references/conventions/translation-artifacts.md` §5, but every adopted technical change must still enter the same build. Keep it producible: runtime verification and `references/strategy/debugging.md` §2.1 diagnosis consume it. Attribute post-integration evidence to that exact result.
 
+This integration boundary does not prescribe when independent diagnostics, design work, or parallel investigations must occur. Until a result enters the cumulative build, interpret it within its proved scope and keep its relationship to remaining completion conditions visible.
+
 When one supported revision and every member of a finite population have been established, use verified locations, expected bytes, and reference catalogs as the specification for that revision and reject mismatches. Derive addresses, sizes, and checksums that depend on translation length, glyph count, or placement from the build result. Do not silently promote new heuristic candidates into the specification during repeated builds (`references/strategy/initial-survey.md` §3.1).
 
 Turn every mechanically decidable criterion affected by the change into a build check. Do not produce a verified artifact when an applicable encoding, glyph or space budget, layout, length, pointer, compression, or container invariant fails. A change that triggers `references/strategy/runtime-assets.md` §1 must pass both static storage/reference/capacity checks and runtime load/residency/consumption checks.
@@ -72,7 +74,7 @@ Judge final text, presentation, and interaction changes on their actual consumer
 
 - Translation review and the build must use the same constraint model.
 - Include automatic wrapping, control-token state transitions, and worst-case variable insertion when they affect the consumed result.
-- Judge dialogue, menus, and name entry separately when they use different consumers.
+- Judge dialogue, menus, and name entry separately when they use different consumers. For player-created text, apply the interaction, redisplay, and persistence scopes in `references/strategy/name-entry.md` §6.
 - A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling to warnings or human review.
 - Judge glyphs and baked graphics text against the visual completion criteria in `references/strategy/font-strategy.md` §4 and `references/strategy/graphics-text.md` §4, using real backgrounds, palettes, and states.
 - When a window or frame changes size or position, verify actual anchors, clipping, screen bounds, and overlap with portraits, cursors, and adjacent UI.

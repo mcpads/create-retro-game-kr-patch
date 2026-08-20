@@ -80,4 +80,6 @@ When a runtime asset change triggers `references/strategy/runtime-assets.md` §1
 
 Record risk, representativeness, predefined criteria, evidence, proved and unproved claims, rejected choices, and next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
 
-Adopt a successful PoC into the primary build from immutable source and combine it with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5, but components must not remain isolated. Component success becomes project success only after the primary build passes `references/strategy/build-and-verify.md` §1.
+The project may name intermediate states differently, but preserve the distinction among a local result, its adoption into the cumulative build, and the completion claim it supports. A local pass may justify another investigation before integration when that evidence is more useful; keep its unintegrated boundary and remaining conditions explicit rather than treating it as project success.
+
+When a successful PoC is adopted, reproduce its rules through the primary build from immutable source and combine them with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5. Component success becomes project success only after the primary build passes `references/strategy/build-and-verify.md` §1.
