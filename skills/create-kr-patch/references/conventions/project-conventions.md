@@ -24,7 +24,7 @@ Before creating or extending a repository, inspect its current build, tests, doc
 
 Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
-Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then only with a pinned version, explicit inputs and outputs, propagated failures, and tests. Until promoted it must not run in the build; its output enters only under §6.2.
+Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then only with a pinned version, explicit inputs and outputs, propagated failures, and tests of its stable contract under §5.3. Until promoted it must not run in the build; its output enters only under §6.2.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to investigation, PoC, and QA records.
 
@@ -137,18 +137,20 @@ When one stage rebuilds a large file, bank, or sector, distinguish writable subr
 
 Final-diff audit must include length changes, appended tails, and truncated ranges as well as the common source-output extent. Fail unless registered writes and derivation rules explain expected final size and every changed region.
 
-### 5.3 Integration tests
+### 5.3 Build gates and tests
 
 Automate a test only when its expected result follows from an established invariant, data format, or reproduced failure. Assert observable boundary behavior, not incidental line counts, current list sizes, prose wording, or internal call order. A harmless implementation or documentation edit must not require a test change unless the tested contract itself changed.
 
+A value expected to change under valid edits to declared translation, assets, or configuration is a build result, not a stable test expectation. Let the build derive and report current counts, addresses, displacements, sizes, and checksums. Test the invariant relating those values to source identity, capacity, layout, or artifact consistency. Pin an exact derived value only when it belongs to a declared fixed source profile, data format, frozen release artifact, or minimal regression fixture, and state both the contract that fixes it and the condition that permits it to change.
+
 An integration test runs the primary build from declared source, translation, and configuration inputs through final artifacts. It covers at least:
 
-- build completion and output size, header, checksum, and container validity;
+- build completion and the validity and mutual consistency of the output extent, header, checksum fields, and container;
 - translation protected information, glyph coverage, length and layout, and pointer ranges;
 - identity between the built target and the result of applying the distribution artifact to source; and
 - the link between static checks and separate runtime verification required by changed paths.
 
-A test may show that a build gate exists; it must not be the gate. Every criterion that `references/strategy/build-and-verify.md` §1 requires the build to fail on must fail inside the build whether or not a test runs.
+The primary build owns every criterion that `references/strategy/build-and-verify.md` §1 requires it to fail on. A test may show that a gate exists, but it must not be the only path that enforces the gate.
 
 When source media is unavailable, report source-dependent checks as explicitly not run and continue schema, translation, and unit checks that do not require it. Never report a partial run as complete success. Use `references/strategy/build-and-verify.md` for runtime criteria and `references/conventions/project-records.md` for evidence semantics.
 

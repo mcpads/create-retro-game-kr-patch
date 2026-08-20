@@ -20,6 +20,8 @@ When one supported revision and every member of a finite population have been es
 
 Turn every mechanically decidable criterion affected by the change into a build check. Do not produce a verified artifact when an applicable encoding, glyph or space budget, layout, length, pointer, compression, or container invariant fails. A change that triggers `references/strategy/runtime-assets.md` §1 must pass both static storage/reference/capacity checks and runtime load/residency/consumption checks.
 
+The primary build owns these rejections. Tests may exercise them with fixed inputs, but the build must enforce them for its declared product inputs whenever it runs; apply the ownership rules in `references/conventions/project-conventions.md` §5.3.
+
 Every write from the source to the target image must satisfy the final-write verification rules in `references/conventions/project-conventions.md` §5.2. A failed write check must prevent artifact production.
 
 ## 2. Distribution format and image changes
