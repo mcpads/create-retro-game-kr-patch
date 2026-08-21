@@ -35,7 +35,7 @@ Visibility passes only when all of these hold:
 - nearby UI and entry or exit behavior remain intact; and
 - the record distinguishes what the test proved from what it did not prove.
 
-Begin with an established font unless letterform design is the uncertainty under test. Create or edit glyphs only for local missing symbols or verified UX requirements. A temporary glyph proves the path, not release-font completion. Apply `references/strategy/font-strategy.md` §4 to the release-font decision.
+Choose a glyph source that preserves the visibility question without adding unrelated letterform uncertainty. Apply the source, authoring, and transform boundaries in `references/strategy/font-strategy.md` §4. A temporary or candidate glyph proves the declared path, not release-font completion.
 
 ## 4. Representative end-to-end text path
 

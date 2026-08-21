@@ -163,7 +163,7 @@ When source media is unavailable, report source-dependent checks as explicitly n
 
 Do not commit source ROMs or disc images, fully patched output images, or whole graphics, font, audio, and memory dumps extracted from copyrighted source. Ignore rules must cover every actual project input and output location and extension.
 
-Track only project-authored code, documentation, and translation data; distributable artifacts that do not reproduce source; regeneration procedures; hashes; and other material whose distribution rights have been established. Track third-party fonts, tools, and reference assets only after confirming exact license and source and only as permitted. Absence of embedded source content does not by itself establish distribution rights; assess applicable rights and terms.
+Repository-tracked material may include project-authored code, documentation, translation data, selected font and other authored assets, distributable artifacts that do not reproduce source, regeneration procedures, and hashes. Establish the intended distribution basis for every tracked asset. Track third-party fonts, tools, and reference assets only after confirming exact license and source and only as permitted. Apply `references/strategy/font-strategy.md` §4 to selected generatively authored glyph assets. Absence of embedded source content or use of a generative tool does not by itself establish distribution rights; assess applicable rights and terms.
 
 ### 6.2 Source injection and identification
 
