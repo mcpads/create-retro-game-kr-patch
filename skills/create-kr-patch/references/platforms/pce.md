@@ -32,4 +32,4 @@ When moving a file or asset, verify game sector and length tables, read alignmen
 
 Establish encoding, tokens, and pointer boundaries from the real consumer. When adding subtitles to voiced or cutscene paths, connect applicable CD-DA or ADPCM state, VDC BAT or sprite layers, and subtitle lifetime and consumption across scenes and overlays. Judge display, progression, input, and synchronization through `references/strategy/build-and-verify.md` §5.
 
-Hangul visibility through a BIOS font path proves only that path, not new code space, complete glyph supply, or another renderer. Judge remaining conditions through PoCs in `references/strategy/poc.md`.
+Hangul visibility through a BIOS font path proves only that path, not new code space, complete glyph supply, or another renderer. Judge other conditions from target evidence. Use a PoC only when the unresolved condition meets the entry conditions in `references/strategy/poc.md` §1.

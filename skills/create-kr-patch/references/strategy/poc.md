@@ -49,7 +49,7 @@ Use separate units for consumers or risks that do not share the same path. Verif
 - actual load and consumption; and
 - displayed result plus affected regression paths.
 
-Promote reproducible rules, evidence, and checks into the primary path, not the temporary artifact. A temporary code mapping proves the representative scope, not distribution collision freedom. Apply `references/strategy/font-strategy.md` §2.1 to the distribution mapping decision.
+When adopting a successful PoC result, encode any adopted product rules and required checks in the primary path, and keep the supporting evidence linked through `references/conventions/project-records.md` §4. Decide separately under `references/conventions/project-conventions.md` §1 whether the producing procedure belongs in the build; adopting the result does not make the temporary artifact a build input. A temporary code mapping proves the representative scope, not distribution collision freedom. Apply `references/strategy/font-strategy.md` §2.1 to the distribution mapping decision.
 
 One representative unit does not prove total volume. An unresolved population does not invalidate the unit; use `references/strategy/text-extraction.md` §1.5 to decide when enumeration must precede scaling.
 

@@ -24,7 +24,9 @@ Before creating or extending a repository, inspect its current build, tests, doc
 
 Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
-Investigation experiments and one-off transforms stay outside the primary build. Promote one only when repeated builds depend on it, and then only with a pinned version, explicit inputs and outputs, propagated failures, and tests of its stable contract under §5.3. Until promoted it must not run in the build; its output enters only under §6.2.
+Investigation experiments, heuristic discovery, and one-off transforms stay outside the primary build. When a conclusion is adopted, record its evidence scope, applicability, and reassessment conditions alongside the current reverse-engineering specification. Repeated builds verify applicability and consume the specification; reproducibility does not require rerunning the investigation that established it.
+
+Choose separately whether to adopt a result as a specification or make its producing procedure a build component. Put the procedure in the primary build only when its stable contract produces a deterministic result from declared inputs or enforces a gate required on every build. Then pin its version, make inputs and outputs explicit, propagate failures, and test the contract under §5.3. Dependence on an adopted conclusion is not by itself a reason to rerun its discovery procedure. A procedure that still produces candidate evidence rather than a required deterministic output or gate remains outside the primary build; rerun it when an applicability check, reassessment condition, or counterexample reopens the analysis. Handle source-derived inputs under §6.2.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to investigation, PoC, and QA records.
 
@@ -32,7 +34,7 @@ Apply `references/conventions/translation-artifacts.md` to translation meaning a
 
 ### 2.1 One primary path
 
-Extraction, transformation, reinsertion, and patch generation must rerun from source through one documented primary path. A primary build is one run of that path producing artifacts. External components may participate, but the path must fix their adopted version, input, output, options, failure conditions, and output verification. A secondary path must not modify the same artifact independently or inherit an untracked manual result.
+Extraction, transformation, reinsertion, and patch generation must rerun from source through one documented primary path. That path starts from the adopted inputs and specifications under §1; it reconstructs the product, not the investigation history that established them. A primary build is one run of that path producing artifacts. External components may participate, but the path must fix their adopted version, input, output, options, failure conditions, and output verification. A secondary path must not modify the same artifact independently or inherit an untracked manual result.
 
 The primary path must:
 
@@ -72,7 +74,7 @@ Follow the existing project's command and interface conventions. A new interface
 - source input, configuration, translation assets, and output location are explicit;
 - no host-specific absolute path or hidden global state is embedded in code;
 - automation can decide success and failure, and failures identify affected scope and cause;
-- analysis output is stable machine input for later stages rather than parsed human prose; and
+- when a later automated stage consumes analysis output, that output has a stable machine-readable interface rather than requiring human prose to be parsed; and
 - the primary build entry point reaches final artifacts without bypassing required verification.
 
 The project decides whether analysis and build share one interface. Do not add a naming scheme or wrapper over an equivalent existing call path.

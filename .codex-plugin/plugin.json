@@ -1,6 +1,6 @@
 {
   "name": "create-kr-patch",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "레트로 게임 한글 패치 제작 전 과정을 다루는 Agent Skill. ROM/디스크 분석부터 폰트·인코딩 설계, PoC, 추출·번역·재삽입, 빌드, 에뮬레이터 검증까지 다룬다.",
   "author": {
     "name": "mcpads",
@@ -34,7 +34,7 @@
   "interface": {
     "displayName": "Create KR Patch",
     "shortDescription": "Create Korean fan-translation patches for retro games",
-    "longDescription": "A full-pipeline Agent Skill for Korean retro-game fan translation work: ROM and disc analysis, text-engine reverse engineering, Hangul font and encoding strategy, PoC validation, extraction, translation, reinsertion, patch building, and emulator verification.",
+    "longDescription": "An Agent Skill for decisions across Korean retro-game fan translation work: ROM and disc analysis, text-engine reverse engineering, Hangul font and encoding strategy, PoC validation, extraction, translation, reinsertion, patch building, and emulator verification.",
     "developerName": "mcpads",
     "category": "Developer Tools",
     "capabilities": [
@@ -45,7 +45,7 @@
     "websiteURL": "https://github.com/mcpads/create-retro-game-kr-patch",
     "defaultPrompt": [
       "한글 패치 프로젝트를 조사하고 필요한 PoC 검증을 설계해줘.",
-      "ROM 번역 파이프라인의 추출·재삽입 전략을 잡아줘.",
+      "ROM 번역의 추출·재삽입 경계와 통합 전략을 잡아줘.",
       "에뮬레이터 검증 기준까지 포함해 한글화 계획을 세워줘."
     ],
     "brandColor": "#2F855A",

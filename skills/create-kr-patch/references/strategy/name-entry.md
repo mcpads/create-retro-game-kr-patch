@@ -6,7 +6,7 @@ Apply this strategy when the patch supports a player name or other user-created 
 
 Establish the supported input repertoire, maximum logical length, editing commands, completion behavior, and every in-scope consumer of the committed value. Distinguish the intended repertoire from the language's full character population; a finite supported set is valid only when it is declared, mechanically enforced, and adequate for the product scope.
 
-Map the complete path before choosing an encoding or glyph design:
+Treat the complete path as the design boundary. Establish the links that can change the current encoding or glyph decision, and keep unresolved links visible while investigation and design iterate:
 
 ```text
 candidate selection -> partial edit state -> committed record -> display providers -> save representation -> reload consumers
