@@ -18,7 +18,7 @@ Establish the adopted format interpretation from the target consumer's read sema
 - output size, alignment, buffer, and destination limits; and
 - the consumer and protected range of each container field.
 
-Do not invent values for fields whose consumption is unresolved. Preserve the source value or generate it from a public specification. If neither choice is justified, mark the variant unresolved and withhold the affected artifact and support claim. Present continued investigation, redesign, or scope exclusion with their cost and effect when a human product-scope decision is required; record that decision under `references/conventions/project-records.md` §1.1.
+Do not invent values for fields whose consumption is unresolved. Preserve the source value or generate it from a public specification. If neither choice is justified, mark the variant unresolved and withhold any changed artifact that modifies or depends on that field, together with the corresponding support claim. An unchanged variant may remain inside a broader artifact only when it has stable identity, the build verifies that it remains unchanged under `references/conventions/project-conventions.md` §5.1, and an applicable human scope decision excludes it; the broader artifact must not claim support for that variant. Present continued investigation, redesign, or scope exclusion with their cost and effect when a human product-scope decision is required; record that decision under `references/conventions/project-records.md` §1.1.
 
 ## 3. Decompression verification
 

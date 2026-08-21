@@ -95,7 +95,7 @@ Incomplete human review of the declared localization scope does not block develo
 
 - Every declared change is regenerated from immutable source and approved inputs through the primary build, and component checks plus runtime evidence pass together on that exact result.
 - The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, which record zero unresolved members and evidence for every exclusion.
-- Every declared automated build, application, and runtime check passes.
-- The human-approved quality target and release claims are satisfied, and every known issue and accepted limitation is recorded with its decision authority, scope, player effect, and claim impact.
+- Every declared automated build, application, and runtime check required by the current supported scope and release claims passes against its current recorded criterion. When a human decision changes a quality tolerance, scope, or claim, retain the earlier result against its original criterion and reassess the checks applicable to the new decision through `references/strategy/debugging.md` §6.
+- The current human-approved quality target and release claims are satisfied, and every known issue and accepted limitation is recorded with its decision authority, scope, player effect, and claim impact.
 - Human review of the complete localization scope is complete under `references/strategy/translation-workflow.md` §5.4.
 - Applying the distribution artifact reproduces the verified target image.
