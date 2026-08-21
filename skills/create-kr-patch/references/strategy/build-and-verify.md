@@ -74,7 +74,8 @@ Turn a repeated, objectively decidable regression into a reproducible runtime ch
 
 Judge final text, presentation, and interaction changes on their actual consumer paths. For a finite text scope, evaluate every member against the encoding, width, row, page, and slot model established from that consumer. Activate only criteria present on the target path and plausibly affected by the change.
 
-- Translation review and the build must use the same constraint model.
+- Translation review and the build must use the same identities for established target constraints. Keep those constraints distinct from adopted design choices and measurements derived from current build inputs under `references/strategy/translation-workflow.md` §4.1; failure under the selected design does not by itself reject the wording.
+- The build must consume the exact wording and layout identities selected by its input policy and recorded under `references/strategy/translation-workflow.md` §5.6. It must not silently shorten, substitute, or switch to an unrecorded scope-specific wording selection.
 - Include automatic wrapping, control-token state transitions, and worst-case variable insertion when they affect the consumed result.
 - Judge dialogue, menus, and name entry separately when they use different consumers. For player-created text, apply the interaction, redisplay, and persistence scopes in `references/strategy/name-entry.md` §6.
 - A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling to warnings or human review.
@@ -88,13 +89,13 @@ Judge the release result from Korean encoded output and the actual consumer cond
 
 ## 6. Issue closure and release readiness
 
-Close a defect as fixed through the completion conditions in `references/strategy/debugging.md` §1. Close an issue as original or out-of-scope behavior through `references/strategy/debugging.md` §6. Apply the status and evidence distinctions in `references/conventions/project-records.md` §7.
+Close a defect as fixed through the completion conditions in `references/strategy/debugging.md` §1. Close an issue as original behavior, an accepted limitation, or out of scope only through the evidence and human-decision boundaries in `references/strategy/debugging.md` §6. Apply the status, authority, and evidence distinctions in `references/conventions/project-records.md` §1.1 and §7.
 
 Incomplete human review of the declared localization scope does not block development builds, technical verification, or a pre-release test build that collects it under `references/conventions/translation-artifacts.md` §5. A release candidate must satisfy all of these conditions:
 
 - Every declared change is regenerated from immutable source and approved inputs through the primary build, and component checks plus runtime evidence pass together on that exact result.
 - The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, which record zero unresolved members and evidence for every exclusion.
 - Every declared automated build, application, and runtime check passes.
-- No known critical defect remains, and every accepted limitation is recorded with its scope and effect.
+- The human-approved quality target and release claims are satisfied, and every known issue and accepted limitation is recorded with its decision authority, scope, player effect, and claim impact.
 - Human review of the complete localization scope is complete under `references/strategy/translation-workflow.md` §5.4.
 - Applying the distribution artifact reproduces the verified target image.

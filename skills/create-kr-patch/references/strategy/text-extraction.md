@@ -6,7 +6,7 @@ Establish the consumable text population within the distribution scope and prese
 
 ### 1.1 Supported input
 
-Declare supported source revisions, discs, execution paths, and distribution text scope. Identify a fixed revision by hash and structural expectations. For multiple inputs or unresolved populations, reject unsupported structures explicitly rather than inferring them silently.
+Declare supported source revisions, discs, execution paths, and distribution text scope. When alternatives materially change product support or localization scope, bind the selection to the human strategic decision under `references/conventions/project-records.md` §1.1. Identify a fixed revision by hash and structural expectations. For multiple inputs or unresolved populations, reject unsupported structures explicitly rather than inferring them silently.
 
 ### 1.2 Evidence for text
 
@@ -33,7 +33,7 @@ Establish reference width, endianness, base, bank, and segment from the real con
 - items excluded as non-text or out of scope with evidence; and
 - items whose meaning, boundary, or consumer remains unresolved.
 
-Do not merge unresolved into excluded. If the denominator is not established, report remaining investigation rather than completion.
+Do not merge unresolved into excluded. A non-text exclusion is a technical conclusion supported by consumer or structural evidence; an out-of-scope exclusion cites the applicable human strategic decision under `references/conventions/project-records.md` §1.1. If the denominator is not established, report remaining investigation rather than completion.
 
 ### 1.5 Volume survey before scaling translation
 

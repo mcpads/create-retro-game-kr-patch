@@ -1,12 +1,13 @@
 # Project record conventions
 
-Record initial surveys, PoCs, graphics-text catalogs, HITL observations, and QA issues while keeping evidence, decisions, and next actions distinct. Retain an equivalent existing record system. Field and state names below are optional examples; paths, serialization, and tools are not fixed.
+Record human strategic decisions, initial surveys, PoCs, graphics-text catalogs, HITL observations, and QA issues while keeping evidence, decisions, and next actions distinct. Retain an equivalent existing record system. Field and state names below are optional examples; paths, serialization, and tools are not fixed.
 
 Preserve source and translated text, control codes, and review states under `references/conventions/translation-artifacts.md`. Follow `references/conventions/project-conventions.md` for repository layout and source or derived assets.
 
 ## Contents
 
 1. Common record rules
+   - Human strategic decisions
 2. Record placement
 3. Initial survey records
 4. PoC decision records
@@ -24,13 +25,43 @@ Regardless of format, distinguish:
 - **Observation and interpretation**: Separate direct observation, unverified hypothesis, and conclusion established through isolation.
 - **Evidence location**: Link hashes, dumps, screenshots, traces, disassembly, and reproduction steps needed to reassess a decision.
 - **Decision**: Distinguish pass, fail, and unresolved; retain both criteria and observed result.
+- **Decision authority**: Distinguish an evidence-grounded technical conclusion, an ordinary implementation choice that preserves approved intent, and a human product, scope, quality, support, loss, or investment choice. Do not use one class to stand in for another.
 - **Claim relation**: When a local result could be mistaken for broader completion, keep visible which larger decision or completion condition it informs, whether the current cumulative build incorporates it, and which relevant conditions remain unresolved. Projects may express this in their existing status vocabulary.
 - **Adoption and reassessment**: When an established conclusion becomes part of the current specification, identify the source and consumer scope to which it applies and the changes, mismatches, or contrary evidence that would reopen the analysis. Repeated consumption alone does not invalidate it.
-- **Human approval**: Where a decision requires it, identify the approving human, the exact scope and version approved, and the change that invalidates it.
+- **Human approval**: Where a decision requires it, identify the approving human, the exact scope and baseline approved, and the change that invalidates it.
 - **Next action**: On failure identify the rejected assumption; when unresolved identify the observation that distinguishes the current possibilities; on pass identify promoted knowledge or the next step.
 - **State intervention**: For a target state created by a cheat, state edit, or forced routine call, identify exact baseline, pre-intervention state, edited target and value or call conditions and arguments, bypassed play and code path, post-intervention state, and proved and unproved scope. Do not mix intervention with patch changes or evidence of normal-play reachability.
 
 Collection entries need stable IDs that survive reorder and file moves. Do not use address, offset, or filename alone as identity; separate logical ID from current physical location. Refer to one owning record by ID or project-relative path instead of copying the same fact.
+
+### 1.1 Human strategic decisions
+
+Record a human decision when alternatives materially differ in product or localization scope, quality target, supported targets, accepted semantic or visual loss, accepted limitation, or technical investment and redesign. Do not create an approval step for an ordinary bounded and reversible implementation choice that preserves an already approved intent.
+
+The agent first investigates far enough to present a useful decision rather than transferring technical diagnosis to the human. Preserve these meanings in an existing equivalent decision system or a current strategic-decision register:
+
+| Example field | Meaning |
+|---|---|
+| `decision_id` | Stable identity used by dependent designs, records, and claims |
+| `question` | The material choice and why current evidence requires it |
+| `scope` | Product, population, consumer paths, revisions, and support claims to which the decision applies |
+| `values` | Quality target, semantic or visual priorities, accepted loss, acceptable cost or time investment, and other human criteria that distinguish options |
+| `options` | Feasible choices, including continued investigation when useful, with technical evidence, cost, risk, affected scope, and claim limits |
+| `recommendation` | Agent recommendation and the evidence-sensitive reason for it |
+| `human_decision` | Selected, deferred, or rejected choice, deciding human, rationale, and decision baseline |
+| `effects` | Adopted design constraints, affected work, accepted limitations, and permitted claims; this is not proof that technical gates pass |
+| `reassessment` | New evidence, changed intent, failed assumption, cost change, or scope change that requires the choice to be reviewed |
+| `state` | Proposed, adopted, review required, or superseded, with stable links between replaced decisions |
+
+Manage the decision through this flow:
+
+1. **Frame**: Connect the unresolved boundary to a material human value choice. If one ordinary technical option clearly preserves the current decision, implement it instead of asking again.
+2. **Prepare**: Establish feasible options and the smallest evidence needed to compare their effect, cost, risk, scope, and claim limits. State remaining uncertainty and a recommendation.
+3. **Decide**: Let the human select, defer, or reject the material tradeoff. Record the exact scope and reasoning; do not infer approval from silence or prior investment.
+4. **Apply**: Use an adopted decision as the heuristic basis for later investigation and implementation within its scope. It narrows which outcomes are valuable, but it neither proves target facts nor waives protected-information, build, or runtime gates.
+5. **Reassess**: Reopen only when a recorded trigger occurs or new evidence materially changes the comparison. Mark the current decision as requiring review, present the delta and affected downstream choices, and preserve superseded lineage rather than silently rewriting the old rationale.
+
+An adopted decision is scoped product authority, not a universal strategy. A downstream agent must cite the applicable decision when it changes prioritization, design, accepted limitation, or a release claim, and must keep contrary technical evidence visible.
 
 ## 2. Record placement
 
@@ -79,7 +110,7 @@ Record samples and volume findings needed for initial decisions in machine-reada
 
 ### 3.3 Feasibility assessment
 
-For each risk, retain a `risk_id`, scope, observation evidence, impact, possible workaround, current decision, and next check. When glyph, encoding, storage, active memory, hook, compression, or runtime-asset boundaries can be quantified, retain measurements and limits. Conclude whether to proceed, proceed conditionally, or redesign, and identify remaining uncertainty that can overturn the choice.
+For each risk, retain a `risk_id`, scope, observation evidence, impact, possible workaround, current decision, and next check. When glyph, encoding, storage, active memory, hook, compression, or runtime-asset boundaries can be quantified, retain measurements and limits. Conclude technical feasibility, recommend whether to proceed, proceed conditionally, or redesign, and identify remaining uncertainty that can overturn the recommendation. A material product, quality, support, scope, or investment choice follows §1.1.
 
 ## 4. PoC decision records
 
@@ -179,7 +210,8 @@ Do not label static reproduction as in-game or runtime evidence. Do not create a
 | `mechanism` | Established faulty input -> first incorrect state -> propagation -> observed failure chain |
 | `change` | Fix to the established defect and impact range |
 | `regression` | Pre-fix failure, post-fix pass, and a reference to the added regression check |
-| `issue_state` | Open, investigating, recheck needed, fixed, not a bug, or out of scope |
+| `closure_decision` | Technical closure evidence or the applicable human strategic-decision ID, affected scope, rationale, and claim impact |
+| `issue_state` | Open, investigating, recheck needed, fixed, not a bug, accepted limitation, or out of scope |
 
 Do not use an evidence filename or location as issue title or state. An initial report distinguishes at least baseline, reproduction context, expected and observed results, and decision evidence. Link reusable start state only when it materially reduces reproduction cost.
 
@@ -191,7 +223,8 @@ Builds or dedicated checks verify machine-readable records:
 - Referenced project-relative paths and item IDs exist.
 - Hypotheses and confirmed conclusions do not share one field.
 - Pass, fail, and unresolved decisions include evidence and next action.
-- Closed issues include reproduction baseline and closure evidence.
+- Closed issues include reproduction baseline, closure evidence or applicable human decision, affected scope, and claim impact.
+- Adopted human strategic decisions have scope, options, rationale, effects, and reassessment conditions; at most one decision is current for the same identity and applicability.
 - Resolved plus excluded graphics-text catalog members match the declared denominator without hidden unresolved members.
 - Volume records distinguish exact, lower bound, and estimate and state how unresolved scope affects workload and completion.
 

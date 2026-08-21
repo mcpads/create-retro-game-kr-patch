@@ -1,6 +1,6 @@
 # Initial survey
 
-Reduce uncertainty enough to decide feasibility and the next implementation boundary. Prioritize conditions whose failure would block completion or force redesign. Compare experiment cost only among methods that preserve the same condition, prerequisites, and proof scope.
+Reduce uncertainty enough to decide feasibility and the next implementation boundary. Choose investigations heuristically by expected decision value, dependencies, cost, and reversibility; a completion-blocking or redesign risk often deserves early evidence but does not define a fixed order. Claim that one experiment is a cheaper equivalent only when it preserves the same condition, prerequisites, and proof scope.
 
 ## 1. Questions to answer before completion
 
@@ -125,4 +125,4 @@ Produce:
 
 Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions.
 
-Return work to the next unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. Reopen the declared completion scope only when the boundary's own options are exhausted or its established cause recurs; record which options were rejected and the evidence that closed them. Content left outside a narrowed scope requires an approved exception under `references/conventions/translation-artifacts.md` §5.
+Return work to the next useful unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. If further work presents a materially different product, quality, cost, risk, or support tradeoff, record the evidence, options, and recommendation under `references/conventions/project-records.md` §1.1 and present it for human decision. Do not narrow the declared scope silently. Content left outside a human-approved scope requires an explicit exception under `references/conventions/translation-artifacts.md` §5.

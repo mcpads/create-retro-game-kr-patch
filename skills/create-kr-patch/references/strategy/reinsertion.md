@@ -9,7 +9,7 @@ Reinsertion is not merely writing translated bytes. It must preserve the consume
 | Slot width is the consumer boundary and the translation fits | Preserve length | Terminator, padding, tokens, and over-read |
 | Every moved reference and following position-dependent structure can be updated | Grow in place | Reference completeness, alignment, size, and load |
 | Every consumer can represent and reach a new location | Full relocation | Address representation, loader, buffer, and lifetime |
-| Data and lookup changes cannot satisfy consumption | Consider a code hook | Hook ABI, source effects, return, and installation prerequisites |
+| A code hook is a feasible or preferred design after comparison with applicable data and lookup paths | Consider a code hook | Hook ABI, source effects, return, and installation prerequisites |
 | No condition is established | Policy unresolved | Return to a question that can change the completion decision and choose the least costly equivalent evidence |
 
 Policies may differ by entry or region in one file. When entries share a bank, extent, buffer, or slot pool, size every entry in that pool before adopting the first policy; entries that individually fit can exhaust the pool together. Bind each policy to an established boundary model and stable key. Fail on overflow or unresolved entries. Apply the representation rules in `references/conventions/data-formats.md` §5.
@@ -23,7 +23,7 @@ A fixed-slot policy must satisfy all of these conditions:
 - Padding value and position are not consumed as characters, control arguments, or another field.
 - No multibyte character or control token is truncated automatically.
 
-Overflow must fail the build and require an approved shortening or another policy. Do not set a global padding byte or a universal rule based on position before or after a terminator.
+Overflow must fail the build and identify the established boundary and selected policy. Resolve it through an applicable reinsertion or presentation policy, or through a wording decision under `references/strategy/translation-workflow.md` §4.1 and §5; the current implementation does not make shortening the default. Do not set a global padding byte or a universal rule based on position before or after a terminator.
 
 ### 1.2 Growth and relocation
 
@@ -71,7 +71,7 @@ When one logical change writes several payloads, pointers, or hook sites, verify
 
 ## 4. Code hooks
 
-Choose code intervention only after establishing that existing data, table, and lookup paths cannot meet consumer requirements. A font or encoding change alone does not require a hook.
+Before choosing code intervention, establish what applicable data, table, and lookup paths can meet and compare their impact, cost, and risk with a hook. A font or encoding change alone neither requires nor forbids a hook. A hook may be preferable when it preserves a human-approved product or design choice, but a material tradeoff in quality, scope, support, or technical investment follows the decision record in `references/conventions/project-records.md` §1.1.
 
 A hook must specify and verify:
 
@@ -113,7 +113,7 @@ Apply only invariants present on the target path:
 - **Layout and clearing**: Drawing and clearing extents match every expanded or reduced state without covering adjacent UI or graphics. No stale pixels or tiles remain after page or window transitions, exit, or re-entry.
 - **Shared state**: Identify every writer and transition, and assign initialization, update, and release responsibility.
 - **Encoding coverage**: An unmapped character fails the build; never omit or replace it silently. A development build follows `references/conventions/translation-artifacts.md` §5.
-- **User strings**: If Hangul input is supported, apply `references/strategy/name-entry.md` to editing state, the committed record, every redisplay consumer, and persistence. Otherwise state that it is out of scope.
+- **User strings**: If Hangul input is supported, apply `references/strategy/name-entry.md` to editing state, the committed record, every redisplay consumer, and persistence. An out-of-scope boundary must follow the human product-scope decision in `references/strategy/name-entry.md` §1.
 
 If the presence of an invariant is unresolved, return to consumer investigation rather than treating it as passed.
 

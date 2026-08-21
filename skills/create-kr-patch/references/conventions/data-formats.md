@@ -20,7 +20,7 @@ Apply the single-basis and machine-readable I/O requirements in `references/conv
 - Serialize offsets, addresses, and byte strings with visible radix and width for human review.
 - Represent a population exhaustively established on fixed source input as exact constants or a catalog. The build must not adopt heuristic rediscovery silently. A difference from the established population indicates the source revision or specification must be reassessed. Use `references/strategy/initial-survey.md` §3.1 to decide which values are fixed and which derive from output.
 
-The JSON below is an optional illustration of field meaning. Retain another structure or serialization that provides the same meaning and checks. Apply `references/conventions/translation-artifacts.md` to translator-edited source text, translation, state, tokens, and approvals. Link analysis data and translation assets by stable ID and source identity. Maintain character mappings, pointers, and reinsertion policies, each in a single analysis/build-data location.
+The JSON below is an optional illustration of field meaning. Retain another structure or serialization that provides the same meaning and checks. Apply `references/conventions/translation-artifacts.md` to source text presented to translators, authored wording, state, tokens, and approvals. Link analysis data and translation assets by stable ID and source identity. Maintain character mappings, pointers, and reinsertion policies, each in a single analysis/build-data location.
 
 ## 2. Character mapping tables
 

@@ -85,7 +85,9 @@ Do not expand one issue's regression scope to every game feature.
 
 ## 6. Issue closure
 
-To close an issue as original behavior, reproduce the same scene and input on a supported source build when possible. If that is impossible, record the comparison scope and remaining uncertainty. Similar appearance in another environment does not establish identical behavior.
+Close an issue as fixed only through §1. To close it as original behavior, reproduce the same scene and input on a supported source build when possible. If that is impossible, record the comparison scope and remaining uncertainty. Similar appearance in another environment does not establish identical behavior.
+
+Accepted limitation and out-of-scope closure are human product, quality, support, or scope decisions. Before requesting one, the agent establishes the observed effect, affected population and consumer paths, feasible technical options, cost and risk, and impact on product claims. Record the decision under `references/conventions/project-records.md` §1.1 and link it from the issue record. Such a decision does not turn a failed protected-information, build, artifact-integrity, or runtime check into pass; change the implementation or design, exclude the affected product scope, or narrow the claim. Without fixed or original-behavior evidence or an applicable human decision, the issue remains open.
 
 Retain these safeguards against repeated misdiagnosis:
 

@@ -1,10 +1,10 @@
 # Name entry and player-created text
 
-Apply this strategy when the patch supports a player name or other user-created text. Treat input, editing, storage, redisplay, and persistence as one feature. If the patch does not support Hangul input, declare that boundary explicitly rather than leaving source input partly functional.
+Apply this strategy when the patch supports a player name or other user-created text. Treat input, editing, storage, redisplay, and persistence as one feature. If the human-selected product scope does not support Hangul input, declare and record that boundary explicitly rather than leaving source input partly functional.
 
 ## 1. Product contract and scope
 
-Establish the supported input repertoire, maximum logical length, editing commands, completion behavior, and every in-scope consumer of the committed value. Distinguish the intended repertoire from the language's full character population; a finite supported set is valid only when it is declared, mechanically enforced, and adequate for the product scope.
+Establish the supported input repertoire, maximum logical length, editing commands, completion behavior, and every in-scope consumer of the committed value. The agent establishes feasible repertoire, length, interface, redisplay, and persistence options with their cost and support effect; a human selects among alternatives that materially change supported names, product scope, or UX and records the choice under `references/conventions/project-records.md` §1.1. Distinguish the intended repertoire from the language's full character population; a finite supported set is valid only when it is declared, mechanically enforced, and adequate for that selected product scope.
 
 Treat the complete path as the design boundary. Establish the links that can change the current encoding or glyph decision, and keep unresolved links visible while investigation and design iterate:
 

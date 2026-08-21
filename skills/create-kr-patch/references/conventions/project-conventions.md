@@ -18,6 +18,7 @@ Before creating or extending a repository, inspect its current build, tests, doc
 - source inputs to the reproducible build;
 - intermediate and output artifacts regenerable from source;
 - current reverse-engineering conclusions and their evidence;
+- current human strategic decisions and their applicability;
 - translation assets and review state;
 - runtime and QA evidence plus issue records; and
 - externally injected source images and local caches.
@@ -28,7 +29,7 @@ Investigation experiments, heuristic discovery, and one-off transforms stay outs
 
 Choose separately whether to adopt a result as a specification or make its producing procedure a build component. Put the procedure in the primary build only when its stable contract produces a deterministic result from declared inputs or enforces a gate required on every build. Then pin its version, make inputs and outputs explicit, propagate failures, and test the contract under §5.3. Dependence on an adopted conclusion is not by itself a reason to rerun its discovery procedure. A procedure that still produces candidate evidence rather than a required deterministic output or gate remains outside the primary build; rerun it when an applicability check, reassessment condition, or counterexample reopens the analysis. Handle source-derived inputs under §6.2.
 
-Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to investigation, PoC, and QA records.
+Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to human strategic decisions, investigation, PoC, and QA records.
 
 ## 2. Primary build path and code boundary
 

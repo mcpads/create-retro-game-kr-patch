@@ -18,7 +18,7 @@ Establish the adopted format interpretation from the target consumer's read sema
 - output size, alignment, buffer, and destination limits; and
 - the consumer and protected range of each container field.
 
-Do not invent values for fields whose consumption is unresolved. Preserve the source value or generate it from a public specification. Exclude the variant from supported scope if neither choice is justified.
+Do not invent values for fields whose consumption is unresolved. Preserve the source value or generate it from a public specification. If neither choice is justified, mark the variant unresolved and withhold the affected artifact and support claim. Present continued investigation, redesign, or scope exclusion with their cost and effect when a human product-scope decision is required; record that decision under `references/conventions/project-records.md` §1.1.
 
 ## 3. Decompression verification
 
@@ -67,7 +67,7 @@ If recompressed output exceeds its allocation, compare options against actual ou
 - Can container reserialization preserve untouched data and protected metadata?
 - Does the target consumer provide a verified uncompressed or alternate path?
 
-Bypassing compression introduces new code, storage, load, residency, and consumption conditions. Verify them; do not select a bypass merely because it appears simpler. If the asset change triggers `references/strategy/runtime-assets.md` §1, verify the links in `references/strategy/runtime-assets.md` §2 as well.
+The agent establishes which options are feasible and verifies their technical conditions. If the alternatives materially change product quality, scope, support, or technical investment, apply an applicable human decision or prepare one under `references/conventions/project-records.md` §1.1. Bypassing compression introduces new code, storage, load, residency, and consumption conditions; do not select it merely because it appears simpler. If the asset change triggers `references/strategy/runtime-assets.md` §1, verify the links in `references/strategy/runtime-assets.md` §2 as well.
 
 ## 6. Completion
 

@@ -85,7 +85,7 @@ Provide writers and reviewers with one baseline containing:
 - target-consumer meaning and the policy from `references/strategy/text-extraction.md` §4.4 for established tokens;
 - scene, speaker, adjacent context, source consumption order, and any global narrative or route dependency that changes meaning;
 - approved terminology and voice with applicability; and
-- actual length, layout, encoding, and other consumer constraints.
+- identified consumer conditions affecting length, layout, encoding, and other behavior, with target-proven limits distinguished from adopted design choices and current implementation state under §4.1.
 
 Agent output may change translated text, rationale, questions, and proposal status. It must not recreate or normalize source identity, raw bytes, or protected tokens. A batch is a logical translation unit; it does not redefine source entry boundaries, order, or physical placement.
 
@@ -110,6 +110,19 @@ For a finite display area, distinguish:
 An observed maximum does not prove that the game permits no more. Do not merge limits from different renderers or window types.
 
 When translated output exceeds observed source usage, do not shorten it automatically or fail it for that fact alone. Establish capacity through consumer code, display area, and runtime results, or change the adopted display range and verify it on the same consumer path. Human preference cannot waive protected information or established consumer constraints. If capacity remains unresolved and output exceeds source usage, return to consumer analysis and withhold distribution eligibility.
+
+### 4.1 Product intent and constraint authority
+
+Keep these roles distinct:
+
+- **Product intent**: Within the declared scope, established source meaning and approved terminology, voice, and wording decisions define what the localized product should preserve. Unresolved wording remains a candidate whose semantic value and demand may still inform design.
+- **Established target constraint**: A limit proved from the applicable consumer, hardware, medium, or required product behavior, with its scope and evidence. A limit observed only in the current implementation is not a target constraint.
+- **Adopted design**: A selected display range, layout, encoding, font supply, reinsertion policy, renderer change, or other means of satisfying product intent under target constraints. Adoption makes the choice buildable and testable, not immutable.
+- **Current implementation**: The code and artifact that currently realize an adopted design. It supplies evidence of behavior, feasibility, and change cost, but gains no authority over product value from prior investment.
+
+Target constraints and protected-information rules may mechanically reject an option only within their established scope. Approved wording decisions govern semantic acceptability within their recorded applicability; changing one requires a wording decision, not an implementation-side substitution. A failure observed in the current implementation establishes only failure under that implementation and design; it does not by itself establish a translation defect. If the conflict belongs to the adopted design rather than a code defect, reopen the affected design choice. Prior work may materially affect cost and completion scope, but its existence alone must not narrow translation review options.
+
+When current choices cannot preserve meaning or voice, compare plausible alternatives in design, wording or adaptation, and scope using current evidence. The agent establishes technical feasibility, cost, and affected scope; a human decides preference and semantic loss. Record a material choice and its reassessment conditions under `references/conventions/project-records.md` §1.1 so later work can use it within its applicability. Do not require every category of alternative, impose a fixed order between translation and engineering, or repeat an option already rejected with equivalent evidence.
 
 ## 5. Separate generation, review, and approval
 
@@ -143,7 +156,7 @@ For review that depends on those technical conditions, establish that:
 - that supply reaches target render paths through `references/strategy/runtime-assets.md` §2 or equivalent evidence; and
 - every finite display area can accept the first draft's maximum demand, or has a verified path to change the adopted display range under §4.
 
-Check mapping and coverage mechanically across the complete corpus and runtime insertions. Judge distinct consumer paths with representative runtime evidence or existing equivalent evidence. One-glyph PoC or partial sample does not prove complete-corpus capacity. When a design fails, change supply, loading, or mapping and reverify the same demand and paths.
+Check mapping and coverage mechanically across the complete corpus and runtime insertions. Judge distinct consumer paths with representative runtime evidence or existing equivalent evidence. One-glyph PoC or partial sample does not prove complete-corpus capacity. When a design fails, return to §4.1: establish plausible design, wording, and scope alternatives far enough to compare technical feasibility, semantic effect, cost, and affected paths. Apply an applicable current human decision; if none covers the material tradeoff, present it for human selection and record the result. Then reverify the selected demand and paths. An ordinary bounded repair that preserves the approved choice remains an implementation decision.
 
 Human decisions about terminology, voice, or high-impact source interpretation may proceed whenever their evidence is stable. If glyph reduction changes meaning or voice, obtain approval at that point. If later review introduces new glyph or state-specific demand, return only the affected scope to glyph-budget and consumer-path assessment.
 
@@ -157,6 +170,8 @@ First draft -> independent second review -> options and evidence to a human -> h
 ```
 
 The second review must not assume the first draft's conclusion. In a separate review context, compare source, approved basis, speaker and scene evidence, and protected and consumer constraints again. When meaning, wording, or voice has alternatives, present options, evidence, impact, and a recommendation instead of silently overwriting the draft. Agreement between two generations does not constitute approval of quality. Human approval remains final, and affected units remain ineligible until then.
+
+Do not use the current implementation as the baseline for semantic fitness. When candidate or approved wording does not fit the selected design, retain the wording identity and classify the conflict under §4.1. Present plausible design and wording alternatives with semantic impact, technical evidence, change cost, and affected scope; do not narrow the option set to text changes merely because the current artifact already exists.
 
 Independence means a review that does not take the first draft's reasoning or conclusion as the answer. It does not require a specific model, service, or execution mechanism.
 
@@ -172,6 +187,8 @@ Do not use one approval state for decisions with different evidence and invalida
 - **Build eligibility**: all required upstream decisions and checks for the selected build input remain valid.
 
 A correct screen does not approve meaning, and approved wording does not establish layout or runtime consumption. Automatic layout is acceptable only when established consumer rules determine the result. If geometry or page assignment remains unresolved, do not generate an inferred preview and present it for approval.
+
+An explicit layout assigns a selected wording decision; it does not authorize rewriting it. If a presentation alternative uses a different expression, return the affected unit to wording selection, retain the prior decision and identity, and record the new scope-specific wording decision's relationship, applicability, rationale, semantic impact, and approval. Development may compare candidate wording and layouts under an explicit non-distribution input policy, but dependent approvals and release-candidate eligibility remain invalid until the selected wording decision is approved.
 
 Bind each layout to identities for the selected text, source text and control topology, and established geometry. Bind presentation approval to that layout and the exact evidence. An upstream change invalidates its dependent decisions without erasing independent decisions that remain applicable. For example, a layout change invalidates presentation approval but need not invalidate unchanged wording; a text change requires layout and downstream evidence to be reassessed.
 

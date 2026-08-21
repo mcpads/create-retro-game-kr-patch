@@ -17,12 +17,15 @@ A translation-asset representation must distinguish at least:
 - provenance identifying the source image and extraction region;
 - stable entry identity comparable after re-extraction;
 - source bytes and the decoded result derived from them;
-- translator-edited output;
+- translator-authored wording and each selected wording decision, with stable identity and applicability;
+- when a scope-specific wording decision differs from a broader applicable selection, their stable relationship, rationale, semantic impact, and approval;
 - states distinguishing untranslated, in progress, needs review, needs human judgment, and distribution-eligible;
 - evidence for adaptation, wording decisions, and unresolved interpretations; and
 - structure required for reinsertion, or a stable link to analysis and build data containing it.
 
-Source bytes, source text, structural information, and link identities in a translation asset are protected. Translation work may change only translated output, review state, and decision evidence. A protected change requires re-extraction or an explicit structural change.
+Source bytes, source text, structural information, and source or structural link identities in a translation asset are protected. Translation work may change only authored wording, wording selection, the applicability and lineage of a wording decision, review state, and decision evidence. A protected change requires re-extraction or an explicit structural change.
+
+Do not duplicate wording when the same selected decision is consumed unchanged. When a scope-specific wording decision differs, preserve both decisions and identities through structured fields or stable links; a free-form note alone is not a stable relation. Follow `references/strategy/translation-workflow.md` §4.1 and §5.6 for authority and invalidation.
 
 Apply `references/conventions/data-formats.md` to character mappings, raw control-code specifications, pointer catalogs, and reinsertion policy. A translation asset may link to them by stable ID and source identity or preserve protected information inside an established integrated artifact. Edit each value in only one location.
 
@@ -83,6 +86,8 @@ This example also follows the machine-readable I/O requirements in `references/c
 - `raw_hex` and `text` are protected fields written by the extractor. `ko`, `status`, and `notes` are translation-stage fields.
 - Represent duplicate pointers and undecoded bytes using `flags` or an equivalent project representation that preserves meaning and round-trip fidelity.
 
+This minimal example has one authored and selected wording per stable entry, so the build can bind the entry and exact `ko` value. If an entry has multiple authored or scope-specific wording decisions, represent their identities, applicability, selection, and lineage explicitly rather than overloading `ko` or `notes`.
+
 ## 3. Control-code tokens
 
 Represent control codes in human-editable source and translated text as tokens reversible to their original bytes. Optional syntax examples:
@@ -115,7 +120,7 @@ The existing project chooses representation. When file-level and entry-level sta
 Builds distinguish development or PoC input policy from release-candidate input policy. Development may continue before review of the declared localization scope is complete.
 
 - A **development or PoC build** may explicitly select an ineligible translation produced under `references/strategy/translation-workflow.md` §3.1, but must carry a non-distribution marker its own build verifies. It must preserve extraction-baseline source text for unselected ineligible entries or fail. It must not mix ineligible translations silently or select output from a model or agent that failed evaluation. It may proceed with unmapped characters only when the unmapped set is declared and recorded with the artifact.
-- A **pre-release test build** may be distributed to identified testers to obtain the human review a release candidate requires. It states which parts of the declared localization scope it covers, which remain unresolved, and every known critical defect. Reports return units to the states in §4 and establish no eligibility by themselves.
+- A **pre-release test build** may be distributed to identified testers to obtain the human review a release candidate requires. It states which parts of the declared localization scope it covers, which remain unresolved, and every known issue relevant to the test, including severity under the current quality target and accepted limitations. Reports return units to the states in §4 and establish no eligibility by themselves.
 - A **release-candidate build** consumes only eligible translations within declared localization scope. Content intentionally left outside that scope, such as source branding or symbols, requires an approved exception recording the content, the reason, and the approving human. The build consumes that record and fails on unlisted content.
 
 Distribution eligibility includes at least:
@@ -124,7 +129,8 @@ Distribution eligibility includes at least:
 - no missing translation, unapproved residual source character, or unknown state remains;
 - token boundaries and argument widths are established so `references/strategy/text-extraction.md` §4.4 policies apply;
 - control-code tokens parse and satisfy the policy assigned under `references/strategy/text-extraction.md` §4.4;
-- glyph coverage and length or layout under confirmed consumer constraints pass; and
+- glyph coverage and length or layout under confirmed consumer constraints pass;
+- the build-selected wording and layout match their recorded identities, and any scope-specific wording selection retains its relation, applicability, and required approval; and
 - the decision and supporting evidence for each human judgment are retained.
 
 A failed check or new evidence revokes eligibility and returns the unit to the required review state. The decision, not a state name or storage location, determines build input.

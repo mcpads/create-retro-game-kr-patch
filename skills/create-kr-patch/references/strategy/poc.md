@@ -1,6 +1,6 @@
 # Proof of concept
 
-Use a PoC to resolve uncertainty that can change distribution feasibility before dependent implementation. Prioritize a condition whose failure would block completion or force redesign. Reuse equivalent evidence from the same revision and conditions. Compare cost only among tests that preserve the same condition, prerequisites, and proof scope.
+Use a PoC to resolve uncertainty that can change distribution feasibility before dependent implementation. Choose its timing and scope heuristically by expected decision value, dependencies, cost, and reversibility; completion-blocking or redesign risks often deserve early evidence but do not impose a fixed order. Reuse equivalent evidence from the same revision and conditions. Call one test a cheaper equivalent only when it preserves the same condition, prerequisites, and proof scope.
 
 ## 1. Role and entry conditions
 
