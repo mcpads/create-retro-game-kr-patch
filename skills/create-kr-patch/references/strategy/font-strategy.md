@@ -54,7 +54,7 @@ When a representation compresses an established finished font, define the suppor
 | **Total repertoire** | Every unique glyph required by the distribution corpus and runtime inputs | Code space, on-media storage, persistent mapping and catalog representation |
 | **Active working set** | Glyphs that must coexist throughout their proven consumption lifetime, including transitions across which slots remain live | Active RAM or VRAM, texture slots, index representation, transfer and replacement timing |
 
-Only a design that keeps every glyph in fixed one-to-one slots may use the smaller budget as a global glyph limit. With verified dynamic loading or remapping, compare the complete corpus with the total-repertoire budget and each runtime state with the active budget separately.
+Only a design that keeps every glyph in fixed one-to-one slots may treat the active-slot budget as the total-repertoire limit. With verified dynamic loading or remapping, compare the complete corpus with the total-repertoire budget and each runtime state with the active budget separately.
 
 Classify index width by role. A code that directly selects a permanent slot limits the total repertoire. A code remapped to a state-specific active slot limits the working set and mapping table. Static array size alone does not decide the role.
 
@@ -114,7 +114,7 @@ Keep revision-specific structural constants such as addresses, banks, and code b
 Font work is complete only when all of these hold:
 
 - Every required character in the distribution scope maps through an approved mapping for each target consumer, with zero unmapped characters.
-- Total repertoire and representative runtime working sets pass their corresponding budgets.
+- Total repertoire and every active working set with distinct membership or lifetime pass their corresponding budgets.
 - Transform boundaries pass verification against source samples or a declared semantic-equivalence criterion.
 - Representative sentences and boundary glyphs render correctly on every target path without invading adjacent UI or graphics.
 - A glyph asset change triggered under `references/strategy/runtime-assets.md` §1 passes the link assessment in `references/strategy/runtime-assets.md` §2.

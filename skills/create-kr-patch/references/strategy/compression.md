@@ -10,7 +10,7 @@ When this strategy applies, declare the supported denominator under `references/
 
 ## 2. Consumer format interpretation
 
-Establish the adopted format interpretation from the target consumer's read semantics or independent equivalent evidence. An algorithm name or a sibling game's implementation may narrow candidates, but verify at least these boundaries on target input:
+Establish the adopted format interpretation from the target consumer's read semantics. Evidence from another runtime path counts only when it is shown to use the same interpretation under the relevant conditions. An algorithm name or a sibling game's implementation may narrow candidates, but verify at least these boundaries on target input:
 
 - input extent and termination;
 - literal and match interpretation, including byte and bit order;

@@ -10,7 +10,7 @@ Declare supported source revisions, discs, execution paths, and distribution tex
 
 ### 1.2 Evidence for text
 
-A byte sequence that resembles characters is only a candidate. Include it in the text population only after independent evidence establishes actual consumption, such as:
+A byte sequence that resembles characters is only a candidate. Include it in the text population only after evidence independent of that resemblance establishes actual consumption, such as:
 
 - a declared table, record, or script structure identifies the string boundary;
 - a runtime consumer reads the range as characters or tokens;

@@ -70,7 +70,7 @@ Automation may flag candidates against approved decisions but cannot approve a n
 
 Translation drafting permits creative judgment, but advancement to an eligible state is deliberately constrained because semantic errors can repeat across a finite corpus without violating mechanical checks. The controls below govern reliance, merge, review, and distribution eligibility; they do not prescribe one writing style or one way to discover a good expression.
 
-Split work only at boundaries that preserve context. Free-prose drafting by another model or agent follows the evaluation, scope, and review conditions below. Do not outsource the full first draft to an unevaluated model or agent solely for volume, speed, or cost.
+Split work only at boundaries that preserve context. Free-prose drafting by another model or agent follows the evaluation, scope, and review conditions below. Do not outsource the full first draft to an unevaluated model or agent.
 
 Before assigning substantial drafting to another model or agent, have that model or agent translate representative target samples and high-impact sentences under the same context, terminology, and voice conditions as production. A human evaluates accuracy, preservation of context and voice, and correction burden, then approves the assigned scope. Include dialogue, UI, sentences with names, context-sensitive sentences, and items with protected tokens or display constraints. Do not generate the full corpus under the label of evaluation, and do not replace human evaluation with an average score or agreement among models.
 

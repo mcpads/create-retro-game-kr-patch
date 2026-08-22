@@ -52,7 +52,7 @@ Preserve the same test vectors and consumer-visible behavior when extracting a r
 
 ### 2.3 Verifying machine-code generation and decoding
 
-When a patch generates or moves more than a fixed short instruction sequence, or claims completeness of control flow or references, it must declare a target ISA profile and assemble and disassemble under the same semantic model. The profile distinguishes CPU variant, instruction width and interpretation mode, extensions, and state-dependent interpretation. No specific product or library is required. If the project implements generation and interpretation itself, it must support every valid instruction and addressing mode in the declared profile, not only the subset currently needed by one patch.
+When a patch generates, replaces, or moves executable machine code, or claims completeness of control flow or references, it must declare a target ISA profile and assemble and disassemble under the same semantic model. The profile distinguishes CPU variant, instruction width and interpretation mode, extensions, and state-dependent interpretation. No specific product or library is required. If the project implements generation and interpretation itself, it must support every valid instruction and addressing mode in the declared profile, not only the subset currently needed by one patch.
 
 - Verify every valid instruction and mode in the declared profile for semantic equivalence in both assemble → disassemble and disassemble → assemble directions.
 - Reject out-of-profile opcodes and modes, reserved values, and truncated instructions rather than treating them as data or success.
@@ -61,8 +61,6 @@ When a patch generates or moves more than a fixed short instruction sequence, or
 - A completeness claim for references or calls must report the declared entry points, the scope of banks, overlays, and modes, and any uninterpreted regions.
 
 The denominator for ISA support is every valid instruction and mode in the declared profile. The denominator for code-analysis completeness is the declared code region. Do not merge them. Report literals, embedded data, and canonical aliases separately. Do not absorb out-of-profile values as instructions or equivalent opcodes. Excluding an optional extension requires evidence that it does not appear in generated, moved, or analyzed scope; encountering it must fail and require a revised profile and verification range.
-
-A fixed short instruction sequence on a verified revision may remain an explicit byte specification without a local ISA implementation only when expected bytes and an independent check of instruction boundaries and effects are present. This exception ends when final placement changes branches, addresses, or literals, or when source instructions move; use the complete ISA path and final placement instead.
 
 ## 3. Interfaces and exchange data
 

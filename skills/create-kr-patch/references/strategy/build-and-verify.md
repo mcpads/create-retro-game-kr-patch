@@ -18,7 +18,7 @@ The cumulative build consumes adopted results, not the investigation or design p
 
 For one supported revision, consume verified reverse-engineering conclusions only within their established applicability. A finite catalog enters the specification only after its population is established. Reopen analysis on a source or applicability mismatch, a reassessment condition, or contrary evidence. Derive addresses, sizes, and checksums that depend on current build inputs, and do not promote heuristic candidates during a build (`references/strategy/initial-survey.md` §3.1).
 
-Turn every mechanically decidable criterion affected by the change into a build check. Do not produce a verified artifact when an applicable encoding, glyph or space budget, layout, length, pointer, compression, or container invariant fails. A change that triggers `references/strategy/runtime-assets.md` §1 must pass both static storage/reference/capacity checks and runtime load/residency/consumption checks.
+Turn every criterion that can be decided mechanically from current inputs or artifact structure into a build check; keep runtime behavior under §4. Do not produce a verified artifact when an applicable encoding, glyph or space budget, layout, length, pointer, compression, or container invariant fails. A change that triggers `references/strategy/runtime-assets.md` §1 must pass both static storage/reference/capacity checks and runtime load/residency/consumption checks.
 
 The primary build owns these rejections. Tests may exercise them with fixed inputs, but the build must enforce them for its declared product inputs whenever it runs; apply the ownership rules in `references/conventions/project-conventions.md` §5.3.
 
@@ -78,7 +78,7 @@ Judge final text, presentation, and interaction changes on their actual consumer
 - The build must consume the exact wording and layout identities selected by its input policy and recorded under `references/strategy/translation-workflow.md` §5.6. It must not silently shorten, substitute, or switch to an unrecorded scope-specific wording selection.
 - Include automatic wrapping, control-token state transitions, and worst-case variable insertion when they affect the consumed result.
 - Judge dialogue, menus, and name entry separately when they use different consumers. For player-created text, apply the interaction, redisplay, and persistence scopes in `references/strategy/name-entry.md` §6.
-- A violation of an established fixed slot, encoding, or page limit must fail the build. Leave only project-defined tolerance such as scrolling to warnings or human review.
+- A violation of an established fixed slot, encoding, or page limit must fail the build. Treat scrolling as valid only when it belongs to the adopted design, and leave genuinely judgment-dependent presentation criteria to human review.
 - Judge glyphs and baked graphics text against the visual completion criteria in `references/strategy/font-strategy.md` §4 and `references/strategy/graphics-text.md` §4, using real backgrounds, palettes, and states.
 - When a window or frame changes size or position, verify actual anchors, clipping, screen bounds, and overlap with portraits, cursors, and adjacent UI.
 - When a change touches state-specific assets or placement, verify the distinctions and transitions among applicable default, focused, selected, and disabled states. Verify affected navigation, confirm and cancel events, repeat behavior, state transitions, and results against the target model.

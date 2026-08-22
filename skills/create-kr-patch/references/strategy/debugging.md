@@ -10,7 +10,7 @@ A defect fix is complete only when all of these hold:
 - direct observations, cause hypotheses, and rejected conclusions remain distinct;
 - discriminating evidence narrows the defect boundary;
 - the first incorrect state and its propagation to the symptom are explained;
-- the same reproduction passes after changing only the established defect; and
+- the same reproduction passes after correcting the established cause within its necessary impact range; and
 - affected adjacent paths and representative previously working paths pass regression checks.
 
 Disappearance of a symptom does not establish a cause unless the change's effect on the causal chain is explained.

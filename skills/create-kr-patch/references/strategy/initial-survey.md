@@ -40,7 +40,7 @@ Defer investigation that changes none of these. Establish another category's bou
 
 ### 2.2 Storage structure and consumer meaning
 
-Byte patterns, search results, statistics, and prior-patch diffs produce candidates. Establish encoding, pointers, terminators, compression, and graphics interpretation through the actual consumer or independent equivalent runtime evidence.
+Byte patterns, search results, statistics, and prior-patch diffs produce candidates. Establish encoding, pointers, terminators, compression, and graphics interpretation through the actual consumer. Evidence from another runtime path counts only when it is shown equivalent for the same revision, conditions, and claim.
 
 Determine pointer width, byte order, base, and coordinate system from the consumer. CPU identity alone does not establish them. An unresolved control token may remain a reversible raw token when its boundary and argument width are known; do not invent semantics.
 
@@ -77,7 +77,7 @@ Work backward from declared screen and function consumers, selection branches, a
 
 Keep confirmed facts, candidates, and rejected candidates distinct.
 
-- Establish stored meaning from a consumer, dispatcher, reference structure, or independent equivalent evidence.
+- Establish stored meaning from a consumer, dispatcher, reference structure, or a runtime path shown to be equivalent for the claim.
 - Connect render input, intermediate representation, and screen output.
 - A self round trip proves implementation agreement, not game compatibility.
 - A completeness claim requires both a denominator and coverage of its consumer paths.
