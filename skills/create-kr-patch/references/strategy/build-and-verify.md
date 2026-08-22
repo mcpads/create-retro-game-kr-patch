@@ -99,3 +99,4 @@ Incomplete human review of the declared localization scope does not block develo
 - The current human-approved quality target and release claims are satisfied, and every known issue and accepted limitation is recorded with its decision authority, scope, player effect, and claim impact.
 - Human review of the complete localization scope is complete under `references/strategy/translation-workflow.md` §5.4.
 - Applying the distribution artifact reproduces the verified target image.
+- Player-facing release material identifies the supported source revisions and representations, the verified application procedure and prerequisites, every known limitation or scope exclusion that can affect play, and save-data compatibility and any required migration when the patch changes persistent data.

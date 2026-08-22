@@ -314,8 +314,15 @@ def validate_tips(errors: list[str]) -> int:
                 f"{repo_name(path)}: tip case files must be under "
                 "references/tips/general/ or references/tips/platforms/"
             )
+        lines = path.read_text(encoding="utf-8").splitlines()
+        case_count = sum(line.startswith("## ") for line in lines)
+        if case_count != 1:
+            errors.append(
+                f"{repo_name(path)}: tip case files must contain exactly one case; "
+                f"found {case_count}"
+            )
         current_tip: str | None = None
-        for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        for line_no, line in enumerate(lines, 1):
             if not line.startswith("## "):
                 if current_tip is not None:
                     bodies[current_tip].append(line)

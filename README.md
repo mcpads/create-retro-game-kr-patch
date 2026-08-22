@@ -11,7 +11,7 @@ Game Boy·Game Boy Color, NES·Famicom, SNES, 메가드라이브, 세가 새턴,
 
 ## 프로젝트 템플릿
 
-새 한글 패치 저장소를 시작할 때는 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)을 사용할 수 있다. 이 스킬이 조사하고 판정하는 방법을 맡는다면, 템플릿은 어디서부터 빌드하고 검증할지를 잡아 준다. 플랫폼과 구현 언어는 고정하지 않는다.
+새 한글 패치 저장소를 시작할 때는 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)을 사용할 수 있다. 이 스킬은 조사부터 빌드·검증·배포 판정까지 필요한 기준을 제공하고, 템플릿은 그 기준을 새 저장소의 기본 구조와 실행 진입점으로 옮기는 선택적 뼈대다. 플랫폼과 구현 언어는 고정하지 않는다.
 
 ## 설치 — Claude Code 세션
 
@@ -68,8 +68,8 @@ skills/
       conventions/       # 저장소 역할·데이터·기록 시행 규약
       platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 11종
       tips/
-        general/         # 플랫폼 규칙 없이 적용되는 복구 사례
-        platforms/       # 그 플랫폼 규칙이 있어야 성립하는 복구 사례
+        general/         # 플랫폼 규칙 없이 적용되는 사례별 파일
+        platforms/       # 플랫폼 규칙이 있어야 성립하는 사례별 파일
 ```
 
 `SKILL.md`가 진입점이다. 플레이어 경험을 지키는 최상위 원칙과 긴 작업의 방향을 잡는 세 가지 작업 원칙을 먼저 제시하고, 지금 하려는 일에 맞는 세부 지침과 검증 기준으로 연결한다.

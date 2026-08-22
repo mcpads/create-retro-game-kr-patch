@@ -1,4 +1,4 @@
-# PlayStation-specific cases
+# Evidence-backed case
 
 ## Reloaded hooks mixed instruction-cache line states
 

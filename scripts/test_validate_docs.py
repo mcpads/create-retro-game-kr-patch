@@ -39,10 +39,10 @@ class DocumentationValidatorTest(unittest.TestCase):
                 "| PoC | `references/strategy/poc.md` |\n\n"
                 "| Case | Judgment areas | Read when | First observed on | Reference |\n"
                 f"| Proven rendering path | {judgment_area} | test | Game Gear | "
-                "`references/tips/general/cases.md#proven-rendering-path` |\n",
+                "`references/tips/general/proven-rendering-path.md#proven-rendering-path` |\n",
                 encoding="utf-8",
             )
-            (general / "cases.md").write_text(
+            (general / "proven-rendering-path.md").write_text(
                 f"# General cases\n\n## Proven rendering path\n\n{body}\n",
                 encoding="utf-8",
             )
@@ -63,7 +63,7 @@ class DocumentationValidatorTest(unittest.TestCase):
         samples = (
             "`references/strategy/poc.md` §1",
             "`references/strategy/poc.md`,",
-            "`references/tips/platforms/nds.md#nftr-tags-and-cmap-order-follow-on-disk-consumer-semantics`",
+            "`references/tips/platforms/nftr-tags-and-cmap-order-follow-on-disk-consumer-semantics.md#nftr-tags-and-cmap-order-follow-on-disk-consumer-semantics`",
             "`references/strategy/poc.md`. 다음 문장",
         )
         for sample in samples:
@@ -77,9 +77,9 @@ class DocumentationValidatorTest(unittest.TestCase):
             "`references/strategy/poc.md-old`",
             "`references/strategy/poc.mdx`",
             "`references/strategy/poc.md.extra`",
-            "`references/tips/platforms/nds.md#nftr-tags?broken`",
-            "`references/tips/platforms/nds.md#nftr-tags/extra`",
-            "`references/tips/platforms/nds.md#nftr-tags.`",
+            "`references/tips/platforms/example-case.md#nftr-tags?broken`",
+            "`references/tips/platforms/example-case.md#nftr-tags/extra`",
+            "`references/tips/platforms/example-case.md#nftr-tags.`",
         )
         for sample in samples:
             with self.subTest(sample=sample):
@@ -197,6 +197,30 @@ class DocumentationValidatorTest(unittest.TestCase):
             ):
                 validate_docs.validate_tips(errors)
         self.assertTrue(any("tip case files must be under" in error for error in errors))
+
+    def test_reports_multiple_cases_in_one_tip_file(self) -> None:
+        with TemporaryDirectory() as directory:
+            skill_root = Path(directory)
+            tips = skill_root / "references" / "tips"
+            general = tips / "general"
+            general.mkdir(parents=True)
+            (tips / "README.md").write_text("# index\n", encoding="utf-8")
+            (general / "combined.md").write_text(
+                "# Cases\n\n## First case\n\n## Second case\n",
+                encoding="utf-8",
+            )
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "SKILL_ROOT", skill_root),
+                patch.object(validate_docs, "TIPS_DIR", tips),
+                patch.object(
+                    validate_docs,
+                    "repo_name",
+                    side_effect=lambda path: path.name,
+                ),
+            ):
+                validate_docs.validate_tips(errors)
+        self.assertTrue(any("must contain exactly one case" in error for error in errors))
 
     def test_reports_missing_required_tip_field(self) -> None:
         errors = self.validate_tip_fixture(

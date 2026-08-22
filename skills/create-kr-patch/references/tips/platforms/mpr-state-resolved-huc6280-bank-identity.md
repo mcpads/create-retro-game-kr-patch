@@ -1,4 +1,4 @@
-# PC Engine-specific cases
+# Evidence-backed case
 
 ## MPR state resolved HuC6280 bank identity
 
