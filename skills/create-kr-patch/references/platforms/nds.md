@@ -10,7 +10,7 @@ Converting a runtime address to ROM location requires the current image's ROM ex
 
 When compression, relocation, or initialization exists, do not compare stored overlay bytes directly with executed bytes. If the stored overlay grows or moves, verify file ID, FAT extent, stored size, and loader read buffer. If the decompressed runtime address or size, BSS bounds, or static initializers change, verify overlay entries, adjacent RAM, and initialization consumers separately. A change in stored file size does not imply a change in runtime placement.
 
-## 2. Filenames and the actual loader
+## 2. Filenames and loader behavior
 
 FNT names, FAT file IDs, raw ROM offsets, and game-specific archives may coexist. Finding one named SDK-style file does not establish the storage rule for every asset.
 

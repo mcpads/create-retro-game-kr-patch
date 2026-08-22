@@ -4,7 +4,7 @@ Consult primary references for general SH-2, VDP, and CD-ROM specifications as n
 
 ## 1. Moved code and loaded modules
 
-Which SH-2 and task execute target code is game-specific. When moving an instruction or growing a block, verify branch delay, PC-relative literal pools, alignment, live registers, PR, flags, and code versus inline-data boundaries.
+The SH-2 and task that execute the target code are game-specific. When moving an instruction or growing a block, verify branch delay slots, PC-relative literal pools, alignment, live registers, PR, flags, and boundaries between code and inline data.
 
 ## 2. Separate VDP1 and VDP2 consumers
 

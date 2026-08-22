@@ -62,17 +62,17 @@ codex plugin add create-kr-patch@kr-patch
 plugin metadata           # 플러그인 매니페스트와 셀프호스팅 마켓플레이스 설정
 skills/
   create-kr-patch/
-    SKILL.md             # 라우팅 + 핵심 불변식 (본문은 얇게)
+    SKILL.md             # 최상위 원칙 + 작업 원칙 + 영역별 라우팅
     references/
       strategy/          # 판단 영역별 기준과 검증 방법
       conventions/       # 저장소 역할·데이터·기록 시행 규약
       platforms/         # 플랫폼별 분기를 바꾸는 사실·제약 11종
       tips/
-        general/         # 플랫폼 규칙 없이 적용되는 검증된 사례
-        platforms/       # 그 플랫폼 규칙이 있어야 성립하는 사례
+        general/         # 플랫폼 규칙 없이 적용되는 복구 사례
+        platforms/       # 그 플랫폼 규칙이 있어야 성립하는 복구 사례
 ```
 
-`SKILL.md`가 진입점이다. 지금 하려는 일에 맞는 문서로 연결하고, 전 영역에 걸친 불변식을 담는다.
+`SKILL.md`가 진입점이다. 플레이어 경험을 지키는 최상위 원칙과 긴 작업의 방향을 잡는 세 가지 작업 원칙을 먼저 제시하고, 지금 하려는 일에 맞는 세부 지침과 검증 기준으로 연결한다.
 
 ## 기여
 

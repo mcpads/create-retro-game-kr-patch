@@ -1,6 +1,6 @@
 # Proof of concept
 
-Use a PoC to resolve uncertainty that can change distribution feasibility before dependent implementation. Choose its timing and scope heuristically by expected decision value, dependencies, cost, and reversibility; completion-blocking or redesign risks often deserve early evidence but do not impose a fixed order. Reuse equivalent evidence from the same revision and conditions. Call one test a cheaper equivalent only when it preserves the same condition, prerequisites, and proof scope.
+Use a PoC to resolve uncertainty that can change distribution feasibility before dependent implementation. Its timing and scope follow the current evidence and dependencies rather than a universal order. Reuse evidence from the same revision and conditions only when it tests the same condition under the same prerequisites and supports the same claim.
 
 ## 1. Role and entry conditions
 
@@ -10,19 +10,19 @@ Run a PoC when the unresolved condition is completion-critical and postponing it
 - pass, fail, and unresolved outcomes; and
 - the implementation choices available after each outcome.
 
-If no outcome reduces those choices, split out a narrower diagnostic. Do not shrink the original proof scope merely to obtain an easy success.
+If no outcome reduces those choices, split out a narrower diagnostic. Do not narrow the original claim merely to obtain an easy success.
 
-## 2. Choosing the proof scope
+## 2. Choosing what the PoC must establish
 
 | Scope | Trigger | Question |
 |---|---|---|
-| Visibility | No equivalent runtime proof exists for the target revision and renderer | Can intended glyph pixels reach the screen through the actual path? |
+| Visibility | No equivalent runtime evidence exists for the target revision and renderer | Can intended glyph pixels reach the screen through the actual path? |
 | Representative end-to-end path | No evidence connects extraction, transformation, reinsertion, and consumption for a representative unit, and scaling first would create large rework | Does one representative unit survive the complete path? |
 | Conditional | A specific unresolved risk can change the design and cannot be passed or rejected using static evidence | Does the target condition hold under its real constraints? |
 
-These scopes are independent. Visibility proves pixels through a declared data path. A representative end-to-end path proves one declared unit. Encoding budgets, relocation, compression, and other consumers need separate criteria when they can still change the design.
+These scopes are independent. A visibility PoC establishes that the intended pixels reach the screen through a declared data path. A representative end-to-end PoC establishes the complete path for one declared unit. Encoding budgets, relocation, compression, and other consumers need separate criteria when they can still change the design.
 
-Reuse evidence only when revision, renderer, consumer, preconditions, and proof scope match, and the current change does not alter identity, links, or consumption. Otherwise prove equivalence or rerun the relevant test.
+Reuse evidence only when revision, renderer, consumer, preconditions, and supported claim match, and the current change does not alter identity, links, or consumption. Otherwise establish equivalence or rerun the relevant test.
 
 ## 3. Visibility verification
 
@@ -39,7 +39,7 @@ Choose a glyph source that preserves the visibility question without adding unre
 
 ## 4. Representative end-to-end text path
 
-Choose a unit that connects the complete extraction-to-consumption boundary and includes the hardest applicable established constraint: length, control tokens, pointers, compression, padding, or another design-changing boundary. A short string that bypasses the hard condition is not representative. Identify the hardest constraint as the one nearest its established limit or without a workaround, not the one easiest to sample. If that is unresolved, establish it before choosing the unit.
+Choose a unit that connects the complete extraction-to-consumption boundary and exercises the applicable constraint that is hardest to satisfy: length, control tokens, pointers, compression, padding, or another boundary whose failure would invalidate scale-up. A short string that bypasses that condition is not representative. If the decisive constraint is still unresolved, establish it before claiming a representative unit, or state the narrower claim supported by the result. This governs representativeness; it does not impose a universal investigation order outside the PoC claim.
 
 Use separate units for consumers or risks that do not share the same path. Verify:
 
@@ -47,9 +47,9 @@ Use separate units for consumers or risks that do not share the same path. Verif
 - character and control-token preservation or recalculation policies, and glyph mapping;
 - reinsertion length, boundaries, references, and container structure;
 - actual load and consumption; and
-- displayed result plus affected regression paths.
+- displayed result and affected regression paths.
 
-When adopting a successful PoC result, encode any adopted product rules and required checks in the primary path, and keep the supporting evidence linked through `references/conventions/project-records.md` §4. Decide separately under `references/conventions/project-conventions.md` §1 whether the producing procedure belongs in the build; adopting the result does not make the temporary artifact a build input. A temporary code mapping proves the representative scope, not distribution collision freedom. Apply `references/strategy/font-strategy.md` §2.1 to the distribution mapping decision.
+When adopting a successful PoC result, encode any adopted product rules and required checks in the primary path, and keep the supporting evidence linked through `references/conventions/project-records.md` §4. Decide separately under `references/conventions/project-conventions.md` §1 whether the producing procedure belongs in the build; adopting the result does not make the temporary artifact a build input. A temporary code mapping supports only the representative claim, not collision freedom across the distribution. Apply `references/strategy/font-strategy.md` §2.1 to the distribution mapping decision.
 
 One representative unit does not prove total volume. An unresolved population does not invalidate the unit; use `references/strategy/text-extraction.md` §1.5 to decide when enumeration must precede scaling.
 
@@ -65,7 +65,7 @@ Run a conditional PoC only for a design-changing risk without equivalent static 
 | Growth or relocation | Translation can move boundaries, references, alignment, or following data | The representative change preserves every applicable reference and boundary through load and consumption |
 | Compression or container | Edited data is packed and may change size or representation | Unchanged equivalence and modified container validity both hold, and the target consumer accepts the result |
 | Graphics text | Distribution text is stored as graphics pixels | The representative path passes `references/strategy/graphics-text.md` §4 |
-| Presentation or interaction | Windows, states, pages, input, audio, or event synchronization can change implementation | The representative path passes the applicable criteria in `references/strategy/build-and-verify.md` §5 within its declared proof scope |
+| Presentation or interaction | Windows, states, pages, input, audio, or event synchronization can change implementation | The representative path passes the applicable criteria in `references/strategy/build-and-verify.md` §5 within the declared scope of the PoC |
 | User strings | Player-created text is stored and consumed again | Input repertoire, storage representation, redisplay, and length conditions work together within the distribution scope |
 
 Do not turn every final-QA item into a PoC. Select only a representative condition that can change implementation.
@@ -74,12 +74,12 @@ When a runtime asset change triggers `references/strategy/runtime-assets.md` §1
 
 ## 6. Outcomes and integration
 
-- **Pass** applies only to the declared proof scope.
+- **Pass** applies only to the claim defined for the PoC.
 - **Fail** blocks dependent implementation until the assumption or design changes.
-- **Unresolved** is not pass. Split the first unproved boundary, then return to the original condition.
+- **Unresolved** is not a pass. Isolate the first unsupported boundary, then return to the original condition.
 
-Record risk, representativeness, predefined criteria, evidence, proved and unproved claims, rejected choices, and next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
+Record risk, representativeness, predefined criteria, evidence, supported and unsupported claims, rejected choices, and the next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
 
-The project may name intermediate states differently, but preserve the distinction among a local result, its adoption into the cumulative build, and the completion claim it supports. A local pass may justify another investigation before integration when that evidence is more useful; keep its unintegrated boundary and remaining conditions explicit rather than treating it as project success.
+The project may name intermediate states differently, but preserve the distinction among a local result, its adoption into the cumulative build, and the completion claim it supports. A local pass may justify another investigation before integration when that evidence is more useful; record that it has not yet been integrated and keep the remaining conditions explicit rather than treating it as project success.
 
 When a successful PoC is adopted, reproduce its rules through the primary build from immutable source and combine them with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5. Component success becomes project success only after the primary build passes `references/strategy/build-and-verify.md` §1.

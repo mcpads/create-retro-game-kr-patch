@@ -75,7 +75,7 @@ Runtime evidence connects the exact integrated build through representative inte
 - explicit save followed by the target's native reset or power-cycle behavior; and
 - reload in a fresh process, device session, or equivalent environment that reopens persistent storage.
 
-Evidence from one level does not establish the next. Record launcher behavior, save-directory replacement, state injection, menu unlocks, or other interventions through `references/conventions/project-records.md` §1. An intervention can prove downstream record consumption while leaving natural reachability unproved.
+Evidence from one level does not establish the next. Record launcher behavior, save-directory replacement, state injection, menu unlocks, or other interventions through `references/conventions/project-records.md` §1. An intervention can prove downstream record consumption without proving natural reachability.
 
 Mechanical coverage does not approve candidate arrangement, editing labels, glyph readability, or visual quality. Preserve human presentation approval separately from runtime and serialization results.
 

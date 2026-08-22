@@ -6,7 +6,7 @@ Consult primary references for general MIPS, GPU, CD-ROM, and ISO 9660 specifica
 
 Converting a runtime address to file location requires the current executable, overlay, or module's load extent, relocation, and decompression. Do not transfer a conventional load address or one executable's conversion to another module.
 
-Code bytes read from RAM may differ from the instruction stream executed through CPU cache. For dynamically loaded or overwritten code, establish the loaded module, address aliases, cache state, and time of update. Verify hooks and moved instructions against current ISA references for delay, load hazards, and live state. Apply `references/conventions/project-conventions.md` §2.3 to generation and reinterpretation.
+Code bytes read from RAM may differ from the instruction stream executed through CPU cache. For dynamically loaded or overwritten code, establish the loaded module, address aliases, cache state, and time of update. Verify hooks and moved instructions against current ISA references for delay slots, load hazards, and live state. Apply `references/conventions/project-conventions.md` §2.3 to instruction generation and decoding.
 
 ## 2. Fonts and GPU consumption
 

@@ -1,6 +1,6 @@
 # Debugging and issue resolution
 
-Before runtime verification, distinguish the target state, routes to that state, and the proof scope of each route. A QA defect may be closed only after reproduction, causal diagnosis, correction, and regression verification. Choose debuggers, emulators, and observation order from the current hypotheses and environment. Record evidence, decisions, and next actions under `references/conventions/project-records.md`; judge release readiness through `references/strategy/build-and-verify.md`.
+Before runtime verification, distinguish the target state, routes to that state, and what each route can establish. A QA defect may be closed only after reproduction, causal diagnosis, correction, and regression verification. Choose debuggers, emulators, and observation order from the current hypotheses and environment. When an observation does not fit the current explanation or another experiment would reproduce equivalent uncertainty, search `references/tips/README.md` from the raw symptom and affected transition before adding another local exception. A case may suggest another explanation; it does not establish the cause. Record evidence, decisions, and next actions under `references/conventions/project-records.md`; judge release readiness through `references/strategy/build-and-verify.md`.
 
 ## 1. Completion conditions
 
@@ -23,13 +23,13 @@ Before an experiment, state which outcomes promote or reject each hypothesis. Na
 
 ### 2.1 Reaching a target state and intervening in state
 
-First define the question, target state, and prerequisites that must remain real. When controls, progression, branches, or acquisition conditions are unknown, consult manuals, guides, walkthroughs, play videos, or cheat references to narrow candidate routes. Check the region, revision, and prerequisites described by each source, then reverify them on the target build. Reuse an already verified route under the same baseline and conditions. External material proposes entry routes and input sequences; it does not prove target state or code path.
+First define the question, target state, and prerequisites that the evidence must preserve. When controls, progression, branches, or acquisition conditions are unknown, consult manuals, guides, walkthroughs, gameplay videos, or cheat references to narrow candidate routes. Check the region, revision, and prerequisites described by each source, then reverify them on the target build. Reuse an already verified route under the same baseline and conditions. External material proposes entry routes and input sequences; it does not prove target state or code path.
 
-Among routes that preserve the required prerequisites, choose the one with the lowest reproduction cost. Candidates include normal play, compatible saved states or input recordings, in-game entry points, verified cheats or state edits, and verified calls to state-transition routines. Do not repeat slow or unstable play merely because it involves less intervention. Do not skip prerequisites merely because intervention is faster.
+Choose a route that preserves the prerequisites relevant to the claim and supplies the needed evidence at an acceptable reproduction cost. Candidates include normal play, compatible saved states or input recordings, in-game entry points, verified cheats or state edits, and verified calls to state-transition routines. Normal play is not automatically stronger, and a faster intervention is not equivalent when it bypasses a prerequisite under test.
 
 Before editing state or forcing a routine call, use static and dynamic evidence to establish the target or routine's entry conditions, arguments, call context, side effects, and return state. A plausible address or one desired result does not establish a valid intervention.
 
-An intervened state proves only the prerequisites preserved after intervention and the consumption that follows the target state. If caller selection, acquisition conditions, branch or event state, saves, loads, or other transitions are under test, use normal play or a verified caller path. Record investigative interventions but keep them out of patch content and reproducible build inputs.
+A state reached through intervention proves only the prerequisites preserved after intervention and the consumption that follows the target state. If caller selection, acquisition conditions, branch or event state, saves, loads, or other transitions are under test, use normal play or a verified caller path. Record investigative interventions but keep them out of patch content and reproducible build inputs.
 
 ### 2.2 Isolating a changed factor
 
@@ -55,7 +55,7 @@ faulty input, instruction, or rule -> first incorrect state -> propagation and l
 
 A screen, log line, crash location, or last writer may be only the end of the chain. Find the first divergence along the storage → lookup → load or transform → residency → consumption chain from `references/strategy/runtime-assets.md`, then explain why the fix breaks that causal path.
 
-Symptom names do not determine cause identity: identical names may have distinct causes, while different names may emerge from one shared faulty state or lifetime. Rank candidates by how well they explain current observations and the chain, then choose the lowest-cost experiment among those that distinguish the same hypotheses.
+Symptom names do not determine cause identity: identical names may have distinct causes, while different names may emerge from one shared faulty state or lifetime. Rank candidates by how well they explain current observations and the chain, then choose an experiment that distinguishes the relevant hypotheses given the available evidence and reproduction cost.
 
 ## 4. Observation evidence
 
@@ -87,13 +87,13 @@ Do not expand one issue's regression scope to every game feature.
 
 Close an issue as fixed only through §1. To close it as original behavior, reproduce the same scene and input on a supported source build when possible. If that is impossible, record the comparison scope and remaining uncertainty. Similar appearance in another environment does not establish identical behavior.
 
-Accepted limitation and out-of-scope closure are human product, quality, support, or scope decisions. Before requesting one, the agent establishes the observed effect, affected population and consumer paths, feasible technical options, cost and risk, and impact on product claims. Record the decision under `references/conventions/project-records.md` §1.1 and link it from the issue record. Preserve the observed result against the criterion used when it was obtained; a later decision does not relabel that result as pass. The decision may prospectively change an applicable quality tolerance, supported scope, or product claim. Record that change, retain its effect on earlier claims, and rerun the checks required by the new decision. Protected-information, build, artifact-integrity, and runtime conditions still required by the selected scope and claims cannot be waived; change the implementation or design, exclude the affected scope, or narrow the claim. Without fixed or original-behavior evidence or an applicable human decision, the issue remains open.
+Accepted limitation and out-of-scope closure are human product, quality, support, or scope decisions. Before requesting one, the agent establishes the observed effect, affected population and consumer paths, feasible technical options, cost and risk, and impact on product claims. Record the decision under `references/conventions/project-records.md` §1.1 and link it from the issue record. Preserve the observed result against the criterion used when it was obtained; a later decision does not relabel that result as pass. The decision may prospectively change a relevant quality tolerance, supported scope, or product claim. Record that change, retain its effect on earlier claims, and rerun the checks required by the new decision. Protected-information, build, artifact-integrity, and runtime conditions still required by the selected scope and claims cannot be waived; change the implementation or design, exclude the affected scope, or narrow the claim. Without fixed or original-behavior evidence or a recorded human decision that covers the issue, the issue remains open.
 
 Retain these safeguards against repeated misdiagnosis:
 
 - Do not turn a hypothesis label into a fact label.
 - Prefer evidence that distinguishes competing hypotheses over more observations consistent with one hypothesis.
-- Treat local passes followed by failures in another consumer, or the need for another independently maintained interpretation or exception of the same fact, as evidence that the current defect boundary may be wrong. Compare the causal chains; when they converge, return to the smallest shared premise and ownership boundary.
+- Treat local passes followed by failures in another consumer, or the need for a new separately maintained interpretation or exception for the same fact, as evidence that the current defect boundary may be wrong. Compare the causal chains and reconsider their shared premises and ownership. A shared contract is one possible repair only when the chains actually converge there.
 - Claims that code is unreachable, space is unused, or one path is the actual state writer require complete coverage of the declared denominator.
 - Reuse an earlier implementation only within its verified input, output, and state range.
 - Preserve failed experiments and rejection evidence.

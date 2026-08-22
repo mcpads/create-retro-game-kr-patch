@@ -1,19 +1,19 @@
 # Project conventions
 
-Use these rules to translate patch-strategy invariants and decision criteria into project structure, interfaces, and verification. Inspect the existing repository and toolchain first and retain an equivalent mechanism when present. Choose directories, commands, languages, libraries, and products for the current project and environment. Read the applicable `references/platforms/` document for platform constraints.
+Use these rules to translate patch-strategy invariants and decision criteria into project structure, interfaces, and verification. Inspect the existing repository and toolchain first and retain an equivalent mechanism when present. Choose directories, commands, languages, libraries, and output formats for the current project and environment. Read the applicable `references/platforms/` document for platform constraints.
 
 ## Contents
 
-1. Responsibility boundaries and a single basis
+1. Ownership and authoritative sources
 2. Primary build path and code boundary
 3. Interfaces and exchange data
-4. Reproduction conditions for external components
+4. Reproducibility requirements for external components
 5. Test policy
 6. Source-asset handling
 
-## 1. Responsibility boundaries and a single basis
+## 1. Ownership and authoritative sources
 
-Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when that responsibility already has an owning location and check. Separate these roles without giving one fact several update paths:
+Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when that responsibility already has a defined owner and validation. Separate these roles without giving one fact several update paths:
 
 - source inputs to the reproducible build;
 - intermediate and output artifacts regenerable from source;
@@ -23,15 +23,15 @@ Before creating or extending a repository, inspect its current build, tests, doc
 - runtime and QA evidence plus issue records; and
 - externally injected source images and local caches.
 
-Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
+Maintain one authoritative source for each current fact or state. When both a human summary and machine input are needed, derive one from the other or identify explicitly which one is authoritative. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
-Different components may need different representations of one fact. They still have one update path only when one representation owns the meaning and the others are generated from it or checked through an explicit conversion or conformance boundary. Compilation and independent local checks do not establish agreement between separately maintained copies. If current representations conflict, one identifier carries different meanings, or preserving another consumer requires a new local interpretation or exception, treat the shared boundary as unresolved and do not promote those local results as cumulative until ownership and agreement are restored.
+Different components may need different representations of one fact. They have a single update path only when one representation is authoritative and the others are generated from it or checked through an explicit conversion or conformance boundary. Compilation and independent local checks do not establish agreement between separately maintained copies. If current representations conflict, one identifier carries different meanings, or preserving another consumer requires a new local interpretation or exception, treat the shared boundary as unresolved and do not promote those local results as cumulative until ownership and agreement are restored.
 
 Investigation experiments, heuristic discovery, and one-off transforms stay outside the primary build. When a conclusion is adopted, record its evidence scope, applicability, and reassessment conditions alongside the current reverse-engineering specification. Repeated builds verify applicability and consume the specification; reproducibility does not require rerunning the investigation that established it.
 
 Choose separately whether to adopt a result as a specification or make its producing procedure a build component. Put the procedure in the primary build only when its stable contract produces a deterministic result from declared inputs or enforces a gate required on every build. Then pin its version, make inputs and outputs explicit, propagate failures, and test the contract under §5.3. Dependence on an adopted conclusion is not by itself a reason to rerun its discovery procedure. A procedure that still produces candidate evidence rather than a required deterministic output or gate remains outside the primary build; rerun it when an applicability check, reassessment condition, or counterexample reopens the analysis. Handle source-derived inputs under §6.2.
 
-When an investigative implementation becomes required by the primary build, adopt it explicitly under a stable product role and contract or keep it outside that path. Isolate or retire competing investigative entry points and candidate interpretations. A historical probe name neither defines nor excuses its current responsibility.
+When an investigative implementation becomes required by the primary build, adopt it explicitly under a stable production role and contract or keep it outside that path. Isolate or retire competing investigative entry points and candidate interpretations. A historical probe name neither defines nor excuses its current responsibility.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to human strategic decisions, investigation, PoC, and QA records.
 
@@ -44,9 +44,9 @@ Extraction, transformation, reinsertion, and patch generation must rerun from so
 The primary path must:
 
 1. declare offsets, sizes, integer widths, and endianness to reproduce byte-level output;
-2. produce artifacts with the same meaning and verification result from the same declared inputs;
+2. produce artifacts with equivalent semantics that pass the same checks from the same declared inputs;
 3. fail on missing encodings, lossy transforms, overflow, unknown states, and failed verification;
-4. identify required versions and inputs and provide the same entry point in another environment.
+4. identify required versions and inputs and make the same entry point usable in another environment.
 
 An existing project may retain several components or languages when they already form an equivalent reproducible path. They need not become one executable if responsibility and failure remain traceable in one build graph.
 
@@ -54,13 +54,13 @@ An existing project may retain several components or languages when they already
 
 A reusable unit must describe inputs, outputs, and invariants without target-game facts. Keep target-specific revision, encoding table, pointer addresses, hook locations, and similar facts in the target implementation rather than embedding them in reusable CPU, container, address, or graphics components.
 
-Preserve the same test vectors and consumer-visible result when extracting a reusable component. Reuse potential or component count alone does not justify a shared layer or a changed boundary.
+Preserve the same test vectors and consumer-visible behavior when extracting a reusable component. Reuse potential or component count alone does not justify a shared layer or a changed boundary.
 
-### 2.3 Machine-code generation and interpretation verification
+### 2.3 Verifying machine-code generation and decoding
 
-When a patch generates or moves more than a fixed short instruction sequence, or claims completeness of control flow or references, it must declare a target ISA profile and assemble and disassemble under the same semantic model. The profile distinguishes CPU variant, instruction width and interpretation mode, extensions, and state-dependent interpretation. No product or library is required. If the project implements generation and interpretation itself, it must support every valid instruction and addressing mode in the declared profile, not only the subset currently needed by one patch.
+When a patch generates or moves more than a fixed short instruction sequence, or claims completeness of control flow or references, it must declare a target ISA profile and assemble and disassemble under the same semantic model. The profile distinguishes CPU variant, instruction width and interpretation mode, extensions, and state-dependent interpretation. No specific product or library is required. If the project implements generation and interpretation itself, it must support every valid instruction and addressing mode in the declared profile, not only the subset currently needed by one patch.
 
-- Verify every valid instruction and mode in the declared profile for semantic equivalence in both assemble -> disassemble and disassemble -> assemble directions.
+- Verify every valid instruction and mode in the declared profile for semantic equivalence in both assemble → disassemble and disassemble → assemble directions.
 - Reject out-of-profile opcodes and modes, reserved values, and truncated instructions rather than treating them as data or success.
 - After final placement, disassemble generated ranges again and verify instruction boundaries, operands, branch targets, delay slots, literal pools, and return paths.
 - When moving source instructions, compare original effects and live-state invariants at the new location.
@@ -74,15 +74,7 @@ A fixed short instruction sequence on a verified revision may remain an explicit
 
 ### 3.1 Execution interface
 
-Follow the existing project's command and interface conventions. A new interface needs only these properties:
-
-- source input, configuration, translation assets, and output location are explicit;
-- no host-specific absolute path or hidden global state is embedded in code;
-- automation can decide success and failure, and failures identify affected scope and cause;
-- when a later automated stage consumes analysis output, that output has a stable machine-readable interface rather than requiring human prose to be parsed; and
-- the primary build entry point reaches final artifacts without bypassing required verification.
-
-The project decides whether analysis and build share one interface. Do not add a naming scheme or wrapper over an equivalent existing call path.
+Follow the existing project's command and interface conventions. The primary entry point must expose declared inputs and outputs without hidden host state, return machine-detectable failures that identify the affected scope, and reach final artifacts without bypassing verification. Analysis output consumed by automation needs a stable machine-readable interface. Do not add a wrapper over an equivalent existing call path.
 
 ### 3.2 Machine-readable input and output
 
@@ -94,22 +86,13 @@ Exchange data between stages must use a machine-readable representation with val
 - rejection of unknown fields, states, tokens, and type mismatches; and
 - explicit conversion for schema changes rather than silent absorption.
 
-Extraction output and translation input must share one protected-information baseline. Apply `references/conventions/translation-artifacts.md` to translation assets and `references/conventions/data-formats.md` to mappings, control codes, pointers, reinsertion policy, and font profiles. Retain an equivalent established project format after comparing meaning and validation.
+Extraction output and translation input must share one protected-information baseline. Apply `references/conventions/translation-artifacts.md` to translation assets and `references/conventions/data-formats.md` to mappings, control codes, pointers, reinsertion policy, and font profiles. Retain an established project format if it preserves the same information and validation.
 
 Keep frequently adjusted presentation parameters separate from reverse-engineered structural values. Update each value in one place.
 
-## 4. Reproduction conditions for external components
+## 4. Reproducibility requirements for external components
 
-When an external program, library, or service affects primary-build output, record in the project:
-
-- a source and version or commit sufficient to reproduce the result;
-- declared inputs, options, outputs, and failure propagation;
-- the capability and applicability assigned to the component;
-- round-trip or cross-validation results on target source or a representative risk corpus;
-- independent verification of its output in the primary build; and
-- license conditions for bundling or redistribution.
-
-Choose a component that satisfies these conditions in the current environment and implementation. Retain an existing equivalent reproduction and verification mechanism.
+When an external program, library, or service affects primary-build output, bind its source and version to declared inputs, options, outputs, failure propagation, and applicability. Retain target-specific round-trip or cross-validation evidence, independent output verification in the primary build, and the license basis for bundling or redistribution. Preserve an existing mechanism that already satisfies these requirements.
 
 ## 5. Test policy
 
@@ -125,7 +108,7 @@ For inverse pairs such as encode/decode, compress/decompress, and logical/physic
 
 Every change from source to target image must be planned as a verifiable Expected Write before application. This includes code and data writes, generated regions, rebuilt containers, pointer, checksum, and header postprocessing, growth, and truncation. No separate path may mutate final output. A component may build a candidate file or byte stream, but before merging it into the final image it must register and verify the resulting differences as Expected Writes.
 
-Calculate the complete write plan first, verify every write against immutable source, then apply it to one output. Do not treat a buffer changed by an earlier write as expected source. If writes intentionally depend on one another, declare the predecessor output and composition rule and establish final bytes plus one writer before application. The project chooses concrete APIs and types, but each write needs at least: writer and meaning, source coordinate system and allowed range, expected source bytes or an equally strong source condition, and final bytes or a derivation rule. A fixed range on a fixed supported revision requires exact expected bytes or a strong hash identifying the range; existence somewhere in the file is not sufficient.
+Calculate the complete write plan first, verify every write against immutable source, then apply it to one output. Do not treat a buffer changed by an earlier write as expected source. If writes intentionally depend on one another, declare the predecessor output and composition rule and establish the final bytes and a single writer before application. The project chooses concrete APIs and types, but each write needs at least: writer identity and purpose, source coordinate system and allowed range, expected source bytes or an equally strong source condition, and final bytes or a derivation rule. A fixed range on a fixed supported revision requires exact expected bytes or a strong hash identifying the range; existence somewhere in the file is not sufficient.
 
 The build must fail when:
 
@@ -150,7 +133,7 @@ Automate a test only when its expected result follows from an established invari
 
 A value expected to change under valid edits to declared translation, assets, or configuration is a build result, not a stable test expectation. Let the build derive and report current counts, addresses, displacements, sizes, and checksums. Test the invariant relating those values to source identity, capacity, layout, or artifact consistency. Pin an exact derived value only when it belongs to a declared fixed source profile, data format, frozen release artifact, or minimal regression fixture, and state both the contract that fixes it and the condition that permits it to change.
 
-When producers, analyzers, generators, verifiers, or reports encode the same adopted fact in different representations, an integration check must derive them from the owning basis or verify their explicit conversion or conformance contract. Testing each component against its own literals does not establish their mutual agreement.
+When producers, analyzers, generators, verifiers, or reports encode the same adopted fact in different representations, an integration check must derive them from the authoritative source or verify their explicit conversion or conformance contract. Testing each component against its own literals does not establish their mutual agreement.
 
 An integration test runs the primary build from declared source, translation, and configuration inputs through final artifacts. It covers at least:
 
@@ -175,6 +158,6 @@ Repository-tracked material may include project-authored code, documentation, tr
 
 Inject source-image location at runtime or through documented local configuration; do not hard-code it. A local default may exist if another environment can override it. Host-specific absolute paths and personal filenames must not become repository assumptions.
 
-Before interpreting or modifying content as a supported build input, determine its revision and region, compute its size and strong identity hash, and match them to a declared source profile. An unknown source may be examined under an explicit survey-only baseline to establish its identity and structure, but a supported build must reject it until the applicable profile and coordinates are established. Do not promote survey findings from that input into another profile silently. Maintain expected identity in one code or validated-manifest location. When supporting several sources, separate coordinate and format profiles and record the selected profile in output.
+Before interpreting or modifying content as a supported build input, determine its revision and region, compute its size and a strong content hash, and match them to a declared source profile. An unknown source may be examined under an explicit survey-only baseline to establish its identity and structure, but a supported build must reject it until the applicable profile and coordinates are established. Do not promote survey findings from that input into another profile silently. Maintain expected identity in one code location or validated manifest. When supporting several sources, separate coordinate and format profiles and record the selected profile in output.
 
 Regenerate source-derived build inputs such as palettes, tile bases, glyph originals, and baked graphics from declared source when possible. Prior-patch extracts and manual working files may provide comparison or bootstrap evidence but must not enter the build without independent verification against declared source. When an irreproducible local derivative is unavoidable, document its limit, identity hash, necessary rights, and verification procedure, and fail the build when it is absent.

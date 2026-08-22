@@ -1,6 +1,6 @@
 # Initial survey
 
-Reduce uncertainty enough to decide feasibility and the next implementation boundary. Choose investigations heuristically by expected decision value, dependencies, cost, and reversibility; a completion-blocking or redesign risk often deserves early evidence but does not define a fixed order. Claim that one experiment is a cheaper equivalent only when it preserves the same condition, prerequisites, and proof scope.
+Reduce uncertainty enough to decide feasibility and the next implementation boundary. Investigation order follows target evidence and current project decisions rather than a universal sequence. Treat one experiment as equivalent evidence only when it tests the same condition under the same prerequisites and supports the same claim.
 
 ## 1. Questions to answer before completion
 
@@ -11,13 +11,13 @@ Reduce uncertainty enough to decide feasibility and the next implementation boun
 5. **Intervention boundary**: Is the change data replacement, relocation or new assets, code modification, or a combination?
 6. **Evidence**: Which uncertainty needs a PoC, and what equivalent evidence already exists?
 7. **Initial volume**: Is the target population exact, a lower bound, an estimate, or unresolved?
-8. **Display budget**: Which values describe observed source usage, and which are confirmed consumer capacity?
+8. **Display budget**: Which values describe observed source usage, and which reflect confirmed consumer capacity?
 
-Treat risks such as encoding space, glyph capacity, name entry, relocation, compression, and distinct consumer paths as conditional when they remain independent of basic visibility. Apply `references/strategy/poc.md` to their proof scope and outcomes, and `references/strategy/graphics-text.md` when distribution text is stored as graphics pixels. Do not add unrelated battle, sound, or general graphics investigation unless it is a direct prerequisite for localization.
+Treat risks such as encoding space, glyph capacity, name entry, relocation, compression, and distinct consumer paths as conditional when they remain independent of basic visibility. Apply `references/strategy/poc.md` to define what their evidence must establish and how to interpret the outcomes, and apply `references/strategy/graphics-text.md` when distribution text is stored as graphics pixels. Do not add unrelated battle, sound, or general graphics investigation unless it is a direct prerequisite for localization.
 
-## 2. Follow dependency boundaries instead of a fixed sequence
+## 2. Investigation boundaries
 
-Media, logical files or blocks, code consumers, fonts, and text structure are possible investigation categories, not a required sequence. Begin from storage or consumption according to available evidence. Work on the unresolved completion-critical condition, not merely the easiest local success.
+Media, logical files or blocks, code consumers, fonts, and text structure are possible investigation categories, not a required sequence. Keep the hardest or most decisive unresolved condition visible. Investigate another boundary when it supplies evidence or a prerequisite for that condition, advances another independently valuable claim, or follows a relevant recorded human decision. A local success remains limited to its evidence until its relationship to feasibility or completion is established.
 
 For each result, ask whether it changes:
 
@@ -56,7 +56,7 @@ A candidate address that merely falls within a plausible range does not establis
 
 ### 2.4 Capacity and runtime assets
 
-Compare capacity with the actual required repertoire, text growth, buffers, and transfers. Do not begin with relocation or dynamic mapping merely because capacity might be insufficient; first establish the limiting resource.
+Compare capacity with the required repertoire, text growth, buffers, and transfers. Do not begin with relocation or dynamic mapping merely because capacity might be insufficient; first establish the limiting resource.
 
 When a change triggers `references/strategy/runtime-assets.md` §1, assess the links in `references/strategy/runtime-assets.md` §2.
 
@@ -86,7 +86,7 @@ Keep confirmed facts, candidates, and rejected candidates distinct.
 
 ### 3.1 Fixed revision and unresolved population
 
-For a fixed revision and a proven consumer, treat hook sites, original instructions, table entries, and pointer storage as revision specification. Use explicit constants and expected source bytes instead of runtime heuristics.
+For a fixed revision and a verified consumer, treat hook sites, original instructions, table entries, and pointer storage as revision specification. Use explicit constants and expected source bytes instead of runtime heuristics.
 
 Derive values that depend on build output, such as end addresses, branch displacements, file sizes, and checksums. A fixed specification does not mean hard-coding derived outputs.
 
@@ -96,7 +96,7 @@ Store pointer findings under `references/conventions/data-formats.md` §4.
 
 ## 4. Prior patches and lineage
 
-Use prior patches as candidate maps and risk evidence, not authority. Choose references by matching bottleneck and representation rather than language label alone. A Chinese or other CJK patch may expose non-Latin code-space, glyph, and budget constraints more directly than a Latin-variable-width patch, but remeasure the Korean corpus, cells, and spacing.
+Use prior patches as candidate maps and risk evidence, not authority. Choose references by matching bottleneck and representation rather than language label alone. A Chinese localization or another CJK patch may expose non-Latin code-space, glyph, and budget constraints more directly than a Latin-script variable-width patch, but remeasure the Korean corpus, cells, and spacing.
 
 Use a prior patch by:
 
@@ -105,7 +105,7 @@ Use a prior patch by:
 - recording checksum, application order, license, and incompatibilities when it enters the build lineage; and
 - remeasuring every width, repertoire, slot, and representation constraint for the current target.
 
-Once the target's own storage -> consumer -> screen path supplies sufficient evidence, use that path as the implementation basis. Do not require a fixed count of prior examples before transitioning. Retain prior patches only as candidates for coverage or failure analysis within their verified range.
+Once the target's own storage → consumer → screen path supplies sufficient evidence, use that path as the implementation basis. Do not require a fixed count of prior examples before transitioning. Retain prior patches only as candidates for coverage or failure analysis within their verified range.
 
 ## 5. Completion
 
@@ -125,4 +125,4 @@ Produce:
 
 Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions.
 
-Return work to the next useful unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or loss of evidence equivalence. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. If further work presents a materially different product, quality, cost, risk, or support tradeoff, record the evidence, options, and recommendation under `references/conventions/project-records.md` §1.1 and present it for human decision. Do not narrow the declared scope silently. Content left outside a human-approved scope requires an explicit exception under `references/conventions/translation-artifacts.md` §5.
+Return to the next useful unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or evidence that the prior result no longer applies. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. If further work presents a materially different product, quality, cost, risk, or support tradeoff, record the evidence, options, and recommendation under `references/conventions/project-records.md` §1.1 and present it for human decision. Do not narrow the declared scope silently. Content left outside a human-approved scope requires an explicit exception under `references/conventions/translation-artifacts.md` §5.

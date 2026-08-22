@@ -1,16 +1,16 @@
 # Evidence-backed case index
 
-This index preserves bounded failures, counterexamples, proven techniques, and operational caveats that are expensive to rediscover.
+This index preserves failures with known scope, counterexamples, proven techniques, and operational caveats that are expensive to rediscover. Open it when an observed result does not fit the current explanation or work stops producing new evidence or strengthening the cumulative claim. You do not need to know the cause or recognize a previous case before consulting it.
 
-Select only a case whose judgment area and symptom match the current problem. Use its observed scope and transfer limit to choose what must be re-established. Completion is determined by the linked **Related criteria**, not by resemblance to the case.
+Start with the direct observation, the transition or state in which it occurred, and the affected structure or consumer. Scan the **Read when** entries or search for those terms before searching for a suspected cause. Read a case when it can expose an assumption or distinguish a boundary in the current work. A case can suggest another interpretation; it does not prescribe a repair. Use its observed scope and transfer limit to decide what must be re-established. Completion is determined by the linked **Related criteria**, not by resemblance to the case.
 
-Case placement follows the conclusion's applicability, not the platform where it was first observed. `general/` contains conclusions that can be tested without adopting one platform's storage or execution rules. `platforms/` contains cases whose conclusion depends on those rules. A platform named in a general case records the evidence boundary; it is not a routing condition.
+Case placement follows the conclusion's applicability, not the platform where it was first observed. `general/` contains conclusions that can be tested without adopting one platform's storage or execution rules. `platforms/` contains cases whose conclusion depends on those rules. A platform named in a general case identifies where the evidence was obtained; it is not a routing condition.
 
-Headings state the reusable conclusion directly. **Search terms** provide symptom, data-structure, and technical aliases for retrieval; they are not additional claims. Literal source or target strings remain unchanged when they are evidence. Search the index first. If its wording does not match, search the tips tree by the reproduced symptom or technical term, then read only the matching case section.
+Headings state the reusable conclusion directly. **Search terms** provide symptom, data structure, and technical aliases for retrieval; they are not additional claims. Literal source or target strings remain unchanged when they are evidence. If the index uses different wording, search the tips tree by the raw observation, state transition, affected structure, or technical term, then read only the matching case section. If no case matches, continue with evidence from the target without assuming novelty or forcing an analogy.
 
-## Judgment areas
+## Decision areas
 
-The labels below correspond to the strategy documents routed from `SKILL.md`. Convention and platform documents may appear in a case's related criteria but do not add a judgment area.
+The labels below correspond to the strategy documents linked from `SKILL.md`. Convention and platform documents may appear in a case's related criteria but do not add a decision area.
 
 | Index label | Strategy document |
 |---|---|
@@ -29,7 +29,7 @@ The labels below correspond to the strategy documents routed from `SKILL.md`. Co
 
 ## General cases
 
-| Case | Judgment areas | Read when | First observed on | Reference |
+| Case | Decision areas | Read when | First observed on | Reference |
 |---|---|---|---|---|
 | Pointer gaps do not define string boundaries | Text extraction | Pointer-based slices overlap or contain nested entries | Dreamcast | `references/tips/general/cases.md#pointer-gaps-do-not-define-string-boundaries` |
 | Shared glyph slots have multiple consumers | Fonts and encoding / Graphics text / Runtime assets / Build and verification | Changing one glyph or tile damages unrelated labels, digits, or graphics | Dreamcast / SNES / Game Gear / Saturn / PlayStation | `references/tips/general/cases.md#shared-glyph-slots-have-multiple-consumers` |
@@ -104,11 +104,11 @@ The labels below correspond to the strategy documents routed from `SKILL.md`. Co
 | Residual correction turned composition into exact glyph compression | Fonts and encoding / Name entry and user strings / Build and verification | Component composition fits storage but must reproduce a finished font exactly | Game Boy Color | `references/tips/general/cases.md#residual-correction-turned-composition-into-exact-glyph-compression` |
 | Retained display slots define glyph co-residency across transitions | Fonts and encoding / Runtime assets / Reinsertion and hooks / Build and verification | Each page fits alone, but old lines corrupt after the next record or menu transition | NES | `references/tips/general/cases.md#retained-display-slots-define-glyph-co-residency-across-transitions` |
 | Manual layout decisions must precede faithful static previews | Translation / Build and verification | A plausible preview exists before page, line, and window placement are established | PlayStation | `references/tips/general/cases.md#manual-layout-decisions-must-precede-faithful-static-previews` |
-| Relocated call-like controls need an explicit resume target | Text extraction / Reinsertion and hooks / Build and verification | A relocated continuation keeps its control bytes but returns to the wrong content | Saturn | `references/tips/general/cases.md#relocated-call-like-controls-need-an-explicit-resume-target` |
+| Relocated call-like controls need an explicit return target | Text extraction / Reinsertion and hooks / Build and verification | A relocated continuation keeps its control bytes but returns to the wrong content | Saturn | `references/tips/general/cases.md#relocated-call-like-controls-need-an-explicit-return-target` |
 
 ## Platform-specific cases
 
-| Case | Judgment areas | Read when | Required platform context | Reference |
+| Case | Decision areas | Read when | Required platform context | Reference |
 |---|---|---|---|---|
 | NFTR tags and CMAP order follow on-disk consumer semantics | Fonts and encoding / Runtime assets / PoC | Documented NFTR tags do not match raw bytes or a new CMAP entry is ignored | Nintendo DS | `references/tips/platforms/nds.md#nftr-tags-and-cmap-order-follow-on-disk-consumer-semantics` |
 | MPR state resolved HuC6280 bank identity | Initial survey / Debugging | An immediate value in a handler is being treated as a physical bank ID | PC Engine | `references/tips/platforms/pce.md#mpr-state-resolved-huc6280-bank-identity` |

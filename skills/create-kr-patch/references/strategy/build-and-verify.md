@@ -14,7 +14,7 @@ The build and distribution path must satisfy all of these conditions:
 
 The primary build must combine every adopted translation, glyph, mapping, reinsertion, code, and container change into one result made from the immutable source. Successful component checks or PoC artifacts do not prove integration. The combined result must pass its declared static and runtime criteria. A development build follows the input policy in `references/conventions/translation-artifacts.md` §5, but every adopted technical change must still enter the same build. Keep it producible: runtime verification and `references/strategy/debugging.md` §2.1 diagnosis consume it. Attribute post-integration evidence to that exact result.
 
-This integration boundary does not prescribe when independent diagnostics, design work, or parallel investigations must occur. It connects adopted results to the product without turning their discovery or design history into per-build stages. Until a result enters the cumulative build, interpret it within its proved scope and keep its relationship to remaining completion conditions visible.
+This integration boundary does not prescribe when independent diagnostics, design work, or parallel investigations must occur. It connects adopted results to the product without turning their discovery or design history into per-build stages. Until a result enters the cumulative build, limit its use to the claims its evidence supports and keep its relationship to remaining completion conditions visible.
 
 For one supported revision, adopt verified reverse-engineering conclusions as explicit specifications only within their established applicability. A catalog of a finite population may enter the specification only after every member has been established. Repeated builds validate the declared applicability and consume those specifications. Return to analysis when source or applicability checks fail, a reassessment condition is met, or new evidence challenges a specification. Continue to derive addresses, sizes, and checksums that depend on translation length, glyph count, or placement from the build result. Do not silently promote new heuristic candidates into the specification during repeated builds (`references/strategy/initial-survey.md` §3.1).
 
@@ -57,9 +57,9 @@ Build and application entry points must enforce the same source-identification r
 
 ## 4. Runtime verification
 
-Set runtime scope from the consumer paths touched by the change and from the distribution claims. Do not turn asset count into an equal number of runtime trials. Use `references/strategy/runtime-assets.md` §2 to determine which items share a proved link and which exceptions require separate execution.
+Set runtime scope from the consumer paths touched by the change and from the distribution claims. Do not turn asset count into an equal number of runtime trials. Use `references/strategy/runtime-assets.md` §2 to determine which items share a verified link and which exceptions require separate execution.
 
-If the route to a target state is unknown, or state intervention could reduce reproduction cost, establish the route and the intervention's proof scope through `references/strategy/debugging.md` §2.1 first.
+If the route to a target state is unknown, or state intervention could reduce reproduction cost, establish the route and what the intervention can prove through `references/strategy/debugging.md` §2.1 first.
 
 - The development environment must expose observations that distinguish the current failure layer. Do not use absence of an event as negative evidence until the observation method's address, event, and input interpretation are known to cover the real consumer path.
 - When claiming support for a console, medium, loader, or execution environment, verify the final candidate on that target path. Add a second environment when tolerance or implementation-specific behavior in the first environment is a current risk. Implementations that are not independent do not count as independent evidence.
@@ -85,7 +85,7 @@ Judge final text, presentation, and interaction changes on their actual consumer
 - When a change touches text progression or synchronization, verify applicable page, wait, scroll, auto-advance, skip, voice, and event timing within the declared tolerance.
 - For a changed display extent, verify the layout and clearing criteria in `references/strategy/reinsertion.md` §6 across transition, exit, and re-entry. Page or progression changes must not introduce empty pages or unintended early or duplicate advancement.
 
-Judge the release result from Korean encoded output and the actual consumer conditions, distinguishing observed source usage from confirmed capacity through `references/strategy/translation-workflow.md` §4.
+Judge the release result from Korean-encoded output and verified consumer conditions, distinguishing observed source usage from confirmed capacity through `references/strategy/translation-workflow.md` §4.
 
 ## 6. Issue closure and release readiness
 

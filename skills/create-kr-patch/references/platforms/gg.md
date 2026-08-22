@@ -22,7 +22,7 @@ Trace the path before and after transfer to determine whether a stored glyph is 
 
 ## 4. From storage to screen consumption
 
-A VDP port transfer is the final hardware upload or write boundary. It may be performed by a different writer than the one that produced the value, and it may occur at a different time from the asset load. Verify separately whether the write is consumed by the actual name table, sprite, and viewport. When using font data in a new bank or new VRAM slots, perform the link assessment in `references/strategy/runtime-assets.md` §2 and evaluate state-specific working sets through `references/strategy/font-strategy.md` §3.
+A VDP port transfer is the final hardware upload or write boundary. It may be performed by a different writer than the one that produced the value, and it may occur at a different time from the asset load. Verify separately whether the write reaches the active name table or sprite data and the visible viewport. When using font data in a new bank or new VRAM slots, perform the link assessment in `references/strategy/runtime-assets.md` §2 and evaluate state-specific working sets through `references/strategy/font-strategy.md` §3.
 
 ## 5. Text and code space
 

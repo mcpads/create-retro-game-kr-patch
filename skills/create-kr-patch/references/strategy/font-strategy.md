@@ -105,7 +105,7 @@ Reusing the game's existing glyph presentation may minimize impact but is not ma
 
 When dialogue, UI, name entry, or graphics paths use different providers or representation rules, determine code table, glyph source, cell, and budgets per path. Do not generalize one path's PoC to the whole game.
 
-Use one explicit input when several paths truly share presentation parameters. Split font render profiles only when parameters differ and one setting would overwrite another or make build and review output disagree. Record profile meanings under `references/conventions/data-formats.md` §6.
+Use one explicit input when several paths truly share presentation parameters. Split font-rendering profiles only when parameters differ and one setting would overwrite another or make build and review output disagree. Record profile definitions under `references/conventions/data-formats.md` §6.
 
 Keep revision-specific structural constants such as addresses, banks, and code boundaries separate from presentation tuning. Preserve those constants as explicit specification with expected bytes.
 

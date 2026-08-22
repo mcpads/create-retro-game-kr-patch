@@ -8,7 +8,7 @@ The 65816 M/X state changes immediate-instruction length as well as register wid
 
 ## 2. ROM coordinates and expansion
 
-CPU-address to file-offset conversion applies only within an established mapping mode, mirror, copier-header representation, and special-chip mapping. Do not transfer one mapping's formula to another mode or expanded region.
+CPU-address-to-file-offset conversion applies only within an established mapping mode, mirror, copier-header representation, and special-chip mapping. Do not transfer one mapping's formula to another mode or expanded region.
 
 Growing the ROM file does not make a new bank readable by the CPU, hardware, or loader. Place assets in expanded space only after verifying that the mapper can select it, the header and checksum can represent it, it does not conflict with save-memory or mirror mappings, and the actual distribution target supports it.
 

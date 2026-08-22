@@ -1,4 +1,4 @@
-# Common decision cases
+# General decision cases
 
 ## Pointer gaps do not define string boundaries
 
@@ -133,7 +133,7 @@
 ## Equal raw bytes can have different consumer semantics
 
 - **Search terms:** token semantic mismatch, same raw byte, prior patch, position control, punctuation code
-- **Observed scope:** A Game Gear engine derived from an English version and an NES Japanese consumer that assigned different meanings to the same raw values.
+- **Observed scope:** A Game Gear engine derived from an English-language release and a consumer in a Japanese NES release that assigned different meanings to the same raw values.
 - **Failure context:** Variable and punctuation tokens from prior material were preserved numerically, but the target consumers interpreted them as literal string content or position controls.
 - **Decisive test:** Each target token handler, pointer mapping, glyph mapping, and runtime value was compared with its source. Only confirmed static values became localized text, while position-control codes remained reserved from glyph allocation.
 - **Established result:** Matching numeric tokens or glyph shapes in a prior patch did not establish matching semantics in the target engine.
@@ -237,7 +237,7 @@
 - **Failure context:** The prior patch stored and read expanded data in PRG-RAM while its image header declared no PRG-RAM. After normal progress, execution jumped to an unmapped value and departed from valid control flow.
 - **Decisive test:** After tracing the first control-flow departure, only the PRG-RAM declaration in the analysis copy was corrected. The same play path then continued.
 - **Established result:** The header correction was necessary for studying that prior-patch copy, not evidence that a patch built from the Japanese original should change its header.
-- **Transfer limit:** Correcting the declaration isolates this cause only; it does not validate the prior patch as a whole or authorize changing the actual patch input.
+- **Transfer limit:** Correcting the declaration isolates this cause only; it does not validate the prior patch as a whole or authorize changing the production patch input.
 - **Related criteria:** `references/strategy/initial-survey.md` §2.1·§3·§4, `references/strategy/build-and-verify.md` §1·§2, `references/strategy/debugging.md` §2.2.
 
 ## Standard-decoder rejection does not prove free code space
@@ -697,7 +697,7 @@
 - **Failure context:** A smaller fixed candidate table could prove selection and one dialogue, but it could not provide the adopted repertoire or establish that later consumers and saved records used the same syllable identity.
 - **Evidence:** Editing state, the committed record, dialogue rendering, save data, title continuation, and field redisplay were bound to one identity. The declared repertoire was checked against both a reference model and the generated implementation; representative controller input then survived save, power cycle, and reload.
 - **Established result:** Name support required one validated identity from input state through the committed record and every redisplay and persistence boundary, while static exhaustive coverage and representative runtime evidence remained separate claims.
-- **Transfer limit:** Re-derive candidate order, edit stages, record structure, supported repertoire, save format, and every consumer. A same-process power cycle does not prove fresh-process persistence, and representative names do not provide human visual approval of the complete repertoire.
+- **Transfer limit:** Re-derive candidate order, edit stages, record structure, supported repertoire, save format, and every consumer. A reset or power-cycle test in the same emulator process does not prove persistence after restarting the emulator, and representative names do not provide human visual approval of the complete repertoire.
 - **Related criteria:** `references/strategy/name-entry.md` §2·§4·§6, `references/strategy/font-strategy.md` §3, `references/strategy/runtime-assets.md` §2, `references/strategy/build-and-verify.md` §4·§5.
 
 ## Residual correction turned composition into exact glyph compression
@@ -724,18 +724,18 @@
 
 - **Search terms:** inferred dialogue layout, static preview approval, explicit page ranges, presentation evidence
 - **Observed scope:** Dialogue translation review for the Japanese PlayStation release of Puyo Puyo Box.
-- **Failure context:** Automatic wrapping and inferred line proportions produced plausible images before actual window, page, line, and control placement had been decided, risking approval of a layout that was not derived from the game.
-- **Evidence:** The review path rejected inferred previews, kept wording selection separate, and required explicit ordered text ranges tied to the chosen text, controls, and geometry before static reproduction. Static previews, runtime reached through intervention, and natural runtime remained distinct evidence.
+- **Failure context:** Automatic wrapping and inferred line proportions produced plausible images before the window, page, line, and control placement had been established, risking approval of a layout that was not derived from the game.
+- **Evidence:** The review path rejected inferred previews, kept wording selection separate, and required explicit text ranges in display order, tied to the chosen text, controls, and geometry, before static reproduction. Static previews, runtime evidence obtained through intervention, and evidence from normal play remained distinct.
 - **Established result:** A static preview became faithful evidence only after layout was an explicit input; it did not itself decide layout, approve wording, or prove runtime consumption.
 - **Transfer limit:** Use automatic layout when a complete deterministic consumer model establishes it. Otherwise require the target's actual geometry and the necessary human layout decision, and revalidate downstream evidence whenever text, controls, or geometry changes.
 - **Related criteria:** `references/strategy/translation-workflow.md` §5.6, `references/strategy/build-and-verify.md` §5, `references/conventions/project-records.md` §7.2.
 
-## Relocated call-like controls need an explicit resume target
+## Relocated call-like controls need an explicit return target
 
 - **Search terms:** call-like text control, return address, relocated continuation, physical successor, resume target
 - **Observed scope:** Text continuations using call and return controls in the Japanese Sega Saturn release of Waku Waku Puyo Puyo Dungeon.
 - **Failure context:** Relocating a continuation preserved its terminal control bytes but changed the physical byte immediately after the call-like control, so return resumed at the wrong content.
-- **Decisive test:** Consumer analysis showed that the control saved the token-following address before jumping to a shared block. The relocated path restored that resume meaning explicitly, and a real source entry verified the return path rather than only terminal-byte equality.
-- **Established result:** Control-token preservation was insufficient because physical placement participated in control flow; relocation had to preserve or explicitly reconstruct the original resume meaning.
+- **Decisive test:** Consumer analysis showed that the control saved the address following the token before jumping to a shared block. The relocated path reconstructed that return target explicitly, and a source entry from the game verified the return path rather than only terminal-byte equality.
+- **Established result:** Control-token preservation was insufficient because physical placement participated in control flow; relocation had to preserve or explicitly reconstruct the original return target.
 - **Transfer limit:** Re-derive call depth, pushed address, target base, return operation, physical adjacency, and nested continuation behavior. Do not treat every branch-like token as a call or reuse the observed control values.
 - **Related criteria:** `references/strategy/text-extraction.md` §4.4, `references/strategy/reinsertion.md` §1.2·§3, `references/strategy/build-and-verify.md` §5.

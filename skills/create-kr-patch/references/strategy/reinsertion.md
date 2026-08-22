@@ -10,7 +10,7 @@ Reinsertion is not merely writing translated bytes. It must preserve the consume
 | Every moved reference and following position-dependent structure can be updated | Grow in place | Reference completeness, alignment, size, and load |
 | Every consumer can represent and reach a new location | Full relocation | Address representation, loader, buffer, and lifetime |
 | A code hook is a feasible or preferred design after comparison with applicable data and lookup paths | Consider a code hook | Hook ABI, source effects, return, and installation prerequisites |
-| No condition is established | Policy unresolved | Return to a question that can change the completion decision and choose the least costly equivalent evidence |
+| No condition is established | Policy unresolved | Return to a question that can change the completion decision and seek evidence that distinguishes the viable policies |
 
 Policies may differ by entry or region in one file. When entries share a bank, extent, buffer, or slot pool, size every entry in that pool before adopting the first policy; entries that individually fit can exhaust the pool together. Bind each policy to an established boundary model and stable key. Fail on overflow or unresolved entries. Apply the representation rules in `references/conventions/data-formats.md` §5.
 
