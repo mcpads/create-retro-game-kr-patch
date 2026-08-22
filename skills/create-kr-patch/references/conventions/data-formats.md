@@ -98,4 +98,4 @@ The representation must allow mechanical decisions that:
 - every catalog pointer after reinsertion satisfies valid range and target checks, with no unannounced catalog-size change; and
 - every font-profile target uses the same interpretation in build artifacts and comparison output.
 
-Concrete test code follows the project language and test structure. A field-name change must update tests in the same commit. Do not tolerate unknown fields for compatibility; provide an explicit schema conversion when compatibility is required.
+Concrete test code follows the project language and test structure. When a serialized field name belongs to a supported exchange format, change its schema conversion and contract tests together; an internal rename alone does not require a test edit. Do not tolerate unknown fields for compatibility; provide an explicit schema conversion when compatibility is required.

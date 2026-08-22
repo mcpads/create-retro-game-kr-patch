@@ -6,4 +6,4 @@
 - **Evidence:** Independent enumeration of both row parities and runtime markers at the boundary established the required skip from `0x7E` to `0x80` and added a separate forbidden-value check.
 - **Established result:** Independent boundary enumeration and real consumer display found a defect hidden by two components sharing one formula.
 - **Transfer limit:** Do not establish an encoding boundary from generator-validator agreement when they share logic. Independently test forbidden and boundary values and compare them with the real consumer.
-- **Related criteria:** `references/strategy/font-strategy.md` §2·§4, `references/strategy/build-and-verify.md` §4·§5, `references/conventions/project-conventions.md` §5.1.
+- **Related criteria:** `references/strategy/font-strategy.md` §2·§4, `references/strategy/build-and-verify.md` §4·§5, `references/conventions/project-conventions.md` §5.1·§5.3.
