@@ -198,6 +198,32 @@ class DocumentationValidatorTest(unittest.TestCase):
                 validate_docs.validate_tips(errors)
         self.assertTrue(any("tip case files must be under" in error for error in errors))
 
+    def test_reports_tip_filename_that_does_not_match_case_anchor(self) -> None:
+        with TemporaryDirectory() as directory:
+            skill_root = Path(directory)
+            tips = skill_root / "references" / "tips"
+            general = tips / "general"
+            general.mkdir(parents=True)
+            (tips / "README.md").write_text("# index\n", encoding="utf-8")
+            (general / "old-name.md").write_text(
+                "# General cases\n\n## Current descriptive case\n",
+                encoding="utf-8",
+            )
+            errors: list[str] = []
+            with (
+                patch.object(validate_docs, "SKILL_ROOT", skill_root),
+                patch.object(validate_docs, "TIPS_DIR", tips),
+                patch.object(
+                    validate_docs,
+                    "repo_name",
+                    side_effect=lambda path: path.name,
+                ),
+            ):
+                validate_docs.validate_tips(errors)
+        self.assertTrue(
+            any("tip filename must match case anchor" in error for error in errors)
+        )
+
     def test_reports_multiple_cases_in_one_tip_file(self) -> None:
         with TemporaryDirectory() as directory:
             skill_root = Path(directory)

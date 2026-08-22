@@ -343,6 +343,12 @@ def validate_tips(errors: list[str]) -> int:
                 )
                 current_tip = None
                 continue
+            expected_name = f"{tip_key}.md"
+            if path.name != expected_name:
+                errors.append(
+                    f"{repo_name(path)}:{line_no}: tip filename must match case anchor; "
+                    f"expected {expected_name}"
+                )
             if tip_key in actual:
                 errors.append(
                     f"{repo_name(path)}:{line_no}: duplicate tip anchor {tip_key}; "

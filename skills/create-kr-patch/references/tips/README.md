@@ -6,6 +6,8 @@ Start with the direct observation, the transition or state in which it occurred,
 
 Case placement follows the conclusion's applicability, not the platform where it was first observed. `general/` contains conclusions that can be tested without adopting one platform's storage or execution rules. `platforms/` contains cases whose conclusion depends on those rules. A platform named in a general case identifies where the evidence was obtained; it is not a routing condition.
 
+The case directories remain flat because decision areas are many-to-many and do not define one owner for a case. Use this index or search instead of browsing a nested taxonomy. Add another directory boundary only when it represents a different applicability rule, not merely to shorten a file listing.
+
 Case titles state the reusable conclusion directly. **Search terms** provide symptom, data structure, and technical aliases for retrieval; they are not additional claims. Literal source or target strings remain unchanged when they are evidence. If the index uses different wording, search the tips tree by the raw observation, state transition, affected structure, or technical term, then read only the matching case file. If no case matches, continue with evidence from the target without assuming novelty or forcing an analogy.
 
 ## Decision areas

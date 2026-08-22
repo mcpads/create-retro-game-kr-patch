@@ -61,6 +61,8 @@ The following are record transitions, not a required order for investigation or 
 4. **Apply**: Let an adopted decision guide later investigation and implementation within its scope. It narrows which outcomes are valuable, but it neither proves target facts nor waives protected-information, build, or runtime gates.
 5. **Reassess**: Reopen only when a recorded trigger occurs or new evidence materially changes the comparison. Mark the current decision as requiring review, present the delta and affected downstream choices, and preserve superseded lineage rather than silently rewriting the old rationale.
 
+When a material decision is made in a conversation, review, or issue, preserve it in the authoritative decision record before dependent work relies on it. Later agents treat applicable adopted decisions as part of the current baseline, cite them when they shape work, and update their state in the same change that reopens or supersedes them. Communication channels may link to the record but do not become competing authorities.
+
 An adopted decision has authority only within its recorded product scope; it is not a universal strategy. A downstream agent must cite the relevant decision when it changes prioritization, design, accepted limitation, or a release claim, and must keep contrary technical evidence visible.
 
 ## 2. Record placement
@@ -72,9 +74,13 @@ Prefer existing repository locations and links with the same responsibility. Any
 - Stable IDs and relationships survive splitting or merging records.
 - When large, copyrighted, or environment-specific evidence remains outside the repository, committed records retain its identity and regeneration or reproduction conditions.
 
+When work may outlive the current agent context, the authoritative current records must make the active work reconstructible without a conversation transcript. Keep visible the exact baseline and cumulative artifact, the completion condition or decisive unresolved boundary, the last established result, live and rejected explanations, the next observation or action that can distinguish them, the applicable adopted human decisions, and any pending human decision together with work that can continue without it. These facts may remain in existing records when one current entry links them.
+
 The project chooses serialization and placement from its structure, review method, and machine-readability needs. Do not migrate equivalent existing records only to change format.
 
 If records that claim to be current disagree about the baseline, artifact, entry point, adopted conclusion, or issue state, do not choose one by recency or convenience. Treat the current state as unresolved, identify the authoritative record, and change or demote the other current claims in the same update. Preserve superseded observations as history without leaving them as competing current instructions.
+
+On resumption, verify the recorded baseline and applicable adopted decisions, then reconstruct the active claim and rejection evidence before another attempt. Do not repeat discovery merely because the prior agent context is unavailable. Keep chronological attempts in evidence or journal records rather than accumulating competing summaries that claim to be current.
 
 ## 3. Initial survey records
 
@@ -140,6 +146,8 @@ Projects may rename states, but must distinguish uninvestigated, investigated wi
 ## 6. HITL observation requests
 
 Keep each request small enough for one human observation session. Bind it to the exact source, build, environment, configuration, starting state, reproduction input, and observation point. State what to capture and how each possible answer changes the decision or next action; retain the actual response and whether it confirmed or rejected a hypothesis, showed the question to be irrelevant, or left it unresolved.
+
+A human response supplies an observation, not technical interpretation or product approval. The agent remains responsible for the technical interpretation and next hypothesis; incomplete evidence remains unresolved. A product-value choice follows §1.1, while semantic or presentation judgment follows the applicable workflow and §7.2. Do not hide either inside an observation request.
 
 An index contains only ID, target hypothesis, current decision, and response location. Do not duplicate request bodies in the index.
 

@@ -68,7 +68,7 @@ Collect only values and events that distinguish current hypotheses. The observat
 
 Use `references/strategy/build-and-verify.md` §4 to set the verification scope for console, medium, loader, and execution-environment claims.
 
-When mechanical evidence cannot decide, request a HITL observation under `references/conventions/project-records.md` §6, and require that its possible answers distinguish hypotheses and next actions. If the response has no discriminating power, do not confirm a conclusion; narrow the requested observation and return it to the original causal chain. Automate a human-observed pattern only when the same input permits an objective result.
+Use a HITL observation under `references/conventions/project-records.md` §6 when the remaining evidence depends on human perception, or when the required target environment is available only to the human. Difficulty or an unavailable observation method does not turn a technical conclusion into a human decision: establish another observation path or report the check as not run. Require that possible answers distinguish hypotheses and next actions, and keep the returned observation separate from technical interpretation and approval. If the response has no discriminating power, do not confirm a conclusion; narrow the requested observation and return it to the original causal chain. Automate a human-observed pattern only when the same input permits an objective result.
 
 ## 5. Fix and regression
 
