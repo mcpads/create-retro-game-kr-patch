@@ -1,7 +1,7 @@
 # Whole-canvas rendering preserved cross-tile effects
 
 - **Search terms:** composite canvas, tile seams, outline, gradient, shine, render then split
-- **Observed scope:** Multi-tile labels whose outline, background, gradient, or highlight crossed physical tile boundaries.
+- **Observed scope:** Multi-tile SNES labels whose outline, background, gradient, or highlight crossed physical tile boundaries.
 - **Decision context:** Rendering each tile independently broke continuous visual effects at tile seams.
 - **Evidence:** The complete label was composed as one canvas, then split according to the verified tile, subtile, palette, storage, and transfer order. Tests on multiple entry screens confirmed that the seams and effects remained intact.
 - **Established result:** Rendering the full label before splitting it produced continuous cross-tile effects.

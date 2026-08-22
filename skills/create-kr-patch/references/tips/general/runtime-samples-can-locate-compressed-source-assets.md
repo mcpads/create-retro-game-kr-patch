@@ -1,7 +1,7 @@
 # Runtime samples can locate compressed source assets
 
 - **Search terms:** runtime sample reverse search, compressed font source, LZ scan, missed breakpoint, glyph cache
-- **Observed scope:** Locating an unknown compressed font source from live glyph bytes.
+- **Observed scope:** Locating an unknown compressed font source from live glyph bytes in an SNES title.
 - **Failure context:** WRAM and VRAM breakpoints repeatedly missed the initial load because the game used an accumulated glyph cache and DMA, while several live glyph samples and a verified decompressor were available.
 - **Evidence:** Candidate ROM positions were decompressed with the verified format and bounded output. Results containing multiple live glyph tiles were rendered and compared byte-for-byte with WRAM samples.
 - **Established result:** Reverse-searching verified decompression outputs with several runtime glyph samples located the compressed source and internal glyph layout.

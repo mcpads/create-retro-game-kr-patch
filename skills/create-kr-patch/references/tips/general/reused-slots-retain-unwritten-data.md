@@ -1,7 +1,7 @@
 # Reused slots retain unwritten data
 
 - **Search terms:** ring buffer residue, fixed-width slot, blank trailing slot, partial write, scrolling banner
-- **Observed scope:** A horizontally scrolling ending banner that reused fixed-width slots.
+- **Observed scope:** A horizontally scrolling SNES ending banner that reused fixed-width slots.
 - **Failure context:** Overlong text clipped or overlapped the next slot, while short or empty trailing slots left previous content in unwritten cells.
 - **Decisive test:** Slot width and count were derived from the consumer, every slot containing text and every blank slot was written to the exact width, and the final slots were observed through reuse.
 - **Established result:** The reused buffer did not clear unwritten cells; blank slots and unused cells required explicit space data.
