@@ -52,7 +52,7 @@ Apply the relevant conventions when designing or validating artifacts, exchange 
 
 | Scope | Document | Use it for |
 |---|---|---|
-| Project-wide implementation | `references/conventions/project-conventions.md` | Build and test ownership, machine-code verification, round-trip equivalence and denominator, final-write verification, external-component reproducibility, and source assets |
+| Project-wide implementation | `references/conventions/project-conventions.md` | Investigation, build, test, and runtime-verification ownership; machine-code verification; round-trip equivalence and denominator; final-write verification; external-component reproducibility; and source assets |
 | Translation artifacts | `references/conventions/translation-artifacts.md` | Source preservation, control tokens, review states, and build-input eligibility |
 | Project records | `references/conventions/project-records.md` | Human strategic decisions, survey and PoC decisions, graphics-text catalog, HITL observations, QA evidence, and issue states |
 | Analysis and build data | `references/conventions/data-formats.md` | Character maps, controls, pointers, translation links, reinsertion policies, and font-rendering profiles |

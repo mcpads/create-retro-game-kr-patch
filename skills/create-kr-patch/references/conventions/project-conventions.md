@@ -127,7 +127,18 @@ When one stage rebuilds a large file, bank, or sector, distinguish writable subr
 
 Final-diff audit must include length changes, appended tails, and truncated ranges as well as the common source-output extent. Fail unless registered writes and derivation rules explain expected final size and every changed region.
 
-### 5.3 Build gates and tests
+### 5.3 Investigation, build, test, and runtime responsibilities
+
+Classify work by the claim it establishes and the inputs that can change that claim, not by the command that happens to run it or whether it is automated. One executable may support several roles, but each invocation needs one declared responsibility:
+
+| Responsibility | Use it when | It establishes | Boundary |
+|---|---|---|---|
+| Investigation | The structure, explanation, applicability, or method is still uncertain. | Candidate evidence and, when adopted, a scoped specification with reassessment conditions. | Keep heuristic search, probes, and candidate selection outside recurring builds and tests. A test may protect a deterministic contract adopted from the investigation; it does not rediscover the contract or treat the current candidate as an expected result. |
+| Build | The result depends on current declared source, translation, assets, configuration, or adopted specifications. | Derived product values, rejection of invalid current inputs, and the exact artifact to verify. | Do not pin mutable product results in tests. Calling an investigative procedure from the build does not make it a build component unless it has been adopted under §1 with a stable deterministic output or recurring gate. |
+| Test | A result follows from a stable invariant, data format, fixed source profile, minimal fixture, or reproduced failure under controlled inputs. | Continued conformance of an implementation or boundary to that contract. | A passing test neither selects the current product inputs nor proves that the built artifact reaches a live consumer. |
+| Runtime verification | The claim depends on the game, loader, renderer, state transition, persistence path, or target environment consuming an exact artifact. | Observed behavior on the declared route and state, bound to that artifact and environment. | Automation does not turn runtime evidence into a build gate or ordinary test. Runtime samples do not establish static population coverage unless the remaining members are tied to the same proven consumer path. |
+
+Investigative analysis may produce code, tables, addresses, or other machine-readable results. Their form does not make them build inputs or test expectations. Adopt the conclusion separately from its discovery procedure under §1, and make the primary build consume the adopted specification. Reopen the investigation only when its recorded applicability check, reassessment condition, or counterevidence requires it. A deterministic verifier may belong to the build after adoption when it checks the current artifact against that specification; its analysis-shaped implementation does not reopen or repeat discovery.
 
 Automate a test only when its expected result follows from an established invariant, data format, or reproduced failure. Assert observable boundary behavior, not incidental line counts, current list sizes, prose wording, or internal call order. A harmless implementation or documentation edit must not require a test change unless the tested contract itself changed.
 
