@@ -1,17 +1,17 @@
 # create-kr-patch
 
-레트로 게임의 **한글(Korean) 팬 번역 패치**를 처음부터 끝까지 만드는 Agent Skill.
-ROM·디스크 분석, 텍스트 엔진 역공학, 한글 폰트·인코딩 설계, PoC, 번역·재삽입, 포인터·ASM 훅, 빌드·에뮬레이터 검증 등 한글 패치 전 과정의 판단 영역을 다룬다.
+레트로 게임의 **한글(Korean) 팬 번역 패치**를 처음부터 끝까지 만드는 Agent Skill이다.
+ROM·디스크 분석부터 텍스트 엔진 역공학, 한글 폰트·인코딩 설계, PoC, 번역·재삽입, 포인터·ASM 훅, 빌드·에뮬레이터 검증까지 한글 패치 전 과정에서 내려야 할 판단을 다룬다.
 
 > An Agent Skill for building Korean fan-translation patches for retro games, with guidance for decisions across ROM/disc analysis, patch development, and emulator verification. Methodology only — **contains no copyrighted ROM data or game assets.**
 
 ## 지원 플랫폼
 
-Game Boy·Game Boy Color, NES·Famicom, SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS는 플랫폼 문서를 따로 둔다. 목록에 없는 플랫폼에도 쓸 수 있다.
+Game Boy·Game Boy Color, NES·Famicom, SNES, 메가드라이브, 세가 새턴, PlayStation, Dreamcast, PC Engine, PC-98, Game Gear, Nintendo DS에는 플랫폼별 문서가 따로 있다. 목록에 없는 플랫폼에도 적용할 수 있다.
 
 ## 프로젝트 템플릿
 
-새 한글 패치 저장소를 시작할 때는 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)을 사용할 수 있다. 이 스킬은 조사부터 빌드·검증·배포 판정까지 필요한 기준을 제공하고, 템플릿은 그 기준을 새 저장소의 기본 구조와 실행 진입점으로 옮기는 선택적 뼈대다. 플랫폼과 구현 언어는 고정하지 않는다.
+새 한글 패치 저장소를 시작할 때는 [create-kr-patch-template](https://github.com/mcpads/create-kr-patch-template)을 선택적으로 쓸 수 있다. 이 스킬은 조사부터 빌드·검증·배포 판정까지 필요한 기준을 제시한다. 템플릿은 그 기준을 새 저장소의 기본 구조와 실행 진입점에 반영한 뼈대다. 플랫폼과 구현 언어는 고정하지 않는다.
 
 ## 설치 — Claude Code 세션
 
@@ -29,12 +29,12 @@ codex plugin add create-kr-patch@kr-patch
 
 ## 릴리스 채널과 채널 전환
 
-- `main`: 최신 안정 릴리스 채널. 검증을 마치고 정식 버전으로 확정된 변경만 반영한다.
-- `next`: 다음 안정 릴리스를 준비하며 계속 갱신되는 프리릴리스 채널. alpha·beta·rc를 먼저 사용해 보고 피드백하려는 사용자를 위한 채널이며, 정식 릴리스 전에는 호환성과 문서 구조가 바뀔 수 있다.
+- `main`: 최신 안정 릴리스 채널이다. 검증을 마치고 정식 버전으로 확정한 변경만 반영한다.
+- `next`: 다음 안정 릴리스를 준비하는 프리릴리스 채널이다. alpha·beta·rc를 먼저 사용해 보고 의견을 남기려는 사용자를 위한 채널이며, 정식 릴리스 전에는 호환성과 문서 구조가 바뀔 수 있다.
 
-`next`는 최신 개발 상태를 계속 따라가며, 특정 프리릴리스 상태가 필요하면 버전 태그를 사용한다. 두 채널은 같은 플러그인 ID를 사용하므로 동시에 설치하지 않고, 기존 marketplace를 원하는 Git ref로 교체한다.
+`next`는 최신 개발 상태를 계속 따라간다. 특정 프리릴리스 상태가 필요하면 버전 태그를 사용한다. 두 채널은 같은 플러그인 ID를 쓰므로 동시에 설치하지 말고, 기존 marketplace가 가리키는 Git ref를 원하는 채널로 바꾼다.
 
-Claude Code에서 `next`로 전환:
+Claude Code에서 `next`로 바꾸려면:
 
 ```
 /plugin marketplace remove kr-patch
@@ -43,7 +43,7 @@ Claude Code에서 `next`로 전환:
 /reload-plugins
 ```
 
-Codex에서 `next`로 전환:
+Codex에서 `next`로 바꾸려면:
 
 ```
 codex plugin remove create-kr-patch@kr-patch
@@ -52,9 +52,9 @@ codex plugin marketplace add mcpads/create-retro-game-kr-patch --ref next
 codex plugin add create-kr-patch@kr-patch
 ```
 
-안정판으로 돌아갈 때는 같은 순서에서 `next`를 `main`으로 바꾼다. 같은 채널을 업데이트할 때도 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 재설치한다. Claude Code는 reload 뒤, Codex는 새 스레드에서 선택한 버전을 적용한다.
+안정판으로 돌아가려면 같은 순서에서 `next`를 `main`으로 바꾼다. 같은 채널의 최신 내용을 받을 때도 marketplace를 갱신한 뒤 플러그인을 업데이트하거나 다시 설치한다. Claude Code는 reload 이후, Codex는 새 스레드부터 선택한 버전을 적용한다.
 
-설치 후 레트로 게임을 한글화하겠다고 요청하면 Agent Skill이 발동한다. `한글화`, `한글패치`, `ROM 번역` 어느 쪽으로 말해도 되고, 새로 조사를 시작할 때도 기존 프로젝트를 이어 갈 때도 같다.
+설치한 뒤 레트로 게임을 한글화해 달라고 요청하면 Agent Skill이 발동한다. `한글화`, `한글패치`, `ROM 번역` 어느 표현을 써도 된다. 새 조사를 시작할 때와 기존 프로젝트를 이어 갈 때 모두 적용된다.
 
 ## 구조
 
@@ -72,7 +72,7 @@ skills/
         platforms/       # 플랫폼 규칙이 있어야 성립하는 사례별 파일
 ```
 
-`SKILL.md`가 진입점이다. 플레이어 경험을 지키는 최상위 원칙과 긴 작업의 방향을 잡는 세 가지 작업 원칙을 먼저 제시하고, 지금 하려는 일에 맞는 세부 지침과 검증 기준으로 연결한다.
+`SKILL.md`가 진입점이다. 먼저 플레이어 경험을 지키는 최상위 원칙과 긴 작업의 방향을 잡는 세 가지 작업 원칙을 제시한다. 여기서 지금 하려는 일에 맞는 세부 지침과 검증 기준으로 이어진다.
 
 ## 기여
 
