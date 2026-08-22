@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Generated layouts invalidate stale fixed writes
+# Generated layouts invalidate stale fixed writes
 
 - **Search terms:** overlapping writes, stale fixed offset, literal pool corruption, generated layout, write ownership
 - **Observed scope:** Generated code and its literal pool in the Dreamcast release of Puyo Puyo~n.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Cooked offsets corrupted raw-sector images
+# Cooked offsets corrupted raw-sector images
 
 - **Search terms:** cooked ISO offset, raw 2352-byte sector, 2048-byte user data, pregap, CUE INDEX, wrong sector
 - **Observed scope:** User-data and raw-sector representations of a PC Engine CD image.

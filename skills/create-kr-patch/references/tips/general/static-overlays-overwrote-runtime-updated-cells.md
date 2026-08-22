@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Static overlays overwrote runtime-updated cells
+# Static overlays overwrote runtime-updated cells
 
 - **Search terms:** dynamic tile overwritten, static overlay, state-dependent cells, broad post-DMA hook, save UI
 - **Observed scope:** Save-slot, delete, and copy tilemaps containing both static and runtime-updated cells.

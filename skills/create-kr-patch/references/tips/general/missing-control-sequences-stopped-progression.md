@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Missing control sequences stopped progression
+# Missing control sequences stopped progression
 
 - **Search terms:** missing terminator, cutscene end, control-code audit, false missing-token warning, progression stop
 - **Observed scope:** Event scripts in the Mega Drive release of Madou Monogatari.

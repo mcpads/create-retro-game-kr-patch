@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Input glyphs and result glyphs may use different assets
+# Input glyphs and result glyphs may use different assets
 
 - **Search terms:** name-entry candidates, result glyph mismatch, BNCG, MES font, NFTR no effect, multiple render paths
 - **Observed scope:** Name-entry candidates and post-selection name rendering in revision 0 of the Japanese Nintendo DS release of Dragon Quest IX.

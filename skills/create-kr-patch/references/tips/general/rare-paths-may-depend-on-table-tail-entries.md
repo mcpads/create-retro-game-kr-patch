@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Rare paths may depend on table-tail entries
+# Rare paths may depend on table-tail entries
 
 - **Search terms:** one branch corrupt, missing sentinel pointer, table tail, off-by-one address, pointer coverage
 - **Observed scope:** A branch-specific SNES text failure.

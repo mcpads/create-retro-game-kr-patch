@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Asset reachability does not prove readable text
+# Asset reachability does not prove readable text
 
 - **Search terms:** false Hangul PoC, bytes reach VRAM, wrong tile, legibility, reachability versus visibility
 - **Observed scope:** An early graphics-tile PoC and a later dialogue-font PoC in the same SNES project.

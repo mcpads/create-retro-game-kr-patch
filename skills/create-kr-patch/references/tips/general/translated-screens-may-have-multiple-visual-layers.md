@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Translated screens may have multiple visual layers
+# Translated screens may have multiple visual layers
 
 - **Search terms:** duplicate title layer, sprite overlay, background edit, multiple entry paths, palette cycle, Japanese residue
 - **Observed scope:** A PC Engine CD title subtitle duplicated in the background and a high-priority sprite, reached through two entry paths.

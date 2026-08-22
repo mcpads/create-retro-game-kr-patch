@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Incomplete-token truncation consumed terminators
+# Incomplete-token truncation consumed terminators
 
 - **Search terms:** token-boundary truncation, incomplete prefix, fixed slot, terminator consumed, `FB`, `FA`
 - **Observed scope:** A two-byte prefix encoding in an SNES text path.

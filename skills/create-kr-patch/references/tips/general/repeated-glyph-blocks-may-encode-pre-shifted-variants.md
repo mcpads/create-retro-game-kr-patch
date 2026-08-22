@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Repeated glyph blocks may encode pre-shifted variants
+# Repeated glyph blocks may encode pre-shifted variants
 
 - **Search terms:** pre-shifted glyph copies, variable-width font, four repeated blocks, X-coordinate alignment, clipped glyph
 - **Observed scope:** 16x16 variable-width glyph data and its selector in the Mega Drive release of Madou Monogatari.

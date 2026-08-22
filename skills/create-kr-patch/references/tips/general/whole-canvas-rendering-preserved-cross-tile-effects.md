@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Whole-canvas rendering preserved cross-tile effects
+# Whole-canvas rendering preserved cross-tile effects
 
 - **Search terms:** composite canvas, tile seams, outline, gradient, shine, render then split
 - **Observed scope:** Multi-tile labels whose outline, background, gradient, or highlight crossed physical tile boundaries.

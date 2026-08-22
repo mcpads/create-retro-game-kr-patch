@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## MPR state resolved HuC6280 bank identity
+# MPR state resolved HuC6280 bank identity
 
 - **Search terms:** HuC6280, MPR mapping, System Card BIOS, immediate X value, logical address, bank misidentification
 - **Observed scope:** A PC Engine CD text handler that passed an address and an immediate X value into a BIOS call.

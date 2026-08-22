@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Logical tile indices are not physical coordinates
+# Logical tile indices are not physical coordinates
 
 - **Search terms:** logical tile number, physical tile coordinate, tile base, CHR index, round-trip graphics
 - **Observed scope:** Background tilemap encoders for PC Engine CD and SNES assets.

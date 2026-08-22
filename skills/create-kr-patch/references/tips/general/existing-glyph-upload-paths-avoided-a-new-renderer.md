@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Existing glyph upload paths avoided a new renderer
+# Existing glyph upload paths avoided a new renderer
 
 - **Search terms:** system font hook, glyph provider, 1bpp to 4bpp, reuse upload path, VRAM cache
 - **Observed scope:** System glyph-provider calls followed by bitmap conversion and VRAM upload on PC Engine CD and PlayStation.

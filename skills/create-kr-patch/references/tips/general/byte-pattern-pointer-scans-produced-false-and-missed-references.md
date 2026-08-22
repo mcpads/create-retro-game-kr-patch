@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Byte-pattern pointer scans produced false and missed references
+# Byte-pattern pointer scans produced false and missed references
 
 - **Search terms:** false pointer positive, missed pointer, byte-pattern scan, Shift_JIS trail byte, compressed pixels, reference catalog
 - **Observed scope:** Raw values in Saturn command arguments, SNES compressed graphics, and PC-98 strings that resembled pointers or instructions.

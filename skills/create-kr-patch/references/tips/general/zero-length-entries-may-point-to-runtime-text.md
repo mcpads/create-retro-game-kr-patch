@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Zero-length entries may point to runtime text
+# Zero-length entries may point to runtime text
 
 - **Search terms:** zero-length entry, external string pointer, runtime-composed text, WRAM string, null pointer
 - **Observed scope:** A Game Gear string table and dynamic money or status text assembled for the field screen.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## A glyph mapping may be range-local
+# A glyph mapping may be range-local
 
 - **Search terms:** false global glyph map, range-local mapping, first-occurrence order, later text corrupt, unknown mapping switch
 - **Observed scope:** Message text and a built-in glyph pool in a Saturn title.

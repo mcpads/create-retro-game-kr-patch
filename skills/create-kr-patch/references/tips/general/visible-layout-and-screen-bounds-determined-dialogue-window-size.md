@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Visible layout and screen bounds determined dialogue-window size
+# Visible layout and screen bounds determined dialogue-window size
 
 - **Search terms:** dialogue box width, dialogue box height, visible glyph count, control tokens, line count, screen boundary
 - **Observed scope:** Dynamic battle-dialogue window sizing for Korean text.

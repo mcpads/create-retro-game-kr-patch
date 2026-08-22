@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Isolated removal rejected the suspected root cause
+# Isolated removal rejected the suspected root cause
 
 - **Search terms:** wrong root cause, suspected hook removed, symptom persists, WRAM overlap, DMA source
 - **Observed scope:** Corrupted SNES tiles initially attributed to a VRAM hook.

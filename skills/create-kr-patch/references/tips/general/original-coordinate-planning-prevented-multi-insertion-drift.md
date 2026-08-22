@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Original-coordinate planning prevented multi-insertion drift
+# Original-coordinate planning prevented multi-insertion drift
 
 - **Search terms:** multiple growing regions, original-coordinate plan, reverse-order insertion, pointer-site shift, pointer-target shift
 - **Observed scope:** Multiple expanded data ranges followed by pointers, directories, and structure addresses in PC-98 game files.

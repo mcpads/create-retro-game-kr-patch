@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Selection highlighting depended on data and consumer range
+# Selection highlighting depended on data and consumer range
 
 - **Search terms:** selection highlight too short, source-length read, highlight asset, static proof only, selected state
 - **Observed scope:** A translated selection row longer than the source-language highlight range.

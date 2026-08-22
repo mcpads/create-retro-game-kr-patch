@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Lost page-local controls changed portrait state
+# Lost page-local controls changed portrait state
 
 - **Search terms:** portrait control, page prefix, control-code count, expression order, missing token
 - **Observed scope:** All translated entries and portrait-selection controls in the Game Gear release of Madou Monogatari 2.

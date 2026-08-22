@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Later original writes overwrote replacements
+# Later original writes overwrote replacements
 
 - **Search terms:** later original write, overwritten translation, last writer, VRAM collision, subtitle, logo
 - **Observed scope:** A layered SNES logo and PC Engine CD subtitles overwritten by later original writes.

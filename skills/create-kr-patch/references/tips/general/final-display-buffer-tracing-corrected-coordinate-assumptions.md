@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Final display-buffer tracing corrected coordinate assumptions
+# Final display-buffer tracing corrected coordinate assumptions
 
 - **Search terms:** wrong window base, shifted price, dialogue order, staging buffer, final VRAM copy
 - **Observed scope:** Shop prices and the Hangul renderer in the Game Gear release of Madou Monogatari 1.

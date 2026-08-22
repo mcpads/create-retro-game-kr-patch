@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Glyph reduction prioritized low-semantic-cost substitutions
+# Glyph reduction prioritized low-semantic-cost substitutions
 
 - **Search terms:** glyph budget, translation compromise, spelling loss, unique syllable count, human approval, synonym
 - **Observed scope:** Translation wording changed because of a limited glyph supply in a Saturn title.

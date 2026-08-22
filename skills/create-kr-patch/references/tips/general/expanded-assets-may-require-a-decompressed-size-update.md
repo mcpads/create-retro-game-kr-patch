@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Expanded assets may require a decompressed-size update
+# Expanded assets may require a decompressed-size update
 
 - **Search terms:** decompressed-size constant, expanded compressed font, zero tail, loader length, container size mismatch
 - **Observed scope:** An expanded compressed font with a separate fixed decompression-size value in a Saturn title.

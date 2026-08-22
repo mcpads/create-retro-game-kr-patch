@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Aligned variants reconstructed clean backgrounds
+# Aligned variants reconstructed clean backgrounds
 
 - **Search terms:** reconstruct clean background, 4bpp label variants, nibble comparison, palette semantics, no text-free source
 - **Observed scope:** Several 4bpp label variants sharing one background in a Saturn title.

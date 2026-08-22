@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Reloaded hooks mixed instruction-cache line states
+# Reloaded hooks mixed instruction-cache line states
 
 - **Search terms:** R3000A I-cache, cache-line split, KSEG1 alias, self-modifying code, reloaded hook, mixed instructions
 - **Observed scope:** A PlayStation hook executed after boot-time decompression reloaded its RAM, with the trampoline crossing an instruction-cache line boundary.

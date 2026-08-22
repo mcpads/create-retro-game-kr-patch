@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Moving flexible data first reclaimed constrained space
+# Moving flexible data first reclaimed constrained space
 
 - **Search terms:** mixed pointer width, same-bank constraint, cross-bank pointer, reclaimed source region, space allocation
 - **Observed scope:** Text relocation with both three-byte cross-bank references and two-byte same-bank references.

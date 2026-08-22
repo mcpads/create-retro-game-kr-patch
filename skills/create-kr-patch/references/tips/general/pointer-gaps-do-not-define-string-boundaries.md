@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Pointer gaps do not define string boundaries
+# Pointer gaps do not define string boundaries
 
 - **Search terms:** overlapping strings, shared tail, next pointer, terminator, nested script entries
 - **Observed scope:** Overlapping script entries in the Dreamcast release of Puyo Puyo~n.

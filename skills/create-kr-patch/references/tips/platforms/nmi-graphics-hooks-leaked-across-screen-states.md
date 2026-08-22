@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## NMI graphics hooks leaked across screen states
+# NMI graphics hooks leaked across screen states
 
 - **Search terms:** NMI hook, CHR overwrite, screen discriminator, BG1 tilemap base, re-entry, adjacent screen
 - **Observed scope:** An SNES puzzle screen whose conditional-message CHR and tilemap were overwritten during NMI.

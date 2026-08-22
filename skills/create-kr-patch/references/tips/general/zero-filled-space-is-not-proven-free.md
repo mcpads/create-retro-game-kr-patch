@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Zero-filled space is not proven free
+# Zero-filled space is not proven free
 
 - **Search terms:** false free space, zero-filled region, no static references, indirect call, first boot crash
 - **Observed scope:** Candidate insertion regions in a Dreamcast label table and Saturn executable code.

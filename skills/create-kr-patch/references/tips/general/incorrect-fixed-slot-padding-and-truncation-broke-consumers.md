@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Incorrect fixed-slot padding and truncation broke consumers
+# Incorrect fixed-slot padding and truncation broke consumers
 
 - **Search terms:** fixed slot, padding before terminator, trailing controls, zero is not space, token-safe truncation, blank page
 - **Observed scope:** Fixed-slot strings, trailing control sequences, and strings concatenated with later text on Saturn and PlayStation.

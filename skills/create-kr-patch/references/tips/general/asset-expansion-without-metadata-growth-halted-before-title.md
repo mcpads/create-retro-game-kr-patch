@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Asset expansion without metadata growth halted before title
+# Asset expansion without metadata growth halted before title
 
 - **Search terms:** white screen before title, container item count, font expansion, metadata layout, equal-size control build
 - **Observed scope:** GP2 initialization and builds that added MES font entries to revision 0 of the Japanese Nintendo DS release of Dragon Quest IX.

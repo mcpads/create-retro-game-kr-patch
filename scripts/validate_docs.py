@@ -25,11 +25,11 @@ NUMBERED_HEADING_RE = re.compile(
     r"^#{2,6}\s+(\d+(?:\.\d+)*)\.?\s+(.+?)\s*$"
 )
 HEADING_RE = re.compile(r"^#{1,6}\s+(.+?)\s*$")
-TIP_HEADING_RE = re.compile(r"^##\s+(.+?)\s*$")
+TIP_HEADING_RE = re.compile(r"^#\s+(.+?)\s*$")
 LEGACY_TIP_ID_RE = re.compile(r"^[A-Z][A-Z0-9]*-\d{3}$")
 TIP_INDEX_RE = re.compile(
     r"^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|.*?"
-    r"`(references/tips/[A-Za-z0-9_./-]+\.md)#([A-Za-z0-9_-]+)`\s*\|"
+    r"`(references/tips/[A-Za-z0-9_./-]+\.md)`\s*\|"
 )
 TIP_ROUTE_MAPPING_RE = re.compile(
     r"^\|\s*([^|`]+?)\s*\|\s*"
@@ -315,7 +315,7 @@ def validate_tips(errors: list[str]) -> int:
                 "references/tips/general/ or references/tips/platforms/"
             )
         lines = path.read_text(encoding="utf-8").splitlines()
-        case_count = sum(line.startswith("## ") for line in lines)
+        case_count = sum(line.startswith("# ") for line in lines)
         if case_count != 1:
             errors.append(
                 f"{repo_name(path)}: tip case files must contain exactly one case; "
@@ -323,7 +323,7 @@ def validate_tips(errors: list[str]) -> int:
             )
         current_tip: str | None = None
         for line_no, line in enumerate(lines, 1):
-            if not line.startswith("## "):
+            if not line.startswith("# "):
                 if current_tip is not None:
                     bodies[current_tip].append(line)
                 continue
@@ -346,12 +346,12 @@ def validate_tips(errors: list[str]) -> int:
             expected_name = f"{tip_key}.md"
             if path.name != expected_name:
                 errors.append(
-                    f"{repo_name(path)}:{line_no}: tip filename must match case anchor; "
+                    f"{repo_name(path)}:{line_no}: tip filename must match the case title; "
                     f"expected {expected_name}"
                 )
             if tip_key in actual:
                 errors.append(
-                    f"{repo_name(path)}:{line_no}: duplicate tip anchor {tip_key}; "
+                    f"{repo_name(path)}:{line_no}: duplicate tip case {tip_key}; "
                     f"first in {actual[tip_key]}"
                 )
                 current_tip = None
@@ -380,13 +380,14 @@ def validate_tips(errors: list[str]) -> int:
         match = TIP_INDEX_RE.match(line)
         if not match:
             continue
-        title, judgment_area, target, anchor = match.groups()
-        if anchor in indexed:
+        title, judgment_area, target = match.groups()
+        case_key = Path(target).stem
+        if case_key in indexed:
             errors.append(
-                f"{repo_name(index_path)}:{line_no}: duplicate tip anchor {anchor}"
+                f"{repo_name(index_path)}:{line_no}: duplicate tip case {case_key}"
             )
         else:
-            indexed[anchor] = (title.strip(), judgment_area.strip(), target)
+            indexed[case_key] = (title.strip(), judgment_area.strip(), target)
 
     derived_areas: dict[str, str] = {}
     for tip_key, body in bodies.items():
@@ -430,7 +431,7 @@ def validate_tips(errors: list[str]) -> int:
         if target != actual[tip_key] or index_title != titles[tip_key]:
             errors.append(
                 f"tip index mismatch for {titles[tip_key]}: expected "
-                f"{actual[tip_key]}#{tip_key}, found {target}#{tip_key} "
+                f"{actual[tip_key]}, found {target} "
                 f"with title {index_title}"
             )
         expected_area = derived_areas[tip_key]

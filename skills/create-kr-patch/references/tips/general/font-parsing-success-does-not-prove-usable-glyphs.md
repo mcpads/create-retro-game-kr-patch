@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Font parsing success does not prove usable glyphs
+# Font parsing success does not prove usable glyphs
 
 - **Search terms:** empty glyph, font parses, zero-size raster, bitmap-only font, rasterizer compatibility
 - **Observed scope:** A bitmap-embedded font whose outline path returned empty Hangul rasters.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Pointer tables may not be reread between states
+# Pointer tables may not be reread between states
 
 - **Search terms:** second pointer ignored, sequential block, pointer lifetime, table not reread, contiguous placement
 - **Observed scope:** Consecutive menu and rule-editor text blocks in an SNES title.

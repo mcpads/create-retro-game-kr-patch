@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## String-only context misidentified speaker and display role
+# String-only context misidentified speaker and display role
 
 - **Search terms:** wrong speaker, dialogue attribution, system narration, reaction line, speaker control, series terminology
 - **Observed scope:** Speaker-switching dialogue on Mega Drive and separate character-reaction and status-narration strings on PC-98.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Late observation can miss one-time asset uploads
+# Late observation can miss one-time asset uploads
 
 - **Search terms:** late breakpoint, save state, one-time VRAM upload, missed producer, cached asset
 - **Observed scope:** A VRAM upload performed during scene initialization on Game Gear and a scrolling banner written once at scene start on SNES.

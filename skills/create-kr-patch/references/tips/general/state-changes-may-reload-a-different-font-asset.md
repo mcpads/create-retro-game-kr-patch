@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## State changes may reload a different font asset
+# State changes may reload a different font asset
 
 - **Search terms:** state-specific font reload, character selection, replacement not registered, existing loader, post-selection asset
 - **Observed scope:** State-specific font loading after character selection in a Saturn title.

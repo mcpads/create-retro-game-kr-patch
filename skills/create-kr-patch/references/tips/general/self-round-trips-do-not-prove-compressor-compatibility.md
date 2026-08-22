@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Self round-trips do not prove compressor compatibility
+# Self round-trips do not prove compressor compatibility
 
 - **Search terms:** incompatible recompressor, self round-trip passes, original data recompressed, invalid back-reference, CNX v2
 - **Observed scope:** CNX v2-compressed battle assets in a Saturn title.

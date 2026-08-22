@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Shared hooks corrupted caller-specific state
+# Shared hooks corrupted caller-specific state
 
 - **Search terms:** shared hook, caller-saved register, Z80 B register, loop counter corruption, graphics plane state
 - **Observed scope:** A glyph-expansion hook shared by two Game Gear text loops.

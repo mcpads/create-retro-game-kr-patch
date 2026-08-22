@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Broad pointer relocation failed before full UI proof
+# Broad pointer relocation failed before full UI proof
 
 - **Search terms:** pointer relocation overreach, partial runtime proof, UI not initialized, string consumed but not displayed, interaction QA
 - **Observed scope:** A Saturn path that consumed a relocated string before UI initialization and a selection screen where display and interaction were fully observable.

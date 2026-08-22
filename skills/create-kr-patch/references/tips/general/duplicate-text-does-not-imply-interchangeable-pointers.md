@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Duplicate text does not imply interchangeable pointers
+# Duplicate text does not imply interchangeable pointers
 
 - **Search terms:** merged duplicate strings, stable pointer slot ID, interior pointer, shared control block, translated offset
 - **Observed scope:** A PlayStation story script where one pointer entered a complete control block inside another message and extraction merged the overlapping strings.

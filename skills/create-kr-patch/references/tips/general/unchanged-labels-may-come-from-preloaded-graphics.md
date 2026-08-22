@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Unchanged labels may come from preloaded graphics
+# Unchanged labels may come from preloaded graphics
 
 - **Search terms:** menu label unchanged, no VRAM write, preloaded sprite text, selected and unselected states, wrong main font
 - **Observed scope:** Two-state battle-menu tabs in a Saturn title.

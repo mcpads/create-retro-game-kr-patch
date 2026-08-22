@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Runtime samples can locate compressed source assets
+# Runtime samples can locate compressed source assets
 
 - **Search terms:** runtime sample reverse search, compressed font source, LZ scan, missed breakpoint, glyph cache
 - **Observed scope:** Locating an unknown compressed font source from live glyph bytes.

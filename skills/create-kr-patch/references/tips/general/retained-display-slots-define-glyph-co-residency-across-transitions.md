@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Retained display slots define glyph co-residency across transitions
+# Retained display slots define glyph co-residency across transitions
 
 - **Search terms:** stale line buffer, glyph codebook transition, retained glyph set, retained tile code, dynamic font page
 - **Observed scope:** Dynamic dialogue pages and dialogue-to-menu transitions in the Japanese NES release of Fire Emblem.

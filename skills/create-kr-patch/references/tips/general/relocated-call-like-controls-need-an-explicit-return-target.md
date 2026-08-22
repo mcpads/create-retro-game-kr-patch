@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Relocated call-like controls need an explicit return target
+# Relocated call-like controls need an explicit return target
 
 - **Search terms:** call-like text control, return address, relocated continuation, physical successor, resume target
 - **Observed scope:** Text continuations using call and return controls in the Japanese Sega Saturn release of Waku Waku Puyo Puyo Dungeon.

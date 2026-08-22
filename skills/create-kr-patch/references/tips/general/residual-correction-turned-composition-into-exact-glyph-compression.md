@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Residual correction turned composition into exact glyph compression
+# Residual correction turned composition into exact glyph compression
 
 - **Search terms:** compositional Hangul compression, residual rows, XOR correction, exact glyph reconstruction, finished-font bank budget
 - **Observed scope:** Runtime reconstruction of name glyphs for a finite Hangul repertoire in the Japanese Game Boy Color release of Arle no Bouken.

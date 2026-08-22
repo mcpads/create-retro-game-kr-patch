@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Runtime screen evidence corrected extraction labels
+# Runtime screen evidence corrected extraction labels
 
 - **Search terms:** wrong extraction label, metadata mismatch, tile indices, mislabeled segment, screen evidence
 - **Observed scope:** Option and pause labels in the Dreamcast release of Puyo Puyo~n.

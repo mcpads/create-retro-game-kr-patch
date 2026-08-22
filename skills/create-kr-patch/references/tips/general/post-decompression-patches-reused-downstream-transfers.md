@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Post-decompression patches reused downstream transfers
+# Post-decompression patches reused downstream transfers
 
 - **Search terms:** post-decompression patch, reuse DMA, no recompressor, compressed UI, WRAM overwrite
 - **Observed scope:** Several compressed UI assets in an SNES title.

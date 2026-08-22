@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Visible text does not exclude runtime side effects
+# Visible text does not exclude runtime side effects
 
 - **Search terms:** first font load, CD read, background music stops, runtime asset side effect, Hangul visible
 - **Observed scope:** The first runtime CD load of Hangul font data and concurrent background-music state on PlayStation.

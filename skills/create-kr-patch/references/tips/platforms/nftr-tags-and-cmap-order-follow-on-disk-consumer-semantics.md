@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## NFTR tags and CMAP order follow on-disk consumer semantics
+# NFTR tags and CMAP order follow on-disk consumer semantics
 
 - **Search terms:** NFTR, reversed chunk tags, RTFN, CMAP, PAMC, first-match mapping, linked chunks
 - **Observed scope:** Original and Hangul-extended NFTR files from the Nintendo DS release of LovePlus.

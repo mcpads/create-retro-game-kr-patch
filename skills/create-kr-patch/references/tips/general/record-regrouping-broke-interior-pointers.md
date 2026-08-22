@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Record regrouping broke interior pointers
+# Record regrouping broke interior pointers
 
 - **Search terms:** sub-string pointer, grouped translation entry, interior entry point, per-item padding, delimiter boundary
 - **Observed scope:** A grouped translation entry whose component strings were independently referenced by a Saturn game.

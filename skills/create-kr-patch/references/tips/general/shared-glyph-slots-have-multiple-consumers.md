@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Shared glyph slots have multiple consumers
+# Shared glyph slots have multiple consumers
 
 - **Search terms:** shared glyph slot, tile alias, font collision, name-entry digits, reused graphics
 - **Observed scope:** Shared glyph and tile slots across Dreamcast, SNES, Game Gear, Saturn, and PlayStation displays.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Shared string tails constrain allocation
+# Shared string tails constrain allocation
 
 - **Search terms:** shared string tail, suffix deduplication, pointer table scope, bank allocator, aliasing
 - **Observed scope:** Several Game Gear text pointer tables relocated into the same spare bank.

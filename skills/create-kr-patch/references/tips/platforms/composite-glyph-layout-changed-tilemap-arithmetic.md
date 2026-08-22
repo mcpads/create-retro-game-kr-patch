@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Composite glyph layout changed tilemap arithmetic
+# Composite glyph layout changed tilemap arithmetic
 
 - **Search terms:** 16x16 glyph, 2x2 tiles, N times 2, tilemap index, WRAM font, code-to-tile transform
 - **Observed scope:** A 16x16 glyph path and its tilemap writer in the SNES release of Madou Monogatari.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Standard-decoder rejection does not prove free code space
+# Standard-decoder rejection does not prove free code space
 
 - **Search terms:** CP932 decoder rejection, custom Shift_JIS, unused lead byte, code-space collision, 0xEB
 - **Observed scope:** A game-specific Shift_JIS-like consumer in the PC-98 Madou Monogatari titles.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Internal structures can have independent alignment
+# Internal structures can have independent alignment
 
 - **Search terms:** internal alignment, subheader boundary, final file aligned, later page corrupt, pointer table, padding
 - **Observed scope:** Internal structures following text in a Saturn title, and subheaders connecting multiple pages in a Mega Drive title.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Image header mismatch hid required runtime memory
+# Image header mismatch hid required runtime memory
 
 - **Search terms:** PRG-RAM header mismatch, prior patch, unmapped execution, analysis copy, iNES declaration
 - **Observed scope:** An analysis copy of a prior English patch for the NES release of Parodius Da!.

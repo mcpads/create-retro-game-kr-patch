@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Font filenames do not identify the active font
+# Font filenames do not identify the active font
 
 - **Search terms:** wrong active font, multiple font sizes, font filename, glyph sheet probe, code-to-glyph mismatch
 - **Observed scope:** One story-dialogue screen and multiple font sizes in the Dreamcast release of Sakura Wars 2.

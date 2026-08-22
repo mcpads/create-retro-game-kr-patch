@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## One-time OBJ uploads ignored later WRAM patches
+# One-time OBJ uploads ignored later WRAM patches
 
 - **Search terms:** OBJ VRAM, OAM, one-time DMA, preloaded sprite text, WRAM no effect, last writer, decompression hook
 - **Observed scope:** Equipment and shop text rendered as OBJ tiles in the SNES release of Madou Monogatari: Hanamaru Daiyouchienji.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Layout limits vary by window state
+# Layout limits vary by window state
 
 - **Search terms:** dialogue width, window tag, page break, narrow window, line reflow, portrait state
 - **Observed scope:** A narrow dialogue state and a page-transition control in the Game Gear release of Madou Monogatari 2.

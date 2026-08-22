@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Pointerless strings may be fixed-position data
+# Pointerless strings may be fixed-position data
 
 - **Search terms:** pointerless string, fixed absolute offset, leading menu names, compaction corruption, no rewritable reference
 - **Observed scope:** Name strings before the first pointer target in a PC-98 menu-data file.

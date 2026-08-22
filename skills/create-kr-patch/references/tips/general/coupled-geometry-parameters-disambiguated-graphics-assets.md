@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Coupled geometry parameters disambiguated graphics assets
+# Coupled geometry parameters disambiguated graphics assets
 
 - **Search terms:** unknown bpp, width, height, offset, stride, padding, plausible partial image, asset boundary
 - **Observed scope:** Saturn and PlayStation graphics with several bit-depth, width, height, and start-offset candidates of equal stored length.

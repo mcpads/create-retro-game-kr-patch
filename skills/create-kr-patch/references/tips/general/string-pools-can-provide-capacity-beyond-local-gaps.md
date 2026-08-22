@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## String pools can provide capacity beyond local gaps
+# String pools can provide capacity beyond local gaps
 
 - **Search terms:** pooled string region, long credits, NUL gaps, pointer table, relocation capacity, empty-entry sentinel
 - **Observed scope:** Ending credits and a word pointer table containing empty-entry values in PC-98 titles.

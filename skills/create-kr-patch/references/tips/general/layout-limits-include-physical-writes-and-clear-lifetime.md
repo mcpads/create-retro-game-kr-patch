@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Layout limits include physical writes and clear lifetime
+# Layout limits include physical writes and clear lifetime
 
 - **Search terms:** physical write footprint, stale tile, clear lifetime, logical width, adjacent HUD damage
 - **Observed scope:** Dialogue, ending, and map-label regions whose physical writes outlived their logical text.

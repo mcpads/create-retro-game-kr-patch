@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Decoder correction left stale-source translations
+# Decoder correction left stale-source translations
 
 - **Search terms:** decoder correction, stale translation, raw 0x7F, Japanese full stop, impact audit
 - **Observed scope:** Early Japanese decoding for the Game Gear release of Madou Monogatari 1 and Korean translations derived from it.

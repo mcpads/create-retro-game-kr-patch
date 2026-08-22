@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Shorter dialogue can change voice timing
+# Shorter dialogue can change voice timing
 
 - **Search terms:** voice desync, dialogue timing, wait frames, shorter translation, early audio cutoff, padding
 - **Observed scope:** Voice-synchronized dialogue windows and wait or transition controls in the Dreamcast release of Puyo Puyo~n.

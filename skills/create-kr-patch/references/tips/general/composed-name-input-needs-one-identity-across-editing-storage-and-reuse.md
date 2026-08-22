@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Composed name input needs one identity across editing, storage, and reuse
+# Composed name input needs one identity across editing, storage, and reuse
 
 - **Search terms:** Hangul name input, composition state, committed name record, save reload, dynamic name glyph, redisplay mismatch
 - **Observed scope:** Hangul name entry in the Japanese Game Boy Color release of Arle no Bouken, limited to a declared repertoire.

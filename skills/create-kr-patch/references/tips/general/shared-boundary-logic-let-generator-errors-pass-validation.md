@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Shared boundary logic let generator errors pass validation
+# Shared boundary logic let generator errors pass validation
 
 - **Search terms:** shared generator bug, shared validator formula, JIS boundary, Shift_JIS 0x7F, exhaustive glyph display
 - **Observed scope:** JIS-to-Shift_JIS conversion at an extension-row boundary in PC-98 titles.

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Address reads do not prove semantic consumption
+# Address reads do not prove semantic consumption
 
 - **Search terms:** read breakpoint false positive, RAM reuse, decompressor back-reference, semantic consumption, wrong execution phase
 - **Observed scope:** A read breakpoint on an added string address in a Saturn title.

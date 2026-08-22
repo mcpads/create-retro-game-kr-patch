@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Equal raw bytes can have different consumer semantics
+# Equal raw bytes can have different consumer semantics
 
 - **Search terms:** token semantic mismatch, same raw byte, prior patch, position control, punctuation code
 - **Observed scope:** A Game Gear engine derived from an English-language release and a consumer in a Japanese NES release that assigned different meanings to the same raw values.

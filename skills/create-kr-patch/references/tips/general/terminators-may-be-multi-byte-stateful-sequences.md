@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Terminators may be multi-byte stateful sequences
+# Terminators may be multi-byte stateful sequences
 
 - **Search terms:** multi-byte terminator, single `FF`, `00 00`, `00 FF`, scanner misparse
 - **Observed scope:** Multi-byte controls in an SNES text path.

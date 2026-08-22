@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Apparent disc gaps overlapped file extents
+# Apparent disc gaps overlapped file extents
 
 - **Search terms:** disc free space, LBA overlap, file gap, opening movie corruption, relocation, directory extents
 - **Observed scope:** Relocated data-track files and an opening movie in a Dreamcast disc image.

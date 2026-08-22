@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Token width follows the consumer read unit
+# Token width follows the consumer read unit
 
 - **Search terms:** consumer read width, two-byte tokens, odd alignment, one-byte control, 65816
 - **Observed scope:** An SNES text path whose consumer always read and advanced by two bytes.

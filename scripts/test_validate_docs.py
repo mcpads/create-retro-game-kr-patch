@@ -39,11 +39,11 @@ class DocumentationValidatorTest(unittest.TestCase):
                 "| PoC | `references/strategy/poc.md` |\n\n"
                 "| Case | Judgment areas | Read when | First observed on | Reference |\n"
                 f"| Proven rendering path | {judgment_area} | test | Game Gear | "
-                "`references/tips/general/proven-rendering-path.md#proven-rendering-path` |\n",
+                "`references/tips/general/proven-rendering-path.md` |\n",
                 encoding="utf-8",
             )
             (general / "proven-rendering-path.md").write_text(
-                f"# General cases\n\n## Proven rendering path\n\n{body}\n",
+                f"# Proven rendering path\n\n{body}\n",
                 encoding="utf-8",
             )
             errors: list[str] = []
@@ -170,7 +170,7 @@ class DocumentationValidatorTest(unittest.TestCase):
             tips = Path(directory)
             (tips / "README.md").write_text("# index\n", encoding="utf-8")
             (tips / "gg.md").write_text(
-                "# Game Gear\n\n## GG-999\n", encoding="utf-8"
+                "# GG-999\n", encoding="utf-8"
             )
             errors: list[str] = []
             with (
@@ -187,7 +187,7 @@ class DocumentationValidatorTest(unittest.TestCase):
             tips = Path(directory)
             (tips / "README.md").write_text("# index\n", encoding="utf-8")
             (tips / "legacy.md").write_text(
-                "# Legacy\n\n## Descriptive case heading\n", encoding="utf-8"
+                "# Descriptive case heading\n", encoding="utf-8"
             )
             errors: list[str] = []
             with (
@@ -198,7 +198,7 @@ class DocumentationValidatorTest(unittest.TestCase):
                 validate_docs.validate_tips(errors)
         self.assertTrue(any("tip case files must be under" in error for error in errors))
 
-    def test_reports_tip_filename_that_does_not_match_case_anchor(self) -> None:
+    def test_reports_tip_filename_that_does_not_match_case_title(self) -> None:
         with TemporaryDirectory() as directory:
             skill_root = Path(directory)
             tips = skill_root / "references" / "tips"
@@ -206,7 +206,7 @@ class DocumentationValidatorTest(unittest.TestCase):
             general.mkdir(parents=True)
             (tips / "README.md").write_text("# index\n", encoding="utf-8")
             (general / "old-name.md").write_text(
-                "# General cases\n\n## Current descriptive case\n",
+                "# Current descriptive case\n",
                 encoding="utf-8",
             )
             errors: list[str] = []
@@ -221,7 +221,7 @@ class DocumentationValidatorTest(unittest.TestCase):
             ):
                 validate_docs.validate_tips(errors)
         self.assertTrue(
-            any("tip filename must match case anchor" in error for error in errors)
+            any("tip filename must match the case title" in error for error in errors)
         )
 
     def test_reports_multiple_cases_in_one_tip_file(self) -> None:
@@ -232,7 +232,7 @@ class DocumentationValidatorTest(unittest.TestCase):
             general.mkdir(parents=True)
             (tips / "README.md").write_text("# index\n", encoding="utf-8")
             (general / "combined.md").write_text(
-                "# Cases\n\n## First case\n\n## Second case\n",
+                "# First case\n\n# Second case\n",
                 encoding="utf-8",
             )
             errors: list[str] = []
@@ -348,7 +348,7 @@ class DocumentationValidatorTest(unittest.TestCase):
     def test_allows_source_script_only_in_tip_code_spans(self) -> None:
         with TemporaryDirectory() as directory:
             tips = Path(directory)
-            case = tips / "general" / "cases.md"
+            case = tips / "general" / "example-case.md"
             case.parent.mkdir(parents=True)
             case.write_text("Literal `예` is evidence.\n", encoding="utf-8")
             errors: list[str] = []
@@ -359,7 +359,7 @@ class DocumentationValidatorTest(unittest.TestCase):
                     "AGENT_ENGLISH_LITERAL_PATHS",
                     (tips,),
                 ),
-                patch.object(validate_docs, "repo_name", return_value="cases.md"),
+                patch.object(validate_docs, "repo_name", return_value="example-case.md"),
             ):
                 validate_docs.validate_agent_facing_language(errors)
         self.assertEqual(errors, [])
@@ -367,7 +367,7 @@ class DocumentationValidatorTest(unittest.TestCase):
     def test_reports_hangul_tip_prose_outside_code_spans(self) -> None:
         with TemporaryDirectory() as directory:
             tips = Path(directory)
-            case = tips / "general" / "cases.md"
+            case = tips / "general" / "example-case.md"
             case.parent.mkdir(parents=True)
             case.write_text("한국어 지시 `예`\n", encoding="utf-8")
             errors: list[str] = []
@@ -378,7 +378,7 @@ class DocumentationValidatorTest(unittest.TestCase):
                     "AGENT_ENGLISH_LITERAL_PATHS",
                     (tips,),
                 ),
-                patch.object(validate_docs, "repo_name", return_value="cases.md"),
+                patch.object(validate_docs, "repo_name", return_value="example-case.md"),
             ):
                 validate_docs.validate_agent_facing_language(errors)
         self.assertTrue(any("source-script evidence" in error for error in errors))

@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Manual layout decisions must precede faithful static previews
+# Manual layout decisions must precede faithful static previews
 
 - **Search terms:** inferred dialogue layout, static preview approval, explicit page ranges, presentation evidence
 - **Observed scope:** Dialogue translation review for the Japanese PlayStation release of Puyo Puyo Box.

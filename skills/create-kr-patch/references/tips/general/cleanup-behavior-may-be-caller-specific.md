@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Cleanup behavior may be caller-specific
+# Cleanup behavior may be caller-specific
 
 - **Search terms:** stale tiles, missing clear, caller-specific cleanup, bottom-aligned text, battle message residue
 - **Observed scope:** A Game Gear battle window shared by a bottom-aligned critical-hit message and the preceding spell name.

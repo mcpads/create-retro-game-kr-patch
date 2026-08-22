@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Speculative splitting changed unknown shared consumers
+# Speculative splitting changed unknown shared consumers
 
 - **Search terms:** shared string, unknown consumer, speculative split, neutral translation, alias set, semantic conflict
 - **Observed scope:** Two PC-98 slots sharing one source string when only one slot's spell-learning consumer was known.

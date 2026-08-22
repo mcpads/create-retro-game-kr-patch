@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Small-label contrast changed across UI states
+# Small-label contrast changed across UI states
 
 - **Search terms:** small UI label, outline contrast, selected background, limited palette, pixel typography, clipping
 - **Observed scope:** Small confirmation labels and their real selected-state background in a PlayStation UI.

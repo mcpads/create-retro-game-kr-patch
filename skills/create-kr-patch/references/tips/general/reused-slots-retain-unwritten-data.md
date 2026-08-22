@@ -1,6 +1,4 @@
-# Evidence-backed case
-
-## Reused slots retain unwritten data
+# Reused slots retain unwritten data
 
 - **Search terms:** ring buffer residue, fixed-width slot, blank trailing slot, partial write, scrolling banner
 - **Observed scope:** A horizontally scrolling ending banner that reused fixed-width slots.
