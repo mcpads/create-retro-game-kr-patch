@@ -25,9 +25,13 @@ Before creating or extending a repository, inspect its current build, tests, doc
 
 Maintain each current fact or state in one place. When both a human summary and machine input are needed, derive one from the other or point explicitly to the basis. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
 
+Different components may need different representations of one fact. They still have one update path only when one representation owns the meaning and the others are generated from it or checked through an explicit conversion or conformance boundary. Compilation and independent local checks do not establish agreement between separately maintained copies. If current representations conflict, one identifier carries different meanings, or preserving another consumer requires a new local interpretation or exception, treat the shared boundary as unresolved and do not promote those local results as cumulative until ownership and agreement are restored.
+
 Investigation experiments, heuristic discovery, and one-off transforms stay outside the primary build. When a conclusion is adopted, record its evidence scope, applicability, and reassessment conditions alongside the current reverse-engineering specification. Repeated builds verify applicability and consume the specification; reproducibility does not require rerunning the investigation that established it.
 
 Choose separately whether to adopt a result as a specification or make its producing procedure a build component. Put the procedure in the primary build only when its stable contract produces a deterministic result from declared inputs or enforces a gate required on every build. Then pin its version, make inputs and outputs explicit, propagate failures, and test the contract under §5.3. Dependence on an adopted conclusion is not by itself a reason to rerun its discovery procedure. A procedure that still produces candidate evidence rather than a required deterministic output or gate remains outside the primary build; rerun it when an applicability check, reassessment condition, or counterexample reopens the analysis. Handle source-derived inputs under §6.2.
+
+When an investigative implementation becomes required by the primary build, adopt it explicitly under a stable product role and contract or keep it outside that path. Isolate or retire competing investigative entry points and candidate interpretations. A historical probe name neither defines nor excuses its current responsibility.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to human strategic decisions, investigation, PoC, and QA records.
 
@@ -145,6 +149,8 @@ Final-diff audit must include length changes, appended tails, and truncated rang
 Automate a test only when its expected result follows from an established invariant, data format, or reproduced failure. Assert observable boundary behavior, not incidental line counts, current list sizes, prose wording, or internal call order. A harmless implementation or documentation edit must not require a test change unless the tested contract itself changed.
 
 A value expected to change under valid edits to declared translation, assets, or configuration is a build result, not a stable test expectation. Let the build derive and report current counts, addresses, displacements, sizes, and checksums. Test the invariant relating those values to source identity, capacity, layout, or artifact consistency. Pin an exact derived value only when it belongs to a declared fixed source profile, data format, frozen release artifact, or minimal regression fixture, and state both the contract that fixes it and the condition that permits it to change.
+
+When producers, analyzers, generators, verifiers, or reports encode the same adopted fact in different representations, an integration check must derive them from the owning basis or verify their explicit conversion or conformance contract. Testing each component against its own literals does not establish their mutual agreement.
 
 An integration test runs the primary build from declared source, translation, and configuration inputs through final artifacts. It covers at least:
 

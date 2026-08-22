@@ -74,6 +74,8 @@ Prefer existing repository locations and links with the same responsibility. Any
 
 The project chooses serialization and placement from its structure, review method, and machine-readability needs. Do not migrate equivalent existing records only to change format.
 
+If records that claim to be current disagree about the baseline, artifact, entry point, adopted conclusion, or issue state, do not choose one by recency or convenience. Treat the current state as unresolved, identify the owning record, and change or demote the other current claims in the same update. Preserve superseded observations as history without leaving them as competing current instructions.
+
 ## 3. Initial survey records
 
 ### 3.1 Architecture record

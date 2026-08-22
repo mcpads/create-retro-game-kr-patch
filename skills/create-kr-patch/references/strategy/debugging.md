@@ -55,7 +55,7 @@ faulty input, instruction, or rule -> first incorrect state -> propagation and l
 
 A screen, log line, crash location, or last writer may be only the end of the chain. Find the first divergence along the storage → lookup → load or transform → residency → consumption chain from `references/strategy/runtime-assets.md`, then explain why the fix breaks that causal path.
 
-Identical symptom names do not imply identical causes. Rank candidates by how well they explain current observations and the chain, then choose the lowest-cost experiment among those that distinguish the same hypotheses.
+Symptom names do not determine cause identity: identical names may have distinct causes, while different names may emerge from one shared faulty state or lifetime. Rank candidates by how well they explain current observations and the chain, then choose the lowest-cost experiment among those that distinguish the same hypotheses.
 
 ## 4. Observation evidence
 
@@ -93,7 +93,7 @@ Retain these safeguards against repeated misdiagnosis:
 
 - Do not turn a hypothesis label into a fact label.
 - Prefer evidence that distinguishes competing hypotheses over more observations consistent with one hypothesis.
-- When repeated variants of one premise fail, return to the premise boundary.
+- Treat local passes followed by failures in another consumer, or the need for another independently maintained interpretation or exception of the same fact, as evidence that the current defect boundary may be wrong. Compare the causal chains; when they converge, return to the smallest shared premise and ownership boundary.
 - Claims that code is unreachable, space is unused, or one path is the actual state writer require complete coverage of the declared denominator.
 - Reuse an earlier implementation only within its verified input, output, and state range.
 - Preserve failed experiments and rejection evidence.
