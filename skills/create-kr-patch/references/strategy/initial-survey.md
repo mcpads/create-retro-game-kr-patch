@@ -1,6 +1,6 @@
 # Initial survey
 
-Reduce uncertainty enough to decide feasibility and the next implementation boundary. Investigation order follows target evidence and current project decisions rather than a universal sequence. Treat one experiment as equivalent evidence only when it tests the same condition under the same prerequisites and supports the same claim.
+Reduce uncertainty enough to decide feasibility and the next implementation boundary. Treat one experiment as equivalent evidence only when it tests the same condition under the same prerequisites and supports the same claim.
 
 ## 1. Questions to answer before completion
 
@@ -17,7 +17,7 @@ Treat risks such as encoding space, glyph capacity, name entry, relocation, comp
 
 ## 2. Investigation boundaries
 
-Media, logical files or blocks, code consumers, fonts, and text structure are possible investigation categories, not a required sequence. Keep the hardest or most decisive unresolved condition visible. Investigate another boundary when it supplies evidence or a prerequisite for that condition, advances another independently valuable claim, or follows a relevant recorded human decision. A local success remains limited to its evidence until its relationship to feasibility or completion is established.
+Media, logical files or blocks, code consumers, fonts, and text structure are investigation categories, not stages. Apply `SKILL.md` principle 1 when choosing among them.
 
 For each result, ask whether it changes:
 
@@ -125,4 +125,4 @@ Produce:
 
 Record these conclusions with the survey semantics in `references/conventions/project-records.md` §3. A chronological journal does not replace current conclusions.
 
-Return to the next useful unresolved condition or to approved implementation. Do not repeat a PoC without a new trigger or evidence that the prior result no longer applies. When a test fails, revise the failed boundary rather than reopening unrelated parts of the survey. If further work presents a materially different product, quality, cost, risk, or support tradeoff, record the evidence, options, and recommendation under `references/conventions/project-records.md` §1.1 and present it for human decision. Do not narrow the declared scope silently. Content left outside a human-approved scope requires an explicit exception under `references/conventions/translation-artifacts.md` §5.
+Repeat a PoC only when a new trigger or new evidence shows that the prior result no longer applies. Present materially different product, quality, cost, risk, or support tradeoffs for human decision under `references/conventions/project-records.md` §1.1. Do not narrow the declared scope silently; content outside a human-approved scope requires an exception under `references/conventions/translation-artifacts.md` §5.

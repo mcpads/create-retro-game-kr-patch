@@ -20,17 +20,13 @@ Preserve source and translated text, control codes, and review states under `ref
 
 Regardless of format, distinguish:
 
-- **Scope and baseline**: Identify the source, build, screen, asset, and code path represented.
-- **Evidence binding**: Bind runtime and observation evidence to the exact input, artifact, and environment that produced it. A mutable path or state name does not establish content identity.
+- **Scope, baseline, and evidence identity**: Identify the source, build, screen, asset, code path, and environment, and link the hashes, traces, captures, or reproduction steps needed to reassess the result. A mutable path or state name does not establish content identity.
 - **Observation and interpretation**: Separate direct observation, unverified hypothesis, and conclusion established through isolation.
-- **Evidence location**: Link hashes, dumps, screenshots, traces, disassembly, and reproduction steps needed to reassess a decision.
-- **Decision**: Distinguish pass, fail, and unresolved; retain both criteria and observed result.
-- **Decision authority**: Distinguish an evidence-grounded technical conclusion, an ordinary implementation choice that preserves approved intent, and a human choice about product direction, scope, quality, support, acceptable loss, or investment. Do not use one class to stand in for another.
-- **Claim relation**: Credit a result only to the larger decision or completion condition it directly strengthens. Keep visible whether the current cumulative build incorporates it and which relevant obligations remain unresolved. A difficult, useful, or locally successful result does not establish a broader claim merely because it was achieved. Projects may express this in their existing status vocabulary.
-- **Adoption and reassessment**: When an established conclusion becomes part of the current specification, identify the source and consumer scope to which it applies and the changes, mismatches, or contrary evidence that would reopen the analysis. Repeated consumption alone does not invalidate it.
-- **Human approval**: Where a decision requires it, identify the approving human, the exact scope and baseline approved, and the change that invalidates it.
-- **Next action**: On failure identify the rejected assumption; when unresolved identify the observation that distinguishes the current possibilities; on pass identify promoted knowledge or the next step.
-- **State intervention**: For a target state created by a cheat, state edit, or forced routine call, identify the exact baseline, pre-intervention state, edited target and value or call conditions and arguments, bypassed play and code path, post-intervention state, and the claims the intervention does and does not support. Do not mix intervention with patch changes or evidence of normal-play reachability.
+- **Decision and authority**: Retain the criteria and whether the observed result passed, failed, or remained unresolved. Distinguish technical conclusions, ordinary implementation choices, and human product choices; do not substitute one for another.
+- **Claim and adoption**: State the claim supported, whether the cumulative build incorporates the result, the scope of any adopted specification, and what would reopen it.
+- **Human approval**: Identify the approving human, exact scope and baseline, and invalidating change when approval is required.
+- **Next action**: On failure identify the rejected assumption; when unresolved identify a distinguishing observation; on pass identify promoted knowledge or the next step.
+- **State intervention**: Identify the baseline and pre-state, edited target and value or call conditions and arguments, bypassed path, resulting state, and claim limits. Do not mix intervention with patch changes or evidence of normal-play reachability.
 
 Collection entries need stable IDs that survive reordering and file moves. Do not use an address, offset, or filename alone as identity; separate the logical ID from the current physical location. Refer to one authoritative record by ID or project-relative path instead of copying the same fact.
 
@@ -74,15 +70,11 @@ Prefer existing repository locations and links with the same responsibility. Any
 - Stable IDs and relationships survive splitting or merging records.
 - When large, copyrighted, or environment-specific evidence remains outside the repository, committed records retain its identity and regeneration or reproduction conditions.
 
-When work may outlive the current agent context, the authoritative current records must make the active work reconstructible without a conversation transcript. Keep visible the exact baseline and cumulative artifact, the completion condition or decisive unresolved boundary, the last established result, live and rejected explanations, the next observation or action that can distinguish them, the applicable adopted human decisions, and any pending human decision together with work that can continue without it. These facts may remain in existing records when one current entry links them.
+When work may outlive the current agent context, the authoritative current records expose the exact baseline and cumulative artifact, active completion condition, last established result, live and rejected explanations, next distinguishing action, applicable or pending human decisions, and work safe to continue while a decision is pending. One current entry may link these facts.
 
-The project chooses serialization and placement from its structure, review method, and machine-readability needs. Do not migrate equivalent existing records only to change format.
+Use the project's existing serialization, placement, vocabulary, and owners under `references/conventions/project-conventions.md` §1. Keep confidence and workflow state in the authoritative record or stable links. Adoption may add a linked build-owned projection, but the investigation evidence remains its source and neither representation becomes a second editable authority. Another physical location requires a distinct responsibility or a durable retention, access, rights, environment, or size boundary.
 
-Apply the vocabulary and ownership boundary in `references/conventions/project-conventions.md` §1. Record confidence and workflow state inside the authoritative record or its stable links rather than expressing them through alternate locations or synonymous record classes. Establishing or rejecting a conclusion does not by itself justify moving or copying its record. When a conclusion becomes adopted build input, update the existing specification owner or create an explicitly linked build-owned projection; retain the investigation evidence as its source rather than turning either representation into a second editable authority. Preserve logical identity and lineage across these changes. Any other separate physical location requires a distinct record responsibility or a durable retention, access, rights, environment, or size boundary, and the authoritative record must retain the identity and relationship.
-
-If records that claim to be current disagree about the baseline, artifact, entry point, adopted conclusion, or issue state, do not choose one by recency or convenience. Treat the current state as unresolved, identify the authoritative record, and change or demote the other current claims in the same update. Preserve superseded observations as history without leaving them as competing current instructions.
-
-On resumption, verify the recorded baseline and applicable adopted decisions, then reconstruct the active claim and rejection evidence before another attempt. Do not repeat discovery merely because the prior agent context is unavailable. Keep chronological attempts in evidence or journal records rather than accumulating competing summaries that claim to be current.
+If current records disagree, treat the state as unresolved, identify the authority, and demote competing current claims in the same update while preserving superseded observations as history. On resumption, verify the baseline and applicable decisions, then reconstruct the active claim and rejection evidence rather than repeating discovery. Keep chronological attempts in evidence or journal records.
 
 ## 3. Initial survey records
 

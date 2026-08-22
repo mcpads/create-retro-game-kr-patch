@@ -69,7 +69,7 @@ Use static checks for finite, mechanically decidable populations:
 - glyph reconstruction and mapping for the complete supported set; and
 - generated-code execution, bounds, and no-write behavior for rejected input.
 
-Runtime evidence connects the exact integrated build through representative interaction and persistence. Exercise candidate selection, editing, confirmation, immediate redisplay, at least one dynamic insertion, and each distinct consumer class. When persistence is supported, distinguish:
+Runtime evidence connects the exact integrated build through representative interaction and persistence. Exercise candidate selection, applicable editing commands, confirmation, immediate redisplay, at least one dynamic insertion, and each distinct consumer class. When persistence is supported, distinguish:
 
 - redisplay in the same uninterrupted session;
 - explicit save followed by the target's native reset or power-cycle behavior; and

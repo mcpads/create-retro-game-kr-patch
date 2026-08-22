@@ -8,12 +8,12 @@ Use these rules to translate patch-strategy invariants and decision criteria int
 2. Primary build path and code boundary
 3. Interfaces and exchange data
 4. Reproducibility requirements for external components
-5. Test policy
+5. Build, test, and verification responsibilities
 6. Source-asset handling
 
 ## 1. Ownership and authoritative sources
 
-Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Do not create a parallel structure when that responsibility already has a defined owner and validation. Separate these roles without giving one fact several update paths:
+Before creating or extending a repository, inspect its current build, tests, documents, and asset flow. Map only the responsibilities the work uses to the repository's existing vocabulary and owners. Typical responsibilities include:
 
 - source inputs to the reproducible build;
 - intermediate and output artifacts regenerable from source;
@@ -23,17 +23,9 @@ Before creating or extending a repository, inspect its current build, tests, doc
 - runtime and QA evidence plus issue records; and
 - externally injected source images and local caches.
 
-Maintain one authoritative source for each current fact or state. When both a human summary and machine input are needed, derive one from the other or identify explicitly which one is authoritative. Project guidance should route to current structure, build and verification entry points, core documents, and known traps. Keep detailed analysis and current status in the applicable records.
+Keep one editable authority for each current fact or state. Other representations are derived, read-only, or checked through an explicit conversion or conformance boundary. Create another location, record class, or label only for a distinct responsibility or a durable retention, access, rights, environment, or size boundary; confidence, phase, and file format alone do not qualify. When ownership changes, make the new authority discoverable and demote the old one in the same change. A generated or read-only compatibility view may remain when its source, consumers, status, and retirement condition are explicit. Treat conflicting representations or one name with different meanings as unresolved until ownership and agreement are restored.
 
-During the initial survey or before adding a persistent location, identify the repository's existing vocabulary and authoritative locations for only the responsibilities the work actually uses. Reuse the established terms and locations across later sessions. When work spans several persistent responsibilities or may outlive the current context, make their ownership discoverable from the project's existing guidance or primary entry point; do not create another guide only to satisfy this convention. Before adding a directory, record class, or synonymous label, establish a distinct responsibility or a durable retention, access, or rights boundary that the current owner cannot represent. A change in confidence, maturity, phase, or file format is not enough. When ownership changes, make the new authority explicit and demote the old location from editable authority in the same change. A generated or read-only compatibility view may remain while needed when its source, status, consumers, and retirement condition are explicit.
-
-Different components may need different representations of one fact. They have a single update path only when one representation is authoritative and the others are generated from it or checked through an explicit conversion or conformance boundary. Compilation and independent local checks do not establish agreement between separately maintained copies. If current representations conflict, one identifier carries different meanings, or preserving another consumer requires a new local interpretation or exception, treat the shared boundary as unresolved and do not promote those local results as cumulative until ownership and agreement are restored.
-
-Investigation experiments, heuristic discovery, and one-off transforms stay outside the primary build. When a conclusion is adopted, record its evidence scope, applicability, and reassessment conditions alongside the current reverse-engineering specification. Repeated builds verify applicability and consume the specification; reproducibility does not require rerunning the investigation that established it.
-
-Choose separately whether to adopt a result as a specification or make its producing procedure a build component. Put the procedure in the primary build only when its stable contract produces a deterministic result from declared inputs or enforces a gate required on every build. Then pin its version, make inputs and outputs explicit, propagate failures, and test the contract under §5.3. Dependence on an adopted conclusion is not by itself a reason to rerun its discovery procedure. A procedure that still produces candidate evidence rather than a required deterministic output or gate remains outside the primary build; rerun it when an applicability check, reassessment condition, or counterexample reopens the analysis. Handle source-derived inputs under §6.2.
-
-When an investigative implementation becomes required by the primary build, adopt it explicitly under a stable production role and contract or keep it outside that path. Isolate or retire competing investigative entry points and candidate interpretations. A historical probe name neither defines nor excuses its current responsibility.
+Investigation experiments, heuristic discovery, and one-off transforms stay outside the primary build. Adopt a conclusion as a specification with its evidence scope, applicability, and reassessment conditions. Adopt its producing procedure separately only when it has a stable deterministic output or enforces a recurring build gate; then declare its inputs, outputs, version, and failure propagation. Reopen discovery only on an applicability failure, reassessment condition, or counterevidence. Give adopted production code a role-based name and isolate or retire competing probe paths.
 
 Apply `references/conventions/translation-artifacts.md` to translation meaning and review state, and `references/conventions/project-records.md` to human strategic decisions, investigation, PoC, and QA records.
 
@@ -96,11 +88,11 @@ Keep frequently adjusted presentation parameters separate from reverse-engineere
 
 When an external program, library, or service affects primary-build output, bind its source and version to declared inputs, options, outputs, failure propagation, and applicability. Retain target-specific round-trip or cross-validation evidence, independent output verification in the primary build, and the license basis for bundling or redistribution. Preserve an existing mechanism that already satisfies these requirements.
 
-## 5. Test policy
+## 5. Build, test, and verification responsibilities
 
-### 5.1 Round trip first
+### 5.1 Round-trip contracts
 
-First verify round-trip invariants for containers, encodings, compression, address conversion, and render data. For an unchanged transform such as parse -> serialize, require source-byte identity when the format has one canonical representation. When several serializations are valid, require equivalent game consumption and protected metadata. Declare the applicable equivalence before editing. Other documents that require unchanged round trip use this same criterion.
+Define round-trip invariants for containers, encodings, compression, address conversion, and render data. For an unchanged transform such as parse -> serialize, require source-byte identity when the format has one canonical representation. When several serializations are valid, require equivalent game consumption and protected metadata. Declare the applicable equivalence before editing. Other documents that require unchanged round trip use this same criterion.
 
 Declare the denominator covered by the round trip. Rebuilding one asset requires the population sharing its consumer rule. Putting a transform into the primary build or claiming general format support requires the full corpus processed by that path. Do not generalize representative samples to the declared denominator; include applicable boundary-risk samples.
 
@@ -140,24 +132,13 @@ Classify work by the claim it establishes and the inputs that can change that cl
 | Test | A result follows from a stable invariant, data format, fixed source profile, minimal fixture, or reproduced failure under controlled inputs. | Continued conformance of an implementation or boundary to that contract. | A passing test neither selects the current product inputs nor proves that the built artifact reaches a live consumer. |
 | Runtime verification | The claim depends on the game, loader, renderer, state transition, persistence path, or target environment consuming an exact artifact. | Observed behavior on the declared route and state, bound to that artifact and environment. | Automation does not turn runtime evidence into a build gate or ordinary test. Runtime samples do not establish static population coverage unless the remaining members are tied to the same proven consumer path. |
 
-Investigative analysis may produce code, tables, addresses, or other machine-readable results. Their form does not make them build inputs or test expectations. Adopt the conclusion separately from its discovery procedure under §1, and make the primary build consume the adopted specification. Reopen the investigation only when its recorded applicability check, reassessment condition, or counterevidence requires it. A deterministic verifier may belong to the build after adoption when it checks the current artifact against that specification; its analysis-shaped implementation does not reopen or repeat discovery.
-
-Automate a test only when its expected result follows from an established invariant, data format, or reproduced failure. Assert observable boundary behavior, not incidental line counts, current list sizes, prose wording, or internal call order. A harmless implementation or documentation edit must not require a test change unless the tested contract itself changed.
-
-A test of a checker or validator provides evidence only about that component's contract. It is meaningful when controlled valid input is accepted and a relevant defect that the check claims to detect is rejected. It does not independently strengthen a product claim when it merely confirms that another check exists, was invoked, produced a report, or agreed with logic derived from the same implementation. Test count, assertion count, validation layers, and command success are not quality or completion evidence by themselves. Consolidate or remove tests that cannot distinguish conformance from a relevant contract defect.
+Automate a test only for an established invariant, data format, or reproduced failure, and assert observable boundary behavior. A checker test is meaningful when controlled valid input is accepted and a relevant defect is rejected. Tests that only confirm another check exists, was invoked, produced a report, or agreed with shared logic do not strengthen the product claim; neither do test counts, assertion counts, validation layers, or command success. Consolidate or remove tests that cannot distinguish conformance from a relevant contract defect.
 
 A value expected to change under valid edits to declared translation, assets, or configuration is a build result, not a stable test expectation. Let the build derive and report current counts, addresses, displacements, sizes, and checksums. Test the invariant relating those values to source identity, capacity, layout, or artifact consistency. Pin an exact derived value only when it belongs to a declared fixed source profile, data format, frozen release artifact, or minimal regression fixture, and state both the contract that fixes it and the condition that permits it to change.
 
-When producers, analyzers, generators, verifiers, or reports encode the same adopted fact in different representations, an integration check must derive them from the authoritative source or verify their explicit conversion or conformance contract. Testing each component against its own literals does not establish their mutual agreement.
+When producers, analyzers, generators, verifiers, or reports encode the same adopted fact in different representations, derive them from the authoritative source or verify their conversion or conformance contract. Compilation or testing each component against its own literals does not establish agreement.
 
-An integration test runs the primary build from declared source, translation, and configuration inputs through final artifacts. It covers at least:
-
-- build completion and the validity and mutual consistency of the output extent, header, checksum fields, and container;
-- translation protected information, glyph coverage, length and layout, and pointer ranges;
-- identity between the built target and the result of applying the distribution artifact to source; and
-- the link between static checks and separate runtime verification required by changed paths.
-
-The primary build owns every criterion that `references/strategy/build-and-verify.md` §1 requires it to fail on. Tests may exercise the build's acceptance and rejection behavior with controlled inputs, but the build remains the enforcement path for current product inputs.
+Integration tests exercise the primary build and its output and application boundaries. `references/strategy/build-and-verify.md` owns current product criteria and their link to separate runtime evidence; tests may exercise acceptance and rejection with controlled inputs, but the build enforces them for current product inputs.
 
 When source media is unavailable, report source-dependent checks as explicitly not run and continue schema, translation, and unit checks that do not require it. Never report a partial run as complete success. Use `references/strategy/build-and-verify.md` for runtime criteria and `references/conventions/project-records.md` for evidence semantics.
 

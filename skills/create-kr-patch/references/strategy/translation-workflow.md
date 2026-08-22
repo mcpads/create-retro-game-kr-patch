@@ -70,7 +70,7 @@ Automation may flag candidates against approved decisions but cannot approve a n
 
 Translation drafting permits creative judgment, but advancement to an eligible state is deliberately constrained because semantic errors can repeat across a finite corpus without violating mechanical checks. The controls below govern reliance, merge, review, and distribution eligibility; they do not prescribe one writing style or one way to discover a good expression.
 
-Split work only at boundaries that preserve context. Free-prose drafting by another model or agent is permitted only under the evaluation, scope, and review conditions below. Delegation does not bypass review of each result. Do not outsource the full first draft to an unevaluated model or agent solely for volume, speed, or cost.
+Split work only at boundaries that preserve context. Free-prose drafting by another model or agent follows the evaluation, scope, and review conditions below. Do not outsource the full first draft to an unevaluated model or agent solely for volume, speed, or cost.
 
 Before assigning substantial drafting to another model or agent, have that model or agent translate representative target samples and high-impact sentences under the same context, terminology, and voice conditions as production. A human evaluates accuracy, preservation of context and voice, and correction burden, then approves the assigned scope. Include dialogue, UI, sentences with names, context-sensitive sentences, and items with protected tokens or display constraints. Do not generate the full corpus under the label of evaluation, and do not replace human evaluation with an average score or agreement among models.
 
@@ -173,7 +173,7 @@ First draft → independent second review → options and evidence → human dec
 
 The second review must not assume the first draft's conclusion. In a separate review context, compare the source, approved decisions, speaker and scene evidence, and protected and consumer constraints again. When meaning, wording, or voice has alternatives, present options, evidence, impact, and a recommendation instead of silently overwriting the draft. Agreement between two outputs does not constitute quality approval. Human approval remains final, and affected units remain ineligible until then.
 
-Do not use the current implementation as the baseline for semantic fitness. When candidate or approved wording does not fit the selected design, retain the wording identity and classify the conflict under §4.1. Present plausible design and wording alternatives with semantic impact, technical evidence, change cost, and affected scope; do not narrow the option set to text changes merely because the current artifact already exists.
+Apply §4.1 when candidate or approved wording conflicts with the selected design; the current implementation is not the baseline for semantic fitness.
 
 Independence means a review that does not take the first draft's reasoning or conclusion as the answer. It does not require a specific model, service, or execution mechanism.
 
@@ -192,7 +192,7 @@ A correct screen does not approve meaning, and approved wording does not establi
 
 An explicit layout places the selected wording; it does not authorize rewriting it. If a presentation alternative uses a different expression, return the affected unit to wording selection, retain the prior decision and identity, and record the new scope-specific wording decision's relationship, applicability, rationale, semantic impact, and approval. Development may compare candidate wording and layouts under an explicit non-distribution input policy, but dependent approvals and release-candidate eligibility remain invalid until the selected wording decision is approved.
 
-Record with each layout the identities of the selected text, source text and control topology, and established geometry. Bind presentation approval to that layout and the exact evidence. An upstream change invalidates its dependent decisions without erasing independent decisions that remain applicable. For example, a layout change invalidates presentation approval but need not invalidate unchanged wording; a text change requires layout and downstream evidence to be reassessed.
+Bind each approval to its wording, layout, and evidence identities. Reassess only downstream decisions affected by an upstream change; unchanged independent decisions remain valid.
 
 Label evidence by what produced it. Static reproduction uses established assets, geometry, and explicit layout but does not prove emulator execution or runtime residency. Runtime evidence obtained after a recorded state or call intervention uses the game's consumer but does not prove the bypassed route. Normal-play runtime evidence reaches the target through the declared play path on the exact build but does not prove unobserved branches.
 

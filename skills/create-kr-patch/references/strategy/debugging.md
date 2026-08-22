@@ -1,6 +1,6 @@
 # Debugging and issue resolution
 
-Before runtime verification, distinguish the target state, routes to that state, and what each route can establish. A QA defect may be closed only after reproduction, causal diagnosis, correction, and regression verification. Choose debuggers, emulators, and observation order from the current hypotheses and environment. When the reassessment conditions in `SKILL.md` apply, search `references/tips/README.md` from the raw symptom and affected transition before adding another local exception. A case may suggest another explanation; it does not establish the cause. Record evidence, decisions, and next actions under `references/conventions/project-records.md`; judge release readiness through `references/strategy/build-and-verify.md`.
+Distinguish the target state, routes to it, and what each route can establish. Close a QA defect only after reproduction, causal diagnosis, correction, and regression verification. Choose tools and observation order from current hypotheses and the environment. When `SKILL.md` principle 2 applies, search `references/tips/README.md` by raw symptom and affected transition before adding another local exception; a case suggests an explanation but does not establish the cause. Record work under `references/conventions/project-records.md` and judge release readiness through `references/strategy/build-and-verify.md`.
 
 ## 1. Completion conditions
 
@@ -19,7 +19,7 @@ A reproduction must identify enough input, state, route, and observation to dist
 
 ## 2. Decision experiments
 
-Before an experiment, state which outcomes promote or reject each hypothesis. Narrow the question if no possible result would reduce the current choices.
+Define which decisions an experiment can change and which observations distinguish its outcomes. Its scope need not match one code edit: combine changes or instrumentation when one run remains interpretable, and split them when the combined outcome cannot guide the next action.
 
 ### 2.1 Reaching a target state and intervening in state
 
@@ -87,7 +87,7 @@ Do not expand one issue's regression scope to every game feature.
 
 Close an issue as fixed only through §1. To close it as original behavior, reproduce the same scene and input on a supported source build when possible. If that is impossible, record the comparison scope and remaining uncertainty. Similar appearance in another environment does not establish identical behavior.
 
-Accepted limitation and out-of-scope closure are human product, quality, support, or scope decisions. Before requesting one, the agent establishes the observed effect, affected population and consumer paths, feasible technical options, cost and risk, and impact on product claims. Record the decision under `references/conventions/project-records.md` §1.1 and link it from the issue record. Preserve the observed result against the criterion used when it was obtained; a later decision does not relabel that result as pass. The decision may prospectively change a relevant quality tolerance, supported scope, or product claim. Record that change, retain its effect on earlier claims, and rerun the checks required by the new decision. Protected-information, build, artifact-integrity, and runtime conditions still required by the selected scope and claims cannot be waived; change the implementation or design, exclude the affected scope, or narrow the claim. Without fixed or original-behavior evidence or a recorded human decision that covers the issue, the issue remains open.
+Accepted limitation and out-of-scope closure are human product decisions. Before requesting one, establish the observed effect, affected population and consumer paths, feasible options, cost, risk, and claim impact, then record it under `references/conventions/project-records.md` §1.1. Preserve the earlier result against its original criterion: a later decision can change future scope, tolerance, or claims but cannot relabel that result as pass. Reassess the checks affected by the decision. Protected-information and technical gates still required by the selected scope and claims remain in force; without closure evidence or a covering human decision, the issue remains open.
 
 Retain these safeguards against repeated misdiagnosis:
 
