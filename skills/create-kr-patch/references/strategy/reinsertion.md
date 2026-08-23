@@ -83,7 +83,7 @@ A hook must specify and verify:
 
 Determine the required saved CPU state and interrupt handling from the effects of the overwritten instructions and the state that callers read after the hook returns.
 
-When generating, replacing, or relocating executable machine code, or claiming reference completeness, apply the assemble-then-disassemble verification in `references/conventions/project-conventions.md` §2.3. Do not pass an unsupported instruction as arbitrary bytes or data.
+Apply the machine-code verification in `references/conventions/project-conventions.md` §2.3 to generated, replaced, or relocated executable code and reference-completeness claims, including its narrow exception for a fixed short byte specification. Do not pass an unsupported instruction as arbitrary bytes or data.
 
 Write a hook only after identifying the target revision and checking expected bytes plus instruction boundaries at the installation site. Derive branch displacement, literal addresses, and code or data ends from final placement.
 

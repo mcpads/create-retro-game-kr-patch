@@ -1,6 +1,6 @@
 # Evidence-backed case index
 
-This index preserves failures with known scope, counterexamples, proven techniques, and operational caveats that are expensive to rediscover. Consult it under the reassessment conditions in `SKILL.md`. You do not need to know the cause or recognize a previous case before consulting it.
+This index preserves failures with known scope, counterexamples, proven techniques, and operational caveats that are expensive to rediscover. Consult it under the reassessment conditions in `SKILL.md`. You may also search it when first encountering a symptom or transition specific enough to query cheaply. You do not need to know the cause or recognize a previous case before consulting it.
 
 Start with the direct observation, the transition or state in which it occurred, and the affected structure or consumer. Scan the **Read when** entries or search for those terms before searching for a suspected cause. Read a case when it can expose an assumption or distinguish a boundary in the current work. A case can suggest another interpretation; it does not prescribe a repair. Use its observed scope and transfer limit to decide what must be re-established. Completion is determined by the linked **Related criteria**, not by resemblance to the case.
 
