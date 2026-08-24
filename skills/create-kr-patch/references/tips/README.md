@@ -107,6 +107,7 @@ The labels below correspond to the strategy documents linked from `SKILL.md`. Co
 | Retained display slots define glyph co-residency across transitions | Fonts and encoding / Runtime assets / Reinsertion and hooks / Build and verification | Each page fits alone, but old lines corrupt after the next record or menu transition | `references/tips/general/retained-display-slots-define-glyph-co-residency-across-transitions.md` |
 | Manual layout decisions must precede faithful static previews | Translation / Build and verification | A plausible preview exists before page, line, and window placement are established | `references/tips/general/manual-layout-decisions-must-precede-faithful-static-previews.md` |
 | Relocated call-like controls need an explicit return target | Text extraction / Reinsertion and hooks / Build and verification | A relocated continuation keeps its control bytes but returns to the wrong content | `references/tips/general/relocated-call-like-controls-need-an-explicit-return-target.md` |
+| Rebuilding after each defect can erase the affected-path denominator | Debugging / Build and verification | A new candidate is built after every runtime defect before other affected paths are classified | `references/tips/general/rebuilding-after-each-defect-can-erase-the-affected-path-denominator.md` |
 
 ## Platform-specific cases
 
