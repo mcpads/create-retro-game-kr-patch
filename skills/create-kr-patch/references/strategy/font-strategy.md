@@ -63,6 +63,7 @@ Classify index width by role. A code that directly selects a permanent slot limi
 Before finalizing corpus demand, establish distribution scope and unresolved regions through `references/strategy/text-extraction.md` §1.5.
 
 - Count required glyphs across the complete distribution corpus and actual runtime insertion values. An unfinished translation sample is a risk signal, not a final bound.
+- When glyph membership, slot assignment, or atlas layout depends on the translation and runtime-insertion inputs selected by the current build, derive the placement plan deterministically from those inputs. A stored atlas, assignment table, or manifest may be generated output, but must not become a separately edited authority. Fixed placement may remain a declared input only when stable glyph identity or location is an adopted consumer or product constraint; fail the build when that placement cannot satisfy current demand.
 - Measure code-space, storage, mapping, and active-slot limits from target consumers and record each value's applicability.
 - Fail the build on an unmapped character, a required glyph that rasterizes empty, or applicable budget overflow. Report the missing set, and the limiting resource for an overflow. A development build follows `references/conventions/translation-artifacts.md` §5.
 - Count non-glyph resources, unused slots, or source glyphs eliminated by complete translation as supply only after excluding every reference and state. State whether this expands total repertoire or active working set.
