@@ -1,6 +1,6 @@
 {
   "name": "create-kr-patch",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "레트로 게임(게임보이·NES·SNES·메가드라이브·새턴·PS1·드림캐스트·PC엔진·PC-98·게임기어 등) 한글 패치 제작 전 과정을 다루는 Agent Skill. ROM/디스크 분석부터 폰트·인코딩 설계, PoC, 추출·번역·재삽입, 빌드, 에뮬레이터 검증까지.",
   "author": {
     "name": "mcpads",
