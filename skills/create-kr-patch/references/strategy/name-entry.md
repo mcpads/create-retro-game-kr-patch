@@ -53,13 +53,13 @@ Use one canonical character identity across serialization, editing-field redispl
 
 Apply `references/strategy/font-strategy.md` §2.2 and §3 to the complete allowed input repertoire, not only names present in the translated corpus. A runtime compositor may reduce stored glyph data, but it adds membership, mapping, reconstruction, cache, clearing, and lifetime conditions.
 
-Composition need not expose a visibly compositional font. When it represents an established finished font, define output equivalence against that font and adopt the representation only when the complete supported set meets the declared pixel or visual equivalence and fits the measured code, data, and runtime budgets.
+Composition need not expose a visibly compositional font. When it represents a selected finished font asset, define output equivalence against that asset and adopt the representation only when the complete supported set meets the declared pixel or visual equivalence and fits the measured code, data, and runtime budgets.
 
 Verify a serialized composition pack with a decoder that reads the emitted representation rather than reusing the builder's internal objects. When generated machine code performs selection, serialization, or composition, execute it over the complete supported set and applicable invalid set under `references/conventions/project-conventions.md` §2.3. Builder agreement, a host-language model, or one visible name does not prove the emitted program.
 
 ## 6. Static, runtime, and human evidence
 
-Use static checks for finite, mechanically decidable populations:
+Use product build or artifact verification checks for finite, mechanically decidable populations:
 
 - active selector and command coverage;
 - accepted composition paths and rejected combinations;
@@ -69,7 +69,7 @@ Use static checks for finite, mechanically decidable populations:
 - glyph reconstruction and mapping for the complete supported set; and
 - generated-code execution, bounds, and no-write behavior for rejected input.
 
-Runtime evidence connects the exact integrated build through representative interaction and persistence. Exercise candidate selection, applicable editing commands, confirmation, immediate redisplay, at least one dynamic insertion, and each distinct consumer class. When persistence is supported, distinguish:
+Runtime evidence connects the exact integrated product artifact through representative interaction and persistence. Exercise candidate selection, applicable editing commands, confirmation, immediate redisplay, at least one dynamic insertion, and each distinct consumer class. When persistence is supported, distinguish:
 
 - redisplay in the same uninterrupted session;
 - explicit save followed by the target's native reset or power-cycle behavior; and
@@ -87,7 +87,7 @@ Name entry is complete for the declared distribution scope only when:
 2. Candidate, editing, committed-record, and redisplay identities agree across every distinct product consumer.
 3. Glyph supply and cache lifetime remain valid through the state transitions in which the value stays visible.
 4. Save and reload behavior passes at the strongest persistence boundary claimed by the release.
-5. The exact integrated build passes representative interaction, transition, and unchanged-path regressions.
+5. The exact integrated product artifact passes representative interaction, transition, and unchanged-path regressions.
 6. Required human approval of arrangement, labels, readability, and presentation is complete.
 
-Keep narrower results explicit, such as static-complete, representative-runtime-verified, persistence-pending, consumer-population-pending, or human-review-pending. Do not collapse them into name-entry support.
+Keep narrower results explicit, such as mechanical-coverage-complete, representative-runtime-verified, persistence-pending, consumer-population-pending, or human-review-pending. Do not collapse them into name-entry support.

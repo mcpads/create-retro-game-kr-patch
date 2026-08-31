@@ -22,18 +22,18 @@ If no outcome reduces those choices, split out a narrower diagnostic. Do not nar
 
 These scopes are independent. A visibility PoC establishes that the intended pixels reach the screen through a declared data path. A representative end-to-end PoC establishes the complete path for one declared unit. Encoding budgets, relocation, compression, and other consumers need separate criteria when they can still change the design.
 
-Reuse evidence only when revision, renderer, consumer, preconditions, and supported claim match, and the current change does not alter identity, links, or consumption. Otherwise establish equivalence or rerun the relevant test.
+Reuse evidence only when revision, renderer, consumer, preconditions, and supported claim match, and the current change does not alter identity, links, or consumption. Otherwise establish equivalence or repeat the relevant verification.
 
 ## 3. Visibility verification
 
-Choose a representative primary renderer, not merely the earliest reachable screen. Test separate consumers when their equivalence is unresolved. A composited screenshot, external subtitle, or overlay does not prove in-game consumption.
+Choose a representative primary renderer, not merely the earliest reachable screen. Verify separate consumers when their equivalence is unresolved. A composited screenshot, external subtitle, or overlay does not prove in-game consumption.
 
 Visibility passes only when all of these hold:
 
 - the intended glyph appears at the intended position and shape;
 - target storage, load, selection, and display are connected;
 - nearby UI and entry or exit behavior remain intact; and
-- the record distinguishes what the test proved from what it did not prove.
+- the record distinguishes what the evidence proved from what it did not prove.
 
 Choose a glyph source that preserves the visibility question without adding unrelated letterform uncertainty. Apply the source, authoring, and transform boundaries in `references/strategy/font-strategy.md` §4. A temporary or candidate glyph proves the declared path, not release-font completion.
 
@@ -78,6 +78,6 @@ When a runtime asset change triggers `references/strategy/runtime-assets.md` §1
 - **Fail** blocks dependent implementation until the assumption or design changes.
 - **Unresolved** is not a pass. Isolate the first unsupported boundary, then return to the original condition.
 
-Record risk, representativeness, predefined criteria, evidence, supported and unsupported claims, rejected choices, and the next action under `references/conventions/project-records.md` §4. If a test is skipped, record the equivalent evidence.
+Record risk, representativeness, predefined criteria, evidence, supported and unsupported claims, rejected choices, and the next action under `references/conventions/project-records.md` §4. If a PoC check is skipped, record the equivalent evidence.
 
-When a successful PoC is adopted, reproduce its rules through the primary build from immutable source and combine them with every accepted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5. Passing the integration checks in `references/strategy/build-and-verify.md` §1 lets the component evidence support claims about the cumulative build, not claims of project completion.
+When a successful PoC is adopted, reproduce its rules through the primary product build from immutable source and combine them with every adopted change. Partial translation inputs follow `references/conventions/translation-artifacts.md` §5. Passing the integration checks in `references/strategy/build-and-verify.md` §1 lets the component evidence support claims about the cumulative product artifact, not claims of project completion.

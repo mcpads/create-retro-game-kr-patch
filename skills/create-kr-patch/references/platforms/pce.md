@@ -20,7 +20,7 @@ A HuCard file extension does not expose a new physical segment to hardware or th
 
 Connecting a CD-game runtime address to disc location requires track and sector representation, file or sector start and read length, destination RAM and MPR, and overlay reload identity. Do not generalize a BIOS call name or one title's loader sequence to all CD paths.
 
-When claiming support for a System Card, identify that target and verify the final candidate on its execution path.
+When claiming support for a System Card, identify that target and verify the final product artifact on its execution path.
 
 ## 4. CD images and sectors
 

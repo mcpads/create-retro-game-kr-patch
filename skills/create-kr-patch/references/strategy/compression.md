@@ -10,7 +10,7 @@ When this strategy applies, declare the supported denominator under `references/
 
 ## 2. Consumer format interpretation
 
-Establish the adopted format interpretation from the target consumer's read semantics. Evidence from another runtime path counts only when it is shown to use the same interpretation under the relevant conditions. An algorithm name or a sibling game's implementation may narrow candidates, but verify at least these boundaries on target input:
+Establish a format interpretation from the target consumer's read semantics before adopting it. Evidence from another runtime path counts only when it is shown to use the same interpretation under the relevant conditions. An algorithm name or a sibling game's implementation may narrow candidates, but verify at least these boundaries on target input:
 
 - input extent and termination;
 - literal and match interpretation, including byte and bit order;
@@ -18,7 +18,7 @@ Establish the adopted format interpretation from the target consumer's read sema
 - output size, alignment, buffer, and destination limits; and
 - the consumer and protected range of each container field.
 
-Do not invent values for fields whose consumption is unresolved. Preserve the source value or generate it from a public specification. If neither choice is justified, mark the variant unresolved and withhold any changed artifact that modifies or depends on that field, together with the corresponding support claim. An unchanged variant may remain inside a broader artifact only when it has stable identity, the build verifies that it remains unchanged under `references/conventions/project-conventions.md` §5.1, and a recorded human scope decision excludes it; the broader artifact must not claim support for that variant. Present continued investigation, redesign, or scope exclusion with their cost and effect when a human product-scope decision is required; record that decision under `references/conventions/project-records.md` §1.1.
+Do not invent values for fields whose consumption is unresolved. Preserve the source value or generate it from a public specification. If neither choice is justified, mark the variant unresolved and withhold any changed artifact that modifies or depends on that field, together with the corresponding support claim. An unchanged variant may remain inside a broader artifact only when it has stable identity, the product build verifies that it remains unchanged under `references/conventions/project-conventions.md` §5.1, and a recorded human scope decision excludes it; the broader artifact must not claim support for that variant. Present continued investigation, redesign, or scope exclusion with their cost and effect when a human product-scope decision is required; record that decision under `references/conventions/project-records.md` §1.1.
 
 ## 3. Decompression verification
 
@@ -52,7 +52,7 @@ A proves agreement between the project's own implementations only; it does not p
 
 When a recompressed asset fails and codec behavior must be separated from content changes, recompress unchanged source-decompressed bytes with the same compressor and feed them through the same consumer path. This applies the change isolation in `references/strategy/debugging.md` §2.2 and must satisfy its isolation conditions.
 
-- Failure of the unchanged recompression keeps a semantic mismatch between compressor and target decompressor as a cause candidate.
+- Failure of the unchanged recompression keeps a semantic mismatch between compressor and target decompressor as a candidate cause.
 - Success of the unchanged recompression with failure only after editing moves attention to edited boundaries, output limits, placement, and downstream consumption.
 
 Self round-trip success does not remove the codec layer from consideration. Do not require this control when codec and content are already distinguished.

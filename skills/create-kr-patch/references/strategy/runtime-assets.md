@@ -8,7 +8,7 @@ Choose asset formats, placement, loader implementations, and verification tools 
 
 Apply the link assessment below when any of these conditions holds:
 
-- The build adds a runtime asset that did not exist in the source.
+- The product build adds a runtime asset that did not exist in the source.
 - An asset grows beyond its original slot, file extent, bank, or sector, or moves elsewhere.
 - Compression, packing, or identity metadata changes the loader's input or output.
 - Residency changes, or the implementation adds a buffer, cache, DMA, or overlay path.
@@ -32,7 +32,7 @@ At every changed boundary, determine:
 
 Boot success, matching bytes inside an image, or one apparently correct screen does not establish the complete changed link. Limit every claim to the changed boundaries, consumer paths, and state transitions that can alter asset lifetime.
 
-When the claim concerns load, upload, initialization, or cache refresh, state created after that boundary does not prove that the boundary was crossed. Save states remain usable when they begin before the boundary in the same build; otherwise start a new run and cross the boundary again.
+When the claim concerns load, upload, initialization, or cache refresh, state created after that boundary does not prove that the boundary was crossed. Save states remain usable when they begin before the boundary in the same product artifact; otherwise start a new run and cross the boundary again.
 
 ## 3. Outcomes and next action
 

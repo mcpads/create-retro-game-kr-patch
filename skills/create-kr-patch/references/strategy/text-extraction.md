@@ -21,7 +21,7 @@ One statistic, standard decode, search hit, or visual resemblance does not estab
 
 ### 1.3 Reference population
 
-For a fixed supported revision, an exhaustively reviewed catalog of pointers, indexes, and script references is explicit specification. Repeated builds must verify and consume its count, locations, and expected bytes. Parse inputs whose count and boundaries follow completely from established structure within the declared text scope. Use heuristic searches to discover candidates and audit omissions, never to adopt results automatically.
+For a fixed supported revision, an exhaustively reviewed catalog of pointers, indexes, and script references is explicit specification. Repeated product builds must verify and consume its count, locations, and expected bytes. Parse inputs whose count and boundaries follow completely from established structure within the declared text scope. Use heuristic searches to discover candidates and audit omissions, never to adopt results automatically.
 
 Establish reference width, endianness, base, bank, and segment from the real consumer, not platform convention. Do not use file order, pointer sorting, or the next reference as a boundary unless the consumer guarantees it. Preserve duplicate pointers, shared tails, and interior-string entries.
 
@@ -37,7 +37,7 @@ Do not merge unresolved into excluded. A non-text exclusion is a technical concl
 
 ### 1.5 Volume survey before scaling translation
 
-A technical PoC on a representative unit is different from a volume decision for distribution scope. When a static asset list or an established parser, table, or reference boundary can enumerate the declared text scope without new assumptions, enumerate the full scope at that point. Do not make manual accumulation after each newly observed screen or file the default way to establish a denominator.
+A technical PoC on a representative unit is different from a volume decision for distribution scope. When a static asset list or a verified parser, table, or reference boundary can enumerate the declared text scope without new assumptions, enumerate the full scope at that point. Do not make manual accumulation after each newly observed screen or file the default way to establish a denominator.
 
 Measure by localization kind and consumer scope, distinguishing:
 
@@ -88,7 +88,7 @@ When boundary and argument width are established but meaning is unresolved, assi
 - **False positive**: A text or reference candidate is not consumed or is interpreted as another structure.
 - **False negative**: Consumable text or a reference is missing from the extraction denominator.
 
-A filter reducing candidate count does not by itself improve accuracy. Assess false positives and false negatives separately against an approved catalog, a structurally exhaustive scope, the runtime consumption scope, or an independent extraction. A filter that silently discards unresolved candidates cannot satisfy completion.
+A filter reducing candidate count does not by itself improve accuracy. Assess false positives and false negatives separately against an adopted catalog, a structurally exhaustive scope, the runtime consumption scope, or an independent extraction. A filter that silently discards unresolved candidates cannot satisfy completion.
 
 ## 4. Extraction artifact requirements
 
@@ -113,7 +113,7 @@ Assign each token a policy from consumer meaning:
 | `preserve` | Source meaning and order are required, such as termination, event, or state | Preserve opcode, arguments, and order |
 | `movable-layout` | Layout tokens such as line or page breaks may move | Constrain valid positions and reverify layout |
 | `recompute` | Value derives from output, such as length or checksum | Recompute from the final result and verify |
-| `translate` | Source and target consumers use different opcode or index meanings | Map to a verified equivalent token, or replace with an approved literal only after proving the value static; fail if dynamic value or execution effect is lost |
+| `translate` | Source and target consumers use different opcode or index meanings | Map to a verified equivalent token, or replace it with a human-approved literal after proving the value static; fail if dynamic value or execution effect is lost |
 | `forbidden` | Boundary and argument width are established, but meaning is unresolved or editing is disallowed | Preserve raw opcode, arguments, source order, and consumption-order position; fail on edits or moves, and block distribution if surrounding changes cannot be shown harmless |
 
 Do not pin all tokens to their source byte positions or let a layout engine move them freely. The policy assigned to each token decides. Encoder and validator must consume the same policy definition.

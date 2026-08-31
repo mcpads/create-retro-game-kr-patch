@@ -1,8 +1,8 @@
 # Font parsing success does not prove usable glyphs
 
 - **Search terms:** empty glyph, font parses, zero-size raster, bitmap-only font, rasterizer compatibility
-- **Observed scope:** A bitmap-embedded font whose outline path returned empty Hangul rasters in an SNES font build.
-- **Failure context:** File parsing succeeded, but representative Hangul glyphs rasterized to `0×0`, allowing the build to emit empty font pages.
+- **Observed scope:** A bitmap-embedded font whose outline path returned empty Hangul rasters during an SNES font-generation step.
+- **Failure context:** File parsing succeeded, but representative Hangul glyphs rasterized to `0×0`, allowing the product build to emit empty font pages.
 - **Evidence:** Bitmap tables, effectively empty outlines, representative glyph dimensions, and the total empty-glyph count were inspected. An outline-based font through the same path returned pixels.
 - **Established result:** Successful font parsing did not prove usable glyph output; representative dimensions and empty-glyph counts caused the bad asset to be rejected.
 - **Transfer limit:** Repeat the representative-glyph check when font structure, code points, rasterizer, or raster path changes.

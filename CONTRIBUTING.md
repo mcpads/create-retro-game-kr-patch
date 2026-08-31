@@ -109,7 +109,7 @@ PoC는 설계를 바꿀 수 있는 위험을 조건부로 검증한다. 가시�
 - **Search terms:** 증상·자료 구조·원어 기술 용어를 포함한 검색 별칭
 - **Observed scope:** 결론을 제한하는 플랫폼·타이틀·리비전·도구·입력
 - **Failure context** 또는 **Decision context:** 사례가 필요했던 실패나 선택
-- **Decisive test** 또는 **Evidence:** 원인을 가른 실험·대조군·현 코드·교차 자료
+- **Discriminating evidence** 또는 **Evidence:** 원인을 가른 실험·대조군·현 코드·교차 자료
 - **Established result:** 기각 결론, 확정 원인 또는 실제로 통과한 개입
 - **Transfer limit:** 새 대상에서 다시 확인할 전제와 그대로 옮길 수 없는 수치·좌표·선택
 - **Related criteria:** 사례를 선택하고 완료를 판정할 strategy 문서. 판정에 그 문서의 기준이나 하드웨어 제약이 필요하면 conventions·platforms 문서도 함께 적는다

@@ -53,7 +53,7 @@ TIP_REQUIRED_FIELDS = {
     "Search terms": {"Search terms"},
     "Observed scope": {"Observed scope"},
     "Problem or decision context": {"Failure context", "Decision context"},
-    "Evidence": {"Decisive test", "Evidence"},
+    "Evidence": {"Discriminating evidence", "Evidence"},
     "Established result": {"Established result"},
     "Transfer limit": {"Transfer limit"},
     "Related criteria": {"Related criteria"},

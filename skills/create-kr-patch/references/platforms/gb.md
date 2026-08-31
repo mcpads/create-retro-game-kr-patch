@@ -12,7 +12,7 @@ When a hook or far-call changes banks, verify code and data availability, interr
 
 Growing a ROM file does not make additional banks selectable. Verify that the cartridge controller, header representation, bank-selection code, and actual distribution target can address the final range. Recompute fields affected by the final image only after establishing their consumers, and keep copier or container bytes outside the cartridge image distinct from the cartridge header.
 
-If a patch changes cartridge type, ROM size, RAM size, color compatibility, or other execution declarations, verify initialization, save mapping, boot behavior, and target emulator or hardware support. A build that boots in one tolerant emulator does not prove a valid cartridge image.
+If a patch changes cartridge type, ROM size, RAM size, color compatibility, or other execution declarations, verify initialization, save mapping, boot behavior, and target emulator or hardware support. A product artifact that boots in one tolerant emulator does not prove a valid cartridge image.
 
 ## 3. Stored graphics and PPU consumption
 

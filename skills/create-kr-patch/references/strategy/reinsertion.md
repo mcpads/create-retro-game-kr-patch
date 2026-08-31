@@ -23,7 +23,7 @@ A fixed-slot policy must satisfy all of these conditions:
 - Padding value and position are not consumed as characters, control arguments, or another field.
 - No multibyte character or control token is truncated automatically.
 
-Overflow must fail the build and identify the established boundary and selected policy. Resolve it through an applicable reinsertion or presentation policy, or through a wording decision under `references/strategy/translation-workflow.md` §4.1 and §5; the current implementation does not make shortening the default. Do not set a global padding byte or a universal rule based on position before or after a terminator.
+Overflow must fail the product build and identify the established boundary and selected policy. Resolve it through an applicable reinsertion or presentation policy, or through a wording decision under `references/strategy/translation-workflow.md` §4.1 and §5; the current implementation does not make shortening the default. Do not set a global padding byte or a universal rule based on position before or after a terminator.
 
 ### 1.2 Growth and relocation
 
@@ -39,7 +39,7 @@ Growth or relocation fails for a scope if any required condition cannot be updat
 
 ## 2. Reference completeness and coordinates
 
-Use `references/strategy/text-extraction.md` §1.3 to decide when an approved catalog or structural parser becomes repeated-build specification and when heuristic search remains only an audit.
+Use `references/strategy/text-extraction.md` §1.3 to decide when an adopted catalog or structural parser becomes a specification for repeated product builds and when heuristic search remains only an audit.
 
 Each reference must distinguish at least:
 
@@ -58,7 +58,7 @@ When a move crosses a bank, segment, or pointer-width boundary, update every hig
 
 Relocated output must be checked mechanically for all of these conditions:
 
-- Every reference in the approved catalog resolves, with no unexpected reference form.
+- Every reference in the adopted catalog resolves, with no unexpected reference form.
 - Every new value fits its representation width, alignment, and valid address range.
 - Every reference targets a declared structure boundary consumable by its reader.
 - Unmoved values and protected regions do not change without justification.
@@ -112,7 +112,7 @@ Apply only invariants present on the target path:
 - **Padding and alignment**: Write only established consumable positions and values; do not invade trailing tokens or following fields.
 - **Layout and clearing**: Drawing and clearing extents match every expanded or reduced state without covering adjacent UI or graphics. No stale pixels or tiles remain after page or window transitions, exit, or re-entry.
 - **Shared state**: Identify every writer and transition, and assign initialization, update, and release responsibility.
-- **Encoding coverage**: An unmapped character fails the build; never omit or replace it silently. A development build follows `references/conventions/translation-artifacts.md` §5.
+- **Encoding coverage**: An unmapped character fails the product build; never omit or replace it silently. A product build under the development/PoC input policy follows `references/conventions/translation-artifacts.md` §5.
 - **User strings**: If Hangul input is supported, apply `references/strategy/name-entry.md` to editing state, the committed record, every redisplay consumer, and persistence. An out-of-scope boundary must follow the human product-scope decision in `references/strategy/name-entry.md` §1.
 
 If the presence of an invariant is unresolved, return to consumer investigation rather than treating it as passed.
@@ -121,7 +121,7 @@ If the presence of an invariant is unresolved, return to consumer investigation 
 
 Reinsertion is complete only when all of these hold:
 
-- Every entry has an established policy under §1, with no overflow and no unresolved entry.
+- Every entry has an adopted policy under §1, with no overflow and no unresolved entry.
 - Every changed reference passes §2, and relocated output passes every check in §3.
 - A chosen code hook passes §4.
 - Adopted space passes §5, and a change that triggers `references/strategy/runtime-assets.md` §1 passes the link assessment in `references/strategy/runtime-assets.md` §2.

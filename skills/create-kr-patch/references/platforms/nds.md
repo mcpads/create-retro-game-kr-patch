@@ -26,4 +26,4 @@ When changing VRAM mapping, transfer timing, or cache slots, verify concurrent c
 
 The complete secure area, encrypted prefix within it, markers, and CRC ranges are different concepts. Determine whether the input is encrypted or decrypted, and which representation the distribution path requires, only when modifying this region. Do not re-encrypt or normalize an untouched secure area.
 
-A banner may be absent, and Korean title slots and CRC ranges depend on the banner version. If a version increase is required, update and verify the complete banner length, version-specific fields and CRC ranges, any ROM data that follows the banner, and the target loader, not only the version word. Do not impose a banner upgrade on builds that do not modify it.
+A banner may be absent, and Korean title slots and CRC ranges depend on the banner version. If a version increase is required, update and verify the complete banner length, version-specific fields and CRC ranges, any ROM data that follows the banner, and the target loader, not only the version word. Do not impose a banner upgrade on product artifacts whose declared changes do not modify it.

@@ -1,6 +1,6 @@
-# Data conventions for analysis and builds
+# Data conventions for analysis and product builds
 
-Machine-readable data exchanged among text extraction, translation, reinsertion, and font building must preserve the required information and satisfy the pass criteria defined by strategy. When the project already has an equivalent format and validation, retain its serialization and field names. Human-tracked decisions such as text maps, PoCs, HITL, and QA follow `references/conventions/project-records.md`.
+Machine-readable data exchanged among text extraction, translation, reinsertion, and font generation must preserve the required information and satisfy the pass criteria defined by strategy. When the project already has an equivalent format and validation, retain its serialization and field names. Human-tracked decisions such as text maps, PoCs, HITL, and QA follow `references/conventions/project-records.md`.
 
 ## Contents
 
@@ -16,11 +16,11 @@ Machine-readable data exchanged among text extraction, translation, reinsertion,
 
 Apply the authoritative-source and machine-readable I/O requirements in `references/conventions/project-conventions.md` §1, §3.2. Preserve this domain information as well:
 
-- Source coordinates, source bytes, and raw pointer values are protected analysis and build data. Do not mix them with translations or presentation parameters for manual editing.
+- Source coordinates, source bytes, and raw pointer values are protected analysis and product build data. Do not mix them with translations or presentation parameters for manual editing.
 - Serialize offsets, addresses, and byte strings with visible radix and width for human review.
-- Represent a population exhaustively established on fixed source input as exact constants or a catalog. The build must not adopt heuristic rediscovery silently. A difference from the established population indicates the source revision or specification must be reassessed. Use `references/strategy/initial-survey.md` §3.1 to decide which values are fixed and which derive from output.
+- Represent a population exhaustively established on fixed source input as exact constants or a catalog. The product build must not adopt heuristic rediscovery silently. A difference from the established population indicates the source revision or specification must be reassessed. Use `references/strategy/initial-survey.md` §3.1 to decide which values are fixed and which derive from output.
 
-Apply `references/conventions/translation-artifacts.md` to source text presented to translators, authored wording, state, tokens, and approvals. Link analysis data and translation assets by stable ID and source identity. Maintain character mappings, pointers, and reinsertion policies, each in a single analysis/build-data location.
+Apply `references/conventions/translation-artifacts.md` to source text presented to translators, authored wording, state, tokens, and approvals. Link analysis data and translation assets by stable ID and source identity. Maintain each character mapping, pointer catalog, and reinsertion policy in one location for analysis and product build data.
 
 ## 2. Character mapping tables
 
@@ -50,26 +50,26 @@ When an exhaustively verified pointer population for a fixed source revision is 
 - a pattern or boundary condition validating the adjusted target; and
 - for an interior-string pointer, an anchor identifying the same structural point after translation.
 
-Field names and JSON are optional. For an established revision catalog, keep raw source values and storage coordinates fixed rather than rereading pointers from a post-splice buffer. Repeated builds consume the approved catalog. A discovery scanner proposes additions or updates but never adopts them silently.
+Field names and JSON are optional. For a fixed-revision catalog whose population has been established, keep raw source values and storage coordinates fixed rather than rereading pointers from a post-splice buffer. Repeated product builds consume the adopted catalog. A discovery scanner proposes additions or updates but never adopts them silently.
 
-Do not disguise multiple revisions, runtime-generated data, or unresolved structures as a fixed catalog. A table whose schema determines every count and boundary may instead be parsed directly on each build. Either route must fail when a heuristic candidate is adjusted without review or an established pointer disappears without an explicit mapping decision.
+Do not disguise multiple revisions, runtime-generated data, or unresolved structures as a fixed catalog. A table whose schema determines every count and boundary may instead be parsed directly by each product build. Either route must fail when a heuristic candidate is adjusted without review or an established pointer disappears without an explicit mapping decision.
 
 ## 5. Reinsertion policy data
 
-Keep per-entry policy in build data separate from translator-edited prose. If translation assets reference it, use a stable entry key and treat the policy as protected information.
+Keep per-entry policy in product build data separate from translator-edited prose. If translation assets reference it, use a stable entry key and treat the policy as protected information.
 
 The representation must preserve the following information; field names are examples:
 
 | Example field | Meaning |
 |---|---|
-| `mode` | Established length and placement policy: `fixed`, `relocate`, or `grow` |
-| `overflow_policy` | Selected response such as failure, approved translation adjustment, or relocation; automatic truncation is forbidden |
+| `mode` | Adopted length and placement policy: `fixed`, `relocate`, or `grow` |
+| `overflow_policy` | Selected response such as failure, human-approved wording adjustment, or relocation; automatic truncation is forbidden |
 | `pad_byte` | Byte sequence established as no-op padding for the target engine |
 | `pad_position` | Established insertion position before or after termination, or in a fixed-slot remainder |
 | `terminator_policy` | Boundary handling such as preserve, regenerate, or absent |
 | `alignment` | Required byte alignment for an entry or block |
 
-Do not define global defaults for padding, terminators, or alignment. A profile default may apply only to an explicit scope with the same verified consumer boundary. Missing required values must fail the build and return to boundary investigation rather than selecting arbitrary defaults.
+Do not define global defaults for padding, terminators, or alignment. A profile default may apply only to an explicit scope with the same verified consumer boundary. Missing required values must fail the product build and return to boundary investigation rather than selecting arbitrary defaults.
 
 ## 6. Font-rendering profiles
 
@@ -81,9 +81,9 @@ Declare only the properties needed by the target render path:
 - target render path, cell, baseline, and margins;
 - rasterization, thresholding, outline, and other parameters that affect pixels;
 - bit depth, palette, packing, and subtile order defining game representation; and
-- identities showing that comparison output and build artifacts use the same profile.
+- identities showing that comparison output and product artifacts use the same profile.
 
-The project chooses field names, serialization, and how values are selected. Applicability must be unambiguous; unknown targets, values, or omissions are errors. Review output and builds must use the same established values.
+The project chooses field names, serialization, and how values are selected. Applicability must be unambiguous; unknown targets, values, or omissions are errors. Review output and product artifacts must use the same applicable profile values.
 
 Do not mix reverse-engineered structural constants such as memory addresses, banks, and encoding boundaries into a presentation profile. Keep frequently adjusted presentation values separate from established structure.
 
@@ -96,6 +96,6 @@ The representation must allow mechanical decisions that:
 - every control code consumes exactly its argument width, with no undecoded or truncated code;
 - interpreting a raw pointer under its address basis produces the recorded source target, and inverse conversion reproduces the raw value;
 - every catalog pointer after reinsertion satisfies valid range and target checks, with no unannounced catalog-size change; and
-- every font-profile target uses the same interpretation in build artifacts and comparison output.
+- every font-profile target uses the same interpretation in product artifacts and comparison output.
 
 Concrete test code follows the project language and test structure. When a serialized field name belongs to a supported exchange format, change its schema conversion and contract tests together; an internal rename alone does not require a test edit. Do not tolerate unknown fields for compatibility; provide an explicit schema conversion when compatibility is required.

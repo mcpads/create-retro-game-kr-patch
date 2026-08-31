@@ -1,6 +1,6 @@
 # Initial survey
 
-Reduce uncertainty enough to decide feasibility and the next implementation boundary. Treat one experiment as equivalent evidence only when it tests the same condition under the same prerequisites and supports the same claim.
+Reduce uncertainty enough to decide feasibility and the next implementation boundary. Treat one experiment as equivalent evidence only when it examines the same condition under the same prerequisites and supports the same claim.
 
 ## 1. Questions to answer before completion
 
@@ -32,10 +32,10 @@ Defer investigation that changes none of these. Establish another category's bou
 
 ### 2.1 Input and rebuild boundary
 
-- Identify each supported revision with a hash and the structural fingerprints the build requires.
+- Identify each supported revision with a hash and the structural fingerprints the product build requires.
 - For containers or filesystems, establish an unchanged rebuild round trip under `references/conventions/project-conventions.md` §5.1 before editing.
 - For direct patching, establish expected source bytes and the complete post-change range.
-- Investigate filesystem, track, and sector details only when the build reads or rewrites them.
+- Investigate filesystem, track, and sector details only when the product build reads or rewrites them.
 - Do not make a release claim while the supported input remains unresolved.
 
 ### 2.2 Storage structure and consumer meaning
@@ -88,9 +88,9 @@ Keep confirmed facts, candidates, and rejected candidates distinct.
 
 For a fixed revision and a verified consumer, treat hook sites, original instructions, table entries, and pointer storage as revision specification. Use explicit constants and expected source bytes instead of runtime heuristics.
 
-Derive values that depend on build output, such as end addresses, branch displacements, file sizes, and checksums. A fixed specification does not mean hard-coding derived outputs.
+Derive values that depend on product build output, such as end addresses, branch displacements, file sizes, and checksums. A fixed specification does not mean hard-coding derived outputs.
 
-A finite list becomes complete only after establishing its denominator. When population detection remains necessary, fail the build if the parser or detector cannot establish scope. Do not silently repair disagreement between heuristics and specification; reassess revision, denominator, and false positives.
+A finite list becomes complete only after establishing its denominator. When population detection remains necessary, fail the product build if the parser or detector cannot establish scope. Do not silently repair disagreement between heuristics and specification; reassess revision, denominator, and false positives.
 
 Store pointer findings under `references/conventions/data-formats.md` §4.
 
@@ -102,7 +102,7 @@ Use a prior patch by:
 
 - diffing it against its identified source to generate candidates;
 - cross-checking public results or independently reproduced behavior;
-- recording checksum, application order, license, and incompatibilities when it enters the build lineage; and
+- recording checksum, application order, license, and incompatibilities when it enters the product build lineage; and
 - remeasuring every width, repertoire, slot, and representation constraint for the current target.
 
 Once the target's own storage → consumer → screen path supplies sufficient evidence, use that path as the implementation basis. Do not require a fixed count of prior examples before transitioning. Retain prior patches only as candidates for coverage or failure analysis within their verified range.
@@ -114,7 +114,7 @@ The initial survey is complete when all of these hold:
 1. Supported input and modification or rebuild boundaries are identified.
 2. A representative target has a reversible storage and consumer interpretation.
 3. Initial volume is labeled exact, lower bound, estimate, or unresolved.
-4. Required PoCs are distinguished from conditional PoCs, and skipped tests cite equivalent evidence.
+4. Required PoCs are distinguished from conditional PoCs, and skipped checks cite equivalent evidence.
 5. Every unresolved risk has a next diagnostic, workaround, or viable design branch.
 
 Produce:

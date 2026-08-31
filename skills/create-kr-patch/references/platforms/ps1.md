@@ -12,7 +12,7 @@ Code bytes read from RAM may differ from the instruction stream executed through
 
 The presence of a BIOS glyph service does not prove that a target game or every screen uses it. Connect the representation returned by an established call path to the game's transforms and cache, the VRAM upload, and actual primitive consumption.
 
-Do not approve a custom font or texture from decoded file output alone. Connect stored asset, RAM representation, VRAM coordinates and CLUT, and screen consumption. Apply `references/strategy/runtime-assets.md` when adding, growing, or moving it.
+Do not treat a custom font or texture as technically verified from decoded file output alone. Connect stored asset, RAM representation, VRAM coordinates and CLUT, and screen consumption. Apply `references/strategy/runtime-assets.md` when adding, growing, or moving it.
 
 ## 3. Text, archives, and references
 

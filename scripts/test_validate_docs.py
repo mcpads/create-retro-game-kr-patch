@@ -255,7 +255,7 @@ class DocumentationValidatorTest(unittest.TestCase):
                     "- **Search terms:** test",
                     "- **Observed scope:** test",
                     "- **Failure context:** test",
-                    "- **Decisive test:** test",
+                    "- **Discriminating evidence:** test",
                     "- **Established result:** test",
                     "- **Related criteria:** `references/strategy/poc.md`.",
                 )

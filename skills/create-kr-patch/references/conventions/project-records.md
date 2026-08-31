@@ -20,10 +20,10 @@ Preserve source and translated text, control codes, and review states under `ref
 
 Regardless of format, distinguish:
 
-- **Scope, baseline, and evidence identity**: Identify the source, build, screen, asset, code path, and environment, and link the hashes, traces, captures, or reproduction steps needed to reassess the result. A mutable path or state name does not establish content identity.
+- **Scope, baseline, and evidence identity**: Identify the source, product artifact, screen, asset, code path, and environment, and link the hashes, traces, captures, or reproduction steps needed to reassess the result. A mutable path or state name does not establish content identity.
 - **Observation and interpretation**: Separate direct observation, unverified hypothesis, and conclusion established through isolation.
 - **Decision and authority**: Retain the criteria and whether the observed result passed, failed, or remained unresolved. Distinguish technical conclusions, ordinary implementation choices, and human product choices; do not substitute one for another.
-- **Claim and adoption**: State the claim supported, whether the cumulative build incorporates the result, the scope of any adopted specification, and what would reopen it.
+- **Claim and adoption**: State the claim supported, whether the cumulative product build incorporates the result, the scope of any adopted specification, and what would reopen it.
 - **Human approval**: Identify the approving human, exact scope and baseline, and invalidating change when approval is required.
 - **Next action**: On failure identify the rejected assumption; when unresolved identify a distinguishing observation; on pass identify promoted knowledge or the next step.
 - **State intervention**: Identify the baseline and pre-state, edited target and value or call conditions and arguments, bypassed path, resulting state, and claim limits. Do not mix intervention with patch changes or evidence of normal-play reachability.
@@ -54,7 +54,7 @@ The following are record transitions, not a required order for investigation or 
 1. **Frame**: Connect the unresolved boundary to a material human value choice. If one ordinary technical option clearly preserves the current decision, implement it instead of asking again.
 2. **Prepare**: Establish feasible options and enough evidence to compare their effect, cost, risk, scope, and claim limits. State remaining uncertainty and a recommendation.
 3. **Decide**: Let the human select, defer, or reject the material tradeoff. Record the exact scope and reasoning; do not infer approval from silence or prior investment.
-4. **Apply**: Let an adopted decision guide later investigation and implementation within its scope. It narrows which outcomes are valuable, but it neither proves target facts nor waives protected-information, build, or runtime gates.
+4. **Apply**: Let an adopted decision guide later investigation and implementation within its scope. It narrows which outcomes are valuable, but it neither proves target facts nor waives protected-information, product build, artifact verification, or runtime verification gates.
 5. **Reassess**: Reopen only when a recorded trigger occurs or new evidence materially changes the comparison. Mark the current decision as requiring review, present the delta and affected downstream choices, and preserve superseded lineage rather than silently rewriting the old rationale.
 
 When a material decision is made in a conversation, review, or issue, preserve it in the authoritative decision record before dependent work relies on it. Later agents treat applicable adopted decisions as part of the current baseline, cite them when they shape work, and update their state in the same change that reopens or supersedes them. Communication channels may link to the record but do not become competing authorities.
@@ -72,7 +72,7 @@ Prefer existing repository locations and links with the same responsibility. Any
 
 When work may outlive the current agent context, the authoritative current records expose the exact baseline and cumulative artifact, active completion condition, last established result, live and rejected explanations, next distinguishing action, applicable or pending human decisions, and work safe to continue while a decision is pending. One current entry may link these facts.
 
-Use the project's existing serialization, placement, vocabulary, and owners under `references/conventions/project-conventions.md` §1. Keep confidence and workflow state in the authoritative record or stable links. Adoption may add a linked build-owned projection, but the investigation evidence remains its source and neither representation becomes a second editable authority. Another physical location requires a distinct responsibility or a durable retention, access, rights, environment, or size boundary.
+Use the project's existing serialization, placement, vocabulary, and owners under `references/conventions/project-conventions.md` §1. Keep confidence and workflow state in the authoritative record or stable links. Adoption may add a linked projection owned by the product build, but the investigation evidence remains its source and neither representation becomes a second editable authority. Another physical location requires a distinct responsibility or a durable retention, access, rights, environment, or size boundary.
 
 If current records disagree, treat the state as unresolved, identify the authority, and demote competing current claims in the same update while preserving superseded observations as history. On resumption, verify the baseline and applicable decisions, then reconstruct the active claim and rejection evidence rather than repeating discovery. Keep chronological attempts in evidence or journal records.
 
@@ -116,9 +116,9 @@ For each risk, retain a `risk_id`, scope, observation evidence, impact, possible
 
 ## 4. PoC decision records
 
-Keep each PoC decision independently identifiable. Bind the completion-critical risk and hypothesis to its representative target, baseline, intervention, predefined outcomes, observation, and evidence. Preserve separately what the result proved, what it did not prove, how it affects the cumulative build or larger decision, which assumptions and temporary artifacts were discarded, and what remains.
+Keep each PoC decision independently identifiable. Bind the completion-critical risk and hypothesis to its representative target, baseline, intervention, predefined outcomes, observation, and evidence. Preserve separately what the result proved, what it did not prove, how it affects the cumulative product build or larger decision, which assumptions and temporary artifacts were discarded, and what remains.
 
-Manual hex edits, temporary offsets, and one-shot scripts may remain as evidence of the result but must not be labeled repeated-build inputs.
+Manual hex edits, temporary offsets, and one-shot scripts may remain as evidence of the result but must not be labeled as inputs to repeated product builds.
 
 ## 5. Graphics-text catalog
 
@@ -139,7 +139,7 @@ Projects may rename states, but must distinguish uninvestigated, investigated wi
 
 ## 6. HITL observation requests
 
-Keep each request small enough for one human observation session. Bind it to the exact source, build, environment, configuration, starting state, reproduction input, and observation point. State what to capture and how each possible answer changes the decision or next action; retain the actual response and whether it confirmed or rejected a hypothesis, showed the question to be irrelevant, or left it unresolved.
+Keep each request small enough for one human observation session. Bind it to the exact source, product artifact, environment, configuration, starting state, reproduction input, and observation point. State what to capture and how each possible answer changes the decision or next action; retain the actual response and whether it confirmed or rejected a hypothesis, showed the question to be irrelevant, or left it unresolved.
 
 A human response supplies an observation, not technical interpretation or product approval. The agent remains responsible for the technical interpretation and next hypothesis; incomplete evidence remains unresolved. A product-value choice follows §1.1, while semantic or presentation judgment follows the applicable workflow and §7.2. Do not hide either inside an observation request.
 
@@ -149,13 +149,13 @@ An index contains only ID, target hypothesis, current decision, and response loc
 
 ### 7.1 QA rounds
 
-A QA round binds the baseline build, verification scope, issues, coverage, and closure. Distinguish build identity, target environments and scope, automated results, required-path coverage, linked issues, closure decision, and remaining distribution blockers.
+A QA round binds the baseline product artifact, verification scope, issues, coverage, and closure. Distinguish product artifact identity, target environments and scope, automated results, required-path coverage, linked issues, closure decision, and remaining distribution blockers.
 
 For each text display region, record region ID, renderer and box scope, width calculation, line and page limits, state effects of line and page controls, and violation severity. Keep observed source usage, confirmed consumer capacity, and adopted display range distinct under `references/strategy/translation-workflow.md` §4. Apply `references/strategy/build-and-verify.md` §5 to presentation and interaction. For the applicable states, record the state matrix, starting state and input sequence, reference points and tolerances for progression, voice, and events, and the visual baseline and comparison conditions. Measure concrete values on the target game.
 
 ### 7.2 Translation, layout, and presentation review
 
-When a project reviews translated presentation, keep wording, layout, mechanical checks, presentation judgment, runtime evidence, and build eligibility as separate facts under `references/strategy/translation-workflow.md` §5.6. Preserve an equivalent existing record system; it may record:
+When a project reviews translated presentation, keep wording, layout, mechanical checks, presentation judgment, runtime evidence, and the decision to admit the translation into a product build as separate facts under `references/strategy/translation-workflow.md` §5.6. Preserve an equivalent existing record system; it may record:
 
 | Example field | Meaning |
 |---|---|
@@ -164,10 +164,10 @@ When a project reviews translated presentation, keep wording, layout, mechanical
 | `layout_specification` | Selected-text hash, source-text and control-topology identities, geometry identity, and explicit window, page, and line assignment in display order |
 | `mechanical_result` | Protected-information, terminology, glyph, encoding, control, and geometry results from the authoritative checks |
 | `evidence_class` | Static reproduction, runtime after intervention, or normal-play runtime |
-| `evidence_identity` | Exact build, layout, environment, intervention when applicable, capture or trace identity, and content hash |
+| `evidence_identity` | Exact product artifact, layout, environment, intervention when applicable, capture or trace identity, and content hash |
 | `presentation_decision` | Approved, revision required, or evidence insufficient, with human rationale when judgment is required |
 | `runtime_result` | Consumer path, reached state, observed output, and the claims the evidence does and does not support |
-| `eligibility` | Derived build-input decision and the failed upstream condition when ineligible |
+| `eligibility` | Derived decision to admit the translation into a product build, and the failed upstream condition when ineligible |
 
 A browser selection, screenshot, local cache, or mutable preview path is not the approval record. Store the decision in the project's versioned source of truth and retain derivative evidence outside the repository when required by rights, size, or environment constraints, while keeping its identity and reproduction conditions in the record.
 
@@ -179,7 +179,7 @@ Keep an issue stable across QA rounds and title it by the symptom rather than an
 
 ## 8. Record validation
 
-Builds or dedicated checks verify machine-readable records:
+The product build or dedicated checks verify machine-readable records:
 
 - Required IDs are present and unique.
 - Referenced project-relative paths and item IDs exist.

@@ -9,15 +9,15 @@ Translation eligibility and distribution eligibility are separate.
 - **Translation-eligible** means the scene, speaker, and functional context needed to determine meaning is established, and the applicable approved terminology and voice decisions are identified. Do not fill unresolved context by guesswork.
 - **Distribution-eligible** additionally means checks on protected information and actual consumer constraints pass, and every high-impact semantic decision is resolved and approved.
 
-Define eligibility at the unit the build actually selects. Do not expand one unresolved item to an unrelated scope or silently include it in a selected range. A defect found in review or runtime QA revokes eligibility for affected units and returns them to the relevant decision.
+Define eligibility at the unit the product build actually selects. Do not expand one unresolved item to an unrelated scope or silently include it in a selected range. A defect found in review or runtime QA revokes eligibility for affected units and returns them to the relevant decision.
 
-Human review of the declared localization scope is a release-candidate condition, not a blocker for technical development. Preserve source text for incomplete units or mark them as development inputs under `references/conventions/translation-artifacts.md` §5. Any input selected by a development build must still preserve protected information and established structural and consumer constraints.
+Human review of the declared localization scope is a release-candidate condition, not a blocker for technical development. Preserve source text for incomplete units or mark them as development inputs under `references/conventions/translation-artifacts.md` §5. Any input selected under the development/PoC input policy must still preserve protected information and established structural and consumer constraints.
 
 Declare the completion denominator from confirmed translation targets and exclusions supported by evidence. A count difference between new extraction and existing assets is a candidate change, not a missing-translation count until additions, removals, duplicates, and non-text are distinguished.
 
 Before scaling translation to the full distribution scope, complete the volume survey in `references/strategy/text-extraction.md` §1.5. Do not generalize earlier local results into total workload, completion, or complete-corpus demand.
 
-Apply `references/conventions/translation-artifacts.md` to asset states and protected information, and `references/strategy/build-and-verify.md` §1 to primary build inputs.
+Apply `references/conventions/translation-artifacts.md` to asset states and protected information, and `references/strategy/build-and-verify.md` §1 to inputs for the primary product build.
 
 ## 2. Establishing context
 
@@ -35,7 +35,7 @@ When narrative, route, or relationship information outside the local unit can ch
 
 Use source extraction and the scenes in which the game actually consumes the text as the baseline. Consult external sources when they can decide unresolved meaning, order, speaker, or terminology scope. Do not search every source category ceremonially after the question is already decided.
 
-- Primary sources such as official manuals, sites, and guides may establish setting, names, and functions. Official Korean or other localizations are candidates for established wording; verify title, revision, region, and series continuity.
+- Primary sources such as official manuals, sites, and guides may establish setting, names, and functions. Official Korean or other localizations may supply source-backed wording candidates; verify title, revision, region, and series continuity before approval for this project.
 - Guides and walkthroughs may reconstruct scene order, branches, characters, and system functions. They are not source text for exact wording or speaker intent.
 - Prior localizations, fan patches, and reverse-engineering records provide interpretation candidates and technical clues. Compare them with source text and scenes in the target game because they may add, omit, or change viewpoint.
 
@@ -45,7 +45,7 @@ When new evidence invalidates the established context, correct the current decis
 
 ### 2.3 Logical order and storage order
 
-Storage order need not equal play or scene order. Build a translator-facing logical view around scene, screen, and speaker relations when required for meaning, but do not turn that reordering into a changed extraction baseline or physical layout. Identical source text need not receive identical translation when the consumer scene or speaker differs.
+Storage order need not equal play or scene order. Create a translator-facing logical view around scene, screen, and speaker relations when required for meaning, but do not turn that reordering into a changed extraction baseline or physical layout. Identical source text need not receive identical translation when the consumer scene or speaker differs.
 
 ### 2.4 Speaker and voice context
 
@@ -119,7 +119,7 @@ Keep these roles distinct:
 
 - **Product intent**: Within the declared scope, established source meaning and approved terminology, voice, and wording decisions define what the localized product should preserve. Candidate wording may still inform design through its intended meaning and resource requirements.
 - **Established target constraint**: A limit supported by evidence from the applicable consumer, hardware, medium, or required product behavior, with its scope recorded. A limit observed only in the current implementation is not a target constraint.
-- **Adopted design**: A selected display range, layout, encoding, font supply, reinsertion policy, renderer change, or other means of satisfying product intent under target constraints. Adoption makes the choice buildable and testable, not immutable.
+- **Adopted design**: A selected display range, layout, encoding, font supply, reinsertion policy, renderer change, or other means of satisfying product intent under target constraints. Adoption makes the choice available for implementation and verification, not immutable.
 - **Current implementation**: The code and artifact that currently realize an adopted design. It supplies evidence of behavior, feasibility, and change cost, but prior investment gives it no authority over product priorities.
 
 Target constraints and protected-information rules may mechanically reject an option only within their established scope. Approved wording decisions govern semantic acceptability within their recorded applicability; changing one requires a wording decision, not an implementation-side substitution. A failure observed in the current implementation establishes only failure under that implementation and design; it does not by itself establish a translation defect. If the conflict belongs to the adopted design rather than a code defect, reopen the affected design choice. Prior work may materially affect cost and completion scope, but its existence alone must not narrow translation review options.
@@ -134,7 +134,7 @@ Do not merge mechanically decidable violations with semantic judgment. Semantic 
 
 | Class | Subject | Role of automation |
 |---|---|---|
-| Established constraint | Protected fields and tokens; encoding and glyph mapping; confirmed width, height, row, page, and slot limits; approved wording whose applicability and required output are both unambiguous | Withhold distribution eligibility and block release-candidate builds on violation |
+| Mechanically decidable rule | Protected fields and tokens; encoding and glyph mapping; confirmed width, height, row, page, and slot limits; approved wording whose applicability and required output are both unambiguous | Withhold distribution eligibility and block product builds under the release-candidate input policy on violation |
 | Language heuristic | Dictionary presence, frequency, spelling and spacing, repeated phrases, LLM scores | Produce candidates with evidence and affected scope for human review; do not edit prose or decide fitness |
 | Semantic judgment | Contextual meaning, naturalness, voice and relationship, adaptation, names, and wordplay | Produce options and evidence in independent review; a human decides |
 
@@ -185,16 +185,16 @@ Do not use one approval state for decisions with different evidence and invalida
 - **Explicit layout**: the selected text assigned to established windows, pages, lines, and control positions.
 - **Mechanical validation**: protected information, terminology, glyph, encoding, control, and established geometry checks.
 - **Presentation approval**: a human judgment of the exact text and layout shown by identified evidence.
-- **Runtime verification**: the exact build consumed the text through the target renderer under recorded execution conditions.
-- **Build eligibility**: all required upstream decisions and checks for the selected build input remain valid.
+- **Runtime verification**: the exact product artifact was consumed through the target renderer under recorded execution conditions.
+- **Eligibility as a product build input**: all required upstream decisions and checks for the selected input remain valid.
 
-A correct screen does not approve meaning, and approved wording does not establish layout or runtime consumption. Automatic layout is acceptable only when established consumer rules determine the result. If geometry or page assignment remains unresolved, do not generate an inferred preview and present it for approval.
+A correct screen does not approve meaning, and approved wording does not establish layout or runtime consumption. Automatic layout is acceptable only when established consumer behavior and adopted layout rules determine the result. If geometry or page assignment remains unresolved, do not generate an inferred preview and present it for approval.
 
 An explicit layout places the selected wording; it does not authorize rewriting it. If a presentation alternative uses a different expression, return the affected unit to wording selection, retain the prior decision and identity, and record the new scope-specific wording decision's relationship, applicability, rationale, semantic impact, and approval. Development may compare candidate wording and layouts under an explicit non-distribution input policy, but dependent approvals and release-candidate eligibility remain invalid until the selected wording decision is approved.
 
 Bind each approval to its wording, layout, and evidence identities. Reassess only downstream decisions affected by an upstream change; unchanged independent decisions remain valid.
 
-Label evidence by what produced it. Static reproduction uses established assets, geometry, and explicit layout but does not prove emulator execution or runtime residency. Runtime evidence obtained after a recorded state or call intervention uses the game's consumer but does not prove the bypassed route. Normal-play runtime evidence reaches the target through the declared play path on the exact build but does not prove unobserved branches.
+Label evidence by what produced it. Static reproduction uses identified assets, established geometry, and explicit layout but does not prove emulator execution or runtime residency. Runtime evidence obtained after a recorded state or call intervention uses the game's consumer but does not prove the bypassed route. Normal-play runtime evidence reaches the target through the declared play path on the exact product artifact but does not prove unobserved branches.
 
 Record these decisions and evidence bindings through `references/conventions/project-records.md` §7.2. Human approval remains required only where meaning or presentation depends on judgment; mechanically derived layout and runtime facts remain technical checks.
 
@@ -207,7 +207,7 @@ Promote only a scope satisfying all of these conditions:
 3. Protected tokens and actual consumer constraints pass.
 4. High-impact semantic judgments are resolved with required human approval.
 5. The first draft received an independent second review, with options and evidence presented for human review.
-6. The entry passes the build-input checks in `references/conventions/translation-artifacts.md` §5.
+6. The entry passes the checks for use as a product build input in `references/conventions/translation-artifacts.md` §5.
 
 An ineligible translation may be used only as an explicitly non-distributable input for development, technical verification, or a PoC. Output from a model or agent that failed §3.1 evaluation is not eligible for this exception. Such use neither grants distribution eligibility nor bypasses the conditions above; follow `references/conventions/translation-artifacts.md` §5 for identification and protection.
 
