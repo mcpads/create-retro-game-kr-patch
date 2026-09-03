@@ -21,6 +21,10 @@ A reproduction must identify enough input, state, route, and observation to dist
 
 Define which decisions an experiment can change and which observations distinguish its outcomes. Its scope need not match one code edit: combine changes or instrumentation when one run remains interpretable, and split them when the combined outcome cannot guide the next action.
 
+Static inspection and runtime observation are evidence modes, not pipeline stages or competing quotas. Classify the resulting work by the claim it establishes under `references/conventions/project-conventions.md` §5.3. Static inspection can enumerate structures, possible paths, affected populations, and invariants. Runtime observation can establish actual selection, state transitions, timing, and visible consumption. At each decision boundary, identify the remaining uncertainty and live explanations, then choose, alternate, or combine the modes according to which evidence can distinguish them at the lowest total cost. Stop extending one mode when another result would neither distinguish those explanations nor strengthen the applicable claim.
+
+Treat the exact product artifact as an experimental baseline, not as a disposable response to each observation. A newly observed defect still requires issue closure, but does not by itself end the current observation. Keep the artifact fixed while remaining affected routes can still produce independent, interpretable evidence. Change it when the experiment's question is answered, or when the defect blocks or contaminates later observations or threatens artifact or data integrity. Before changing the baseline, account for the affected route population and unresolved observations.
+
 ### 2.1 Reaching a target state and intervening in state
 
 First define the question, target state, and prerequisites that the evidence must preserve. When controls, progression, branches, or acquisition conditions are unknown, consult manuals, guides, walkthroughs, gameplay videos, or cheat references to narrow candidate routes. Check the region, revision, and prerequisites described by each source, then reverify them on the target product artifact. Reuse an already verified route under the same baseline and conditions. External material proposes entry routes and input sequences; it does not prove target state or code path.
@@ -72,9 +76,11 @@ Use a HITL observation under `references/conventions/project-records.md` §6 whe
 
 ## 5. Fix and regression
 
-Limit a fix to the established defect and necessary impact range. Do not mix unrelated cleanup, optimization, or symptom-masking changes into the same decision experiment.
+Choose what to correct together from established causal and ownership boundaries, not discovery order. When several established defects share a causal chain, state lifetime, or violated contract and their combined effect remains attributable, correct them together within the necessary impact range. Separate unrelated cleanup, optimization, symptom masking, and any combination whose result would be ambiguous.
 
-After the fix, rerun the original reproduction and retain regression checks proportional to impact and recurrence risk:
+Recording another observation does not require a tooling build, product build, test run, or new runtime pass when no corresponding input or implementation changed. After a correction changes the product artifact, rerun the original reproductions and the affected route set on the new artifact; earlier runtime observations remain evidence about the old baseline and do not transfer automatically.
+
+Retain regression checks proportional to impact and recurrence risk:
 
 - Make calculable length, range, and mapping invariants product build checks.
 - Preserve state or lifetime defects that are visible only at runtime as repeatable scenarios. Use human review only where the pass condition itself is not mechanically decidable.

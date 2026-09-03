@@ -17,7 +17,7 @@ Treat risks such as encoding space, glyph capacity, name entry, relocation, comp
 
 ## 2. Investigation boundaries
 
-Media, logical files or blocks, code consumers, fonts, and text structure are investigation categories, not stages. Apply `SKILL.md` principle 1 when choosing among them.
+Media, logical files or blocks, code consumers, fonts, and text structure are investigation categories, not stages. Apply `SKILL.md` principle 1 when choosing among them and principle 2 when choosing between static inspection, runtime observation, or a combination. Neither the category nor the available tool determines a fixed evidence order.
 
 For each result, ask whether it changes:
 
@@ -108,6 +108,8 @@ Use a prior patch by:
 Once the target's own storage → consumer → screen path supplies sufficient evidence, use that path as the implementation basis. Do not require a fixed count of prior examples before transitioning. Retain prior patches only as candidates for coverage or failure analysis within their verified range.
 
 ## 5. Completion
+
+Decision saturation here means having enough evidence to decide feasibility and the next implementation boundary, including any explicit conditions on that decision. Every uncertainty that could change the decision has discriminating evidence or remains explicit with a next diagnostic, workaround, or viable design branch. Knowledge unrelated to that decision is not part of the completion condition.
 
 The initial survey is complete when all of these hold:
 

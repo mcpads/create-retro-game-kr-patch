@@ -34,7 +34,9 @@ Collection entries need stable IDs that survive reordering and file moves. Do no
 
 Record a human decision when alternatives materially differ in product or localization scope, quality target, supported targets, accepted semantic or visual loss, accepted limitation, or technical investment and redesign. Do not create an approval step for a routine, reversible implementation choice with limited scope that preserves an already approved intent.
 
-The agent first investigates far enough to frame a useful decision rather than transferring technical diagnosis to the human. Record the following information in an existing equivalent decision system or a current strategic-decision register:
+The agent first investigates far enough to frame a useful decision rather than transferring technical diagnosis to the human. Technical convergence does not decide whether further improvement is worth pursuing. When a coherent current result makes continued improvement, redirection, acceptance, or deferral a material value choice, present that decision point to the human. Show the achieved result, remaining gap, feasible next options, and the evidence and uncertainty behind their expected gains, effort, risk, and claim impact. Treat the human choice as an agreement at that convergence point, bound to the current evidence and reassessment conditions, rather than proof that no better result exists.
+
+Record the following information in an existing equivalent decision system or a current strategic-decision register:
 
 | Example field | Meaning |
 |---|---|
@@ -42,7 +44,8 @@ The agent first investigates far enough to frame a useful decision rather than t
 | `question` | The material choice and why current evidence requires it |
 | `scope` | Product, population, consumer paths, revisions, and support claims to which the decision applies |
 | `values` | Quality target, semantic or visual priorities, accepted loss, acceptable cost or time investment, and other human criteria that distinguish options |
-| `options` | Feasible choices, including continued investigation when useful, with technical evidence, cost, risk, affected scope, and claim limits |
+| `achieved_result` | Established behavior and quality under the decision baseline, satisfied claims, remaining gap, and known limitations |
+| `options` | Feasible choices, including continuing, redirecting, accepting the current boundary, or deferring, with expected gain, effort, risk, affected scope, claim limits, and the uncertainty in those estimates |
 | `recommendation` | Agent recommendation and the evidence-sensitive reason for it |
 | `human_decision` | Selected, deferred, or rejected choice, deciding human, rationale, and decision baseline |
 | `effects` | Adopted design constraints, affected work, accepted limitations, and permitted claims; this is not proof that technical gates pass |
@@ -51,8 +54,8 @@ The agent first investigates far enough to frame a useful decision rather than t
 
 The following are record transitions, not a required order for investigation or discussion. Evidence may return a decision to an earlier state:
 
-1. **Frame**: Connect the unresolved boundary to a material human value choice. If one ordinary technical option clearly preserves the current decision, implement it instead of asking again.
-2. **Prepare**: Establish feasible options and enough evidence to compare their effect, cost, risk, scope, and claim limits. State remaining uncertainty and a recommendation.
+1. **Frame**: Connect the unresolved boundary or converged current result to a material human value choice. If one ordinary technical option clearly preserves the current decision, implement it instead of asking again.
+2. **Prepare**: Establish the current result, remaining gap, feasible options, and enough evidence to compare their expected outcomes, effort, risk, scope, and claim limits. State remaining uncertainty and a recommendation.
 3. **Decide**: Let the human select, defer, or reject the material tradeoff. Record the exact scope and reasoning; do not infer approval from silence or prior investment.
 4. **Apply**: Let an adopted decision guide later investigation and implementation within its scope. It narrows which outcomes are valuable, but it neither proves target facts nor waives protected-information, product build, artifact verification, or runtime verification gates.
 5. **Reassess**: Reopen only when a recorded trigger occurs or new evidence materially changes the comparison. Mark the current decision as requiring review, present the delta and affected downstream choices, and preserve superseded lineage rather than silently rewriting the old rationale.
@@ -149,7 +152,7 @@ An index contains only ID, target hypothesis, current decision, and response loc
 
 ### 7.1 QA rounds
 
-A QA round binds the baseline product artifact, verification scope, issues, coverage, and closure. Distinguish product artifact identity, target environments and scope, automated results, required-path coverage, linked issues, closure decision, and remaining distribution blockers.
+A QA round binds the baseline product artifact, verification scope, issues, coverage, and its closure decision. Distinguish product artifact identity, target environments and scope, automated results, required-path coverage, linked issues, QA-round closure, and remaining distribution blockers.
 
 For each text display region, record region ID, renderer and box scope, width calculation, line and page limits, state effects of line and page controls, and violation severity. Keep observed source usage, confirmed consumer capacity, and adopted display range distinct under `references/strategy/translation-workflow.md` §4. Apply `references/strategy/build-and-verify.md` §5 to presentation and interaction. For the applicable states, record the state matrix, starting state and input sequence, reference points and tolerances for progression, voice, and events, and the visual baseline and comparison conditions. Measure concrete values on the target game.
 
@@ -186,7 +189,7 @@ The product build or dedicated checks verify machine-readable records:
 - Hypotheses and confirmed conclusions do not share one field.
 - Pass, fail, and unresolved decisions include evidence and next action.
 - Closed issues include a reproduction baseline, closure evidence or a recorded human decision that covers the issue, affected scope, and claim impact.
-- Adopted human strategic decisions have scope, options, rationale, effects, and reassessment conditions; at most one decision is current for the same identity and applicability.
+- Adopted human strategic decisions have a baseline, achieved result, scope, options, rationale, effects, and reassessment conditions; at most one decision is current for the same identity and applicability.
 - Resolved plus excluded graphics-text catalog members match the declared denominator without hidden unresolved members.
 - Volume records distinguish exact, lower bound, and estimate and state how unresolved scope affects workload and completion.
 
