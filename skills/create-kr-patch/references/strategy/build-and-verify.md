@@ -1,16 +1,16 @@
 # Build and verification
 
-Here, **product build** and **product artifact** have the meanings defined in `references/conventions/project-conventions.md` §2. A multi-output product artifact includes every identified member needed to operate or distribute it. Judge product build inputs, product artifacts, artifact verification, and runtime verification by the criteria below. Read the applicable `references/platforms/` document for platform-specific checksums, sectors, and execution environments. Record evidence according to `references/conventions/project-records.md`. The target project chooses concrete files, commands, and serialization.
+Here, **product build**, **product artifact**, and **distribution output** have the meanings defined in `references/conventions/project-conventions.md` §2. Judge product build inputs, product artifacts, distribution outputs, artifact verification, and runtime verification by the criteria below. Read the applicable `references/platforms/` document for platform-specific checksums, sectors, and execution environments. Record evidence according to `references/conventions/project-records.md`. The target project chooses concrete files, commands, and serialization.
 
 ## 1. Reproducible product build
 
 The product build and distribution path must satisfy all of these conditions:
 
-- Do not commit or distribute copyrighted source ROMs, disc images, or patched images. Follow `references/conventions/project-conventions.md` §6.2 for source injection and handling.
+- Do not commit or distribute copyrighted source ROMs, disc images, or patched images. Follow `references/conventions/project-conventions.md` §6 for source handling.
 - Rebuild from an immutable source and declared inputs. Never use a previously patched image as the input to the next product build.
 - Reproduce every final change from product build inputs. A change discovered manually must enter the product build with its source, applicability, expected original state, and output rule.
 - When editing extracted assets, preserve stable entry identity, separate editable values from protected values, and retain undecoded data reversibly. Follow `references/conventions/project-conventions.md` §5.1 for unchanged reassembly equivalence.
-- Where the product build produces a distribution artifact, derive it and the patched image from the same verification graph. Applying it must reproduce the target image.
+- Where the product build produces distribution output, derive it and the product artifact from the same verification graph. Applying the complete distribution output in its declared order must reproduce the complete product artifact.
 
 The primary product build combines every selected translation input and glyph asset with every adopted mapping, reinsertion rule, code change, and container change into one result made from the immutable source. Component checks and PoC artifacts do not prove integration. Judge applicable static and runtime claims on that cumulative product artifact. A product build under the development/PoC input policy follows `references/conventions/translation-artifacts.md` §5, but every adopted technical change still enters the same product build. Keep the product artifact reproducible for runtime verification and diagnosis, and attribute post-integration evidence to that exact artifact.
 
@@ -29,8 +29,8 @@ Every write from the source to the target image must satisfy the final-write ver
 Adopt a distribution format only when the project can prove that it:
 
 - distinguishes the supported source revision, size, and header, track, or sector representation before application;
-- compares the applied result with the target image;
-- represents file growth, final image size, and the required write set without loss;
+- compares the complete applied result with the product artifact;
+- represents file growth, final artifact membership and sizes, and the required write set without loss;
 - identifies each input and application order for multi-track or multi-artifact releases; and
 - fixes a reproducible user application path and distribution conditions.
 
@@ -53,7 +53,7 @@ Make an integrity field a product build responsibility only after establishing i
 
 Successful boot or tolerance in one execution environment does not prove structural or sector integrity.
 
-Build and application entry points must enforce the same source-identification rules. A mismatch must prevent output. The applied result must also match the target image.
+Build and application entry points must enforce the same source-identification rules. A mismatch must prevent output. The complete applied result must match the product artifact.
 
 ## 4. Runtime verification
 
@@ -99,6 +99,6 @@ Incomplete human review of the declared localization scope does not block produc
 - The declared localization scope matches the population findings in `references/strategy/text-extraction.md` §1.4, §1.5, which record zero unresolved members and evidence for every exclusion.
 - Every check required by the current supported scope and release claims—whether enforced during the product build, patch application, artifact verification, or runtime verification—passes against its current recorded criterion. When a human decision changes a quality tolerance, scope, or claim, retain the earlier result against its original criterion and reassess the checks applicable to the new decision through `references/strategy/debugging.md` §6.
 - The current human-approved quality target and release claims are satisfied, and every known issue and accepted limitation is recorded with its decision authority, scope, player effect, and claim impact.
-- Human review of the complete localization scope is complete under `references/strategy/translation-workflow.md` §5.4.
+- The declared localization scope satisfies the human-review and distribution-eligibility criteria in `references/strategy/translation-workflow.md` §6.
 - Applying the distribution output in its declared order reproduces the complete verified product artifact.
 - Player-facing release material states supported source revisions and representations, the verified application procedure and prerequisites, play-affecting limitations or exclusions, and save-data compatibility or required migration. It presents facts owned by the source profiles in `references/conventions/project-conventions.md` §6.2, the distribution path in `references/strategy/build-and-verify.md` §2, and current decision and QA records in `references/conventions/project-records.md` §1.1·§7; it does not redefine them.

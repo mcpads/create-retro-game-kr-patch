@@ -81,7 +81,7 @@ Mechanical coverage does not approve candidate arrangement, editing labels, glyp
 
 ## 7. Completion
 
-Name entry is complete for the declared distribution scope only when:
+Name entry is complete for the product scope selected under §1 only when:
 
 1. Every supported input has an accepted editing and serialization path, and unsupported or malformed input fails as declared.
 2. Candidate, editing, committed-record, and redisplay identities agree across every distinct product consumer.

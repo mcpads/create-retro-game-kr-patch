@@ -4,7 +4,7 @@ Choose discovery and image-editing methods for the current format and project. U
 
 ## 1. Trigger and population
 
-Apply this strategy when a string in the distribution scope is stored as pixels in a graphics asset rather than rendered through a font, and those pixels are connected to a real screen consumer. Do not establish a separate graphics-text path when storage is unresolved or pixel storage cannot change the current decision.
+Apply this strategy when a string in the declared localization scope is stored as pixels in a graphics asset rather than rendered through a font, and those pixels are connected to a real screen consumer. Do not establish a separate graphics-text path when storage is unresolved or pixel storage cannot change the current decision.
 
 When this strategy applies, define the denominator of assets, states, and variants to review. Classify every item as **resolved / excluded / unresolved**, using the meanings in `references/strategy/text-extraction.md` §1.4. Here, resolved means confirmed as a translation target; excluded means judged out of scope with evidence. Count selected, unselected, disabled, or other separately consumed variants as separate items. Complete coverage requires a decision for every item in the denominator.
 

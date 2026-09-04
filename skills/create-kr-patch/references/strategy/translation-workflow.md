@@ -15,13 +15,13 @@ Human review of the declared localization scope is a release-candidate condition
 
 Declare the completion denominator from confirmed translation targets and exclusions supported by evidence. A count difference between new extraction and existing assets is a candidate change, not a missing-translation count until additions, removals, duplicates, and non-text are distinguished.
 
-Before scaling translation to the full distribution scope, complete the volume survey in `references/strategy/text-extraction.md` §1.5. Do not generalize earlier local results into total workload, completion, or complete-corpus demand.
+Before scaling translation to the declared localization scope, complete the volume survey in `references/strategy/text-extraction.md` §1.5. Do not generalize earlier local results into total workload, completion, or complete-corpus demand.
 
 Apply `references/conventions/translation-artifacts.md` to asset states and protected information, and `references/strategy/build-and-verify.md` §1 to inputs for the primary product build.
 
 ## 2. Establishing context
 
-Context links extracted text to actual scenes, screens, and functions and narrows interpretations. Work may begin within a scope with an established denominator before complete extraction of the entire distribution, but the translated unit's denominator and consumer context must be known.
+Context links extracted text to actual scenes, screens, and functions and narrows interpretations. Work may begin within a scope with an established denominator before complete extraction of the declared localization scope, but the translated unit's denominator and consumer context must be known.
 
 ### 2.1 Context decision
 
@@ -150,7 +150,7 @@ Judge semantic impact by whether an error would materially change player underst
 
 ### 5.4 Timing and invalidation of full-scope human review
 
-The complete first draft is an input for measuring representation demand. Human review of the complete distribution scope must finish before release-candidate judgment. Before investing in review whose result depends on final glyph supply, render reachability, or layout, determine whether unresolved technical work can invalidate it. Delay only the affected review scope; independent wording, terminology, voice, or source-interpretation decisions may proceed when their evidence is stable.
+The complete first draft is an input for measuring representation demand. Human review of the declared localization scope must finish before release-candidate judgment. Before investing in review whose result depends on final glyph supply, render reachability, or layout, determine whether unresolved technical work can invalidate it. Delay only the affected review scope; independent wording, terminology, voice, or source-interpretation decisions may proceed when their evidence is stable.
 
 For review that depends on those technical conditions, establish that:
 

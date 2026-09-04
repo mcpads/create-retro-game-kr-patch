@@ -6,7 +6,7 @@ Consult primary references for the target mapper, CPU, PPU, cartridge image, and
 
 Headerless PRG and CHR data, iNES, and NES 2.0 images are different source representations. Identify the supported revision by content identity, representation, size, and header fields before converting addresses or applying a distribution patch. Do not make a comparison or prior-localization ROM the product source merely because it exposes useful structure.
 
-The header declares mapper and submapper identity, mirroring, PRG and CHR sizes, and applicable RAM or nonvolatile memory. When a patch changes any of these conditions, verify the final declaration against the implemented circuit model, initialization, save path, emulator or hardware target, and applied distribution artifact. A valid payload with a stale header is not a valid release image.
+The header declares mapper and submapper identity, mirroring, PRG and CHR sizes, and applicable RAM or nonvolatile memory. When a patch changes any of these conditions, verify the final declaration against the implemented circuit model, initialization, save path, emulator or hardware target, and the result of applying the distribution output. A valid payload with a stale header is not a valid release image.
 
 ## 2. Mapper-dependent CPU and file coordinates
 

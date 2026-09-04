@@ -1,12 +1,12 @@
 # Text extraction strategy
 
-Establish the consumable text population within the distribution scope and preserve source codes, control tokens, boundaries, and references in a form that supports reinsertion. Choose discovery techniques and analysis tools for the target; judge completion by the criteria below.
+Establish the consumable text population within the declared localization scope and preserve source codes, control tokens, boundaries, and references in a form that supports reinsertion. Choose discovery techniques and analysis tools for the target; judge completion by the criteria below.
 
 ## 1. Population and reference model
 
 ### 1.1 Supported input
 
-Declare supported source revisions, discs, execution paths, and distribution text scope. When alternatives materially change product support or localization scope, bind the selection to the recorded human decision under `references/conventions/project-records.md` §1.1. Identify a fixed revision by hash and structural expectations. For multiple inputs or unresolved populations, reject unsupported structures explicitly rather than inferring them silently.
+Declare supported source revisions, discs, execution paths, and the localization scope. When alternatives materially change product support or localization scope, bind the selection to the recorded human decision under `references/conventions/project-records.md` §1.1. Identify a fixed revision by hash and structural expectations. For multiple inputs or unresolved populations, reject unsupported structures explicitly rather than inferring them silently.
 
 ### 1.2 Evidence for text
 
@@ -21,7 +21,7 @@ One statistic, standard decode, search hit, or visual resemblance does not estab
 
 ### 1.3 Reference population
 
-For a fixed supported revision, an exhaustively reviewed catalog of pointers, indexes, and script references is explicit specification. Repeated product builds must verify and consume its count, locations, and expected bytes. Parse inputs whose count and boundaries follow completely from established structure within the declared text scope. Use heuristic searches to discover candidates and audit omissions, never to adopt results automatically.
+For a fixed supported revision, an exhaustively reviewed catalog of pointers, indexes, and script references is explicit specification. Repeated product builds must verify and consume its count, locations, and expected bytes. Parse inputs whose count and boundaries follow completely from established structure within the declared localization scope. Use heuristic searches to discover candidates and audit omissions, never to adopt results automatically.
 
 Establish reference width, endianness, base, bank, and segment from the real consumer, not platform convention. Do not use file order, pointer sorting, or the next reference as a boundary unless the consumer guarantees it. Preserve duplicate pointers, shared tails, and interior-string entries.
 
@@ -37,7 +37,7 @@ Do not merge unresolved into excluded. A non-text exclusion is a technical concl
 
 ### 1.5 Volume survey before scaling translation
 
-A technical PoC on a representative unit is different from a volume decision for distribution scope. When a static asset list or a verified parser, table, or reference boundary can enumerate the declared text scope without new assumptions, enumerate the full scope at that point. Do not make manual accumulation after each newly observed screen or file the default way to establish a denominator.
+A technical PoC on a representative unit is different from a volume decision for the localization scope. When a static asset list or a verified parser, table, or reference boundary can enumerate that scope without new assumptions, enumerate it at that point. Do not make manual accumulation after each newly observed screen or file the default way to establish a denominator.
 
 Measure by localization kind and consumer scope, distinguishing:
 
@@ -48,7 +48,7 @@ Measure by localization kind and consumer scope, distinguishing:
 
 Count shared strings and duplicate references separately as logical translation units and physical storage units. Do not add decoded or searched candidates to confirmed workload before they pass §1.2. Early volume is not completion, and source volume alone does not determine Korean length growth or unique-glyph demand.
 
-A technical PoC or translation of a local scope with a known denominator may precede this decision. Apply the enumeration above to each declared target kind before scaling translation to the whole distribution scope.
+A technical PoC or translation of a local scope with a known denominator may precede this decision. Apply the enumeration above to each declared target kind before scaling translation to the declared localization scope.
 
 If structure prevents exhaustive enumeration, state the established lower bound, unresolved scope, and stopping condition. Do not scale while remaining uncertainty can change workload or technical design. Do not claim exact workload, completion percentage, or complete-corpus demand before establishing the population.
 
@@ -145,7 +145,7 @@ Repeated fill, decode failure, or zero current search hits does not prove non-te
 Text extraction is complete only when all of these hold:
 
 - Every member of the declared population is counted under §1.4 with zero unresolved items.
-- Scaling to full distribution scope has passed the volume survey in §1.5.
+- Scaling to the declared localization scope has passed the volume survey in §1.5.
 - Code-table and token boundaries and argument widths are established; unresolved-meaning tokens have a policy or their entries are blocked.
 - Extraction artifacts provide stable identity, source preservation, declared applicability, and token policies.
 - Unchanged round trip passes the declared equivalence rule, and false positives and false negatives are assessed separately.

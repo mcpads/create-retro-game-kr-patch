@@ -32,7 +32,7 @@ At every changed boundary, determine:
 
 Boot success, matching bytes inside an image, or one apparently correct screen does not establish the complete changed link. Limit every claim to the changed boundaries, consumer paths, and state transitions that can alter asset lifetime.
 
-When the claim concerns load, upload, initialization, or cache refresh, state created after that boundary does not prove that the boundary was crossed. Save states remain usable when they begin before the boundary in the same product artifact; otherwise start a new run and cross the boundary again.
+When the claim concerns load, upload, initialization, or cache refresh, a state created after that boundary does not prove that the boundary was crossed. Save states remain usable when they begin before the boundary in the same product artifact; otherwise start a new run and cross the boundary again.
 
 ## 3. Outcomes and next action
 

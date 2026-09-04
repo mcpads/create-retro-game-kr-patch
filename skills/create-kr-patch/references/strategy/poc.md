@@ -66,7 +66,7 @@ Run a conditional PoC only for a design-changing risk without equivalent static 
 | Compression or container | Edited data is packed and may change size or representation | Unchanged equivalence and modified container validity both hold, and the target consumer accepts the result |
 | Graphics text | Distribution text is stored as graphics pixels | The representative path passes `references/strategy/graphics-text.md` §4 |
 | Presentation or interaction | Windows, states, pages, input, audio, or event synchronization can change implementation | The representative path passes the applicable criteria in `references/strategy/build-and-verify.md` §5 within the declared scope of the PoC |
-| User strings | Player-created text is stored and consumed again | Input repertoire, storage representation, redisplay, and length conditions work together within the distribution scope |
+| User strings | Player-created text is stored and consumed again | Input repertoire, storage representation, redisplay, and length conditions work together within the product scope selected under `references/strategy/name-entry.md` §1 |
 
 Do not turn every final-QA item into a PoC. Select only a representative condition that can change implementation.
 

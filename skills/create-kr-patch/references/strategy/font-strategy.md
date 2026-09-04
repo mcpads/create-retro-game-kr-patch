@@ -7,7 +7,7 @@ Determine the target revision's code-to-glyph mapping, total repertoire, state-s
 Investigate a question only when its answer can change a later choice:
 
 - Which dialogue, UI, battle, and graphics consumers share a code table and glyph provider?
-- Which characters are required by the distribution corpus and runtime insertion values?
+- Which characters are required by the localization corpus and runtime insertion values?
 - How does a stored code reach glyph selection and pixel consumption?
 - What limits the total repertoire, and what separately limits glyphs active in one state?
 - Which cell, bit depth, layout, palette, and clearing range does the real consumer require?
@@ -51,7 +51,7 @@ When a representation compresses a selected finished font asset, define the supp
 
 | Budget | Compared population | Typical constraints |
 |---|---|---|
-| **Total repertoire** | Every unique glyph required by the distribution corpus and runtime inputs | Code space, on-media storage, persistent mapping and catalog representation |
+| **Total repertoire** | Every unique glyph required by the localization corpus and runtime inputs | Code space, on-media storage, persistent mapping and catalog representation |
 | **Active working set** | Glyphs that must coexist throughout their proven consumption lifetime, including transitions across which slots remain live | Active RAM or VRAM, texture slots, index representation, transfer and replacement timing |
 
 Only a design that keeps every glyph in fixed one-to-one slots may treat the active-slot budget as the total-repertoire limit. With verified dynamic loading or remapping, compare the complete corpus with the total-repertoire budget and each runtime state with the active budget separately.
@@ -60,9 +60,9 @@ Classify index width by role. A code that directly selects a permanent slot limi
 
 ### 3.2 Budget decision
 
-Before finalizing corpus demand, establish distribution scope and unresolved regions through `references/strategy/text-extraction.md` §1.5.
+Before finalizing corpus demand, establish the declared localization scope and unresolved regions through `references/strategy/text-extraction.md` §1.5.
 
-- Count required glyphs across the complete distribution corpus and actual runtime insertion values. An unfinished translation sample is a risk signal, not a final bound.
+- Count required glyphs across the complete localization corpus and actual runtime insertion values. An unfinished translation sample is a risk signal, not a final bound.
 - When glyph membership, slot assignment, or atlas layout depends on the translation and runtime-insertion inputs selected by the current product build, derive the placement plan deterministically from those inputs. A stored atlas, assignment table, or manifest may be generated output, but must not become a separately edited authority. Fixed placement may remain a declared input only when stable glyph identity or location is an established consumer constraint or an approved product requirement; fail the product build when that placement cannot satisfy current demand.
 - Measure code-space, storage, mapping, and active-slot limits from target consumers and record each value's applicability.
 - Fail the product build on an unmapped character, a required glyph that rasterizes empty, or applicable budget overflow. Report the missing set, and the limiting resource for an overflow. A product build under the development/PoC input policy follows `references/conventions/translation-artifacts.md` §5.
@@ -114,7 +114,7 @@ Keep revision-specific structural constants such as addresses, banks, and code b
 
 Font work is complete only when all of these hold:
 
-- Every required character in the distribution scope maps through the adopted mapping for each target consumer, with zero unmapped characters.
+- Every required character in the declared localization scope maps through the adopted mapping for each target consumer, with zero unmapped characters.
 - Total repertoire and every active working set with distinct membership or lifetime pass their corresponding budgets.
 - Transform boundaries pass verification against source samples or a declared semantic-equivalence criterion.
 - Representative sentences and boundary glyphs render correctly on every target path without invading adjacent UI or graphics.
