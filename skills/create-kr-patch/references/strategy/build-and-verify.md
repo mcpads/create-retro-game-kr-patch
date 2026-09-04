@@ -1,6 +1,6 @@
 # Build and verification
 
-Here, **product build** means the operation defined in `references/conventions/project-conventions.md` §2, not a tooling build. **Product artifact** means one exact patched-game or distribution output of that operation. Judge product build inputs, product artifacts, artifact verification, and runtime verification by the criteria below. Read the applicable `references/platforms/` document for platform-specific checksums, sectors, and execution environments. Record evidence according to `references/conventions/project-records.md`. The target project chooses concrete files, commands, and serialization.
+Here, **product build** and **product artifact** have the meanings defined in `references/conventions/project-conventions.md` §2. A multi-output product artifact includes every identified member needed to operate or distribute it. Judge product build inputs, product artifacts, artifact verification, and runtime verification by the criteria below. Read the applicable `references/platforms/` document for platform-specific checksums, sectors, and execution environments. Record evidence according to `references/conventions/project-records.md`. The target project chooses concrete files, commands, and serialization.
 
 ## 1. Reproducible product build
 
@@ -66,7 +66,7 @@ If the route to a target state is unknown, or state intervention could reduce re
 - Center execution on representative modified consumer paths. Add boot, exit, re-entry, shared state, and representative unchanged paths only when the change or support claim can affect them.
 - Add separate renderers, branches, user input or saves, disc or overlay transitions, and long-lived residency as conditional regressions when they can change consumption of the modified asset or state. Do not impose features absent from the game or unrelated to the change as universal requirements.
 
-Bind every runtime result and reusable state or input recording to the exact target image and environment that produced it. Transfer the result to another product artifact only through byte identity or equivalent consumption at the relevant boundary. Intermediate product artifacts that make no runtime claim do not require their own runtime pass.
+Bind every runtime result and reusable state or input recording to the exact product artifact and environment that produced it, including every member needed for the observed route. Transfer the result to another product artifact only through byte identity or equivalent consumption at the relevant boundary. Intermediate product artifacts that make no runtime claim do not require their own runtime pass.
 
 Turn a repeated, objectively decidable regression into a reproducible runtime check. When the final semantic or visual judgment is not mechanically decidable, retain an explicit human review instead of reporting automated success. An unavailable observation is not that case: establish it through `references/strategy/debugging.md` §2.1, or report the check as not run.
 
@@ -100,5 +100,5 @@ Incomplete human review of the declared localization scope does not block produc
 - Every check required by the current supported scope and release claims—whether enforced during the product build, patch application, artifact verification, or runtime verification—passes against its current recorded criterion. When a human decision changes a quality tolerance, scope, or claim, retain the earlier result against its original criterion and reassess the checks applicable to the new decision through `references/strategy/debugging.md` §6.
 - The current human-approved quality target and release claims are satisfied, and every known issue and accepted limitation is recorded with its decision authority, scope, player effect, and claim impact.
 - Human review of the complete localization scope is complete under `references/strategy/translation-workflow.md` §5.4.
-- Applying the distribution artifact reproduces the verified target image.
+- Applying the distribution output in its declared order reproduces the complete verified product artifact.
 - Player-facing release material states supported source revisions and representations, the verified application procedure and prerequisites, play-affecting limitations or exclusions, and save-data compatibility or required migration. It presents facts owned by the source profiles in `references/conventions/project-conventions.md` §6.2, the distribution path in `references/strategy/build-and-verify.md` §2, and current decision and QA records in `references/conventions/project-records.md` §1.1·§7; it does not redefine them.
