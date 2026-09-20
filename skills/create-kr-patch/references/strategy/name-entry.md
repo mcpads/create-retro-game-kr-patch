@@ -28,6 +28,8 @@ One logical character may require coordinated updates to several providers. Conv
 
 Apply `references/strategy/runtime-assets.md` §2 separately to candidate graphics, editing-field glyphs, and post-confirmation consumers unless their supply and lifetime equivalence is established.
 
+Trace applicable default, imported, registered, and temporary-record names from their writers through conversion to the committed representation. These paths may bypass keyboard encoding or overwrite a normalized value.
+
 ## 3. Composition and editing state
 
 When input composes Hangul from jamo, define an explicit state machine for initial, medial, final, no-final completion, confirmation, and deletion. The target project chooses the user interface, but mechanically verify these conditions when applicable:
@@ -40,6 +42,8 @@ When input composes Hangul from jamo, define an explicit state machine for initi
 - Inactive cells, out-of-order inputs, excess length, and invalid commands fail without corrupting the record.
 
 Unsupported combinations are part of the contract only within a declared input domain. Define the input alphabet, reachable editing states, and actions whose rejection behavior is covered before claiming exhaustive rejection coverage. Do not claim full modern Hangul input from successful samples within a smaller set.
+
+Make key effects, unfinished composition, and rejection reasons perceptible through the adopted interface. Verify that intermediate display follows the declared editing state through applicable composition changes, deletion, page changes, and the final slot.
 
 ## 4. Committed records and persistence
 

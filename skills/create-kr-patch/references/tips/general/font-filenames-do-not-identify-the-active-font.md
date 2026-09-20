@@ -5,5 +5,5 @@
 - **Failure context:** A prior small-font experiment and filenames were used to assume that story dialogue used the same font. Slot numbers derived from one size were also transferred to another.
 - **Evidence:** Distinctive probes were inserted across each candidate sheet. Runtime display selected a different sheet from the earlier experiment, and independent decoding showed that the same character occupied different slots between sizes.
 - **Established result:** The active dialogue font and its code-to-glyph mapping had to be established independently; mappings were not shared across font sizes.
-- **Transfer limit:** Prove the active font and that sheet's code-to-glyph mapping separately for every other screen.
+- **Transfer limit:** Establish the active font and code-to-glyph mapping where supply-path equivalence with a proven screen remains unresolved.
 - **Related criteria:** `references/strategy/font-strategy.md` §5, `references/strategy/runtime-assets.md` §2, `references/strategy/poc.md` §3·§5.

@@ -108,6 +108,12 @@ The labels below correspond to the strategy documents linked from `SKILL.md`. Co
 | Manual layout decisions must precede faithful static previews | Translation / Build and verification | A plausible preview exists before page, line, and window placement are established | `references/tips/general/manual-layout-decisions-must-precede-faithful-static-previews.md` |
 | Relocated call-like controls need an explicit return target | Text extraction / Reinsertion and hooks / Build and verification | A relocated continuation keeps its control bytes but returns to the wrong content | `references/tips/general/relocated-call-like-controls-need-an-explicit-return-target.md` |
 | Rebuilding after each defect can erase the affected-path denominator | Debugging / Build and verification | A new candidate is built after every runtime defect before other affected paths are classified | `references/tips/general/rebuilding-after-each-defect-can-erase-the-affected-path-denominator.md` |
+| Alternate name producers bypassed canonical encoding | Name entry and user strings / Debugging | Entered names work, but empty defaults or a later temporary record corrupt them | `references/tips/general/alternate-name-producers-bypassed-canonical-encoding.md` |
+| Password acceptance did not preserve name bits | Name entry and user strings / Reinsertion and hooks | A password is accepted but the imported character loses its name | `references/tips/general/password-acceptance-did-not-preserve-name-bits.md` |
+| Relocated label addresses also identified items | Reinsertion and hooks / Text extraction | An item label displays after relocation but using that item is rejected | `references/tips/general/relocated-label-addresses-also-identified-items.md` |
+| Font loads left overwritten motion caches marked valid | Runtime assets / Name entry and user strings / Debugging | Character selection works, but attacking after reselection faults | `references/tips/general/font-loads-left-overwritten-motion-caches-marked-valid.md` |
+| Readable text hid repeated glyph page transfers | Runtime assets / Fonts and encoding / Debugging | Readable labels or idle menus repeatedly upload glyph pages | `references/tips/general/readable-text-hid-repeated-glyph-page-transfers.md` |
+| Nested windows saved menu pixels as the background | Debugging / Reinsertion and hooks / Runtime assets | An event opened from a menu leaves residue that returns after repeated closing | `references/tips/general/nested-windows-saved-menu-pixels-as-the-background.md` |
 
 ## Platform-specific cases
 
