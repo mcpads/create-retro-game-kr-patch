@@ -43,7 +43,7 @@ For an existing repository, reconstruct the current code, documents, artifacts, 
 | PoC | `references/strategy/poc.md` | Whether a PoC is needed and what a visibility, representative end-to-end, or conditional PoC must establish |
 | Reinsertion and hooks | `references/strategy/reinsertion.md` | Boundary policies, reference completeness, hooks, space, and consumer invariants |
 | Translation | `references/strategy/translation-workflow.md` | Translation work and agent assignment, context, approved terminology and voice, protected information and consumer constraints, and high-impact semantic decisions |
-| Build and verification | `references/strategy/build-and-verify.md` | Reproducible artifacts, checks enforced by the product build, distribution boundaries, integrity and runtime verification, text and interaction QA, and release readiness |
+| Build and verification | `references/strategy/build-and-verify.md` | Reproducible artifacts, checks enforced by the product build, distribution boundaries, integrity and runtime verification, text and interaction QA, requested playthrough review, and release readiness |
 | Debugging and issue handling | `references/strategy/debugging.md` | Gameplay routes, target-state access, what state intervention can establish, causes, fixes, and regression evidence |
 | Graphics text | `references/strategy/graphics-text.md` | Pixel-text population, protected visual assets, and consumer-path verification |
 | Compression | `references/strategy/compression.md` | Verified transformation boundaries, consumer compatibility, and repacking verification |

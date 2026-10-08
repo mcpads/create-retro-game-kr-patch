@@ -70,6 +70,25 @@ Bind every runtime result and reusable state or input recording to the exact pro
 
 Turn a repeated, objectively decidable regression into a reproducible runtime check. When the final semantic or visual judgment is not mechanically decidable, retain an explicit human review instead of reporting automated success. An unavailable observation is not that case: establish it through `references/strategy/debugging.md` §2.1, or report the check as not run.
 
+### 4.1 Requested playthrough review
+
+Use this mode when the human requests a playthrough or a review through the ending. Set the requested route and endpoint against the current product artifact; include credits, return to control, or clear-save reload when they are part of that claim. Use the selected emulator observation tools, such as emucap, to connect progress and findings to the artifact.
+
+Combine two coverage approaches according to the requested scope:
+
+- **Goal-directed progression (DFS-like):** Follow a route toward its endpoint, preserving branch checkpoints and a return queue for deferred paths. This establishes continuity through the observed route.
+- **Local coverage (BFS-like):** At a hub or system, enumerate the in-scope items and states before moving on. A shop pass can cover the stock list, descriptions, purchase and resulting inventory, plus applicable insufficient-funds, capacity, owned/equipped, and cancel states. Record the requested population and remaining members; distinguish actual actions from static coverage or proven consumer equivalence under §4.
+
+Include hidden routes, unlocks, omake, galleries, alternate endings, and post-clear modes when they belong to the requested scope or consume changed content. Track their discovery and entry conditions alongside ordinary progression. Separate evidence of unlocking a feature from inspecting its contents through an authorized shortcut. Keep unreached or unresolved content visible in the coverage record, and resume the goal route after local checks.
+
+- **Prepare the route.** Gather applicable controls, progression, major branches, and clear conditions into a short local play manual, using external references and target evidence under `references/strategy/debugging.md` §2.1. Reuse verified route knowledge where it still applies.
+- **Preserve resumable progress.** Save compatible checkpoints at chapter or area entry, before major branches, and around risky actions. Connect them to the artifact, environment, scene, and route; use native saves where useful. Leave the last verified point and next action clear enough to resume.
+- **Observe in context.** Capture representative normal scenes as well as suspected translation, graphics, and interaction defects. Follow suspect moments through preceding and following frames and inputs before classifying clipping, residue, freezes, or lost control. Record the visible effect separately from its proposed cause.
+- **Continue or repair from evidence.** Keep non-blocking findings in a backlog while the run remains informative. For a progression blocker, preserve the reproduction, diagnose it, correct the product build, and recheck the blocked route before continuing from the nearest compatible point. Apply the baseline and intervention criteria in `references/strategy/debugging.md` §2·§2.1; each segment retains its own artifact identity.
+- **Make the run reviewable.** Keep a local gallery of all captured images, with important, suspect, and representative-normal views easy to filter; HTML is suitable. Link issues and checkpoints to their observations. Summarize the reached endpoint, covered branches, interventions, unresolved findings, and remaining coverage for human review.
+
+Use gameplay aids only within the human's authorization for that run. An authorized HP/MP adjustment, for example, still requires evidence that it preserves the event, script, outcome-branch, and behavior prerequisites being checked. A completed assisted route supports those preserved claims; human presentation approval and release readiness follow §5·§6 separately.
+
 ## 5. Text, presentation, and interaction QA
 
 Judge final text, presentation, and interaction changes on their actual consumer paths. For a finite text scope, evaluate every member against the encoding, width, row, page, and slot model established from that consumer. Activate only criteria present on the target path and plausibly affected by the change.

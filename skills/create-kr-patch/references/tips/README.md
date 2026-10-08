@@ -34,7 +34,7 @@ The labels below correspond to the strategy documents linked from `SKILL.md`. Co
 | Case | Decision areas | Read when | Reference |
 |---|---|---|---|
 | Pointer gaps do not define string boundaries | Text extraction / Reinsertion and hooks | Pointer-based slices overlap or contain nested entries | `references/tips/general/pointer-gaps-do-not-define-string-boundaries.md` |
-| Shared glyph slots have multiple consumers | Fonts and encoding / Graphics text / Runtime assets / Build and verification | Changing one glyph or tile damages unrelated labels, digits, or graphics | `references/tips/general/shared-glyph-slots-have-multiple-consumers.md` |
+| Shared glyph slots have multiple consumers | Fonts and encoding / Graphics text / Runtime assets / Build and verification | Changing one glyph or tile damages unrelated labels, digits, graphics, or panel colors | `references/tips/general/shared-glyph-slots-have-multiple-consumers.md` |
 | Runtime screen evidence corrected extraction labels | Debugging / Text extraction | A translated label does not match the text the screen displays | `references/tips/general/runtime-screen-evidence-corrected-extraction-labels.md` |
 | Zero-filled space is not proven free | Reinsertion and hooks / Initial survey / Debugging | Code or data placed in an apparently unused region crashes on entry | `references/tips/general/zero-filled-space-is-not-proven-free.md` |
 | Shorter dialogue can change voice timing | Text extraction / Translation / Build and verification | Voice playback ends progressively earlier after translation | `references/tips/general/shorter-dialogue-can-change-voice-timing.md` |
@@ -114,6 +114,9 @@ The labels below correspond to the strategy documents linked from `SKILL.md`. Co
 | Font loads left overwritten motion caches marked valid | Runtime assets / Name entry and user strings / Debugging | Character selection works, but attacking after reselection faults | `references/tips/general/font-loads-left-overwritten-motion-caches-marked-valid.md` |
 | Readable text hid repeated glyph page transfers | Runtime assets / Fonts and encoding / Debugging | Readable labels or idle menus repeatedly upload glyph pages | `references/tips/general/readable-text-hid-repeated-glyph-page-transfers.md` |
 | Nested windows saved menu pixels as the background | Debugging / Reinsertion and hooks / Runtime assets | An event opened from a menu leaves residue that returns after repeated closing | `references/tips/general/nested-windows-saved-menu-pixels-as-the-background.md` |
+| Removed install data left an active installation path | Runtime assets / Build and verification | Ordinary play works but choosing an optional install stalls after its payload was removed | `references/tips/general/removed-install-data-left-an-active-installation-path.md` |
+| Stored glyph cells exceeded the visible render area | Fonts and encoding / Runtime assets / Build and verification | Glyphs fit their stored cells but parts are clipped in the game | `references/tips/general/stored-glyph-cells-exceeded-the-visible-render-area.md` |
+| Surrounding frames changed a visual defect classification | Debugging / Build and verification | A momentary view suggests clipping or residue during text output or a transition | `references/tips/general/surrounding-frames-changed-a-visual-defect-classification.md` |
 
 ## Platform-specific cases
 
